@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	메인1
+	메인12
 </body>
 </html>
