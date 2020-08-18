@@ -5,10 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="../resources/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" href="../resources/bootstrap.min.css" />
+    <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.min.css" />
 
-<title>Insert title here</title>
+
 </head>
 <body>
 	<style type="text/css">	
@@ -51,18 +51,17 @@ a:hover {
 	<nav class="navbar navbar-defalut">
 		<div class="container">
 			<ul class="nav navbar-nav  navbar-right ">
-				<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+				<li><a href="#">
 						Sign Up</a></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> <span class="glyphicon glyphicon-log-in"></span>
+					aria-expanded="false"> 
 						Login
 				</a>
 					<div class="dropdown-menu dropdown-menu-right"
 						aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#"> <span
-							class="glyphicon glyphicon-log-out"></span> Logout
+						<a class="dropdown-item" href="#"> Logout
 						</a>
 					</div></li>
 			</ul>
@@ -86,7 +85,3 @@ a:hover {
 </nav>
     <script src="../resources/bootstrap.min.js"></script>
 
-
-
-</body>
-</html>
