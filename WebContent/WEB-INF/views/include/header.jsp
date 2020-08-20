@@ -5,8 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
+   <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.min.css" />
+    <script src="<%=request.getContextPath()%>/resources/bootstrap.min.js"></script>
 
 
 </head>
@@ -83,5 +84,4 @@ a:hover {
         </div>
     </div>
 </nav>
-    <script src="../resources/bootstrap.min.js"></script>
 
