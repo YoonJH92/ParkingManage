@@ -11,13 +11,14 @@
  @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
   
   footer {
-    position: absolute;
     bottom: 0;
     width: 100%;
     text-align:center;
     background-color:#005AA7;
     color:white;
     padding: 30px;
+  position: fixed;
+  left: 0;
     font-family: font-family: 'Open Sans', sans-serif;
     }
     
@@ -25,7 +26,7 @@
 </style>
 
 
-     <footer class="footer">
+     <footer class="footer mt-auto">
       <div class="container ">
         <p>
         

@@ -42,7 +42,6 @@ public class RandomInsert {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			pool.freeConnection(con, pstmt, rs);
 		}
 	}
 }
