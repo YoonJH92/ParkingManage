@@ -1,10 +1,10 @@
    
-   
-   <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
-       <script src="<%=request.getContextPath()%>/resources/bootstrap.min.js"></script>
-       <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.css" />
 
 
+   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.css"/> 
+    <script src="<%=request.getContextPath()%>/resources/bootstrap.js"></script> 
+    <script src="<%=request.getContextPath()%>/resources/bootstrap.bundle.js"></script> 
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 
 
  <style>

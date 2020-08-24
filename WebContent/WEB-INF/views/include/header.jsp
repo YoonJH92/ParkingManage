@@ -5,13 +5,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>PMS</title>
-
+		
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.css"/> 
    <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
-       <script src="<%=request.getContextPath()%>/resources/bootstrap.min.js"></script>
-       <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.css" />
-   <script src="<%=request.getContextPath()%>/resources/bootstrap.min.js"></script>
+
+    <script src="<%=request.getContextPath()%>/resources/bootstrap.js"></script> 
+    <script src="<%=request.getContextPath()%>/resources/bootstrap.bundle.js"></script> 
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 
+	
 </head>
 <style>
 
@@ -153,10 +155,7 @@ border-bottom: 1px solid #ebecf1;
 	
 }
 
-.dropdown-item:hover {
-	background-color: #ee964b;
 
-}
 
 #hitem1,#hitem2{
   position: relative;
@@ -221,9 +220,10 @@ font-weight: bold;
 }
 
 
+.dropdown-item {
 
+background-color: red;
 
-}
 
 </style>
 
@@ -336,10 +336,6 @@ font-weight: bold;
     </script>
 
 
-	<!-- navbar 끝 -->
-	<!-- header 끝 -->
-	<!-- JS, Popper.js, and jQuery -->
 
-
-
+ 
 
