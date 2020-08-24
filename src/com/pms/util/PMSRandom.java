@@ -31,8 +31,6 @@ public class PMSRandom {
 			for(int j = 0; j < 4; j++) {
 				NUM.append(rand.nextInt(10));
 			}
-			//System.out.println(NUM);
-			
 			if(!CNUM.contains(NUM)) {
 				CNUM.add(NUM.toString());
 			}
@@ -74,18 +72,14 @@ public class PMSRandom {
 		for (String key : keys) {
 		  System.out.println(key);
 		  for(int i = 0; i < map.get(key).size(); i++) {
-			  //System.out.println(map.get(key).get(i));
 			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String in = null;
 				String out = null;
-			  //System.out.println(format.format(new Date(map.get(key).get(i))));
 			  if(i % 2 == 0) {
 				  in = format.format(new Date(map.get(key).get(i)));
 				  if(i < map.get(key).size() - 1) {
 					  out = format.format(new Date(map.get(key).get(i+1)));
 				  }
-				//insert
-				//차량번호 key / 입차 map.get(key).get(i) / 출차 map.get(key).get(i+1) 
 				  RandomInsert randomInsert = new RandomInsert();
 				  randomInsert.randomLogAdd(key,in,out);
 			  }
@@ -98,8 +92,8 @@ public class PMSRandom {
 		
 		PMSRandom random = new PMSRandom();
 		
-		ArrayList<String> ran = random.CNUM_RAND(10); //차량번호 생성
-		random.TIME_SETTING(ran, 9);
+		ArrayList<String> ran = random.CNUM_RAND(500); //차량번호 생성
+		random.TIME_SETTING(ran, 101);
 		
 
 		
