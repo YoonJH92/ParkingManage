@@ -1,27 +1,37 @@
+   
+   
+   <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
+       <script src="<%=request.getContextPath()%>/resources/bootstrap.min.js"></script>
+       <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.css" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-   <script src="../resources/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" href="../resources/bootstrap.min.css" />
 
-<style>
+
+
+ <style>
+ @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+  
   footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color:gray;
-    color:#fff;
-  }
+    text-align:center;
+    background-color:#005AA7;
+    color:white;
+    padding: 30px;
+    font-family: font-family: 'Open Sans', sans-serif;
+    }
+    
+    
 </style>
 
-<footer class="page-footer text-center">
-<div class="jumbotron text-center" style="margin-bottom:0">
-  <p>   <p>Copyright © 2020 .................</p>
-    <address>Contact .....................</address></p>
-</div>
 
-
-</footer>
-   <script src="/resources/bootstrap.min.js"></script>
-
+     <footer class="footer">
+      <div class="container ">
+        <p>
+        
+        Copyright © 2020 </p>
+      </div>
+    </footer>
+ 
 </body>
 </html>
