@@ -18,16 +18,13 @@ public class PmsLogDao {
 	}
 	return instance;
 }
-	
 	private DBConnectionMgr pool;
-	
 	public ArrayList<PMSDto> viewList(){
     	Connection con = null;
-
     	Statement st= null;
     	ResultSet rs= null;
     	ArrayList<PMSDto> arr = new ArrayList<PMSDto>();
-    	
+  
     	try {
 			con = pool.getConnection();			
 			String sql = "select * from pms_log ";
@@ -37,14 +34,14 @@ public class PmsLogDao {
 				PMSDto dto = new PMSDto();
 				dto.setIdx(rs.getInt("idx"));
 				dto.setCnum(rs.getString("cnum"));
-				dto.setIn_time(rs.getTimestamp("in_time"));
-				dto.setOut_time(rs.getTimestamp("out_time"));
+				dto.setInTime(rs.getDate("in_time"));
+				dto.setOutTime(rs.getDate("out_time"));
 				dto.setPay(rs.getInt("pay"));
-				dto.setCp_num(rs.getInt("cp_num"));
-				dto.setSale_num(rs.getInt("sale_num"));
-				dto.setTotal_pay(rs.getInt("total_pay"));
-				dto.setMonth_num(rs.getInt("month_num"));
-				dto.setC_img(rs.getString("c_img"));
+				dto.setCpNum(rs.getInt("cp_num"));
+				dto.setSaleNum(rs.getInt("sale_num"));
+				dto.setTotalPay(rs.getInt("total_pay"));
+				dto.setMonthNum(rs.getInt("month_num"));
+				dto.setcImg(rs.getString("c_img"));
 				arr.add(dto);
 					}
 		} catch (Exception e) {
