@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
+import com.pms.dao.RandomInsert;
+
 /*주차정보 자동 생성*/
 public class PMSRandom {
 
@@ -41,7 +43,7 @@ public class PMSRandom {
 	
 	public void TIME_SETTING(ArrayList<String> CNUM , int count) {
 		Random rand = new Random();
-
+		
 		String startDate = "2020-5-1 00:00:00";
 		String endDate = "2020-8-21 00:00:00";
 		
@@ -72,12 +74,20 @@ public class PMSRandom {
 		for (String key : keys) {
 		  System.out.println(key);
 		  for(int i = 0; i < map.get(key).size(); i++) {
+			  //System.out.println(map.get(key).get(i));
 			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			  System.out.println(format.format(new Date(map.get(key).get(i))));
+				String in = null;
+				String out = null;
+			  //System.out.println(format.format(new Date(map.get(key).get(i))));
 			  if(i % 2 == 0) {
+				  in = format.format(new Date(map.get(key).get(i)));
+				  if(i < map.get(key).size() - 1) {
+					  out = format.format(new Date(map.get(key).get(i+1)));
+				  }
 				//insert
 				//차량번호 key / 입차 map.get(key).get(i) / 출차 map.get(key).get(i+1) 
-				  
+				  RandomInsert randomInsert = new RandomInsert();
+				  randomInsert.randomLogAdd(key,in,out);
 			  }
 		  }
 		}
@@ -88,8 +98,8 @@ public class PMSRandom {
 		
 		PMSRandom random = new PMSRandom();
 		
-		ArrayList<String> ran = random.CNUM_RAND(500); //차량번호 생성
-		random.TIME_SETTING(ran, 99);
+		ArrayList<String> ran = random.CNUM_RAND(10); //차량번호 생성
+		random.TIME_SETTING(ran, 9);
 		
 
 		
