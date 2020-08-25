@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- header -->
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <!-- footer -->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
-
-  
-<style>
-	
+<style>	
 .table{
 	margin-top: 10px;
 	margin-bottom: 20px;
@@ -105,8 +102,8 @@ overflow:auto;
    <td>${arr.saleNum}</td>
    <td>${arr.totalPay}</td>
    <td>${arr.monthNum}</td>
-<%--    <button type="button" data-toggle="modal" data-target="#myModal">${arr.cImg}Open Modal</button>
- --%>
+  <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> ${arr.cImg} Modal </button></td>
+ 
 </tr>	
 	</c:forEach>
 
@@ -122,42 +119,46 @@ overflow:auto;
 </ul>
 </div>
 
+<!-- 모달창  -->
 
-
-
-
-
-
-
-<!--  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">    
-      Modal content
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">차량이미지</h4>
-        </div>
-        <div class="modal-body">
-          <form action="ImgModify.do" enctype="multipart/form-data" method="post" accept=".jpg, .jpeg, .png">
-               </table>
-                  <thead class="thead-dark">
-                  <tr class="active">
-                  <th class="text-center"> 
-               <td><input type="file" name="fileName"></td>
-				<table>
-
-    
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-default" >수정</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-          </form> -->
-      
-        </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Modal 제목</h4>
       </div>
-      
-    </div>
-  </div>
+      <div class="modal-body">     
+ <form action="imgupdate.do" enctype="multipart/form-data" method="post">
+ 	<p></p>
 
+    <td><input type="file" name="fileName"></td>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </form>
+      </div>
+    </div>
+  </div></div>
+
+
+<script>
+
+	var LOGIDX;
+	var CIMG;
+
+	$(document).ready(function() {
+		${'#myModal'}.on('show.bs.modal'),fuction(event){
+			LOGIDX=$(event.relatedTarget).data('');
+			CIMG=$(event.relatedTarget).data('');
+			
+		});
+		
+	}
+
+
+
+
+</script>
 
 
 
