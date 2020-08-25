@@ -47,12 +47,10 @@
 		
 		}
 		
-#bodycontainer{
-overflow:auto;
-}
+
 
 </style>
-
+<main>
 <div id="bodycontainer" class="container ">
 	<div class="infomation row justify-content-between ">
 	<div class="info1 col-xs-4">
@@ -98,8 +96,8 @@ overflow:auto;
    <td>${arr.saleNum}</td>
    <td>${arr.totalPay}</td>
    <td>${arr.monthNum}</td>
-  <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> ${arr.cImg} Modal </button></td>
- 
+  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#myModal"> ${arr.cImg} Modal </button></td>
+ <
 </tr>	
 	</c:forEach>
 
@@ -114,6 +112,7 @@ overflow:auto;
 	<li class="page-item"><a class="page-link" href="#">Next</a></li>
 </ul>
 </div>
+</main>
 
 <!-- 모달창  -->
 
@@ -121,13 +120,20 @@ overflow:auto;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Modal 제목</h4>
+        <h4 class="modal-title" id="myModalLabel">차량이미지</h4>
       </div>
       <div class="modal-body">     
  <form action="imgupdate.do" enctype="multipart/form-data" method="post">
- 	<p></p>
-
+ 	<table>
+ 		<tr>
+ 		<td><input type="text" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
+ 		<tr><td><input type="text" name="cimg" id="cimg" value=""></td>
+ 		
     <td><input type="file" name="fileName"></td>
+ 		</tr>
+ 	
+ 	</table>
+	
       </div>
       <div class="modal-footer">
       	<input type="submit" >
@@ -136,25 +142,27 @@ overflow:auto;
       </div>
     </div>
   </div></div>
-
+</main>
 
 <script>
 
-	var LOGIDX;
-	var CIMG;
+	var LOGIDX="";
+	var CIMG="";
 
-	$(document).ready(function() {
-		${'#myModal'}.on('show.bs.modal'),fuction(event){
-			LOGIDX=$(event.relatedTarget).data('');
-			CIMG=$(event.relatedTarget).data('');
+	   $(document).ready(function() {
+		$('#myModal').on('show.bs.modal', function(event) {   
+			LOGIDX=$(event.relatedTarget).data('idx');
+			CIMG=$(event.relatedTarget).data('cimg');
+			var modal=$(this);
+			$(".modal-body #idx ").val(LOGIDX);
+			$(".modal-body #cimg ").val(CIMG);
+			
 			
 		});
 		
-	}
-
-
-
-
+	});
+	
+	
 </script>
 
 

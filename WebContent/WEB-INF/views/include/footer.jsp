@@ -10,27 +10,26 @@
  <style>
  @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
   
-  footer {
-    bottom: 0;
-    width: 100%;
-    text-align:center;
-    background-color:#005AA7;
-    color:white;
-    padding: 30px;
-  position: fixed;
-  left: 0;
-    font-family: font-family: 'Open Sans', sans-serif;
+  .footer {
+ 
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+    
+    
     }
     
     
 </style>
 
-
-     <footer class="footer mt-auto">
+     <footer class="footer">
       <div class="container ">
-        <p>
-        
-        Copyright © 2020 </p>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script></p>
+      
       </div>
     </footer>
  

@@ -218,8 +218,23 @@ font-weight: bold;
 	background-color: #ee964b !important;}
 
 
+ body{
+  background-color: #f1f1f1;
+  position: relative;
+  padding-bottom: 58px;
+  min-height: 100vh;
+ 
+ }
 
-
+ main{
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ width: 90vw;
+ margin: 0 auto;
+ padding: 30px 20px;
+ }
+ 
 </style>
 
 <body>
