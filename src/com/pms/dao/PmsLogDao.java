@@ -28,7 +28,7 @@ public class PmsLogDao {
 		
 }
 	private DBConnectionMgr pool;	
-	private static final String SAVEFOLDER="/";
+	private static final String SAVEFOLDER="/img";
 	private static final String ENCTYPE="utf-8";
 	private int sizeLimit =300*200*15;
 

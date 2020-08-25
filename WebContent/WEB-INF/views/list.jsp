@@ -68,15 +68,11 @@ overflow:auto;
 	
 		<button class="tenbtn btn btn-light"> 10개씩 보기 </button>		
 		<button class="downbtn btn btn-warning"> 엑셀다운 </button>		
-	
 	</div>
-	
 	</div>
-
 <table class="table table-bordered text-center ">
-
     <thead class="thead-dark">
-        <tr class="active">
+     <tr class="active">
 <th  class="text-center"> No. </th>
 <th  class="text-center"> 차량번호 </th>
 <th class="text-center"> 입차시간 </th>
@@ -134,6 +130,7 @@ overflow:auto;
     <td><input type="file" name="fileName"></td>
       </div>
       <div class="modal-footer">
+      	<input type="submit" >
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
         </form>
       </div>
