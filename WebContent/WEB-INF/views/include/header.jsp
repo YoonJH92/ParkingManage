@@ -26,8 +26,6 @@
 	}
 }
 
-
-
 @media screen and (max-width: 1200px) {
 	.fnav {
 		display: none;
@@ -219,9 +217,7 @@ font-weight: bold;
 .dropdown-item:hover {
 	background-color: #ee964b !important;}
 
-.body{
-overflow:auto;
-}
+
 
 
 </style>
@@ -273,7 +269,7 @@ overflow:auto;
 
 				<div id="toggle" class="navbar-collapse collapse">
 					<ul class="navbar-nav">
-						<li class="nav-item active-link"><a href="#" class="nav-link">실시간
+						<li class="nav-item active-link"><a href="loglist.do" class="nav-link">실시간
 								주차 현황</a><div class="underline"></div>
 								</li>
 						<li class="nav-item"><a href="#" class="nav-link">차량조회</a>
