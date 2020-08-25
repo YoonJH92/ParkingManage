@@ -14,13 +14,10 @@
 	margin-bottom: 20px;
 }
 
-
 	.page-link {
-	
 		text-decoration: none;
 		color: black;
 	}
-	
 	
 	#eximg{
 	width: auto;
@@ -29,7 +26,6 @@
 	max-height: 100px;
 	
 	}
-	
 	.infomation{
 		margin-top:18px;
 		padding-left: 20px;
@@ -52,8 +48,11 @@
 	max-width: 200px;
 	max-height: 100px;
 		
-		
 		}
+		
+#bodycontainer{
+overflow:auto;
+}
 
 </style>
 
@@ -81,27 +80,36 @@
 
     <thead class="thead-dark">
         <tr class="active">
+<th  class="text-center"> No. </th>
 <th  class="text-center"> 차량번호 </th>
 <th class="text-center"> 입차시간 </th>
-<th class="text-center"> 사용시간 </th>
+<th class="text-center"> 출차시간 </th>
 <th class="text-center"> 사용금액</th>
+<th class="text-center"> 쿠폰적용여부 </th>
 <th class="text-center"> 월정액여부 </th>
-<th class="text-center"> 구분</th>
+<th class="text-center"> 총금액</th>
+<th class="text-center"> 월정액 여부</th>
 <th class="text-center"> 차량이미지</th>
 </tr>
 </thead>
 <tbody>
 
+<c:forEach var="arr" items="${list}">
 <tr>
-<th  class="text-center"> 가XX1234</th>
-<th class="text-center"> 2020-08-24 14:00:22 </th>
-<th class="text-center"> 01:30:22 </th>
-<th class="text-center"> 4000 </th>
-<th class="text-center"> X </th>
-<th class="text-center"> 관리자 </th>
-<th class="text-center"> <img  id="eximg" src="car1.png"></th>
+	<td>${arr.idx}</td>
+	<td>${arr.cnum}</td>
+	<td>${arr.inTime}</td>
+	<td>${arr.outTime}</td>   
+    <td>${arr.pay}</td>
+   <td>${arr.cpNum}</td>
+   <td>${arr.saleNum}</td>
+   <td>${arr.totalPay}</td>
+   <td>${arr.monthNum}</td>
+<%--    <button type="button" data-toggle="modal" data-target="#myModal">${arr.cImg}Open Modal</button>
+ --%>
+</tr>	
+	</c:forEach>
 
-</tr>
 </tbody>
 </table>
 
@@ -113,4 +121,49 @@
 	<li class="page-item"><a class="page-link" href="#">Next</a></li>
 </ul>
 </div>
+
+
+
+
+
+
+
+
+<!--  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">    
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">차량이미지</h4>
+        </div>
+        <div class="modal-body">
+          <form action="ImgModify.do" enctype="multipart/form-data" method="post" accept=".jpg, .jpeg, .png">
+               </table>
+                  <thead class="thead-dark">
+                  <tr class="active">
+                  <th class="text-center"> 
+               <td><input type="file" name="fileName"></td>
+				<table>
+
+    
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-default" >수정</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+          </form> -->
+      
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
   
