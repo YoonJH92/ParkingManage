@@ -8,7 +8,6 @@
 		
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.css"/> 
    <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
-
     <script src="<%=request.getContextPath()%>/resources/bootstrap.js"></script> 
     <script src="<%=request.getContextPath()%>/resources/bootstrap.bundle.js"></script> 
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
@@ -211,18 +210,18 @@ font-weight: bold;
 
 }
 
-
-
 .divider{
 
 	display: block;
-	padding-top: 6px; 
+	padding-top: 6px; }
+
+
+.dropdown-item:hover {
+	background-color: #ee964b !important;}
+
+.body{
+overflow:auto;
 }
-
-
-.dropdown-item {
-
-background-color: red;
 
 
 </style>
@@ -332,7 +331,6 @@ background-color: red;
     	$(this).addClass('active-link');
     }); 
 	  
-
     </script>
 
 

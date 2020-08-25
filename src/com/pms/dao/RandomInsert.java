@@ -17,6 +17,7 @@ public class RandomInsert {
 		pool = DBConnectionMgr.getInstance();
 	}
 
+	// 랜덤 차량번호 디비 저장
 	public void randomLogAdd(String key, String in_time, String out_time) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -31,17 +32,14 @@ public class RandomInsert {
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
 				pstmt.setString(3, out_time);
-				System.out.println(key);
-				System.out.println(in_time);
-				System.out.println(out_time);
 			}else {
 				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'))";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
 			}
-
 			pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

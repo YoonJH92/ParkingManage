@@ -15,7 +15,7 @@ import com.pms.dao.RandomInsert;
 
 /*주차정보 자동 생성*/
 public class PMSRandom {
-
+	// 차량번호 자동 생성
 	public ArrayList<String> CNUM_RAND(int count) {
 		
 		Random rand = new Random();
@@ -38,14 +38,14 @@ public class PMSRandom {
 		}
 		return CNUM;
 	}
-	
+	//차량번호 시간 설정
 	public void TIME_SETTING(ArrayList<String> CNUM , int count) {
 		Random rand = new Random();
 		
 		String startDate = "2020-5-1 00:00:00";
 		String endDate = "2020-8-21 00:00:00";
-		
-		Timestamp stime = Timestamp.valueOf(startDate);
+		//타임스탬프형식으로 변환
+		Timestamp stime = Timestamp.valueOf(startDate); 
 		Timestamp etime = Timestamp.valueOf(endDate);
 		
 		long rand_diff;
@@ -70,14 +70,13 @@ public class PMSRandom {
 		Set<String> keys = map.keySet();
 
 		for (String key : keys) {
-		  System.out.println(key);
 		  for(int i = 0; i < map.get(key).size(); i++) {
 			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String in = null;
 				String out = null;
 			  if(i % 2 == 0) {
 				  in = format.format(new Date(map.get(key).get(i)));
-				  if(i < map.get(key).size() - 1) {
+				  if(i < map.get(key).size() - 1) { // 인덱스 개수 맞추기
 					  out = format.format(new Date(map.get(key).get(i+1)));
 				  }
 				  RandomInsert randomInsert = new RandomInsert();
@@ -94,7 +93,7 @@ public class PMSRandom {
 		
 		ArrayList<String> ran = random.CNUM_RAND(500); //차량번호 생성
 		random.TIME_SETTING(ran, 101);
-		
+		System.out.println("완료");
 
 		
 	}
