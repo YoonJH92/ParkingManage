@@ -12,7 +12,7 @@ import com.pms.util.PMSRandom;
 
 public class RandomInsert {
 	private DBConnectionMgr pool;
-	
+		
 	public RandomInsert() {
 		pool = DBConnectionMgr.getInstance();
 	}
