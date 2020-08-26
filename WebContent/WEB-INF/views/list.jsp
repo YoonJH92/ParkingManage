@@ -1,3 +1,5 @@
+<%@page import="java.util.Locale"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- header -->
@@ -47,14 +49,28 @@
 		
 		}
 		
+		#modalimg{
+		width: auto;
+	height: auto;
+	max-width: 500px;
+	max-height: 200px;
+	align-content: center;	
+		}
 
 
 </style>
 <main>
+
+<% long systemTime = System.currentTimeMillis();
+	SimpleDateFormat formatter =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.KOREA);
+	String today=formatter.format(systemTime);
+ %> 
 <div id="bodycontainer" class="container ">
 	<div class="infomation row justify-content-between ">
 	<div class="info1 col-xs-4">
-		<p> 2020-08-24</p>
+		<p>
+		<%=today %>
+		</p>
 	
 	</div>
 	
@@ -96,14 +112,13 @@
    <td>${arr.saleNum}</td>
    <td>${arr.totalPay}</td>
    <td>${arr.monthNum}</td>
-  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#myModal"> ${arr.cImg} 수정 </button></td>
- 
+   
+
+  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#myModal"> 차량 이미지 수정 </button></td>
 </tr>	
 	</c:forEach>
-
 </tbody>
 </table>
-
 <ul class="pagination justify-content-center">
 	<li class="page-item"><a class="page-link" href="#">Previous</a></li>
 	<li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -115,7 +130,6 @@
 </main>
 
 <!-- 모달창  -->
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -123,17 +137,25 @@
         <h4 class="modal-title" id="myModalLabel">차량이미지</h4>
       </div>
       <div class="modal-body">     
- <form action="imgupdate.do" enctype="multipart/form-data" method="post">
  	<table>
+ 		<form action="imgupdate.do" enctype="multipart/form-data" method="post">
  		<tr>
  		<td><input type="text" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
- 		<tr><td><input type="text" name="cimg" id="cimg" value=""></td>		
-    <td><input type="file" name="fileName"></td>
+ 		<tr><td><input type="hidden" name="cimg" id="cimg" value=""></td>	<tr>
+ 			
+        <tr>
+        <td>
+ 		<img id="modalimg" src="" >
+
+        </td></tr>
+        <tr>
+        <td><input type="file" name="fileName"></td>
  		</tr>
+	<img alt="" src=""> 		
+ 		
  	</table>
-      </div>
       <div class="modal-footer">
-      	<input type="submit" >
+      	<input type="submit" value="수정" >
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
         </form>
       </div>
@@ -141,19 +163,21 @@
   </div></div>
 </main>
 
+<!-- 값 전달  -->
 <script>
 	var LOGIDX="";
 	var CIMG="";
-	   $(document).ready(function() {
+	var IMGSRC="";
+	$(document).ready(function() {
 		$('#myModal').on('show.bs.modal', function(event) {   
 			LOGIDX=$(event.relatedTarget).data('idx');
 			CIMG=$(event.relatedTarget).data('cimg');
 			var modal=$(this);
 			$(".modal-body #idx ").val(LOGIDX);
 			$(".modal-body #cimg ").val(CIMG);	
-		});		
+			$(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
+					});		
 	});
-	/* 값 전달  */
 	
 </script>
 
