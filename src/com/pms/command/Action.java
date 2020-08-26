@@ -12,7 +12,7 @@ public class Action {
 
 	private HashMap<String, Command> map = new HashMap<String, Command>();
 	
-	public Action() {
+	private Action() {
 		// 페이지 추가시 마다 추가바람
 		map.put("/stat/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
