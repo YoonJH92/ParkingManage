@@ -11,22 +11,22 @@
  @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
   
   footer {
-    bottom: 0;
+
     width: 100%;
     text-align:center;
-    background-color:#005AA7;
-    color:white;
-    padding: 30px;
-  position: fixed;
+    /*background-color:#005AA7;*/
+    color:black;
+    /*padding: 30px;
+  position: fixed;*/
+  bottom: 0;
   left: 0;
+  margin-top:30px;
     font-family: font-family: 'Open Sans', sans-serif;
     }
-    
-    
 </style>
 
 
-     <footer class="footer mt-auto">
+     <footer class="footer">
       <div class="container ">
         <p>
         

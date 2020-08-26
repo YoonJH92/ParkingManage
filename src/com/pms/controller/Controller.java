@@ -39,7 +39,6 @@ public class Controller extends HttpServlet {
 		if(strView == null) { //없으면 리턴
 			return;
 		}
-
 		//페이지 전송
 		if(strView.startsWith("redirect:")) {
 			// 리다이렉트 이동
