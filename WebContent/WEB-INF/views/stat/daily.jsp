@@ -5,19 +5,38 @@
 
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-
-<div class="container">
-	<table id="example" class="display" style="width:100%">
+<style>
+.py50 {padding: 50px 0;}
+.v-mid{vertical-align: middle!important;}
+table thead th{padding: 6px 10px!important;}
+table tbody td{padding: 4px 10px!important;}
+</style>
+<div class="container py50">
+	<table id="example" class="table table-striped table-bordered text-center" style="width:100%;height:80%;">
+	    <colgroup>
+	        <col width="12.5%">
+	        <col width="12.5%">
+	        <col width="12.5%">
+	        <col width="12.5%">
+	        <col width="12.5%">
+	        <col width="12.5%">
+	        <col width="12.5%">
+	        <col width="12.5%">
+	    </colgroup>
         <thead>
             <tr>
-                <th>시간</th>
-                <th>입차 수</th>
-                <th>입차 일반 사용자</th>
-                <th>입차 <br>월정액 사용자</th>
-                <th>출차 수</th>
-                <th>출차 <br>일반 사용자</th>
-                <th>출차 <br>월정액 사용자</th>
-                <th>사용요금</th>
+                <th rowspan=2 class="v-mid">시간</th>
+                <th colspan=3>입차 수</th>
+                <th colspan=3>출차 수</th>
+                <th rowspan=2 class="v-mid">사용요금</th>
+            </tr>
+            <tr>
+                <th>일 반</th>
+                <th>월정액</th>
+                <th>합 계</th>
+                <th>일 반</th>
+                <th>월정액</th>
+                <th>합 계</th>
             </tr>
         </thead>
         <tbody>
@@ -31,297 +50,6 @@
                 <td>5</td>
                 <td>100,000</td>
             </tr>
-                        <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>110,000</td>
-            </tr>
-                        <tr>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>120,000</td>
-            </tr>
-                        <tr>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>133,000</td>
-            </tr>
-                        <tr>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>160,000</td>
-            </tr>
-            <tr>
-                <td>0</td>
-                <td>12</td>
-                <td>3</td>
-                <td>9</td>
-                <td>10</td>
-                <td>5</td>
-                <td>5</td>
-                <td>100,000</td>
-            </tr>
-                        <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>110,000</td>
-            </tr>
-                        <tr>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>120,000</td>
-            </tr>
-                        <tr>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>133,000</td>
-            </tr>
-                        <tr>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>160,000</td>
-            </tr>
-                        <tr>
-                <td>0</td>
-                <td>12</td>
-                <td>3</td>
-                <td>9</td>
-                <td>10</td>
-                <td>5</td>
-                <td>5</td>
-                <td>100,000</td>
-            </tr>
-                        <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>110,000</td>
-            </tr>
-                        <tr>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>120,000</td>
-            </tr>
-                        <tr>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>133,000</td>
-            </tr>
-                        <tr>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>160,000</td>
-            </tr>
-                        <tr>
-                <td>0</td>
-                <td>12</td>
-                <td>3</td>
-                <td>9</td>
-                <td>10</td>
-                <td>5</td>
-                <td>5</td>
-                <td>100,000</td>
-            </tr>
-                        <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>110,000</td>
-            </tr>
-                        <tr>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>120,000</td>
-            </tr>
-                        <tr>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>133,000</td>
-            </tr>
-                        <tr>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>160,000</td>
-            </tr>
-                        <tr>
-                <td>0</td>
-                <td>12</td>
-                <td>3</td>
-                <td>9</td>
-                <td>10</td>
-                <td>5</td>
-                <td>5</td>
-                <td>100,000</td>
-            </tr>
-                        <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>110,000</td>
-            </tr>
-                        <tr>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>120,000</td>
-            </tr>
-                        <tr>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>133,000</td>
-            </tr>
-                        <tr>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>160,000</td>
-            </tr>
-                        <tr>
-                <td>0</td>
-                <td>12</td>
-                <td>3</td>
-                <td>9</td>
-                <td>10</td>
-                <td>5</td>
-                <td>5</td>
-                <td>100,000</td>
-            </tr>
-                        <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>110,000</td>
-            </tr>
-                        <tr>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>120,000</td>
-            </tr>
-                        <tr>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>133,000</td>
-            </tr>
-                        <tr>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>160,000</td>
-            </tr>
-                        
         </tbody>
         <tfoot>
             <tr>
@@ -340,31 +68,23 @@
 <script>
 $(document).ready(function() {
     $('#example').DataTable( {
+    	// 표시 건수기능 숨기기
+    	lengthChange: false,
+    	// 검색 기능 숨기기
     	searching: false,
+    	// 정보 표시 숨기기
     	info: false,
-        "order": [[ 3, "desc" ]]
+    	// 페이징 기능 숨기기
+    	paging: false,
+    	
     } );
+    
+    $('#example tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
+    
 } );
 </script>
   
-
-<!-- <ul class="pagination justify-content-center">
-	<li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-	<li class="page-item"><a class="page-link" href="#">1</a></li>
-	<li class="page-item"><a class="page-link" href="#">2</a></li>
-	<li class="page-item"><a class="page-link" href="#">3</a></li>
-	<li class="page-item"><a class="page-link" href="#">4</a></li>
-	<li class="page-item"><a class="page-link" href="#">5</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-</ul>
-   -->
 <!-- footer -->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
