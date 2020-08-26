@@ -17,7 +17,9 @@ public class Action {
 		map.put("/stat/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
       	map.put("/loglist",new LogListCommand());		
-      	map.put("/stat/test",new TestCommand());		
+      	map.put("/stat/test",new TestCommand());	
+      	map.put("/loglist",new LogListCommand());
+      	map.put("/imgupdate",new LoglmgModifyAction());
 	}
 	
 	public Command getAction(String command) {
