@@ -16,7 +16,9 @@ public class Action {
 		// 페이지 추가시 마다 추가바람
 		map.put("/stat/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
-      	map.put("/loglist",new LogListCommand());		
+      	map.put("/loglist",new LogListCommand());
+      	map.put("/coupon&discount/new_cp&dc",new CDCommand());
+      	map.put("/coupon&discount/addc_d",new AddCounponCommand());
 	}
 	
 	public Command getAction(String command) {
