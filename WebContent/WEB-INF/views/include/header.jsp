@@ -8,7 +8,6 @@
 		
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap.css"/> 
    <script src="<%=request.getContextPath()%>/resources/jquery-3.5.1.min.js"></script>
-
     <script src="<%=request.getContextPath()%>/resources/bootstrap.js"></script> 
     <script src="<%=request.getContextPath()%>/resources/bootstrap.bundle.js"></script> 
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
@@ -26,8 +25,6 @@
 		display: block;
 	}
 }
-
-
 
 @media screen and (max-width: 1200px) {
 	.fnav {
@@ -211,20 +208,33 @@ font-weight: bold;
 
 }
 
-
-
 .divider{
 
 	display: block;
-	padding-top: 6px; 
-}
+	padding-top: 6px; }
 
 
-.dropdown-item {
+.dropdown-item:hover {
+	background-color: #ee964b !important;}
 
-background-color: red;
 
+ body{
+  background-color: #f1f1f1;
+  position: relative;
+  padding-bottom: 58px;
+  min-height: 100vh;
+ 
+ }
 
+ main{
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ width: 90vw;
+ margin: 0 auto;
+ padding: 30px 20px;
+ }
+ 
 </style>
 
 <body>
@@ -274,7 +284,7 @@ background-color: red;
 
 				<div id="toggle" class="navbar-collapse collapse">
 					<ul class="navbar-nav">
-						<li class="nav-item active-link"><a href="#" class="nav-link">실시간
+						<li class="nav-item active-link"><a href="loglist.do" class="nav-link">실시간
 								주차 현황</a><div class="underline"></div>
 								</li>
 						<li class="nav-item"><a href="#" class="nav-link">차량조회</a>
@@ -332,7 +342,6 @@ background-color: red;
     	$(this).addClass('active-link');
     }); 
 	  
-
     </script>
 
 
