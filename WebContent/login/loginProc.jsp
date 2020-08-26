@@ -40,11 +40,14 @@
 		
 		
 	}else if(re == 1){
+		
+		session.setAttribute("sessid", mbean.getId());
 		%>
 		<script type="text/javascript">
 			
-			document.location.href="header.jsp";
+			document.location.href="join.jsp";
 		</script>
+		
 		<% 
 	}
 	
@@ -63,6 +66,7 @@
 				
 				 
 			}
+			
 	
 	
 	

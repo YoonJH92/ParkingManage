@@ -81,21 +81,34 @@
     <p>주차 관리 프로그램 입니다.</p>
     
   </div>
-
-  <div class="form-label-group">
-    <input name="loginID" type="text" id="loginID" class="form-control" placeholder="loginID" required autofocus>
+<%
+	if(cookies == null){
+		%>
+		<div class="form-label-group">
+    <input  name="loginID" type="text" id="loginID" class="form-control"  required autofocus>
     <label for="loginID">ID</label>
   </div>
+		<%
+	}else{
+		%>
+		<div class="form-label-group">
+    <input value="<%=id %>" name="loginID" type="text" id="loginID" class="form-control"  required autofocus>
+    <label for="loginID">ID</label>
+  </div>
+		<% 
+	}
+%>
+  
 
   <div class="form-label-group">
   
-    <input name="loginPassword" type="password" id="loginPassword" class="form-control" placeholder="loginPassword" required>
+    <input name="loginPassword" type="password" id="loginPassword" class="form-control"  required>
     <label for="loginPassword">Password</label>
   </div>
 
   <div class="checkbox mb-3">
     <label>
-      <input type="checkbox" checked name="remember"> 아이디 저장
+      <input type="checkbox" checked name="save"> 아이디 저장
     </label>
   </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.pms.dto.ManagerBean;
+import com.pms.dto.SettingDTO;
 import com.pms.util.DBConnectionMgr;
 
 
@@ -16,6 +17,15 @@ import com.pms.util.DBConnectionMgr;
 
 
 public class ManagerDAO {
+	
+	private static ManagerDAO instance;
+	public static ManagerDAO getInstance() {
+		if (instance == null) {
+			instance = new ManagerDAO();
+	}
+	return instance;
+	}
+	
 		
 		DBConnectionMgr pool = DBConnectionMgr.getInstance();
 		
@@ -42,7 +52,7 @@ public class ManagerDAO {
 				// 오라클에서 쿼리를 실행하시오
 				pstmt.executeUpdate();//insert, update, delete 시 사용하는 메소드	
 				
-				//자원 반납
+				
 				con.close();
 				
 			}catch(Exception e){
@@ -63,17 +73,13 @@ public class ManagerDAO {
 			int re = -1;
 			try{
 				con = pool.getConnection();
-				
 			
 				pstmt = con.prepareStatement(sql); //jsp에서 쿼리를 사용하도록 설정
 				pstmt.setString(1, id);
 				rs=pstmt.executeQuery();
 				
-				
 				if(rs.next()) {
-					
 					db_pwd = rs.getString("PWD");
-					
 					if(db_pwd.equals(pwd)) {
 						re=1;
 					}else {
@@ -89,7 +95,6 @@ public class ManagerDAO {
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			
 			return re;
 			
 		}
@@ -165,6 +170,71 @@ public String MdSearchPass(ManagerBean passbean) {
 			
 			
 		}
+
+	public void updateM(ManagerBean mbean) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		
+		try {
+			
+			String sql = "update pms_admin set name=?, email=?,phone=?,pwd=? where admin_id=?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, mbean.getName());
+			pstmt.setString(2, mbean.getEmail());
+			pstmt.setString(3, mbean.getTel());
+			pstmt.setString(4, mbean.getPass());
+			pstmt.setString(5, mbean.getId());
+			
+			
+			pstmt.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			pool.freeConnection(con,pstmt);
+		}
+		
+	
+	}
+	
+	public ManagerBean searchM(String id) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ManagerBean mbean = new ManagerBean();
+		try {
+			
+			String sql="select * from pms_admin where admin_id=?";
+			pstmt = con.prepareStatement(sql);
+		
+			pstmt.setString(1,id);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				mbean.setName(rs.getString("name"));
+				mbean.setEmail(rs.getString("email"));
+				mbean.setTel(rs.getString("phone"));
+				mbean.setPass(rs.getString("pwd"));
+				mbean.setId(rs.getString("admin_id"));
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			pool.freeConnection(con,pstmt,rs);
+		}
+		
+		return mbean;
+		
+		
+	}
 		
 	
 

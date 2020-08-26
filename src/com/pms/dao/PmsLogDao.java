@@ -17,8 +17,14 @@ public class PmsLogDao {
 			instance = new PmsLogDao();
 	}
 	return instance;
-}
+	}
 	private DBConnectionMgr pool;
+	
+	public PmsLogDao() {
+		pool = DBConnectionMgr.getInstance();
+	}
+	
+	
 	public ArrayList<PMSDto> viewList(){
     	Connection con = null;
     	Statement st= null;
