@@ -85,14 +85,14 @@
 	if(cookies == null){
 		%>
 		<div class="form-label-group">
-    <input  name="loginID" type="text" id="loginID" class="form-control"  required autofocus>
+    <input  name="id" type="text" id="loginID" class="form-control"  required autofocus>
     <label for="loginID">ID</label>
   </div>
 		<%
 	}else{
 		%>
 		<div class="form-label-group">
-    <input value="<%=id %>" name="loginID" type="text" id="loginID" class="form-control"  required autofocus>
+    <input value="<%=id %>" name="id" type="text" id="loginID" class="form-control"  required autofocus>
     <label for="loginID">ID</label>
   </div>
 		<% 
@@ -102,7 +102,7 @@
 
   <div class="form-label-group">
   
-    <input name="loginPassword" type="password" id="loginPassword" class="form-control"  required>
+    <input name="pass" type="password" id="loginPassword" class="form-control"  required>
     <label for="loginPassword">Password</label>
   </div>
 

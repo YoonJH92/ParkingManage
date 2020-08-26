@@ -29,19 +29,19 @@ public class ManagerDAO {
 		
 		DBConnectionMgr pool = DBConnectionMgr.getInstance();
 		
-		//µ¥ÀÌÅÍº£ÀÌ½º¿¡ ÇÑ»ç¶÷ÀÇ È¸¿ø Á¤º¸¸¦ ÀúÀåÇØÁÖ´Â ¸Ş¼Òµå
+		//ë°ì´í„°ë² ì´ìŠ¤ì— í•œì‚¬ëŒì˜ íšŒì› ì •ë³´ë¥¼ ì €ì¥í•´ì£¼ëŠ” ë©”ì†Œë“œ
 		public void insertManager(ManagerBean mbean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;			
 			
 			try{
 				con = pool.getConnection();
-				//Á¢¼ÓÈÄ Äõ¸®¹®À» ÁØºñÇÏ¿©..
+				//ì ‘ì†í›„ ì¿¼ë¦¬ë¬¸ì„ ì¤€ë¹„í•˜ì—¬..
 				String sql = "insert into pms_admin values(?,?,?,?,?)";
-				//Äõ¸®¸¦ »ç¿ëÇÏµµ·Ï ¼³Á¤
-				pstmt = con.prepareStatement(sql); //jsp¿¡¼­ Äõ¸®¸¦ »ç¿ëÇÏµµ·Ï ¼³Á¤
+				//ì¿¼ë¦¬ë¥¼ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •
+				pstmt = con.prepareStatement(sql); //jspì—ì„œ ì¿¼ë¦¬ë¥¼ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •
 				
-				// ?¿¡ ¸Â°Ô µ¥ÀÌÅÍ¸¦ ¸ÊÇÎ
+				// ?ì— ë§ê²Œ ë°ì´í„°ë¥¼ ë§µí•‘
 				pstmt.setString(1, mbean.getId());
 				pstmt.setString(2, mbean.getPass());
 				pstmt.setString(3, mbean.getName());
@@ -49,8 +49,8 @@ public class ManagerDAO {
 				pstmt.setString(5, mbean.getTel());
 				
 				
-				// ¿À¶óÅ¬¿¡¼­ Äõ¸®¸¦ ½ÇÇàÇÏ½Ã¿À
-				pstmt.executeUpdate();//insert, update, delete ½Ã »ç¿ëÇÏ´Â ¸Ş¼Òµå	
+				// ì˜¤ë¼í´ì—ì„œ ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•˜ì‹œì˜¤
+				pstmt.executeUpdate();//insert, update, delete ì‹œ ì‚¬ìš©í•˜ëŠ” ë©”ì†Œë“œ	
 				
 				
 				con.close();
@@ -62,24 +62,26 @@ public class ManagerDAO {
 		}
 		
 		
-		//µğºñ¿¡¼­ ¾Æµğ ºñ¹øÀ» Ã£¾Æ¿Í ·Î±×ÀÎÃ¢¿¡ ÀÛ¼ºÇÑ°Å¶û ¸ÂÀ¸¸é ·Î±×ÀÎ~
+		//ë””ë¹„ì—ì„œ ì•„ë”” ë¹„ë²ˆì„ ì°¾ì•„ì™€ ë¡œê·¸ì¸ì°½ì— ì‘ì„±í•œê±°ë‘ ë§ìœ¼ë©´ ë¡œê·¸ì¸~
 		public int loginManager(String id, String pwd) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			
-			String sql = "select admin_id,pwd from pms_admin where admin_id=?";
+			String sql = "select pwd from pms_admin where admin_id=?";
 			String db_pwd;
 			int re = -1;
 			try{
 				con = pool.getConnection();
 			
-				pstmt = con.prepareStatement(sql); //jsp¿¡¼­ Äõ¸®¸¦ »ç¿ëÇÏµµ·Ï ¼³Á¤
+				pstmt = con.prepareStatement(sql); //jspì—ì„œ ì¿¼ë¦¬ë¥¼ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •
 				pstmt.setString(1, id);
 				rs=pstmt.executeQuery();
 				
+			
+				
 				if(rs.next()) {
-					db_pwd = rs.getString("PWD");
+					db_pwd = rs.getString("pwd");
 					if(db_pwd.equals(pwd)) {
 						re=1;
 					}else {
@@ -112,7 +114,7 @@ public class ManagerDAO {
 				con = pool.getConnection();
 				
 			
-				pstmt = con.prepareStatement(sql); //jsp¿¡¼­ Äõ¸®¸¦ »ç¿ëÇÏµµ·Ï ¼³Á¤
+				pstmt = con.prepareStatement(sql); //jspì—ì„œ ì¿¼ë¦¬ë¥¼ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •
 				pstmt.setString(1, idbean.getName());
 				pstmt.setString(2, idbean.getEmail());
 				pstmt.setString(3, idbean.getTel());
@@ -120,7 +122,7 @@ public class ManagerDAO {
 				if(rs.next()) {
 					id = rs.getString(1);
 				}else {
-					id = "¾øÀ½";
+					id = "ì—†ìŒ";
 				}
 				
 				
@@ -147,7 +149,7 @@ public String MdSearchPass(ManagerBean passbean) {
 				con = pool.getConnection();
 				
 			
-				pstmt = con.prepareStatement(sql); //jsp¿¡¼­ Äõ¸®¸¦ »ç¿ëÇÏµµ·Ï ¼³Á¤
+				pstmt = con.prepareStatement(sql); //jspì—ì„œ ì¿¼ë¦¬ë¥¼ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •
 				pstmt.setString(1, passbean.getName());
 				pstmt.setString(2, passbean.getId());
 				pstmt.setString(3, passbean.getEmail());
@@ -156,7 +158,7 @@ public String MdSearchPass(ManagerBean passbean) {
 				if(rs.next()) {
 					pass = rs.getString(1);
 				}else {
-					pass = "¾øÀ½";
+					pass = "ì—†ìŒ";
 				}
 				
 				
@@ -178,7 +180,7 @@ public String MdSearchPass(ManagerBean passbean) {
 		
 		
 		try {
-			
+			con = pool.getConnection();
 			String sql = "update pms_admin set name=?, email=?,phone=?,pwd=? where admin_id=?";
 			
 			pstmt = con.prepareStatement(sql);
@@ -209,7 +211,7 @@ public String MdSearchPass(ManagerBean passbean) {
 		ResultSet rs = null;
 		ManagerBean mbean = new ManagerBean();
 		try {
-			
+			con = pool.getConnection();
 			String sql="select * from pms_admin where admin_id=?";
 			pstmt = con.prepareStatement(sql);
 		

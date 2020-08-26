@@ -23,6 +23,8 @@
 	ManagerDAO mdao = new ManagerDAO();
 	int re = mdao.loginManager(mbean.getId(),mbean.getPass());
 	
+	
+	
 	if(re == -1){
 		%>
 		<script type="text/javascript">
@@ -56,6 +58,7 @@
 			
 			String id = request.getParameter("id");
 			
+			
 			if(save != null){
 	
 				Cookie cookie = new Cookie("id",id);
@@ -66,9 +69,17 @@
 				
 				 
 			}
+			if(save == null){
+				
+				
+				Cookie cookie = new Cookie("id",id);
+
+				cookie.setMaxAge(0);
+				
+				response.addCookie(cookie);
+				 
+			}
 			
-	
-	
 	
 %>
 

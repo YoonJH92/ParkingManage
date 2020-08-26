@@ -56,12 +56,17 @@ body {
 </head>
 
 <body>
+
+
 <%
 	
 	request.setCharacterEncoding("UTF-8");
 	String id = (String)session.getAttribute("sessid");
 	ManagerDAO mdao = ManagerDAO.getInstance();
 	ManagerBean mbean = mdao.searchM(id);
+	
+	
+	
 	
 %>
 
@@ -78,13 +83,13 @@ body {
 			<form action="changeProc.jsp" method="post">
 
 				<div class="mb-3">
-					<label for="address">ID : <%=id %></label>
+					<label for="address" >ID : <%=id %></label>
 
 
 				</div>
 
 				<div class="mb-3">
-					<label for="email">Name </label> <input type="email" name="name"
+					<label for="email">Name </label> <input type="text" name="name"
 						class="form-control" value="<%=mbean.getName() %>">
 
 				</div>
@@ -104,7 +109,7 @@ body {
 
 				<div class="mb-3">
 					<label for="address">Password</label> <input type="password"
-						name="pass" class="form-control" value="비밀번호를 입력해 주세요"
+						name="pass" class="form-control" placeholder="새(현재) 비밀번호를 입력해 주세요"
 						required>
 
 				</div>
