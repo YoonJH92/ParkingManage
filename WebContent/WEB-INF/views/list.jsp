@@ -96,8 +96,8 @@
    <td>${arr.saleNum}</td>
    <td>${arr.totalPay}</td>
    <td>${arr.monthNum}</td>
-  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#myModal"> ${arr.cImg} Modal </button></td>
- <
+  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#myModal"> ${arr.cImg} 수정 </button></td>
+ 
 </tr>	
 	</c:forEach>
 
@@ -127,13 +127,10 @@
  	<table>
  		<tr>
  		<td><input type="text" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
- 		<tr><td><input type="text" name="cimg" id="cimg" value=""></td>
- 		
+ 		<tr><td><input type="text" name="cimg" id="cimg" value=""></td>		
     <td><input type="file" name="fileName"></td>
  		</tr>
- 	
  	</table>
-	
       </div>
       <div class="modal-footer">
       	<input type="submit" >
@@ -145,23 +142,18 @@
 </main>
 
 <script>
-
 	var LOGIDX="";
 	var CIMG="";
-
 	   $(document).ready(function() {
 		$('#myModal').on('show.bs.modal', function(event) {   
 			LOGIDX=$(event.relatedTarget).data('idx');
 			CIMG=$(event.relatedTarget).data('cimg');
 			var modal=$(this);
 			$(".modal-body #idx ").val(LOGIDX);
-			$(".modal-body #cimg ").val(CIMG);
-			
-			
-		});
-		
+			$(".modal-body #cimg ").val(CIMG);	
+		});		
 	});
-	
+	/* 값 전달  */
 	
 </script>
 
