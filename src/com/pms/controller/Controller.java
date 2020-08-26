@@ -15,17 +15,14 @@ import com.pms.command.Command;
 @WebServlet(urlPatterns = "*.do",loadOnStartup = 1)
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
     public Controller() {
         super();
     }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String getCommand = getCommand(request); // 키워드 추출 ex) /stat/daily
 		Command command = null; // 인터페이스 활용
-		String strView = null; // 리턴할때 사용
-		
+		String strView = null; // 리턴할때 사용	
 		Action action =  Action.getInstance(); // 싱글톤 패턴으로 생성 , 생성자에 map 저장
 		command = action.getAction(getCommand); // key값을 보내줘서 map 체크
 
