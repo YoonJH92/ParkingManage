@@ -132,75 +132,13 @@ public class PmsLogDao {
             }
 		}
 		
-            catch (Exception e) {
+           catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
 	}
-	
-    public ArrayList<Integer> currentpay(Date inTime, int onehourpay, int halfpay)  {	
-    	Connection con = null;
-		PreparedStatement pstmt = null;
-		String sql = null;	
-		ResultSet rs=null;
-		//현재시간 Date
-		Date curDate = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYYMMddHHmm");
-		//데이더 포맷		
-		long pay=0;
-		ArrayList<Integer> currentpay=new ArrayList<Integer>();
-		try {
-			con = pool.getConnection();	
-			sql="select * from pms_setting";
-						
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		    sql ="select * from pms_log where month_num is null ";
-			pstmt=con.prepareStatement(sql);
-			rs=pstmt.executeQuery(sql);
-			curDate = dateFormat.parse(dateFormat.format(curDate));
-			inTime=dateFormat.parse(dateFormat.format(inTime));
-			long curDateTime = curDate.getTime();
-			long reqTime=inTime.getTime();
-			//분으로 표현	
-		    long minute = (curDateTime - reqTime) / 60000;//분으로 나누기		   
-			System.out.println("요청시간 : " + reqTime);
-			System.out.println("현재시간 : " + curDate);
-			System.out.println(minute+"분 차이");
-			long x=minute/30;
-			long y=minute%30;	
-			while(rs.next()) {
-				if(minute>30) {
-					pay=(halfpay*x);
-					if(y>0) {
-						pay+=onehourpay;
-					}				
-				}
-				else if(minute<30) {
-					pay=halfpay;	
-				}		
-					currentpay.add((int) pay);
-			} 
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, pstmt, rs);
-		}	
-		
-        return currentpay ;
 
-	}	
     
 }
 	
