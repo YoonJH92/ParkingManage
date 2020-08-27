@@ -310,7 +310,7 @@ font-weight: bold;
 							</div></li>
 						<li class="nav-item "><a href="#" class="nav-link">월별통계</a><div class="underline"></div>
 						</li>
-						<li class="nav-item "><a href="#" class="nav-link">일별통계</a><div class="underline"></div>
+						<li class="nav-item "><a href="stat/daily.do" class="nav-link">일별통계</a><div class="underline"></div>
 						</li>
 						<li class="nav-item "><a href="#" class="nav-link">설정</a><div class="underline"></div>
 						</li>
