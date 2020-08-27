@@ -16,9 +16,10 @@ public class MemberInsertCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Calendar cal = Calendar.getInstance();
 		String startDate = request.getParameter("startDate");
-		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date toDate = fm.parse(startDate);
-
+ 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		Date toDate = format.parse(startDate);
+		cal.setTime(toDate);
+		cal.add(Calendar.MONTH, 1);	
 		memberManageDTO mem = new memberManageDTO();
 		mem.setEmail(request.getParameter("email"));
 		mem.setCNUM(request.getParameter("CNUM"));
