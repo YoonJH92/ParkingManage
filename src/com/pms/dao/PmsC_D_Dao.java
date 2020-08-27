@@ -2,6 +2,8 @@ package com.pms.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
@@ -68,5 +70,32 @@ public class PmsC_D_Dao {
 		}
 	}
 	
-	
+	public ArrayList<PmsCouponDto> SearchCoupon(String condition, String value) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		ArrayList<PmsCouponDto> arr = new ArrayList<PmsCouponDto>();
+		try {
+			con = pool.getConnection();
+			sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"'";
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs =pstmt.executeQuery();
+			System.out.println(rs.next());
+			while(rs.next()) {
+				PmsCouponDto dto = new PmsCouponDto(); 
+				dto.setCPNAME(rs.getString("cpname"));
+				dto.setUSE_DATE(rs.getInt("use_date"));
+				dto.setPURPOSE(rs.getString("purpose"));
+				dto.setDISCOUNT(rs.getInt("discount"));
+				arr.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return arr;
+	}
 }

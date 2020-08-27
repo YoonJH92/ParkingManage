@@ -17,8 +17,10 @@ public class Action {
 		map.put("/stat/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
       	map.put("/loglist",new LogListCommand());
-      	map.put("/coupon&discount/new_cp&dc",new CDCommand());
-      	map.put("/coupon&discount/addc_d",new AddCounponCommand());
+      	map.put("/coupon/new_cp_dc",new CDCommand());
+      	map.put("/coupon/addc_d",new AddC_DCommand());
+      	map.put("/coupon/search_cp_dc",new CDCommand2());  	
+      	map.put("/coupon/search_C_D",new Search_C_DCommand());  	
 	}
 	
 	public Command getAction(String command) {

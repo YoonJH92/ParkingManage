@@ -7,7 +7,7 @@ public class CDCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "/coupon&discount/new_cp&dc";
+		return "/coupon/new_cp_dc";
 	}
-//	http://localhost/ParkingManage/coupon&discount/new_cp&dc.do
+//	http://localhost/ParkingManage/coupon/new_cp_dc.do
 }
