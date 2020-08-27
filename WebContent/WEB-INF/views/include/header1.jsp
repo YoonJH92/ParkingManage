@@ -20,6 +20,7 @@
   <!-- Custom styles for this template-->
   <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
   <link href="resources/jquery.datetimepicker.css" rel="stylesheet">
 </head>
 

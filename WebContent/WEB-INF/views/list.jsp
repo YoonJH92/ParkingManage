@@ -1,141 +1,159 @@
-<%@page import="java.util.Locale"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!-- header -->
-<%@ include file="/WEB-INF/views/include/header.jsp" %> 
-<!-- footer -->
-<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/include/header1.jsp" %> 
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">실시간 현황 조회</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div>
 
-<style>	
-.table{
-	margin-top: 10px;
-	margin-bottom: 20px;
-}
+          <!-- Content Row -->
+          <div class="row">
 
-	.page-link {
-		text-decoration: none;
-		color: black;
-	}
-	
-	#eximg{
-	width: auto;
-	height: auto;
-	max-width: 200px;
-	max-height: 100px;
-	
-	}
-	.infomation{
-		margin-top:18px;
-		padding-left: 20px;
-		padding-right: 20px;
-	}
-		.info1{
-			padding-top:10px;
-			font-weight: bold;
-		}
-		
-		.info2 {
-		
-			padding-top:10px;
-		font-weight: bold;
-		}
-	
-		#eximg{
-			width: auto;
-	height: auto;
-	max-width: 200px;
-	max-height: 100px;
-		
-		}
-		
-		#modalimg{
-		width: auto;
-	height: auto;
-	max-width: 500px;
-	max-height: 200px;
-	align-content: center;	
-		}
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">총 주자수</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">일반 </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-</style>
-<main>
-<% long systemTime = System.currentTimeMillis();
-	SimpleDateFormat formatter =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.KOREA);
-	String today=formatter.format(systemTime);
- %> 
-<div id="bodycontainer" class="container ">
-	<div class="infomation row justify-content-between ">
-	<div class="info1 col-xs-4">
-		<p>
-		<%=today%>
-		</p>
-	</div>
-	<div class="info2 col-xs-4">
-		<p> 주차수 :100대 / 일반 :20대  / 월정액 :30대 </p>
-	</div>	
-	
-	<div class="btns col-xs-4">
-		<button class="tenbtn btn btn-light"> 10개씩 보기 </button>		
-		<button class="downbtn btn btn-warning"> 엑셀다운 </button>		
-	</div>
-	</div>
-<table class="table table-bordered text-center ">
-    <thead class="thead-dark">
-     <tr class="active">
-<th  class="text-center"> No. </th>
-<th  class="text-center"> 차량번호 </th>
-<th class="text-center"> 입차시간 </th>
-<th class="text-center"> 사용금액</th>
-<th class="text-center"> 쿠폰적용여부 </th>
-<th class="text-center"> 월정액여부 </th>
-<th class="text-center"> 총금액</th>
-<th class="text-center"> 월정액 여부</th>
-<th class="text-center"> 차량이미지</th>
-</tr>
-</thead>
-<tbody>
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">월정액</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                        </div>
+                        <div class="col">
+                          <div class="progress progress-sm mr-2">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            <!-- Pending Requests Card Example -->
+          
 
-<c:forEach var="arr" items="${list}">
+          <!-- Content Row -->
+          <div class="row">
+          
+            <!-- Content Column -->
+            <div class="col-lg-12 mb-12">
+
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">실시간 조회</h6>
+                </div>
+                <div class="card-body">
+               <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">No.</th>
+      <th scope="col">입차시간</th>
+      <th scope="col">차량번호</th>
+      <th scope="col">사용금액</th>
+      <th scope="col">여부</th>
+      <th scope="col">월정액여부</th>
+      <th scope="col">구분</th>
+      <th scope="col">차량이미지</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+	<c:forEach var="arr" items="${list}">
 <tr>
-	<td>${arr.idx}</td>
-<!-- 실시간 사용 금액 구하기   -->
-	
-	
-	
-	
-	
-<!--  -->
+      <th scope="row">${arr.idx}</th>
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
-    <td>${arr.pay}</td> 
- 	<td>${arr.cpNum}</td>
-   <td>${arr.saleNum}</td>
-   <td>${arr.totalPay}</td>
+<%--     <td>${arr.pay}</td> 
+ --%> 	
+ 	<td></td>
+    <td>${arr.cpNum}</td>
    <td>${arr.monthNum}</td>
-  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#myModal"> 차량 사진 </button></td>
+   <td></td>
+  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
 </tr>	
 	</c:forEach>
-</tbody>
-</table>
-<ul class="pagination justify-content-center">
-	<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-	<li class="page-item"><a class="page-link" href="#">1</a></li>
-	<li class="page-item"><a class="page-link" href="#">2</a></li>
-	<li class="page-item"><a class="page-link" href="#">3</a></li>
-	<li class="page-item"><a class="page-link" href="#">Next</a></li>
-</ul>
-</div>
-</main>
 
-<!-- 모달창  -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      
+  
+  </tbody>
+</table>
+                 
+              
+                </div>
+              </div>
+
+              <!-- Approach -->
+               <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
+                </div>
+                <div class="card-body">
+                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
+                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+      
+      <!-- 모달창 -->
+  
+      
+        <div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">차량이미지</h4>
+        <h4 class="modal-title" id="carModalLabel">차량이미지</h4>
       </div>
       <div class="modal-body">     
  	<table>
@@ -156,16 +174,18 @@
  		
  	</table>
       <div class="modal-footer">
-      	<input type="submit" value="수정" >
+      	<input type="submit" value="수정">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
         </form>
       </div>
     </div>
   </div></div>
-</main>
-
-<!-- 값 전달  -->
-<script>
+  </div>
+      
+      
+      <!-- 모달창 -->
+      
+      <script>
 	var LOGIDX="";
 	var CIMG="";
 	var IMGSRC="";
@@ -181,11 +201,17 @@
 	});
 	
 </script>
-
-
-
-
-
-
-
-  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+ <%@ include file="/WEB-INF/views/include/footer1.jsp" %> 
