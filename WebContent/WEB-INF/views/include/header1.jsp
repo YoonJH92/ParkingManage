@@ -19,12 +19,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
-<<<<<<< HEAD
 <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
-=======
   <link href="resources/jquery.datetimepicker.css" rel="stylesheet">
-
->>>>>>> 8e21d15acd5f16cfa45add7d49197b1e81c4b8ef
 </head>
 
 <body id="page-top">
