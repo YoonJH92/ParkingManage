@@ -21,9 +21,9 @@ public class PmsLogDao {
 	public static PmsLogDao getInstance() {
 		if (instance == null) {
 			instance = new PmsLogDao();
-}
-	return instance;		
-}
+		}
+		return instance;		
+	}
 	private DBConnectionMgr pool;	
 	private static final String ENCTYPE="utf-8";
 	private int sizeLimit =300*200*15;
@@ -139,20 +139,5 @@ public class PmsLogDao {
 		}
 	}
 
-    
+	
 }
-	
-
-
-		
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	
-

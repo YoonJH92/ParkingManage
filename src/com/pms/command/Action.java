@@ -13,7 +13,7 @@ public class Action {
 	private HashMap<String, Command> map = new HashMap<String, Command>();
 	
 	private Action() {
-		// ÆäÀÌÁö Ãß°¡½Ã ¸¶´Ù Ãß°¡¹Ù¶÷
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ù¶ï¿½
 		map.put("/stat/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
       	map.put("/loglist",new LogListCommand());		
@@ -21,6 +21,9 @@ public class Action {
       	map.put("/loglist",new LogListCommand());
       	map.put("/imgupdate",new LoglmgModifyAction());
       	map.put("/index",new IndexCommand());
+
+      	map.put("/member",new MemberManageCommand());
+      	map.put("/memberInsert",new MemberInsertCommand());
 	}
 	
 	public Command getAction(String command) {
