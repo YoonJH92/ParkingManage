@@ -155,7 +155,7 @@ public class PmsLogDao {
 
 		try {
 			con=pool.getConnection();	
-			sql="select count(cnum), count(month_num), count(case when month_num IS NULL then 1 end) from pms_log";
+			sql=" select count(cnum), count(month_num),count(case when month_num IS NULL then 1 end) from pms_log where out_time is Null ";
 			pstmt = con.prepareStatement(sql);
 			rs=pstmt.executeQuery(sql);
 			if(rs.next()) {
