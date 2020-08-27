@@ -153,6 +153,7 @@ public class PmsLogDao {
 		try {
 			con = pool.getConnection();	
 			sql="select * from pms_setting";
+
 		    sql ="select * from pms_log where month_num is null ";
 			pstmt=con.prepareStatement(sql);
 			rs=pstmt.executeQuery(sql);
@@ -189,5 +190,4 @@ public class PmsLogDao {
         return currentpay ;
 
 	}	
-    
 }
