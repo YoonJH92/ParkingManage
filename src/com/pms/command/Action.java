@@ -20,11 +20,9 @@ public class Action {
       	map.put("/stat/test",new TestCommand());	
       	map.put("/loglist",new LogListCommand());
       	map.put("/imgupdate",new LoglmgModifyAction());
-<<<<<<< HEAD
-=======
       	map.put("/index",new IndexCommand());
-      	
->>>>>>> ju
+      	map.put("/member",new MemberManageCommand());
+      	map.put("/memberInsert",new MemberInsertCommand());
 	}
 	
 	public Command getAction(String command) {

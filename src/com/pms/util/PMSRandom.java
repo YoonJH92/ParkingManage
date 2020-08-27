@@ -113,7 +113,6 @@ public class PMSRandom {
 		for(int i = 0; i < CNUM.size() ; i++) {
 			rand_time_arr = new ArrayList<Long>();
 			for(int j = 0; j < count ; j++) {
-				
 				rand_diff = (long)(Math.random() * diff);
 				long rand_st = stime.getTime() + rand_diff;
 				rand_time_arr.add(rand_st);
@@ -123,19 +122,29 @@ public class PMSRandom {
 		}
 		
 		Set<String> keys = map.keySet();
-		String in  = null;
+		String in = null;
 		String out = null;
+		long st = 0;
+		long gt = 0;
 		for (String key : keys) {
 		  for(int i = 0; i < map.get(key).size(); i++) {
 			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+			  
+			  gt = map.get(key).get(i);
+			  
+			  if(gt > st && i > 0) {
+				  continue;
+			  }
+			  
 			  rand_diff = (long)(Math.random() * 86400000) + 43200000;
-			  long st = map.get(key).get(i) + rand_diff;			  
+			  st = gt + rand_diff;			  
 			  
 			  in = format.format(new Date(map.get(key).get(i)));
-			  
+
 			  if(i < map.get(key).size()-1) { // 인덱스 개수 맞추기
 				  out = format.format(new Date(st));
+			  }else {
+				  out = null;
 			  }
 			  RandomInsert randomInsert = new RandomInsert();
 			  randomInsert.randomLogAdd(key,in,out);
@@ -146,7 +155,7 @@ public class PMSRandom {
 	public static void main(String[] args) {
 		PMSRandom random = new PMSRandom();
 		ArrayList<String> ran = random.CNUM_RAND(1); //차량번호 생성
-		random.TIME_SETTING2(ran, 50);
+		random.TIME_SETTING2(ran, 20);
 		System.out.println("완료");
 	}
 

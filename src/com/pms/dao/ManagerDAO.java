@@ -1,7 +1,4 @@
 package com.pms.dao;
-
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,10 +9,6 @@ import com.pms.dto.SettingDTO;
 import com.pms.util.DBConnectionMgr;
 
 
-
-
-
-
 public class ManagerDAO {
 	
 	private static ManagerDAO instance;
@@ -23,7 +16,7 @@ public class ManagerDAO {
 		if (instance == null) {
 			instance = new ManagerDAO();
 	}
-	return instance;
+		return instance;
 	}
 	
 		
