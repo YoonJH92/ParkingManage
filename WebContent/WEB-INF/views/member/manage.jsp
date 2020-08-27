@@ -96,27 +96,27 @@
 		
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="name"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">차량 번호</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="CNUM"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="CNUM" name="CNUM"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">시작 시간</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="startDate"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="startDate" name="startDate"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">이메일</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="email"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="email" name="email"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">Phone</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="phone"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="phone" name="phone"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">구 분</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="type"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="type" name="type"></div>
 			</div>
        </div>
        <div class="modal-footer">
