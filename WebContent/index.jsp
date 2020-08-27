@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- header -->
-<%@ include file="/WEB-INF/views/include/header.jsp" %> 
-<!-- footer -->
-<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-
-<main>
-<!--이 안에서 사용해주세요 -->
-</main>
+<%
+	response.sendRedirect("index.do");
+%>

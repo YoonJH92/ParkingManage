@@ -18,13 +18,6 @@ public  class LogListCommand implements Command {
 		 PmsLogDao dao=PmsLogDao.getInstance(); 
 		 ArrayList<PmsDto> arr=dao.viewList();
 		 request.setAttribute("list", arr);
-		/*
-		 * RequestDispatcher rd=request.getRequestDispatcher("list.jsp");
-		 * rd.forward(request, response);
-		 */
-		return "list";
+	     return "list";		
 	}
-	
-	
-
 }

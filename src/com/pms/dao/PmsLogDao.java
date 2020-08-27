@@ -1,5 +1,4 @@
 package com.pms.dao;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,15 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Vector;
-
 import javax.servlet.http.HttpServletRequest;
-
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pms.dto.PmsDto;
 import com.pms.util.DBConnectionMgr;
-
-
 
 public class PmsLogDao {	
 	private static PmsLogDao instance;
@@ -24,18 +19,15 @@ public class PmsLogDao {
 		if (instance == null) {
 			instance = new PmsLogDao();
 }
-	return instance;
-		
+	return instance;		
 }
 	private DBConnectionMgr pool;	
-	private static final String SAVEFOLDER="/img";
 	private static final String ENCTYPE="utf-8";
 	private int sizeLimit =300*200*15;
 
 	public PmsLogDao() {
 		pool = DBConnectionMgr.getInstance();
 	}
-//	�ǽð� ��Ȳ ��ȸ 
 	public ArrayList<PmsDto> viewList(){
     	Connection con = null;
     	Statement st= null;
@@ -44,7 +36,7 @@ public class PmsLogDao {
   
     	try {
 			con = pool.getConnection();			
-			String sql = " select * from pms_log ";
+			String sql = " select * from pms_log where out_time is null ";
 			st= con.createStatement();
 			rs = st.executeQuery(sql);
 			while(rs.next()) {
@@ -68,59 +60,87 @@ public class PmsLogDao {
 			
 		}
     	return arr;
-    }
-	
-//	���� �̹��� ���� 
-	public int imgUpdate(HttpServletRequest req) {
-		Connection con=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		String sql="";
-		int result=0;
+    }	
+	public void imgUpdate(HttpServletRequest req) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		String savepath = req.getServletContext().getRealPath("/img/");
+		//실제파일 경로 경로 
+		int maxSize= 1024 * 1024 * 50;//파일크기 제한
+		String encoding ="utf-8";
+		System.out.println(savepath);
+
 		try {
-			con=pool.getConnection();
-			MultipartRequest multi=new MultipartRequest(req, SAVEFOLDER,sizeLimit, ENCTYPE,
-					new DefaultFileRenamePolicy());//�ߺ����ϸ� ���ϱ� ���ؼ� new~
-			String filename=null;
-			if(multi.getFilesystemName("fileName")!=null){
-				filename=multi.getFilesystemName("fileName");
-			}
-			sql=" update pms_log set pmslog =? where idx = ? ";
-			ps=con.prepareStatement(sql);
-			if(rs.next()) {
-			ps.setString(1, multi.getParameter("fileName"));
-			ps.setInt(2, Integer.parseInt(multi.getParameter("idx")));
-			ps.executeQuery();
-			result=1;
-			}
-			
-		} catch (Exception e) {
+			con = pool.getConnection();
+		
+			MultipartRequest multi=new MultipartRequest(req, savepath,maxSize,encoding,new DefaultFileRenamePolicy());
+			Enumeration fileNames=multi.getFileNames();
+			//DefaultFileRenamePolicy() -> 중복파일명을 위한 매개변수
+			boolean save=true; //파일 저장 성공
+        	String fileInput="";//폼으로 받아온 filename
+        	String fileName="";//저장된 파일 이름 
+        	String originFileName="";//원본 파일 이름 
+        	String type="";//저장된 파일 종류 
+        	File fileobj=null;//저장된 파일 객체
+        	String fileExtend = ""; //jpg,png,gif 등 확장자
+            String fileSize = ""; //저장된 파일 사이즈
+            String newFileName="pms_"+System.currentTimeMillis()+fileName;//저장된 파일을  바꿀 이름
+            System.out.println("newFileName"+newFileName);
+            File Folder = new File(savepath);
+            // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+            if (!Folder.exists()) {
+            	try{
+            		Folder.mkdir(); //폴더 생성합니다.
+            		System.out.println("폴더가 생성되었습니다.");
+            	} 
+            	catch(Exception e){
+            		e.getStackTrace();
+            	}        
+            }else {
+            	System.out.println("이미 폴더가 생성되어 있습니다.");
+            }   
+            while(fileNames.hasMoreElements()){ //있으면
+            	fileInput=(String)fileNames.nextElement();//폼에서 받아온 요소 
+            	 fileName = multi.getFilesystemName(fileInput);
+                 if(fileName != null){
+                     type = multi.getContentType(fileInput);
+                     fileobj = multi.getFile(fileInput);
+                     originFileName = multi.getOriginalFileName(fileInput);
+                     fileExtend = fileName.substring(fileName.lastIndexOf(".")+1);//"file1.jpg"라면 jpg 반환
+                     fileSize = String.valueOf(fileobj.length());//file도 결국 문자열이므로 length()로 반환
+                     String[] splitType = type.split("/");
+                     if(!splitType[0].equals("image")){
+                         save=false;
+                         fileobj.delete(); //저장된 파일 객체로 삭제
+                         break;
+                     }else{//만약 이미지 파일이면 저장 파일의 이름 바꾼다.
+                         newFileName += "."+fileExtend;
+                         fileobj.renameTo(new File(savepath+"\\"+newFileName));
+                     }
+                 }
+             }
+            if(save) {
+			sql=" update pms_log set c_img = ? where idx = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, newFileName);
+			pstmt.setString(2, multi.getParameter("idx"));
+			pstmt.executeUpdate();
+            }
+		}
+		
+            catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
 		}
-		finally {
-			pool.freeConnection(con, ps);
-		}
-		
-		return result;
-}
-	
-//	�̹��� ��� 
-	
-	
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-	
-	
-	
-	
+}
 	
 	
 	
 
+
+		
+		
+	
