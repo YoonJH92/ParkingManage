@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +20,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
+   <script src="resources/jquery-3.5.1.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
   <link href="resources/jquery.datetimepicker.css" rel="stylesheet">
 </head>
@@ -49,12 +51,9 @@
            <i class="fas fa-fw fa-tachometer-alt"></i>
           <span></span></a>
       </li>
-
- 
-      
-      
+    
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="loglist.do">
     <i class="far fa-clock"></i>
           <span>실시간 주차 현황</span>
         </a>
@@ -62,22 +61,18 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="detail.do">
           <i class="fas fa-car"></i>
           <span>차량조회</span>
         </a>
       </li>
-      
-      
+           
       <li class="nav-item">
         <a class="nav-link" href="#">
        <i class="far fa-calendar-check"></i>
           <span>월정액 회원관리</span>
         </a>
       </li>
-
-    
-
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">

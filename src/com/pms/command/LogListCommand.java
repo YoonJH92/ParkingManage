@@ -1,6 +1,8 @@
 package com.pms.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,9 @@ public  class LogListCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 PmsLogDao dao=PmsLogDao.getInstance(); 
 		 ArrayList<PmsDto> arr=dao.viewList();
+		 HashMap<String, Integer> result=dao.logTotalResult();
 		 request.setAttribute("list", arr);
+		 request.setAttribute("total", result);
 	     return "list";		
 	}
 }

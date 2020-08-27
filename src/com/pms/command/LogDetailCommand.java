@@ -9,7 +9,7 @@ public class LogDetailCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
-		return "logdetails";
+		return "list/logdetails";
 	}
 
 }

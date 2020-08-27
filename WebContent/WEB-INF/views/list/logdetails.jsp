@@ -1,20 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/include/header1.jsp" %> 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">차량 조회</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    <%@ include file="/WEB-INF/views/include/header1.jsp" %> 
+ <div class="container-fluid">
+	  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">차량조회</h1>          
           </div>
 
-          <!-- Content Row -->
-          <div class="row">
+   <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-12 col-md-12 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">조회</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    
+                      <form action="logdetail.do" method="post" >
+                      	기간  : <input type="text" id="FDate" name="FDate" size=17 maxlength=17> ~ <input type="text" id="LDate"  name="LDate" size=17 maxlength=17> 
+                      	  차량번호 <input type="text" name="cnum" size=10 maxlength=8>
+                      	  <input type="submit" value="검색">
+                      
+                      </form>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+</div>
+
+
+     
+
+
       
-
             <!-- Pending Requests Card Example -->
           
 
@@ -45,14 +79,25 @@
   </thead>
   <tbody>
     
-	
-      
+	<c:forEach var="arr" items="${list}">
+<tr>
+      <th scope="row">${arr.idx}</th>
+	<td>${arr.cnum}</td>
+	<td>${arr.inTime}</td>  	
+<%--     <td>${arr.pay}</td> 
+ --%> 	
+ 	<td></td>
+    <td>${arr.cpNum}</td>
+   <td>${arr.monthNum}</td>
+   <td></td>
+  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+</tr>	
+	</c:forEach> 
   
   </tbody>
 </table>
-                 
-              
-                </div>
+                       
+               </div>
               </div>
 
               <!-- Approach -->
@@ -68,25 +113,31 @@
 
             </div>
           </div>
-
         </div>
         <!-- /.container-fluid -->
-
       </div>
-      <!-- End of Main Content -->
+
+
+
+
+
+
+
+<%@ include file="/WEB-INF/views/include/footer1.jsp" %> 
+
+<script type="text/javascript">
+
+$(function() {
   
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
- <%@ include file="/WEB-INF/views/include/footer1.jsp" %> 
+	    $("#FDate").datetimepicker(
+	    		
+	    
+	    
+	    );
+	    $("#LDate").datetimepicker();
+
+
+	});
+
+	</script>

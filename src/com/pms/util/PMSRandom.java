@@ -16,14 +16,14 @@ import java.util.Set;
 
 import com.pms.dao.RandomInsert;
 
-/*ÁÖÂ÷Á¤º¸ ÀÚµ¿ »ı¼º*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½*/
 public class PMSRandom {
-	// Â÷·®¹øÈ£ ÀÚµ¿ »ı¼º
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
 	public ArrayList<String> CNUM_RAND(int count) {
 		
 		Random rand = new Random();
 		StringBuffer NUM = new StringBuffer();
-		String[] lang = {"°¡","³ª","´Ù","¶ó","¸¶","¹Ù","»ç","¾Æ","ÀÚ","Â÷"};
+		String[] lang = {"ê°€","ë‚˜","ë‹¤","ë¼","ë§ˆ","ë°”","ì‚¬","ì•„","ì","ì°¨"};
 		ArrayList<String> CNUM = new ArrayList<String>();
 		
 		for(int i = 0 ; i < count; i++) {
@@ -41,13 +41,13 @@ public class PMSRandom {
 		}
 		return CNUM;
 	}
-	//Â÷·®¹øÈ£ ½Ã°£ ¼³Á¤
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void TIME_SETTING(ArrayList<String> CNUM , int count) {
 		Random rand = new Random();
 		
 		String startDate = "20205-1 00:00:00";
 		String endDate = "2020-8-21 00:00:00";
-		//Å¸ÀÓ½ºÅÆÇÁÇü½ÄÀ¸·Î º¯È¯
+		//Å¸ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 		Timestamp stime = Timestamp.valueOf(startDate); 
 		Timestamp etime = Timestamp.valueOf(endDate);
 		
@@ -79,7 +79,7 @@ public class PMSRandom {
 				String out = null;
 			  if(i % 2 == 0) {
 				  in = format.format(new Date(map.get(key).get(i)));
-				  if(i < map.get(key).size() - 1) { // ÀÎµ¦½º °³¼ö ¸ÂÃß±â
+				  if(i < map.get(key).size() - 1) { // ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß±ï¿½
 					  out = format.format(new Date(map.get(key).get(i+1)));
 				  }
 				  if(out != null) {
@@ -93,13 +93,13 @@ public class PMSRandom {
 		}
 	}
 	
-	//Â÷·®¹øÈ£ ½Ã°£ ¼³Á¤
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void TIME_SETTING2(ArrayList<String> CNUM , int count) {
 		Random rand = new Random();
 		
 		String startDate = "2020-5-1 00:00:00";
 		String endDate = "2020-8-21 00:00:00";
-		//Å¸ÀÓ½ºÅÆÇÁÇü½ÄÀ¸·Î º¯È¯
+		//Å¸ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 		Timestamp stime = Timestamp.valueOf(startDate); 
 		Timestamp etime = Timestamp.valueOf(endDate);
 		
@@ -141,7 +141,7 @@ public class PMSRandom {
 			  
 			  in = format.format(new Date(map.get(key).get(i)));
 
-			  if(i < map.get(key).size()-1) { // ÀÎµ¦½º °³¼ö ¸ÂÃß±â
+			  if(i < map.get(key).size()-1) { // ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß±ï¿½
 				  out = format.format(new Date(st));
 			  }else {
 				  out = null;
@@ -154,9 +154,9 @@ public class PMSRandom {
 	
 	public static void main(String[] args) {
 		PMSRandom random = new PMSRandom();
-		ArrayList<String> ran = random.CNUM_RAND(1); //Â÷·®¹øÈ£ »ı¼º
+		ArrayList<String> ran = random.CNUM_RAND(1); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 		random.TIME_SETTING2(ran, 20);
-		System.out.println("¿Ï·á");
+		System.out.println("ï¿½Ï·ï¿½");
 	}
 
 }
