@@ -13,7 +13,7 @@
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 	<main>
 		<div class="container">
-				<h1 class="mb-3">쿠폰 할인권 생성</h1>
+				<h1 class="mb-3">쿠폰 할인권 조회</h1>
 				<div class="card my-3">
 					<div>쿠폰 할인권 선택</div>
 					<div class="row">
@@ -24,12 +24,12 @@
 						</div>
 					</div>
 				</div>
-		<div id="toggle1">
-			<%@ include file="scoupon.jsp"%>
-		</div>
-		<div id="toggle2">
-			<%@ include file="discount.jsp"%>
-		</div>
+			<div id="toggle1">
+				<%@ include file="scoupon.jsp"%>
+			</div>
+			<div id="toggle2">
+				<%@ include file="sdiscount.jsp"%>
+			</div>
 		</div>
 	</main>
 	<!-- footer -->
@@ -43,7 +43,7 @@
 			if ($('input:radio[value="쿠폰"]').is(':checked')) {
 				$("#toggle1").show();
 				$("#toggle2").hide();
-			} else {
+			} else{
 				$("#toggle1").hide();
 				$("#toggle2").show();
 			}

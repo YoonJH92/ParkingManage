@@ -26,8 +26,7 @@ public class PmsC_D_Dao {
 		pool = DBConnectionMgr.getInstance();
 	}
 //---------------------------------------------------------
-	
-	
+
 	public void NewCoupon(PmsCouponDto coupon) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -48,13 +47,12 @@ public class PmsC_D_Dao {
 			pool.freeConnection(con, pstmt);
 		}
 	}
-	
-	
+
 	public void NewDiscount(PmsDiscountDto discount) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
-		
+
 		try {
 			con = pool.getConnection();
 			sql = "insert into PMS_DISCOUNT_MANAGE(COM_NUM,COMPANY,PURPOSE,USE_TIME) values(DISCOUNT_MANAGE_SEQ.nextval,?,?,?)";
@@ -69,22 +67,28 @@ public class PmsC_D_Dao {
 			pool.freeConnection(con, pstmt);
 		}
 	}
-	
-	public ArrayList<PmsCouponDto> SearchCoupon(String condition, String value) {
+
+	public ArrayList<PmsCouponDto> SearchCoupon(String condition, String value, int align) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		ArrayList<PmsCouponDto> arr = new ArrayList<PmsCouponDto>();
+		
 		try {
 			con = pool.getConnection();
-			sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"'";
+			if(value.isEmpty()) {
+				sql= "select * from PMS_COUPON where rownum <="+align+"ORDER BY CPNUM ASC";
+			}
+			else {
+				sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"' ORDER BY CPNUM ASC";
+			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			rs =pstmt.executeQuery();
-			System.out.println(rs.next());
 			while(rs.next()) {
 				PmsCouponDto dto = new PmsCouponDto(); 
+				dto.setCPNUM(rs.getInt("cpnum"));
 				dto.setCPNAME(rs.getString("cpname"));
 				dto.setUSE_DATE(rs.getInt("use_date"));
 				dto.setPURPOSE(rs.getString("purpose"));

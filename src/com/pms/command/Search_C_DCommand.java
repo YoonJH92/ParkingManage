@@ -16,7 +16,7 @@ public class Search_C_DCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    return "/coupon/search_cp_dc_Proc";
+	    return "coupon/search_cp_dc_Proc";
 	}
 
 }
