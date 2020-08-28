@@ -16,7 +16,6 @@ public class Action {
 		// ������ �߰��� ���� �߰��ٶ�
 		map.put("/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
-      	map.put("/loglist",new LogListCommand());		
       	map.put("/stat/test",new TestCommand());	
       	map.put("/loglist",new LogListCommand());
       	map.put("/imgupdate",new LoglmgModifyAction());
@@ -24,6 +23,12 @@ public class Action {
       	map.put("/logdetail",new LogDetailCommand());
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
+      	map.put("/loglist",new LogListCommand());
+      	map.put("/coupon/new_cp_dc",new CDCommand());
+      	map.put("/coupon/addc_d",new AddC_DCommand());
+      	map.put("/coupon/search_cp_dc",new CDCommand2());  	
+      	map.put("/coupon/search_C_D",new Search_C_DCommand());  	
+
 	}
 	
 	public Command getAction(String command) {
