@@ -27,7 +27,13 @@ public class Action {
       	map.put("/coupon/new_cp_dc",new CDCommand());
       	map.put("/coupon/addc_d",new AddC_DCommand());
       	map.put("/coupon/search_cp_dc",new CDCommand2());  	
-      	map.put("/coupon/search_C_D",new Search_C_DCommand());  	
+      	map.put("/coupon/search_C_D",new Search_C_DCommand());  
+      	
+      	map.put("/login/login",new LoginCommand());
+      	map.put("/login/join",new JoinCommand());
+      	map.put("/login/searchId",new SearchIdCommand());
+      	map.put("/login/searchPass",new SearchPassCommand());
+      	map.put("/login/setting",new SettingCommand());
 
 	}
 	

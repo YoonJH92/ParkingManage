@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,10 +57,11 @@
     <link href="../resources/floating-labels.css" rel="stylesheet">
   </head>
   <body>
+  <c:if test="${passsearch == null }">
   <div class="container" id="contain"  >
   <div class="jumbotron "  style="width: 50%"   >
   
-  	<form action="searchPassProc.jsp" method="post" class="form-signin" name="login">
+  	<form action="SearchPass.do" method="post" class="form-signin" name="login">
 	  <div class="text-center mb-4">
     
 	    <h1 class="h3 mb-3 font-weight-normal">Password찾기</h1>
@@ -96,18 +98,32 @@
         <button type="button" class="btn btn-primary btn-lg" onclick = "location.href = 'login.jsp' " >취소</button>
       </div>
 
-	 
-	  
-  
-  
-  
-   
-  
-   
-  
+	
 	</form>
 	
 	</div>
 	</div>
+	</c:if>
+	<c:set var="gggg" value="없음"/>
+	<c:if test="${passsearch==gggg}">
+		<script type="text/javascript">
+		alert("찾으시는 계정의 정보가 일치하지 않습니다");
+		history.go(-1);
+		</script>
+	</c:if>
+	
+	<c:if test="${passsearch != null }">
+		<h2>찾으시는 비밀번호는 ${passsearch } 입니다.</h2>
+		<button type="button" class="btn btn-primary btn-lg" onclick = "location.href = 'login.jsp' " >돌아가기</button>
+	</c:if>
+	
+	
+	
 </body>
 </html>
+
+
+
+
+
+
