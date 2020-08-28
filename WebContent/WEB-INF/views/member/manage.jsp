@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/include/header1.jsp" %> 
+<%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <style>
 .fr{float:right!important;}
 .py10{padding: 10px 0;}
@@ -127,7 +127,7 @@
    </div>
    </form>
  </div>
- <%@ include file="/WEB-INF/views/include/footer1.jsp" %> 
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %> 
    <script type="text/javascript">
       $(function () {
           $('#startDate').datetimepicker();

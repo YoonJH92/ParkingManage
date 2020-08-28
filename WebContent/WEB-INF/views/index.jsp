@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/include/header1.jsp" %> 
+<%@ include file="/WEB-INF/views/include/header.jsp" %> 
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -231,4 +231,4 @@
 
       </div>
       <!-- End of Main Content -->
- <%@ include file="/WEB-INF/views/include/footer1.jsp" %> 
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

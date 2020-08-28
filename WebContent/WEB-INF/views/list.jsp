@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="/WEB-INF/views/include/header1.jsp" %> 
+<%@ include file="/WEB-INF/views/include/header.jsp" %> 
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
@@ -207,4 +207,4 @@
       
       
       
- <%@ include file="/WEB-INF/views/include/footer1.jsp" %> 
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %> 
