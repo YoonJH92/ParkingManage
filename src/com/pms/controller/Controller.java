@@ -15,39 +15,36 @@ import com.pms.command.Command;
 @WebServlet(urlPatterns = "*.do",loadOnStartup = 1)
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
     public Controller() {
         super();
     }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String getCommand = getCommand(request); // Å°¿öµå ÃßÃâ ex) /stat/daily
-		Command command = null; // ÀÎÅÍÆäÀÌ½º È°¿ë
-		String strView = null; // ¸®ÅÏÇÒ¶§ »ç¿ë
-		
-		Action action =  Action.getInstance(); // ½Ì±ÛÅæ ÆÐÅÏÀ¸·Î »ý¼º , »ý¼ºÀÚ¿¡ map ÀúÀå
-		command = action.getAction(getCommand); // key°ªÀ» º¸³»Áà¼­ map Ã¼Å©
+		String getCommand = getCommand(request); // Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ex) /stat/daily
+		Command command = null; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ È°ï¿½ï¿½
+		String strView = null; // ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½ï¿½ï¿½	
+		Action action =  Action.getInstance(); // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ , ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ map ï¿½ï¿½ï¿½ï¿½
+		command = action.getAction(getCommand); // keyï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½à¼­ map Ã¼Å©
 
-		// command °´Ã¼°¡ ÀÖÀ¸¸é ½ÇÇà
+		// command ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		try {
 			strView = command.execute(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		if(strView == null) { //¾øÀ¸¸é ¸®ÅÏ
+		if(strView == null) { //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			return;
 		}
-
-		//ÆäÀÌÁö Àü¼Û
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(strView.startsWith("redirect:")) {
-			// ¸®´ÙÀÌ·ºÆ® ÀÌµ¿
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ® ï¿½Ìµï¿½
 			String redirectPath = strView.substring("redirect:".length());
 			response.sendRedirect(redirectPath); 
 		} else {
-			// °ªÆ÷ÇÔ ÆäÀÌÁö ÀÌµ¿
-			String prefix = "/WEB-INF/views/";
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+			System.out.println(strView);
+			String prefix = "";
 			String suffix = ".jsp";
 			String jspPath = prefix + strView + suffix;
 			RequestDispatcher dispatcher = request.getRequestDispatcher(jspPath);
@@ -60,7 +57,7 @@ public class Controller extends HttpServlet {
 		doGet(request, response);
 	}
 
-	//url °ª ÃßÃâ
+	//url ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private String getCommand(HttpServletRequest request) {
 		String RequestURI = request.getRequestURI();
 		String ContextPath = request.getContextPath();

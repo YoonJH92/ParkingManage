@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,10 +57,14 @@
     <link href="../resources/floating-labels.css" rel="stylesheet">
   </head>
  <body>
+ 
+ <c:if test="${re==null }">
+ 
+ 
   <div class="container" id="contain"  >
   <div class="jumbotron "  style="width: 60%"  >
     <center><h1>회원가입</h1></center>
-    <form action="joinProc.jsp" method="post">
+    <form action="Join.do" method="post">
 
     <div class="mb-3">
         <label for="address">Name</label>
@@ -102,5 +107,23 @@
     </form>
 	</div>
 	</div>
+	</c:if>
+	
+	<c:if test="${re==-1 }">
+		<script type="text/javascript">
+			alert("회원가입이 완료되었습니다");
+			document.location.href="login.jsp";
+		</script>
+	</c:if>
+	
+	<c:if test="${re==1 }">
+		<script type="text/javascript">
+			alert("비밀번호가 일치하지 않습니다");
+			history.go(-1);
+		</script>
+	</c:if>
+	
+	
+	
 </body>
 </html>

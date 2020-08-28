@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+<<<<<<< HEAD
+encoding//src/com/pms/dao/PmsLogDao.java=UTF-8
+=======
+encoding//WebContent/WEB-INF/views/empty.jsp=UTF-8
+>>>>>>> a4e7676930f1affc89e0aef9558914f95174a85e
