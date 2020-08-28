@@ -17,19 +17,19 @@ public class MemberInsertCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Calendar cal = Calendar.getInstance(); // stopDate »ç¿ëÇÏ±â À§ÇØ¼­ ¸¸µë
-		String startDate = request.getParameter("startDate"); // startDate ÆÄ¶ó¹ÌÅÍ°ª ÀúÀå
+		Calendar cal = Calendar.getInstance(); // stopDate ì‚¬ìš©
+		String startDate = request.getParameter("startDate"); // startDate ì‚¬ìš©
  		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-		Date toDate = format.parse(startDate); // date Çü½ÄÀ¸·Î º¯È¯ 
+		Date toDate = format.parse(startDate); // date 
 		cal.setTime(toDate); 
 		cal.add(Calendar.MONTH, 1);	 
-		String stopDate = format.format(cal.getTime()); // String Å¸ÀÔÀ¸·Î 1´Ş ÈÄ µ¥ÀÌÅÍ ÀúÀå
+		String stopDate = format.format(cal.getTime()); // String ìœ¼ë¡œ ë°˜í™˜
 		
-		// ¼³Á¤¿¡¼­ ¿ùÁ¤¾× ¿ä±İ °¡Á®¿À±â À§ÇØ¼­ »ç¿ë
+		//ì£¼ì°¨ì¥ ì„¸íŒ… 
 		SettingDAO setDao = SettingDAO.getInstance();
 		SettingDTO set = setDao.settItem();
 		
-		// ÆÄ¶ó¹ÌÅÍ ÀúÀå
+		// ê°ì²´ ìƒì„± í›„ ê°’ ì €ì¥
 		memberManageDTO mem = new memberManageDTO();
 		mem.setEmail(request.getParameter("email"));
 		mem.setCNUM(request.getParameter("CNUM"));

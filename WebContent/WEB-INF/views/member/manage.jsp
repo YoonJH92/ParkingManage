@@ -9,6 +9,29 @@
 .al-center{align-items: center;}
 .text-right{text-align: right;}
 .text-center{text-align: center;}
+.form-control1{
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6e707e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d1d3e2;
+    border-radius: .35rem;
+    transition: border-color .15s
+}
+
+.form-control1:focus {
+	color: #6e707e;
+	background-color: #fff;
+	border-color: #bac8f3;
+	outline: 0;
+	box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25)
+}
+
+.mb4{margin-bottom: 4px;}
 </style>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -19,9 +42,32 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm fr" data-toggle="modal" data-target="#AddModal">
-      	<i class="fas fa-user-plus fa-sm text-white-50"></i> 추가하기
-      </a>
+      <div class="py10">
+     	<span>날짜 검색</span>
+     	<select name="dateSearch" id="dateSearch" class="form-control1">
+       		<option>등록 기간</option>
+       		<option>시작 시간</option>
+       		<option>종료 시간</option>
+       	</select>
+      	<input type="text" class="form-control1" id= name="">
+      </div>
+      <div>
+      	<div>
+      	
+      	</div>
+        <span>조건 검색</span>
+        <select name="search" id="search" class="form-control1">
+       		<option>이름</option>
+       		<option>차량 번호</option>
+       	</select>
+      	<input type="text" class="form-control1" id= name="">
+      	<a href="#" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
+	      	<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
+      	</a>
+	    <a href="#" class="d-none d-sm-inline-block btn btn-primary shadow-sm fr" data-toggle="modal" data-target="#AddModal">
+	      	<i class="fas fa-user-plus fa-sm text-white-50"></i> 추가하기
+      	</a>
+      </div>
     </div>
     <div class="card-body">
       <div class="table-responsive text-center">
@@ -34,7 +80,6 @@
               <th>시작 시간</th>
               <th>종료 시간</th>
               <th>사용 금액(원)</th>
-
             </tr>
           </thead>
           <tbody>
