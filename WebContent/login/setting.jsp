@@ -37,9 +37,8 @@ body {
 <link href="../resources/floating-labels.css" rel="stylesheet">
 </head>
 <body>
-	<main>
-		<!-- header -->
-<%@ include file="/WEB-INF/views/include/header.jsp" %> 
+	
+
 	
 
 
@@ -110,8 +109,6 @@ body {
 	</div>
 
 
-<!-- footer -->
-<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-</main>
+
 </body>
 </html>

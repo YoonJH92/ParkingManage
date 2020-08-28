@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -57,7 +58,7 @@
   </head>
   <body>
   
-  	<%
+<%--   	<%
 		
 		Cookie[] cookies = request.getCookies();
 		String id="";
@@ -70,39 +71,43 @@
 				}
 			}
 		}
-	%>
+	%> --%>
   
   <div class="container" id="contain"  >
   <div class="jumbotron " id="jumbo"  style="width: 50%"   >
-    <form action="loginProc.jsp" class="form-signin" name="login" method="post">
+    <form action="login.do" class="form-signin" name="login" method="post">
   <div class="text-center mb-4">
     
     <h1 class="h3 mb-3 font-weight-normal">관리자 로그인</h1>
     <p>주차 관리 프로그램 입니다.</p>
     
   </div>
-<%
-	if(cookies == null){
-		%>
-		<div class="form-label-group">
-    <input  name="loginID" type="text" id="loginID" class="form-control"  required autofocus>
+  
+<%-- <c:set var="cid" value="${cookie.cookie.cid }"/>
+  <c:if test="${cid == null }">
+  	<div class="form-label-group">
+    <input  name="id" type="text" id="loginID" class="form-control"  required autofocus>
     <label for="loginID">ID</label>
-  </div>
-		<%
-	}else{
-		%>
-		<div class="form-label-group">
-    <input value="<%=id %>" name="loginID" type="text" id="loginID" class="form-control"  required autofocus>
+  	</div>
+  </c:if>
+  
+  <c:if test="${cid != null }">
+  	<div class="form-label-group">
+    <input value="${cid }" name="id" type="text" id="loginID" class="form-control"  required autofocus>
     <label for="loginID">ID</label>
-  </div>
-		<% 
-	}
-%>
+  	</div>
+  </c:if>  --%>
+  
+   <div class="form-label-group">
+    <input  name="id" type="text" id="loginID" class="form-control"  required autofocus>
+    <label for="loginID">ID</label>
+  	</div>
+ 
   
 
   <div class="form-label-group">
   
-    <input name="loginPassword" type="password" id="loginPassword" class="form-control"  required>
+    <input name="pass" type="password" id="loginPassword" class="form-control"  required>
     <label for="loginPassword">Password</label>
   </div>
 
@@ -122,5 +127,63 @@
 	</form>
 	</div>
 	</div>
+	
+	
+	<c:if test="${re == -1 }">
+		<script type="text/javascript">
+			alert("아이디가 존제하지 않습니다");
+			history.go(-1);
+		</script>
+	</c:if>
+	
+	<c:if test="${re == 0 }">
+		<script type="text/javascript">
+			alert("패스워드가 일치하지 않습니다");
+			history.go(-1);
+		</script>
+	</c:if>
+	
+	<c:if test="${re == 1 }">
+		<script type="text/javascript">
+			
+			document.location.href="join.jsp";
+		</script>
+	</c:if>
+	
+	
+<%-- 	<%
+	String s = (String)session.getAttribute("re");
+	int re = Integer.parseInt(s);
+	if(re == -1){
+		%>
+		<script type="text/javascript">
+			alert("아이디가 존제하지 않습니다");
+			history.go(-1);
+		</script>
+		<% 
+	}else if(re == 0){
+		%>
+		<script type="text/javascript">
+			alert("패스워드가 일치하지 않습니다");
+			history.go(-1);
+		</script>
+		<% 
+		
+		
+	}else if(re == 1){
+		
+		
+		%>
+		<script type="text/javascript">
+			
+			document.location.href="join.jsp";
+		</script>
+		
+		<% 
+	} --%>
+	
+
+%>
+	
 </body>
 </html>
