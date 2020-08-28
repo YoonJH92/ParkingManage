@@ -126,7 +126,6 @@ public class PmsLogDao {
 					} else {// 만약 이미지 파일이면 저장 파일의 이름 바꾼다.
 						newFileName += "." + fileExtend;
 						fileobj.renameTo(new File(savepath + "\\" + newFileName));
-
 					}
 				}
 			}
@@ -145,51 +144,57 @@ public class PmsLogDao {
 			pool.freeConnection(con, pstmt);
 		}
 	}
-// 
-	public HashMap<String, Integer> logTotalResult(){
+
+	public HashMap<String, Integer> logTotalResult() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
-		ResultSet rs=null;
-	    HashMap<String, Integer> result=new HashMap<String, Integer>();
-
+		ResultSet rs = null;
+		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		try {
-			con=pool.getConnection();	
-			sql=" select count(cnum), count(month_num),count(case when month_num IS NULL then 1 end) from pms_log where out_time is Null ";
+			con = pool.getConnection();
+			sql = " select count(cnum), count(month_num),count(case when month_num IS NULL then 1 end) from pms_log where out_time is Null ";
 			pstmt = con.prepareStatement(sql);
-			rs=pstmt.executeQuery(sql);
-			if(rs.next()) {
-				result.put("allCum",rs.getInt(1));
-				result.put("mNum",rs.getInt(2));
-				result.put("gNum",rs.getInt(3));
+			rs = pstmt.executeQuery(sql);
+			if (rs.next()) {
+				result.put("allCum", rs.getInt(1));
+				result.put("mNum", rs.getInt(2));
+				result.put("gNum", rs.getInt(3));
 
 			}
-			
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
-
 		}
-		
 		return result;
-			
-		
 	}
-	
 
-	public ArrayList<PmsDto> viewDetail(Date FTime, Date LTime, String cnum) {
+	public ArrayList<PmsDto> viewDetail(String FDate, String LDate, String cnum) {
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
 		ArrayList<PmsDto> arr = new ArrayList<PmsDto>();
-
+		String sql = "";
 		try {
 			con = pool.getConnection();
-			String sql = "select * from pms_log where in_time BETWEEN " + FTime + "AND" + LTime + "AND" + cnum
-					+ "out_time is Notnull";
+			/*
+			 * SimpleDateFormat fm = new SimpleDateFormat("yyyy/MM/dd HH:mm"); Date
+			 * Ftime=fm.parse(FDate); Date Ltime=fm.parse(LDate);
+			 */
+			if (cnum.equals("")) {
+				sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate+ "', 'YYYY/MM/DD HH24:MI:SS') AND "
+						+ "TO_DATE('" + LDate + "','YYYY/MM/DD HH24:MI:SS')";
+			} else if (FDate.equals("")) {
+				sql = "select * from pms_log  WHERE (cnum='"+cnum+"') and (out_time is not null)";
+			} else {
+				sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate+ "', 'YYYY/MM/DD HH24:MI:SS') AND "
+						+ "TO_DATE('" + LDate + "','YYYY/MM/DD HH24:MI:SS')"
+						+ "and (out_time is Not null)and (cnum='" + cnum + "')";
+
+			}
+
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
@@ -215,5 +220,4 @@ public class PmsLogDao {
 		return arr;
 	}
 
-	
 }

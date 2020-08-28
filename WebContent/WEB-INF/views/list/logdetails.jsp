@@ -1,39 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ include file="/WEB-INF/views/include/header.jsp" %> 
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
  <div class="container-fluid">
 	  <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">차량조회</h1>          
           </div>
-
    <div class="row">
-
             <div class="col-xl-12 col-md-12 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">조회</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">                  
                       <form action="logdetail.do" method="post" >
                       	기간  : <input type="text" id="FDate" name="FDate" size=17 maxlength=17> ~ <input type="text" id="LDate"  name="LDate" size=17 maxlength=17> 
                       	  차량번호 <input type="text" name="cnum" size=10 maxlength=8>
-                      	  <input type="submit" value="검색">
-                      
-                      </form>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      </div>
+                      	  <input type="submit" value="검색">                     
+                      </form>                                          
+                     </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i> 
@@ -79,7 +66,7 @@
   </thead>
   <tbody>
     
-	<c:forEach var="arr" items="${list}">
+	<c:forEach var="arr" items="${detail}">
 <tr>
       <th scope="row">${arr.idx}</th>
 	<td>${arr.cnum}</td>
@@ -131,8 +118,7 @@ $(function() {
   
 
 	    $("#FDate").datetimepicker(
-	    		
-	    
+	    		    
 	    
 	    );
 	    $("#LDate").datetimepicker();

@@ -62,7 +62,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="detail.do">
+        <a class="nav-link" href="logdetail.do">
           <i class="fas fa-car"></i>
           <span>차량조회</span>
         </a>
