@@ -1,6 +1,3 @@
-
-
-
 package com.pms.util;
 
 import java.sql.Time;
@@ -16,9 +13,7 @@ import java.util.Set;
 
 import com.pms.dao.RandomInsert;
 
-/*�������� �ڵ� ����*/
 public class PMSRandom {
-	// ������ȣ �ڵ� ����
 	public ArrayList<String> CNUM_RAND(int count) {
 		
 		Random rand = new Random();
@@ -41,65 +36,13 @@ public class PMSRandom {
 		}
 		return CNUM;
 	}
-	//������ȣ �ð� ����
-	public void TIME_SETTING(ArrayList<String> CNUM , int count) {
-		Random rand = new Random();
-		
-		String startDate = "20205-1 00:00:00";
-		String endDate = "2020-8-21 00:00:00";
-		//Ÿ�ӽ������������� ��ȯ
-		Timestamp stime = Timestamp.valueOf(startDate); 
-		Timestamp etime = Timestamp.valueOf(endDate);
-		
-		long rand_diff;
-		long diff = etime.getTime() - stime.getTime();
-		
-		HashMap<String, ArrayList<Long>> map = new HashMap<>();
-		
-		ArrayList<Long> rand_time_arr = null;
-		
-		for(int i = 0; i < CNUM.size() ; i++) {
-			rand_time_arr = new ArrayList<Long>();
-			for(int j = 0; j < count ; j++) {
-				
-				rand_diff = (long)(Math.random() * diff);
-				long rand_st = stime.getTime() + rand_diff;
-				rand_time_arr.add(rand_st);
-			}
-			Collections.sort(rand_time_arr);
-			map.put(CNUM.get(i), rand_time_arr);
-		}
-		
-		Set<String> keys = map.keySet();
-
-		for (String key : keys) {
-		  for(int i = 0; i < map.get(key).size(); i++) {
-			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String in = null;
-				String out = null;
-			  if(i % 2 == 0) {
-				  in = format.format(new Date(map.get(key).get(i)));
-				  if(i < map.get(key).size() - 1) { // �ε��� ���� ���߱�
-					  out = format.format(new Date(map.get(key).get(i+1)));
-				  }
-				  if(out != null) {
-					  System.out.println(map.get(key).get(i+1) - map.get(key).get(i));
-				  }
-				  
-				  RandomInsert randomInsert = new RandomInsert();
-				  randomInsert.randomLogAdd(key,in,out);
-			  }
-		  }
-		}
-	}
 	
-	//������ȣ �ð� ����
-	public void TIME_SETTING2(ArrayList<String> CNUM , int count) {
+
+	public void TIME_SETTING(ArrayList<String> CNUM , int count) {
 		Random rand = new Random();
 		
 		String startDate = "2020-5-1 00:00:00";
 		String endDate = "2020-8-21 00:00:00";
-		//Ÿ�ӽ������������� ��ȯ
 		Timestamp stime = Timestamp.valueOf(startDate); 
 		Timestamp etime = Timestamp.valueOf(endDate);
 		
@@ -141,7 +84,7 @@ public class PMSRandom {
 			  
 			  in = format.format(new Date(map.get(key).get(i)));
 
-			  if(i < map.get(key).size()-1) { // �ε��� ���� ���߱�
+			  if(i < map.get(key).size()-1) {
 				  out = format.format(new Date(st));
 			  }else {
 				  out = null;
@@ -154,9 +97,9 @@ public class PMSRandom {
 	
 	public static void main(String[] args) {
 		PMSRandom random = new PMSRandom();
-		ArrayList<String> ran = random.CNUM_RAND(1); //������ȣ ����
-		random.TIME_SETTING2(ran, 20);
-		System.out.println("�Ϸ�");
+		ArrayList<String> ran = random.CNUM_RAND(100); 
+		random.TIME_SETTING(ran, 80);
+		System.out.println("성공");
 	}
 
 }

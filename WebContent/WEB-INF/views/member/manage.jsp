@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <style>
 .fr{float:right!important;}
 .py10{padding: 10px 0;}
 .al-center{align-items: center;}
+.text-right{text-align: right;}
+.text-center{text-align: center;}
 </style>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -20,57 +24,30 @@
       </a>
     </div>
     <div class="card-body">
-      <div class="table-responsive">
+      <div class="table-responsive text-center">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>등록 순서</th>
-              <th>회원 이름</th>
               <th>등록 기간</th>
+              <th>회원 이름</th>
+              <th>차량 번호</th>
               <th>시작 시간</th>
               <th>종료 시간</th>
-              <th>사용 금액</th>
-              <th>차량 번호</th>
+              <th>사용 금액(원)</th>
+
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>$320,800</td>
-              <td>$320,800</td>
-            </tr>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>$320,800</td>
-              <td>$320,800</td>
-            </tr>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>$320,800</td>
-              <td>$320,800</td>
-            </tr>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>$320,800</td>
-              <td>$320,800</td>
-            </tr>
-
+          	<c:forEach var="list" items="${arr}">
+          		<tr>
+	              <td>${list.regDate}</td>
+	              <td>${list.name}</td>
+	              <td>${list.CNUM}</td>
+	              <td>${list.startDate}</td>
+	              <td>${list.stopDate}</td>
+	              <td class="text-right"><f:formatNumber type="number" maxFractionDigits="3" value="${list.pay}" /></td>
+	            </tr>
+          	</c:forEach>
           </tbody>
         </table>
       </div>
@@ -127,9 +104,9 @@
    </div>
    </form>
  </div>
- <%@ include file="/WEB-INF/views/include/footer.jsp" %> 
-   <script type="text/javascript">
+    <script type="text/javascript">
       $(function () {
           $('#startDate').datetimepicker();
       });
   </script> 	
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

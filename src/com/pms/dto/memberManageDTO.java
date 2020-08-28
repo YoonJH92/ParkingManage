@@ -5,9 +5,9 @@ import java.util.Date;
 public class memberManageDTO {
 	
 	private String name;
-	private Date regDate;
-	private Date startDate;
-	private Date stopDate;
+	private String regDate;
+	private String startDate;
+	private String stopDate;
 	private int pay;
 	private String CNUM;
 	private String email;
@@ -20,22 +20,22 @@ public class memberManageDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getStopDate() {
+	public String getStopDate() {
 		return stopDate;
 	}
-	public void setStopDate(Date stopDate) {
+	public void setStopDate(String stopDate) {
 		this.stopDate = stopDate;
 	}
 	public int getPay() {

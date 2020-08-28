@@ -60,7 +60,7 @@ public class SettingDAO {
 		SettingDTO temp = null;
 		try {
 			con = pool.getConnection();
-			String sql = "select * from pms_setting where idx=1";
+			String sql = "select * from pms_setting";
 
 			pstmt = con.prepareStatement(sql);
 

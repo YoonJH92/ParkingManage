@@ -14,7 +14,7 @@ public class Action {
 	
 	private Action() {
 		// ������ �߰��� ���� �߰��ٶ�
-		map.put("/stat/daily", new StatDailyCommand());
+		map.put("/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
       	map.put("/loglist",new LogListCommand());		
       	map.put("/stat/test",new TestCommand());	
