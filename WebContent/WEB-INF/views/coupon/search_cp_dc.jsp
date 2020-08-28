@@ -1,17 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<title>쿠폰 생성</title>
-</head>
-
-<body>
-	<!-- header -->
-	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<main>
+<%@ include file="/WEB-INF/views/include/header.jsp" %> 
 		<div class="container">
 				<h1 class="mb-3">쿠폰 할인권 조회</h1>
 				<div class="card my-3">
@@ -31,10 +20,6 @@
 				<%@ include file="sdiscount.jsp"%>
 			</div>
 		</div>
-	</main>
-	<!-- footer -->
-	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
-</body>
 <script>
 	$(function () {
 		$("#toggle2").hide();
@@ -50,5 +35,4 @@
 		});
 	});
 </script>
-
-</html>
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

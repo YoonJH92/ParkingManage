@@ -1,17 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<title>쿠폰 생성</title>
-</head>
-
-<body>
-	<!-- header -->
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-	<main>
+
 		<div class="container">
 			<form method="GET" action="addc_d.do">
 				<h1 class="mb-3">쿠폰 할인권 생성</h1>
@@ -31,10 +21,6 @@
 				<button class="btn -btn-lg btn-success">취소</button>
 			</form>
 		</div>
-	</main>
-	<!-- footer -->
-	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
-</body>
 <script>
 	$(function () {
 		$("#date").hide();
@@ -129,5 +115,4 @@
 		});
 	});
 </script>
-
-</html>
+<%@ include file="/WEB-INF/views/include/footer.jsp"%>

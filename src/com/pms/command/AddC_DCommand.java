@@ -9,7 +9,7 @@ import com.pms.dao.PmsC_D_Dao;
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
 
-public class AddC_DCommand implements Command {
+public class AddC_DCommand implements Command{
 
 	private String removeCommas(String x) {
 
@@ -19,7 +19,7 @@ public class AddC_DCommand implements Command {
 	private String choice(HttpServletRequest request, String val) {
 		String[] arr = request.getParameterValues(val);
 		for (String i : arr) {
-			if (i.equals("Á÷Á¢ ÀÔ·Â")) {
+			if (i.equals("ì§ì ‘ ì…ë ¥")) {
 				return arr[1];
 			}
 		}
@@ -31,17 +31,17 @@ public class AddC_DCommand implements Command {
 
 		PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
 		String c_d = request.getParameter("c_d");
-		// ¿äÃ»µÈ °ªµé¿¡ ´ëÇÑ ÀÎÄÚµù
+		// ìš”ì²­ëœ ê°’ë“¤ì— ëŒ€í•œ ì¸ì½”ë”©
 		request.setCharacterEncoding("UTF-8");
 
-		if (c_d.equals("ÄíÆù")) {// ÄíÆùÀÌ¶ó¸é
+		if (c_d.equals("ì¿ í°")) {
 			PmsCouponDto dto = new PmsCouponDto();
 			dto.setCPNAME(request.getParameter("name"));
 			dto.setUSE_DATE(Integer.parseInt(removeCommas(choice(request, "date"))));
 			dto.setDISCOUNT(Integer.parseInt(removeCommas(choice(request, "price"))));
 			dto.setPURPOSE(request.getParameter("cpurpose"));
 			dao.NewCoupon(dto);
-		} else if (c_d.equals("ÇÒÀÎ±Ç")) {
+		} else if (c_d.equals("í• ì¸ê¶Œ")) {
 			PmsDiscountDto dto = new PmsDiscountDto();
 			dto.setCOMPANY(request.getParameter("company"));
 			dto.setPURPOSE(request.getParameter("dpurpose"));
