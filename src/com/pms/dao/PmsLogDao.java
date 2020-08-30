@@ -252,26 +252,33 @@ public class PmsLogDao {
  
 			        long x=minuteDiff/dtime; //
 			        long y=minuteDiff%dtime;//
-			        
-			      		        
+			 
+			        			      		        			        
+			        if(x<1) {
+			        	fare=ofare;
+			        	if(minuteDiff>otime) {
+			        		fare=settingfare;
+			        	}     	
+			        	
+			        }			        
 			        if(x>=1) {
-			        	fare=(settingfare*x);			        	
-			        	if(y/otime<1) {
-			        		fare+=ofare;			        		
+			        	
+			        	fare=settingfare*x;
+			        	
+			        	if(y>0) {
+			        		fare+=ofare;
 			        	}
-			        	else if(y/otime>=1) {
+			        	
+			        	if(y>otime) {
 			        		fare+=settingfare;
 			        	}
-			        
-			        
+			     
 			        }
 			        
-			        else if(x<=0){
-			        	fare=ofare;
-			        	
-			        	
-			        }
-			        			        		        
+			        
+			        
+			        
+			        
 			        fareArr.add((int) fare);
 				}							
 			} catch (Exception e) {
