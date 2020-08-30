@@ -20,29 +20,24 @@ public class Controller extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String getCommand = getCommand(request); // Å°¿öµå ÃßÃâ ex) /stat/daily
-		Command command = null; // ÀÎÅÍÆäÀÌ½º È°¿ë
-		String strView = null; // ¸®ÅÏÇÒ¶§ »ç¿ë	
-		Action action =  Action.getInstance(); // ½Ì±ÛÅæ ÆĞÅÏÀ¸·Î »ı¼º , »ı¼ºÀÚ¿¡ map ÀúÀå
-		command = action.getAction(getCommand); // key°ªÀ» º¸³»Áà¼­ map Ã¼Å©
-
-		// command °´Ã¼°¡ ÀÖÀ¸¸é ½ÇÇà
+		String getCommand = getCommand(request); // ì„œë¸”ë¦¿ì— ì‚¬ìš©í•  ê°’ ì¶”ì¶œ ex)/stat/daily
+		Command command = null;
+		String strView = null; 	
+		Action action =  Action.getInstance();
+		command = action.getAction(getCommand); 
 		try {
 			strView = command.execute(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		if(strView == null) { //¾øÀ¸¸é ¸®ÅÏ
+		if(strView == null) {
 			return;
 		}
-		//ÆäÀÌÁö Àü¼Û
 		if(strView.startsWith("redirect:")) {
-			// ¸®´ÙÀÌ·ºÆ® ÀÌµ¿
 			String redirectPath = strView.substring("redirect:".length());
 			response.sendRedirect(redirectPath); 
 		} else {
-			// °ªÆ÷ÇÔ ÆäÀÌÁö ÀÌµ¿
 			String prefix = "/WEB-INF/views/";
 			String suffix = ".jsp";
 			String jspPath = prefix + strView + suffix;
@@ -56,7 +51,6 @@ public class Controller extends HttpServlet {
 		doGet(request, response);
 	}
 
-	//url °ª ÃßÃâ
 	private String getCommand(HttpServletRequest request) {
 		String RequestURI = request.getRequestURI();
 		String ContextPath = request.getContextPath();

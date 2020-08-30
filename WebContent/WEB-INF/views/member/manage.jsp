@@ -42,16 +42,17 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
+      <form action="memberSearch.do" method="post" id="frm" name="frm">
       <div class="py10">
      	<span>날짜 검색</span>
      	<select name="dateSearch" id="dateSearch" class="form-control1">
-       		<option>등록 기간</option>
-       		<option>시작 시간</option>
-       		<option>종료 시간</option>
+       		<option value="JDATE">등록 기간</option>
+       		<option value="SDATE">시작 시간</option>
+       		<option value="EDATE">종료 시간</option>
        	</select>
-      	<input type="text" class="form-control1" id= name="">
+      	<input type="text" class="form-control1" id="startForm" name="startForm">
       	~
-      	<input type="text" class="form-control1" id= name="">
+      	<input type="text" class="form-control1" id="endForm" name="endForm">
       </div>
       <div>
       	<div>
@@ -59,17 +60,21 @@
       	</div>
         <span>조건 검색</span>
         <select name="search" id="search" class="form-control1">
-       		<option>이름</option>
-       		<option>차량 번호</option>
+       		<option value="NAME">이름</option>
+       		<option value="CARN">차량 번호</option>
        	</select>
-      	<input type="text" class="form-control1" id= name="">
-      	<a href="#" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
+      	<input type="text" class="form-control1" id="searchForm" name="searchForm">
+      	<a href="#" id="searchBtn" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
 	      	<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
+      	</a>
+    	<a href="member.do" class="d-none d-sm-inline-block btn btn-danger shadow-sm mb4">
+	      	<i class="fas fa-search fa-sm text-white-50"></i> 초기화
       	</a>
 	    <a href="#" class="d-none d-sm-inline-block btn btn-primary shadow-sm fr" data-toggle="modal" data-target="#AddModal">
 	      	<i class="fas fa-user-plus fa-sm text-white-50"></i> 추가하기
       	</a>
       </div>
+      </form>
     </div>
     <div class="card-body">
       <div class="table-responsive text-center">
@@ -154,6 +159,24 @@
     <script type="text/javascript">
       $(function () {
           $('#startDate').datetimepicker();
+          
+          $("#frm").submit(function(){
+        	  var searchForm = $("#searchForm").val();
+        	  var startForm = $("#startForm").val();
+        	  var endForm = $("#endForm").val();
+        	  if((searchForm == null || searchForm == "") 
+        			  && (startForm == null || startForm == "") 
+        			  && (endForm == null || endForm == "")){
+				alert("검색어를 입력해주세요.");			        		  
+				$("#searchForm").focus();
+				return false;
+        	  }
+          });
+          
+          $("#searchBtn").click(function(){
+        	  $("#frm").submit();
+          });
       });
+      
   </script> 	
  <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

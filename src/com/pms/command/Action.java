@@ -31,6 +31,9 @@ public class Action {
 //      	map.put("/login/searchId",new SearchIdCommand());
 //      	map.put("/login/searchPass",new SearchPassCommand());
 //      	map.put("/login/setting",new SettingCommand());
+      	
+      	map.put("/memberSearch",new memberSearchCommand());
+      	
 	}
 	
 	public Command getAction(String command) {
