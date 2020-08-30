@@ -50,6 +50,8 @@
        		<option>종료 시간</option>
        	</select>
       	<input type="text" class="form-control1" id= name="">
+      	~
+      	<input type="text" class="form-control1" id= name="">
       </div>
       <div>
       	<div>
