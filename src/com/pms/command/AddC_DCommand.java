@@ -48,6 +48,6 @@ public class AddC_DCommand implements Command{
 			dto.setUSE_TIME(Integer.parseInt(removeCommas(choice(request, "time"))));
 			dao.NewDiscount(dto);
 		}
-		return "redirect:new_cp&dc.do";
+		return "redirect:new_cp_dc.do";
 	}
 }

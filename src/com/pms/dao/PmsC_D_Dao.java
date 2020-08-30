@@ -78,7 +78,7 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if(value.isEmpty()) {
-				sql= "select * from PMS_COUPON where rownum <="+align+"ORDER BY CPNUM ASC";
+				sql= "select * from PMS_COUPON where rownum <="+align+" ORDER BY CPNUM ASC";
 			}
 			else {
 				sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"' ORDER BY CPNUM ASC";
@@ -93,6 +93,40 @@ public class PmsC_D_Dao {
 				dto.setUSE_DATE(rs.getInt("use_date"));
 				dto.setPURPOSE(rs.getString("purpose"));
 				dto.setDISCOUNT(rs.getInt("discount"));
+				arr.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return arr;
+	}
+	
+	public ArrayList<PmsDiscountDto> SearchDiscount(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		ArrayList<PmsDiscountDto> arr = new ArrayList<PmsDiscountDto>();
+		
+		try {
+			con = pool.getConnection();
+			if(value.isEmpty()) {
+				sql= "select * from PMS_Discount_manage where rownum <="+align+" ORDER BY COM_NUM ASC";
+			}
+			else {
+				sql = "select * from PMS_Discount_manage where "+condition+" = "+"'"+value+"' ORDER BY COM_NUM ASC";
+			}
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs =pstmt.executeQuery();
+			while(rs.next()) {
+				PmsDiscountDto dto = new PmsDiscountDto(); 
+				dto.setCOM_NUM(rs.getInt("COM_NUM"));
+				dto.setCOMPANY(rs.getString("COMPANY"));
+				dto.setUSE_TIME(rs.getInt("use_time"));
+				dto.setPURPOSE(rs.getString("purpose"));
 				arr.add(dto);
 			}
 		} catch (Exception e) {

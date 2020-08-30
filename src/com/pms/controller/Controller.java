@@ -20,29 +20,29 @@ public class Controller extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String getCommand = getCommand(request); // Å°¿öµå ÃßÃâ ex) /stat/daily
-		Command command = null; // ÀÎÅÍÆäÀÌ½º È°¿ë
-		String strView = null; // ¸®ÅÏÇÒ¶§ »ç¿ë	
-		Action action =  Action.getInstance(); // ½Ì±ÛÅæ ÆĞÅÏÀ¸·Î »ı¼º , »ı¼ºÀÚ¿¡ map ÀúÀå
-		command = action.getAction(getCommand); // key°ªÀ» º¸³»Áà¼­ map Ã¼Å©
+		String getCommand = getCommand(request); // í‚¤ì›Œë“œ ì¶”ì¶œ ex) /stat/daily
+		Command command = null; // ì¸í„°í˜ì´ìŠ¤ í™œìš©
+		String strView = null; // ë¦¬í„´í• ë•Œ ì‚¬ìš©		
+		Action action =  Action.getInstance(); // ì‹±ê¸€í†¤ íŒ¨í„´ìœ¼ë¡œ ìƒì„± , ìƒì„±ìì— map ì €ì¥
+		command = action.getAction(getCommand); // keyê°’ì„ ë³´ë‚´ì¤˜ì„œ map ì²´í¬
 
-		// command °´Ã¼°¡ ÀÖÀ¸¸é ½ÇÇà
+		// command ê°ì²´ê°€ ìˆìœ¼ë©´ ì‹¤í–‰
 		try {
 			strView = command.execute(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		if(strView == null) { //¾øÀ¸¸é ¸®ÅÏ
+		if(strView == null) { //ì—†ìœ¼ë©´ ë¦¬í„´
 			return;
 		}
-		//ÆäÀÌÁö Àü¼Û
+		//í˜ì´ì§€ ì „ì†¡
 		if(strView.startsWith("redirect:")) {
-			// ¸®´ÙÀÌ·ºÆ® ÀÌµ¿
+			// ë¦¬ë‹¤ì´ë ‰íŠ¸ ì´ë™
 			String redirectPath = strView.substring("redirect:".length());
 			response.sendRedirect(redirectPath); 
 		} else {
-			// °ªÆ÷ÇÔ ÆäÀÌÁö ÀÌµ¿
+			// ê°’í¬í•¨ í˜ì´ì§€ ì´ë™
 			String prefix = "/WEB-INF/views/";
 			String suffix = ".jsp";
 			String jspPath = prefix + strView + suffix;
@@ -56,7 +56,7 @@ public class Controller extends HttpServlet {
 		doGet(request, response);
 	}
 
-	//url °ª ÃßÃâ
+	//url ê°’ ì¶”ì¶œ
 	private String getCommand(HttpServletRequest request) {
 		String RequestURI = request.getRequestURI();
 		String ContextPath = request.getContextPath();

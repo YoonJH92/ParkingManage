@@ -14,10 +14,10 @@
 					</div>
 				</div>
 			<div id="toggle1">
-				<%@ include file="scoupon.jsp"%>
+				<%@ include file="search_coupon.jsp"%>
 			</div>
 			<div id="toggle2">
-				<%@ include file="sdiscount.jsp"%>
+				<%@ include file="search_discount.jsp"%>
 			</div>
 		</div>
 <script>

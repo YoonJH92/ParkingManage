@@ -80,16 +80,14 @@
         <i class="fas fa-ticket-alt"></i>
           <span>쿠폰할인관리</span>
         </a>
-	<!--
 		<div id="collapsePages" class="collapse">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">쿠폰</h6>
-            <a class="collapse-item" href="#">할인생성</a>
-            <a class="collapse-item" href="#">할인조회</a>
-            <a class="collapse-item" href="#">할인 사용내역</a>
+            <a class="collapse-item" href="new_cp_dc.do">쿠폰할인 생성</a>
+            <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 조회</a>
+            <a class="collapse-item" href="#">쿠폰할인 사용 내역</a>
           </div>
-        </div>
-         -->
+        </div> 
       </li>
      
       <!-- Nav Item - Charts -->
