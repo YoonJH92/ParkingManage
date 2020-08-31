@@ -13,7 +13,6 @@ public class Action {
 	private HashMap<String, Command> map = new HashMap<String, Command>();
 	
 	private Action() {
-		// ������ �߰��� ���� �߰��ٶ�
 		map.put("/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
       	map.put("/stat/test",new TestCommand());	
@@ -25,16 +24,21 @@ public class Action {
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());
       	map.put("/new_cp_dc",new CDCommand());
-      	map.put("/addc_d",new AddC_DCommand());
+      	//map.put("/addc_d",new AddC_DCommand());
       	map.put("/search_cp_dc",new CDCommand2());  	
       	map.put("/search_C_D",new Search_C_DCommand());  
-      	
+      	map.put("/new_cp_dc",new CDCommand());
+      	//map.put("/addc_d",new AddC_DCommand());
+      	map.put("/search_cp_dc",new CDCommand2());  	
+      	map.put("/search_C_D",new Search_C_DCommand());  	  	
       	map.put("/login/login",new LoginCommand());
       	map.put("/login/join",new JoinCommand());
       	map.put("/login/searchId",new SearchIdCommand());
       	map.put("/login/searchPass",new SearchPassCommand());
       	map.put("/login/setting",new SettingCommand());
-
+      	
+      	map.put("/memberSearch",new memberSearchCommand());
+      	
 	}
 	
 	public Command getAction(String command) {

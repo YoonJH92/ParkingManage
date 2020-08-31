@@ -1,22 +1,38 @@
 package com.pms.dao;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFShape;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pms.dto.PmsDto;
+import com.pms.dto.SettingDTO;
 import com.pms.util.DBConnectionMgr;
 import com.sun.javafx.collections.MappingChange.Map;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 public class PmsLogDao {
 	private static PmsLogDao instance;
@@ -40,13 +56,16 @@ public class PmsLogDao {
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
+		
 		ArrayList<PmsDto> arr = new ArrayList<PmsDto>();
-
+		
+		
 		try {
 			con = pool.getConnection();
 			String sql = " select * from pms_log where out_time is null ";
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
+			ArrayList<Integer>fare=Curentfare();
 			while (rs.next()) {
 				PmsDto dto = new PmsDto();
 				dto.setIdx(rs.getInt("idx"));
@@ -170,7 +189,107 @@ public class PmsLogDao {
 		}
 		return result;
 	}
-
+	
+		public ArrayList<Integer> Curentfare() throws ParseException{
+			Connection con = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			
+			SettingDAO settingDao=SettingDAO.getInstance();
+			
+			SettingDTO setingDto=settingDao.settItem();
+			
+			//실시간 요금
+			long fare=0;
+			//기본 시간
+			final int dtime=setingDto.getDtime();
+			//기본 요금 
+			final int settingfare=setingDto.getFare();
+			//오버시 시간
+			final int otime=setingDto.getOtime();
+			//오버시 요금 
+			final int ofare=setingDto.getOfare();
+			//현재시간
+			String sql="";
+			ArrayList<String> arr = new ArrayList<String>();
+			ArrayList<Integer> fareArr=new ArrayList<Integer>();
+			try {
+				con=pool.getConnection();
+				
+				sql="select to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time from pms_log where out_time is null ";			
+				ps=con.prepareStatement(sql);			
+				rs=ps.executeQuery(sql);
+				while (rs.next()) {		
+					String difftimes=rs.getString("in_time");
+					arr.add(difftimes);
+				}		
+				SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA);
+				//한국기준 날짜
+				Calendar calendar = Calendar.getInstance();//시스템 현재 날짜 가져오기 
+				Date date = new Date(calendar.getTimeInMillis());
+				todaySdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+				String todayDate = todaySdf.format(date);
+				long todayTimestamp = todaySdf.parse(todayDate).getTime();
+				Date date2 = new Date(todayTimestamp);
+				String todayDate2 = todaySdf.format(date2);
+					
+				for(int i=0;i<arr.size();i++) {
+					String diffTime=arr.get(i);
+					
+					long diffTimestamp=todaySdf.parse(diffTime).getTime();	
+					
+					long difference=(todayTimestamp-diffTimestamp);
+					//현재시간-입차시간
+					System.out.println("현재 시간:"+date2);
+					System.out.println("입차 시간:"+diffTime);
+					System.out.println(todayTimestamp);
+					System.out.println(diffTimestamp);
+			        System.out.println("시간차=> "  +  difference/ (60*60*1000));
+			        System.out.println("분차=>+"+difference/(60 * 1000));
+			        
+			        long result=difference/ (60*60*1000);//시간차이
+			        long minuteDiff=difference/(60*1000);
+ 
+			        long x=minuteDiff/dtime; //
+			        long y=minuteDiff%dtime;//
+			 
+			        			      		        			        
+			        if(x<1) {
+			        	fare=ofare;
+			        	if(minuteDiff>otime) {
+			        		fare=settingfare;
+			        	}     	
+			        	
+			        }			        
+			        if(x>=1) {
+			        	
+			        	fare=settingfare*x;
+			        	
+			        	if(y>0) {
+			        		fare+=ofare;
+			        	}
+			        	
+			        	if(y>otime) {
+			        		fare+=settingfare;
+			        	}
+			     
+			        }
+			        
+			        
+			        
+			        
+			        
+			        fareArr.add((int) fare);
+				}							
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, ps, rs);
+			}
+			return fareArr ;
+		}
+			
+			
 	public ArrayList<PmsDto> viewDetail(String FDate, String LDate, String cnum) {
 		Connection con = null;
 		Statement st = null;
@@ -219,5 +338,68 @@ public class PmsLogDao {
 		}
 		return arr;
 	}
-
+		
+		public void writeLogExcel(){
+		
+			ArrayList<PmsDto>arr=viewList();
+			String path ="";
+			File file=new File(path+"log.xlxs");
+		
+			
+			try {
+				FileOutputStream fileout=new FileOutputStream(file);
+				XSSFWorkbook xworkbook= new XSSFWorkbook();
+				
+				//워크시트 생성
+				XSSFSheet xsheet=xworkbook.createSheet("실시간");
+				//행 생성
+				XSSFRow curRow;
+				
+				int row=arr.size();
+				//셀 생성
+				Cell cell=null;
+				//제목
+				
+				curRow=xsheet.createRow(0);
+				cell=curRow.createCell(0);
+				cell.setCellValue("실시간 차량 현황");
+				//헤더 정보 
+				curRow=xsheet.createRow(1);
+				cell=curRow.createCell(0);
+				cell.setCellValue("No.");
+				
+				curRow=xsheet.createRow(1);
+				cell=curRow.createCell(1);
+				cell.setCellValue("차량번호");
+				
+				curRow=xsheet.createRow(1);
+				cell=curRow.createCell(2);
+				cell.setCellValue("입차시간");
+				
+				curRow=xsheet.createRow(1);
+				cell=curRow.createCell(3);
+				cell.setCellValue("사용금액");
+				
+				curRow=xsheet.createRow(1);
+				cell=curRow.createCell(4);
+				cell.setCellValue("월정액여부");
+				
+				curRow=xsheet.createRow(1);
+				cell=curRow.createCell(5);
+				cell.setCellValue("구분");
+				
+				for(int i=2;i<row;i++) {
+					curRow=xsheet.createRow(i);
+									
+				}
+							
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+						
+				
+			
+		}	
 }
+
+
