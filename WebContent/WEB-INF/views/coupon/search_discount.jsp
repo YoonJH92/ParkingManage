@@ -16,6 +16,10 @@
 	</div>
 
 	<div class="col-xs-1 ml-3">
+		<button class="btn-primary" name="d_delete">삭제</button>
+	</div>
+
+	<div class="col-xs-1 ml-3">
 		<select name="d_align">
 			<option value="10" selected>10개씩 보기</option>
 			<option value="50">50개씩 보기</option>
@@ -40,7 +44,7 @@
 		$('button[name="c_search"]').click(function () {
 			search();
 		});
-		
+
 		$('button[name="d_search"]').click(function () {
 			search();
 		});
@@ -48,9 +52,17 @@
 		$('select[name="c_align"]').change(function () {
 			search();
 		});
-		
+
 		$('select[name="d_align"]').change(function () {
 			search();
+		});
+
+		$('button[name="c_delete"]').click(function () {
+			c_d_delete();
+		});
+
+		$('button[name="d_delete"]').click(function () {
+			c_d_delete();
 		});
 
 		$('input:radio[value="쿠폰"]').change(function () {
@@ -76,11 +88,11 @@
 				},
 				function (data) { //콜백함수
 					var htmlStr =
-						"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
+						"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"c_chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
 
 					$.each(data, function (key, val) {
 						htmlStr += "<tr>";
-						htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\"/></td>";
+						htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "/></td>";
 						htmlStr += "<td>" + val.CPNUM + "</td>";
 						htmlStr += "<td>" + val.CPNAME + "</td>";
 						htmlStr += "<td>" + val.USE_DATE + "</td>";
@@ -106,11 +118,12 @@
 				},
 				function (data) { //콜백함수
 					var htmlStr =
-						"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"chk\"/>전체선택</th><th>순번</th><th>할인명</th><th>할인 시간</th><th>발급 목적</th></tr></table>";
+						"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"d_chk\"/>전체선택</th><th>순번</th><th>할인명</th><th>할인 시간</th><th>발급 목적</th></tr></table>";
 
 					$.each(data, function (key, val) {
 						htmlStr += "<tr>";
-						htmlStr += "<td><input type=\"checkbox\" name=\"d_chk\"/></td>";
+						htmlStr += "<td><input type=\"checkbox\" name=\"d_chk\" value=" + val.COM_NUM +
+							"/></td>";
 						htmlStr += "<td>" + val.COM_NUM + "</td>";
 						htmlStr += "<td>" + val.COMPANY + "</td>";
 						htmlStr += "<td>" + val.USE_TIME + "</td>";
@@ -126,6 +139,40 @@
 						}
 					});
 				});
+		}
+	}
+
+	function c_d_delete() {
+		if ($('button[name="d_delete"]')) {
+			if ($('input[name="d_chk"]').is(":checked")) {
+				$('input[name="d_chk"]').each(function () {
+					if ($(this).is(":checked")) {
+						$.post("delete_C_D.do", {
+							c_d: "할인권",
+							num: $(this).val()
+						}, function (data) {});
+						alert("삭제 완료!");
+						search();
+					}
+				});
+			} else {
+				alert("체크 박스를 선택해주세요.");
+			}
+		} else if ($('button[name="c_delete"]')) {
+			if ($('input[name="c_chk"]').is(":checked")) {
+				$('input[name="c_chk"]').each(function () {
+					if ($(this).is(":checked")) {
+						$.post("delete_C_D.do", {
+							c_d: "쿠폰",
+							num: $(this).val()
+						}, function (data) {});
+						alert("삭제 완료!");
+						search();
+					}
+				});
+			} else {
+				alert("체크 박스를 선택해주세요.");
+			}
 		}
 	}
 </script>

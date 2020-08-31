@@ -1,7 +1,6 @@
 package com.pms.command;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Action {
 	private static Action instance = new Action();
@@ -23,9 +22,10 @@ public class Action {
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/new_cp_dc",new CDCommand());
-      	map.put("/addc_d",new AddC_DCommand());
+      	map.put("/addc_d",new Add_C_DCommand());
       	map.put("/search_cp_dc",new CDCommand2());  	
       	map.put("/search_C_D",new Search_C_DCommand());  	  	
+      	map.put("/delete_C_D",new Delete_C_DCommand());  	  	
 //      	map.put("/login/login",new LoginCommand());
 //      	map.put("/login/join",new JoinCommand());
 //      	map.put("/login/searchId",new SearchIdCommand());

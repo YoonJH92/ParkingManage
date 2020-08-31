@@ -15,7 +15,11 @@
 	<div class="col-xs-1 ml-3">
 		<button class="btn-primary" name="c_search">검색</button>
 	</div>
-
+	
+	<div class="col-xs-1 ml-3">
+		<button class="btn-primary" name="c_delete">삭제</button>
+	</div>
+	
 	<div class="col-xs-1 ml-3">
 		<select name="c_align">
 			<option value="10" selected>10개씩 보기</option>
