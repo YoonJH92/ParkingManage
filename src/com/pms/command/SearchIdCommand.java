@@ -23,7 +23,7 @@ public class SearchIdCommand implements Command {
 		
 		
 		
-		return "searchId";
+		return "login/searchId";
 	}
 
 }

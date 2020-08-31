@@ -23,7 +23,7 @@ public class SettingStartCommand implements Command {
 		request.setAttribute("sdto", sdto);
 		
 		
-		return "login/setting";
+		return "setting/setting";
 	}
 
 }

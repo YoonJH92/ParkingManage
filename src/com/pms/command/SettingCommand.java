@@ -15,16 +15,19 @@ public class SettingCommand implements Command {
 
 		SettingDTO sdto = new SettingDTO();
 		SettingDAO sdao = new SettingDAO();
-
+		int idx = 1;
+		
+		sdto.setIdx(idx);
 		sdto.setCount(Integer.parseInt(request.getParameter("count")));
 		sdto.setDtime(Integer.parseInt(request.getParameter("dtime")));
 		sdto.setFare(Integer.parseInt(request.getParameter("fare")));
+		sdto.setOtime(Integer.parseInt(request.getParameter("otime")));
 		sdto.setOtime(Integer.parseInt(request.getParameter("ofare")));
 		sdto.setMonth_fare(Integer.parseInt(request.getParameter("month_fare")));
 
 		sdao.updateSetting(sdto);
-
-		return "login/login";
+		System.out.println("업데이트완료");
+		return "setting/settingComp";
 	}
 
 }

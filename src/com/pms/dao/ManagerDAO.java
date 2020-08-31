@@ -175,7 +175,7 @@ public String MdSearchPass(ManagerBean passbean) {
 		
 		
 		try {
-			
+			con = pool.getConnection();
 			String sql = "update pms_admin set name=?, email=?,phone=?,pwd=? where admin_id=?";
 			
 			pstmt = con.prepareStatement(sql);
@@ -206,7 +206,7 @@ public String MdSearchPass(ManagerBean passbean) {
 		ResultSet rs = null;
 		ManagerBean mbean = new ManagerBean();
 		try {
-			
+			con = pool.getConnection();
 			String sql="select * from pms_admin where admin_id=?";
 			pstmt = con.prepareStatement(sql);
 		

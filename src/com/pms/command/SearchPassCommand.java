@@ -22,7 +22,7 @@ public class SearchPassCommand implements Command {
 		
 		
 		
-		return "searchPass";
+		return "login/searchPass";
 	}
 
 }

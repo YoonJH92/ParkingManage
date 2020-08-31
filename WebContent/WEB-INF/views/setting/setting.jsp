@@ -1,50 +1,19 @@
-<%@page import="com.pms.dto.SettingDTO"%>
-<%@page import="com.pms.dao.SettingDAO"%>
+
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Login</title>
-
-<link rel="canonical"
-	href="https://getbootstrap.com/docs/4.5/examples/floating-labels/">
-
-<!-- Bootstrap core CSS -->
-<link href="../resources/bootstrap.css" rel="stylesheet">
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
+<%@ include file="/WEB-INF/views/include/header.jsp" %> 
 
 
-<style>
-@import
-	url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Yeon+Sung&display=swap')
-	;
-
-#contain {
-	display: flex;
-	justify-content: center;
-}
-
-body {
-	font-family: 'Yeon Sung', cursive;
-}
-
-
-</style>
-
-<link href="../resources/floating-labels.css" rel="stylesheet">
-</head>
-<body>
-	
-
-
+<main>
 	<div class="container">
 		<h1>설정</h1>
 		<br> <br>
 		<table class="table table-hover">
-			<form action="settingProc.jsp" method="post">
+			<form action="setting.do" method="post">
 				<tbody>
 					<tr>
 						<td align="center" width="30%">주차개수</td>
@@ -82,16 +51,16 @@ body {
 								<input style="margin-right: 5px;" class="btn btn-primary btn-lg"
 									type="submit" value="변경">
 								<button type="button" class="btn btn-primary btn-lg"
-									onclick="location.href = 'index.jsp' ">취소</button>
+									onclick="location.href = 'loglistac.do' ">취소</button>
 							</div>
 						</td>
 					</tr>
 				</tbody>
+
 			</form>
 		</table>
 	</div>
+</main>
 
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %> 
 
-
-</body>
-</html>

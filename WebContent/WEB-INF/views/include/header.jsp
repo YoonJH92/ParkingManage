@@ -104,7 +104,7 @@
           <span>월별통계</span></a>
       </li>
          <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="settingStart.do">
           <i class="fas fa-fw fa-wrench"></i>
           <span>설정</span>
         </a>
