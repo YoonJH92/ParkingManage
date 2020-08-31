@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class memberManageDTO {
 	
+	private int idx;
 	private String name;
 	private String regDate;
 	private String startDate;
@@ -13,7 +14,13 @@ public class memberManageDTO {
 	private String email;
 	private String phone;
 	private String type;
-	
+
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
 	public String getName() {
 		return name;
 	}

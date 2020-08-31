@@ -70,6 +70,7 @@ public class MemberManageDAO {
 			rs = pstmt.executeQuery(sql);
 			while(rs.next()) {
 				memberManageDTO mem = new memberManageDTO();
+				mem.setIdx(rs.getInt("idx"));
 				mem.setCNUM(rs.getString("CARN"));
 				mem.setEmail(rs.getString("email"));
 				mem.setName(rs.getString("name"));
@@ -97,14 +98,14 @@ public class MemberManageDAO {
 			String sql = null;
 			ResultSet rs = null;
 			ArrayList<memberManageDTO> arr = new ArrayList<memberManageDTO>();
-			String where = "";
+			String where = " 1=1 ";
 			
 			try {
 				con = pool.getConnection();
-				if(map.get("searchForm") != "") where += map.get("search")+" LIKE ?";
-				if(map.get("startForm")  != "" && map.get("endForm")  != "") where += map.get("dateSearch")+" BETWEEN ? AND ? ";
-				else if(map.get("startForm")  != "") where += map.get("dateSearch")+" >= ?";
-				else if(map.get("endForm")  != "") where += map.get("dateSearch")+" <= ?";
+				if(map.get("searchForm") != "") where += "AND "+map.get("search")+" LIKE ?";
+				if(map.get("startForm")  != "" && map.get("endForm")  != "") where += "AND "+map.get("dateSearch")+" BETWEEN TO_DATE(?,'YYYY-MM-DD HH24:MI:SS') AND TO_DATE(?,'YYYY-MM-DD HH24:MI:SS') ";
+				else if(map.get("startForm")  != "") where += "AND "+map.get("dateSearch")+" >= TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')";
+				else if(map.get("endForm")  != "") where += "AND "+map.get("dateSearch")+" <= TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')";
 				
 				sql = "select * from PMS_MONTH_MEMBER where "+ where +" order by JDATE desc";
 				pstmt = con.prepareStatement(sql);
@@ -132,6 +133,7 @@ public class MemberManageDAO {
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					memberManageDTO mem = new memberManageDTO();
+					mem.setIdx(rs.getInt("idx"));
 					mem.setCNUM(rs.getString("CARN"));
 					mem.setEmail(rs.getString("email"));
 					mem.setName(rs.getString("name"));
