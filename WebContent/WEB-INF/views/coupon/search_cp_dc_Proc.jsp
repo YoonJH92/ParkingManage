@@ -7,15 +7,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 request.setCharacterEncoding("utf-8");
-String condition = request.getParameter("condition");
-String value = request.getParameter("value");
-int align = Integer.parseInt(request.getParameter("align"));
 String c_d = request.getParameter("c_d");
 PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
 JSONArray jarr = new JSONArray();
+
 if(c_d.equals("쿠폰"))
 {
-	ArrayList<PmsCouponDto> dto = dao.SearchCoupon(condition, value, align);
+	String c_condition = request.getParameter("c_condition");
+	String c_value = request.getParameter("c_value");
+	int c_align = Integer.parseInt(request.getParameter("c_align"));
+	
+	ArrayList<PmsCouponDto> dto = dao.SearchCoupon(c_condition, c_value, c_align);
 	for (PmsCouponDto d : dto) {
 		JSONObject obj = new JSONObject();
 		obj.put("CPNUM", d.getCPNUM());
@@ -27,7 +29,11 @@ if(c_d.equals("쿠폰"))
 	}
 }else if(c_d.equals("할인권"))
 {
-	ArrayList<PmsDiscountDto> dto = dao.SearchDiscount(condition, value, align);
+	String d_condition = request.getParameter("d_condition");
+	String d_value = request.getParameter("d_value");
+	int d_align = Integer.parseInt(request.getParameter("d_align"));
+	
+	ArrayList<PmsDiscountDto> dto = dao.SearchDiscount(d_condition, d_value, d_align);
 	for (PmsDiscountDto d : dto) {
 		JSONObject obj = new JSONObject();
 		obj.put("COM_NUM", d.getCOM_NUM());
