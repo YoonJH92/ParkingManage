@@ -24,6 +24,8 @@
   <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
   <link href="resources/jquery.datetimepicker.css" rel="stylesheet">
   <script src="resources/vendor/jquery/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
 <body id="page-top">

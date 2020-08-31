@@ -50,9 +50,9 @@
        		<option value="SDATE">시작 시간</option>
        		<option value="EDATE">종료 시간</option>
        	</select>
-      	<input type="text" class="form-control1" id="startForm" name="startForm">
+      	<input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}">
       	~
-      	<input type="text" class="form-control1" id="endForm" name="endForm">
+      	<input type="text" class="form-control1" id="endForm" name="endForm" value="${endForm}">
       </div>
       <div>
       	<div>
@@ -63,7 +63,7 @@
        		<option value="NAME">이름</option>
        		<option value="CARN">차량 번호</option>
        	</select>
-      	<input type="text" class="form-control1" id="searchForm" name="searchForm">
+      	<input type="text" class="form-control1" id="searchForm" name="searchForm" value="${searchForm}">
       	<a href="#" id="searchBtn" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
 	      	<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
       	</a>
@@ -87,6 +87,7 @@
               <th>시작 시간</th>
               <th>종료 시간</th>
               <th>사용 금액(원)</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -98,6 +99,11 @@
 	              <td>${list.startDate}</td>
 	              <td>${list.stopDate}</td>
 	              <td class="text-right"><f:formatNumber type="number" maxFractionDigits="3" value="${list.pay}" /></td>
+	              <td>	    
+		              <a href="#" data-id="${list.idx }" class="d-none d-sm-inline-block btn btn-success shadow-sm btn-edit" data-toggle="modal" data-target="#EditModal">
+		      			<i class="fas fa-user fa-sm text-white-50"></i> 수정
+	      			  </a>
+      			  </td>
 	            </tr>
           	</c:forEach>
           </tbody>
@@ -156,9 +162,64 @@
    </div>
    </form>
  </div>
+ 
+  <!-- Logout Modal-->
+ <div class="modal" id="EditModal" tabindex="-1" role="dialog" aria-hidden="true">
+ <form class="user" action="memberInsert.do" method="post">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title">월정액 회원 수정</h5>
+         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">×</span>
+         </button>
+       </div>
+       <div class="modal-body">
+		
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
+			</div>
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">차량 번호</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="CNUM" name="CNUM"></div>
+			</div>
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">시작 시간</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="startDate" name="startDate"></div>
+			</div>
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">이메일</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="email" name="email"></div>
+			</div>
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">Phone</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="phone" name="phone"></div>
+			</div>
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">구 분</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="type" name="type"></div>
+			</div>
+       </div>
+       <div class="modal-footer">
+         <input type="submit" value="확인" class="btn btn-primary">
+         <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+       </div>
+     </div>
+   </div>
+   </form>
+ </div>
+ 
+ 
     <script type="text/javascript">
       $(function () {
           $('#startDate').datetimepicker();
+          $( "#startForm" ).datepicker({
+        	    dateFormat: 'yy-mm-dd'
+          });
+          $( "#endForm" ).datepicker({
+      	    dateFormat: 'yy-mm-dd'
+          });  
           
           $("#frm").submit(function(){
         	  var searchForm = $("#searchForm").val();
@@ -176,7 +237,16 @@
           $("#searchBtn").click(function(){
         	  $("#frm").submit();
           });
+          
+
+          $(".btn-edit").click(function(e){
+        	  alert(2);
+
+          });
       });
       
+      function view(type){
+    	  console.log(this);
+      }
   </script> 	
  <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

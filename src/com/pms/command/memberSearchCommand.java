@@ -18,22 +18,24 @@ public class memberSearchCommand implements Command {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		String dateSearch = request.getParameter("dateSearch");
-		String startForm = request.getParameter("startForm");
-		String endForm = request.getParameter("endForm"); 
+		String startForm = request.getParameter("startForm") == "" ? "" : request.getParameter("startForm")+" 00:00:00";
+		String endForm = request.getParameter("endForm") == "" ? "" : request.getParameter("endForm")+" 23:59:59"; 
 		String search = request.getParameter("search");
 		String searchForm = request.getParameter("searchForm");
-		
 		
 		map.put("dateSearch",dateSearch);
 		map.put("startForm",startForm);
 		map.put("endForm",endForm);
-
 		map.put("search",search);
 		map.put("searchForm",searchForm);
 		
 		MemberManageDAO dao = MemberManageDAO.getInstance();
 		ArrayList<memberManageDTO> arr = dao.ListMember(map);
 		request.setAttribute("arr", arr);
+		
+		request.setAttribute("startForm", request.getParameter("startForm"));
+		request.setAttribute("endForm", request.getParameter("endForm"));
+		request.setAttribute("searchForm", request.getParameter("searchForm"));
 		return "member/manage";
 	}
 
