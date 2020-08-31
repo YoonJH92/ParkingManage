@@ -19,18 +19,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Vector;
-
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.poi.sl.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFShape;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pms.dto.PmsDto;
@@ -193,6 +183,120 @@ public class PmsLogDao {
 		}
 		return result;
 	}
+	
+		//최종요금 
+		@SuppressWarnings("resource")
+		public void fare() throws ParseException{
+			Connection con = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;	
+			String sql="";
+			SettingDAO settingDao=SettingDAO.getInstance();			
+			SettingDTO setingDto=settingDao.settItem();	
+			
+			HashMap<String,String>map=new HashMap<String,String>();
+			//실시간 요금
+			long fare=0;
+			//기본 시간
+			 int dtime=setingDto!=null?setingDto.getDtime():1;
+			//기본 요금 
+			 int settingfare=setingDto!=null?setingDto.getFare():0;
+			//오버시 시간
+			 int otime=setingDto!=null?setingDto.getOtime():1;
+			//오버시 요금 
+			final int ofare=setingDto!=null?setingDto.getOfare():0;
+			ArrayList<Integer> totalFareArr=new ArrayList<Integer>();
+			ArrayList<Integer>idxArr=new ArrayList<Integer>();
+			
+		  try {
+			  con=pool.getConnection();
+			  sql="select idx, to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time, to_char( out_time, 'YYYY/MM/DD HH24:MI:SS' ) as out_time from pms_log where out_time is Not Null";  
+			  ps=con.prepareStatement(sql);			
+			  rs=ps.executeQuery(sql);
+			
+			  while(rs.next()) {
+					String inTime=rs.getString("in_time");
+					String outTime=rs.getString("out_time");	
+					int idx=rs.getInt("idx");
+					map.put("Itime", inTime);
+					map.put("Otime",outTime);
+					idxArr.add(idx);
+			  }			  			  			
+				SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA);
+				todaySdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+
+				for(int i=0;i<map.size();i++) {
+				
+				String itTime=map.get("Itime");
+				String OTime=map.get("Otime");
+				
+				long inTimestamp = todaySdf.parse(itTime).getTime();
+				long OutTimestamp=todaySdf.parse(OTime).getTime();
+				
+				long difference=(OutTimestamp-inTimestamp);
+		        long minuteDiff=difference/(60*1000);
+		        long x=minuteDiff/dtime; 
+		        long y=minuteDiff%dtime;
+		        
+				System.out.println("입차시간"+ itTime);
+				System.out.println("출차시간"+ OTime);
+				System.out.println(inTimestamp);
+				System.out.println(OutTimestamp);
+				
+				 if(x<1) {
+			        	fare=ofare;
+			        	if(minuteDiff>otime) {
+			        		fare=settingfare;
+			        	}     	
+			        	
+			        }			        
+			        if(x>=1) {
+			        	
+			        	fare=settingfare*x;
+			        	
+			        	if(y>0) {
+			        		fare+=ofare;
+			        	}
+			        	
+			        	if(y>otime) {
+			        		fare+=settingfare;
+			        	}			     
+			        }			        			        
+			        totalFareArr.add((int)fare);
+				}
+				  
+				try {
+									    
+					sql=" update pms_log set pay = ? where out_time is NOT NULL and idx=?";
+					
+					ps= con.prepareStatement(sql);
+					rs=ps.executeQuery(sql);
+					
+					if(rs.next()) {
+						
+				 for(int i=0;i<totalFareArr.size();i++) {
+		  			ps.setInt(1, totalFareArr.get(i));
+		  			ps.setInt(2, idxArr.get(i));
+		  			ps.executeUpdate();			
+				}
+
+					}	
+				}catch (Exception e) {
+					
+				}
+				
+					
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, ps, rs);
+			}
+		}			
+	
+	
+
+	
 		//실시간 요금
 		public ArrayList<Integer> Curentfare() throws ParseException{
 			Connection con = null;
@@ -200,8 +304,8 @@ public class PmsLogDao {
 			ResultSet rs = null;
 		
 			SettingDAO settingDao=SettingDAO.getInstance();			
-			SettingDTO setingDto=settingDao.settItem();
-	
+			SettingDTO setingDto=settingDao.settItem();	
+
 			//실시간 요금
 			long fare=0;
 			//기본 시간
@@ -300,9 +404,11 @@ public class PmsLogDao {
 		try {
 			con = pool.getConnection();
 		
-			if ((FDate.equals("")&&cnum.equals(""))){			
+			if ((FDate.equals("")&&cnum.equals("")&&LDate.equals(""))){			
 				sql="select * from pms_log where idx = 0";			
 			}
+			
+			
 			else if (cnum.equals("")) {
 				sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate+ "', 'YYYY/MM/DD HH24:MI:SS') AND "
 						+ "TO_DATE('" + LDate + "','YYYY/MM/DD HH24:MI:SS') and (out_time is not null) ";
@@ -346,94 +452,60 @@ public class PmsLogDao {
 		
 		
 	//엑셀
-		public void writeLogExcel(ArrayList<PmsDto> arr){
-			//데이터 담을  리스트 
-			String path ="";
-			File file=new File(path+"log.xlxs");
-			FileOutputStream fos=null;
-			XSSFWorkbook xworkbook= new XSSFWorkbook();
-			
-			try {
-				
-			     fos=new FileOutputStream(file);
-				//워크시트 생성 햔재시트 
-				XSSFSheet xsheet=xworkbook.createSheet("실시간");
-				//행 생성 //현재 row
-				XSSFRow curRow;
-				
-				int row=arr.size();
-				//셀 생성	//현재 cell
-				Cell cell=null;
-				
-				
-				curRow=xsheet.createRow(0);
-				cell=curRow.createCell(0);
-				cell.setCellValue("실시간 차량 현황");
-				//헤더 정보 
-				curRow=xsheet.createRow(1);
-				cell=curRow.createCell(0);
-				cell.setCellValue("No.");
-				
-				cell=curRow.createCell(1);
-				cell.setCellValue("차량번호");
-				
-				cell=curRow.createCell(2);
-				cell.setCellValue("입차시간");
-				
-				cell=curRow.createCell(3);
-				cell.setCellValue("사용금액");
-				
-				cell=curRow.createCell(4);
-				cell.setCellValue("월정액여부");
-				
-				cell=curRow.createCell(5);
-				cell.setCellValue("총 사용금액");
-				
-				
-				for(int i=0;i<arr.size();i++) {
-				PmsDto dto =new PmsDto();
-				dto=arr.get(i);						
-				curRow=xsheet.createRow(i+2);
-				cell=curRow.createCell(0);
-				cell.setCellValue(dto.getIdx());
-				
-				cell=curRow.createCell(1);
-				cell.setCellValue(dto.getCnum());
-				
-				cell=curRow.createCell(2);
-				cell.setCellValue(dto.getInTime());
-				
-				cell=curRow.createCell(3);
-				cell.setCellValue(dto.getPay());
-				
-				cell=curRow.createCell(4);
-				cell.setCellValue(dto.getMonthNum());
-				
-				cell=curRow.createCell(5);
-				cell.setCellValue(dto.getTotalPay());
-							
-									
-				}
-				
-								
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}finally {
-				if(xworkbook!=null) {
-					try {
-						xworkbook.close();
-						if(fos!=null) {
-							fos.close();
-						}
-					
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-						
-	
-	}
+	/*
+	 * public void writeLogExcel(ArrayList<PmsDto> arr){ //데이터 담을 리스트 String path
+	 * ="C:/Users/admin/Downloads"; File file=new File(path+"log.xlxs");
+	 * FileOutputStream fos=null; XSSFWorkbook xworkbook= new XSSFWorkbook();
+	 * 
+	 * try {
+	 * 
+	 * fos=new FileOutputStream(file); //워크시트 생성 햔재시트 XSSFSheet
+	 * xsheet=xworkbook.createSheet("실시간"); //행 생성 //현재 row XSSFRow curRow;
+	 * 
+	 * int row=arr.size(); //셀 생성 //현재 cell Cell cell=null;
+	 * 
+	 * 
+	 * curRow=xsheet.createRow(0); cell=curRow.createCell(0);
+	 * cell.setCellValue("실시간 차량 현황"); //헤더 정보 curRow=xsheet.createRow(1);
+	 * cell=curRow.createCell(0); cell.setCellValue("No.");
+	 * 
+	 * cell=curRow.createCell(1); cell.setCellValue("차량번호");
+	 * 
+	 * cell=curRow.createCell(2); cell.setCellValue("입차시간");
+	 * 
+	 * cell=curRow.createCell(3); cell.setCellValue("사용금액");
+	 * 
+	 * cell=curRow.createCell(4); cell.setCellValue("월정액여부");
+	 * 
+	 * cell=curRow.createCell(5); cell.setCellValue("총 사용금액");
+	 * 
+	 * 
+	 * for(int i=0;i<arr.size();i++) { PmsDto dto =new PmsDto(); dto=arr.get(i);
+	 * curRow=xsheet.createRow(i+2); cell=curRow.createCell(0);
+	 * cell.setCellValue(dto.getIdx());
+	 * 
+	 * cell=curRow.createCell(1); cell.setCellValue(dto.getCnum());
+	 * 
+	 * cell=curRow.createCell(2); cell.setCellValue(dto.getInTime());
+	 * 
+	 * cell=curRow.createCell(3); cell.setCellValue(dto.getPay());
+	 * 
+	 * cell=curRow.createCell(4); cell.setCellValue(dto.getMonthNum());
+	 * 
+	 * cell=curRow.createCell(5); cell.setCellValue(dto.getTotalPay());
+	 * 
+	 * 
+	 * }
+	 * 
+	 * 
+	 * } catch (FileNotFoundException e) { e.printStackTrace(); }finally {
+	 * if(xworkbook!=null) { try { xworkbook.close(); if(fos!=null) { fos.close(); }
+	 * 
+	 * } catch (IOException e) { e.printStackTrace(); } } }
+	 * 
+	 * 
+	 * }
+	 */
 }
 
 
