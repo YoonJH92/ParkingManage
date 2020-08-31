@@ -73,6 +73,7 @@
       <th scope="col">No.</th>
       <th scope="col">차량번호</th>
       <th scope="col">입차시간</th>
+      <th scope="col">출차시간</th>
       <th scope="col">사용금액</th>
       <th scope="col">여부</th>
       <th scope="col">월정액여부</th>
@@ -83,10 +84,13 @@
   <tbody>
     
 	<c:forEach var="arr" items="${detail}">
+	
+	
 <tr>
       <th scope="row">${arr.idx}</th>
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
+	<td>${arr.outTime}</td>  	
 <%--     <td>${arr.pay}</td> 
  --%> 	
  	<td></td>
@@ -94,7 +98,7 @@
    <td>${arr.monthNum}</td>
    <td></td>
   <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
-</tr>	
+</tr>
 	</c:forEach> 
   
   </tbody>
