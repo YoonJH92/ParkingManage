@@ -11,10 +11,10 @@
 					<span><input id="discount" type="radio" name="c_d" value="할인권" />할인권</span>
 				</div>
 				<div id="toggle1">
-					<%@ include file="coupon.jsp"%>
+					<%@ include file="add_coupon.jsp"%>
 				</div>
 				<div id="toggle2">
-					<%@ include file="discount.jsp"%>
+					<%@ include file="add_discount.jsp"%>
 				</div>
 				<input class="btn -btn-lg btn-success" type="submit" value="생성" />
 				<input class="btn -btn-lg btn-success" type="reset" value="초기화" />
