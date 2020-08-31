@@ -20,6 +20,7 @@ public class Action {
       	map.put("/imgupdate",new LoglmgModifyAction());
       	map.put("/index",new IndexCommand());
       	map.put("/logdetail",new LogDetailCommand());
+      	map.put("/imgDtailupdate", new imgDtailupdate());
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());
