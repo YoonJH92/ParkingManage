@@ -39,23 +39,6 @@ body {
 <body>
 	
 
-	
-
-
-	<%
-		request.setCharacterEncoding("UTF-8");
-	%>
-		
-	<%
-		SettingDAO sdao = SettingDAO.getInstance();
-		SettingDTO sdto = sdao.settItem();
-		
-		
-	%>
-	
-
-
-
 
 	<div class="container">
 		<h1>설정</h1>
@@ -66,32 +49,32 @@ body {
 					<tr>
 						<td align="center" width="30%">주차개수</td>
 						<td><input class="form-control" type="text" name="count"
-							value="<%=sdto.getCount() %>"></td>
+							value="${sdto.getCount() }"></td>
 					</tr>
 					<tr>
 						<td align="center" width="30%">기본시간</td>
 						<td><input class="form-control" type="text" name="dtime"
-							value="<%=sdto.getDtime() %>"></td>
+							value="${sdto.getDtime() }"></td>
 					</tr>
 					<tr>
 						<td align="center" width="30%">기본 요금</td>
 						<td><input class="form-control" type="text" name="fare"
-							value="<%=sdto.getFare() %>"></td>
+							value="${sdto.getFare() }"></td>
 					</tr>
 					<tr>
 						<td align="center" width="30%">오버시 시간</td>
 						<td><input class="form-control" type="text" name="otime"
-							value="<%=sdto.getOtime() %>"></td>
+							value="${sdto.getOtime() }"></td>
 					</tr>
 					<tr>
 						<td align="center" width="30%">오버시 추가요금</td>
 						<td><input class="form-control" type="text" name="ofare"
-							value="<%=sdto.getOfare() %>"></td>
+							value="${sdto.getOfare() }"></td>
 					</tr>
 					<tr>
 						<td align="center" width="30%">월정액 요금</td>
 						<td><input class="form-control" type="text" name="month_fare"
-							value="<%=sdto.getMonth_fare() %>"></td>
+							value="${sdto.getMonth_fare() }"></td>
 					</tr>
 					<tr>
 						<td colspan="2">

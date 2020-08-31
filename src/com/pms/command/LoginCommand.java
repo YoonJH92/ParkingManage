@@ -14,6 +14,7 @@ public class LoginCommand implements Command{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		request.setCharacterEncoding("UTF-8");
 		
 		ManagerBean mbean = new ManagerBean();
 		

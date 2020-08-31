@@ -56,14 +56,7 @@ body {
 </head>
 
 <body>
-<%
-	
-	request.setCharacterEncoding("UTF-8");
-	String id = (String)session.getAttribute("sessid");
-	ManagerDAO mdao = ManagerDAO.getInstance();
-	ManagerBean mbean = mdao.searchM(id);
-	
-%>
+
 
 
 <main>
@@ -75,30 +68,30 @@ body {
 				<h1>회원정보 수정</h1>
 			</center>
 			<br>
-			<form action="changeProc.jsp" method="post">
+			<form action="ChangeCommand.do" method="post">
 
 				<div class="mb-3">
-					<label for="address">ID : <%=id %></label>
+					<label for="address">ID : ${scbean.getId }</label>
 
 
 				</div>
 
 				<div class="mb-3">
 					<label for="email">Name </label> <input type="email" name="name"
-						class="form-control" value="<%=mbean.getName() %>">
+						class="form-control" value="${scbean.getName }">
 
 				</div>
 
 
 				<div class="mb-3">
 					<label for="email">Email </label> <input type="email" name="email"
-						class="form-control" value="<%=mbean.getEmail() %>">
+						class="form-control" value="${scbean.getEmail }">
 
 				</div>
 
 				<div class="mb-3">
 					<label for="address">Tel</label> <input type="tel" name="tel"
-						class="form-control" value="<%=mbean.getTel() %>">
+						class="form-control" value="${scbean.getTel }">
 
 				</div>
 
@@ -112,7 +105,7 @@ body {
 				<br>
 				<div style="display: flex; justify-content: flex-end;">
 					<input style="margin-right: 5px;" class="btn btn-primary btn-lg"
-						href="changeProc.jsp" type="submit" value="수정">
+						 type="submit" value="수정">
 					<button type="button" class="btn btn-primary btn-lg"
 						onclick="location.href = 'login.jsp' ">취소</button>
 				</div>
@@ -122,7 +115,7 @@ body {
 			</form>
 		</div>
 	</div>
-	<!-- footer -->
+<!-- footer -->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 	</main>
 </body>
