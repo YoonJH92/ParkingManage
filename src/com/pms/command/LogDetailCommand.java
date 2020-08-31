@@ -27,8 +27,8 @@ public class LogDetailCommand implements Command {
 		else {
 		ArrayList<PmsDto> arr=dao.viewDetail(fDate, LDate, cnum);
 		 request.setAttribute("detail", arr);
+		 dao.writeLogDetailExcel(arr);
 		}
-		
 		
 		
 		return "list/logdetails";

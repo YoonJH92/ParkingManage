@@ -25,6 +25,7 @@ public  class LogListCommand implements Command {
 		 request.setAttribute("list", arr);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);
+		 dao.writeLogExcel(arr);
 	     return "list";		
 	}
 

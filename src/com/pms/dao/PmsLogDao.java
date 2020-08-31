@@ -21,6 +21,16 @@ import java.util.TimeZone;
 import java.util.Vector;
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pms.dto.PmsDto;
@@ -450,62 +460,191 @@ public class PmsLogDao {
 		return arr;
 	}
 		
+	
+	//실시간 엑셀
+	
+	public void writeLogExcel(ArrayList<PmsDto>arr) throws FileNotFoundException{ //데이터 담을 리스트 
+		String path="C://Download/";
+		//파일경로 
 		
-	//엑셀
-	/*
-	 * public void writeLogExcel(ArrayList<PmsDto> arr){ //데이터 담을 리스트 String path
-	 * ="C:/Users/admin/Downloads"; File file=new File(path+"log.xlxs");
-	 * FileOutputStream fos=null; XSSFWorkbook xworkbook= new XSSFWorkbook();
-	 * 
-	 * try {
-	 * 
-	 * fos=new FileOutputStream(file); //워크시트 생성 햔재시트 XSSFSheet
-	 * xsheet=xworkbook.createSheet("실시간"); //행 생성 //현재 row XSSFRow curRow;
-	 * 
-	 * int row=arr.size(); //셀 생성 //현재 cell Cell cell=null;
-	 * 
-	 * 
-	 * curRow=xsheet.createRow(0); cell=curRow.createCell(0);
-	 * cell.setCellValue("실시간 차량 현황"); //헤더 정보 curRow=xsheet.createRow(1);
-	 * cell=curRow.createCell(0); cell.setCellValue("No.");
-	 * 
-	 * cell=curRow.createCell(1); cell.setCellValue("차량번호");
-	 * 
-	 * cell=curRow.createCell(2); cell.setCellValue("입차시간");
-	 * 
-	 * cell=curRow.createCell(3); cell.setCellValue("사용금액");
-	 * 
-	 * cell=curRow.createCell(4); cell.setCellValue("월정액여부");
-	 * 
-	 * cell=curRow.createCell(5); cell.setCellValue("총 사용금액");
-	 * 
-	 * 
-	 * for(int i=0;i<arr.size();i++) { PmsDto dto =new PmsDto(); dto=arr.get(i);
-	 * curRow=xsheet.createRow(i+2); cell=curRow.createCell(0);
-	 * cell.setCellValue(dto.getIdx());
-	 * 
-	 * cell=curRow.createCell(1); cell.setCellValue(dto.getCnum());
-	 * 
-	 * cell=curRow.createCell(2); cell.setCellValue(dto.getInTime());
-	 * 
-	 * cell=curRow.createCell(3); cell.setCellValue(dto.getPay());
-	 * 
-	 * cell=curRow.createCell(4); cell.setCellValue(dto.getMonthNum());
-	 * 
-	 * cell=curRow.createCell(5); cell.setCellValue(dto.getTotalPay());
-	 * 
-	 * 
-	 * }
-	 * 
-	 * 
-	 * } catch (FileNotFoundException e) { e.printStackTrace(); }finally {
-	 * if(xworkbook!=null) { try { xworkbook.close(); if(fos!=null) { fos.close(); }
-	 * 
-	 * } catch (IOException e) { e.printStackTrace(); } } }
-	 * 
-	 * 
-	 * }
-	 */
-}
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyyMMddHHmmss");
+				
+		String today = format1.format (System.currentTimeMillis());
+		
+		File Folder = new File(path);
+		// 해당 디렉토리가 없을경우 
+		if (!Folder.exists()) {
+			try {
+				Folder.mkdirs(); // 폴더 생성합니다.
+				System.out.println("폴더가 생성되었습니다.");
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+		} else {
+			System.out.println("이미 폴더가 생성되어 있습니다.");
+		}
+			
+		   File file = new File(path+today+"log.xls");
+        
+           FileOutputStream fos = new FileOutputStream(file); 
+           
+
+		HSSFWorkbook workbook=new HSSFWorkbook();//새 엑셀 생성
+		HSSFSheet sheet =workbook.createSheet("실시간");//새 시트 생성
+		
+		HSSFRow row=null;//행
+		HSSFCell cell=null;//셀
+		
+		//첫번째 줄
+		row=sheet.createRow(0);
+		//첫 번째출 cell 설정
+		cell=row.createCell(0);
+		cell.setCellValue("No.");
+		
+		cell=row.createCell(1);
+		cell.setCellValue("차량번호");
+		
+		cell=row.createCell(2);
+		cell.setCellValue("입차시간");
+		
+		cell=row.createCell(3);
+		cell.setCellValue("사용금액");
+		
+		cell=row.createCell(4);
+		cell.setCellValue("월정액 여부");
+		
+		for(int i=0;i<arr.size();i++) {
+			PmsDto dto=arr.get(i);
+			row=sheet.createRow(i+1);
+
+			cell=row.createCell(0);
+			cell.setCellValue(dto.getIdx());
+			
+			cell=row.createCell(1);
+			cell.setCellValue(dto.getCnum());
+			
+			cell=row.createCell(2);
+			cell.setCellValue(dto.getInTime());
+			
+			cell=row.createCell(3);
+			cell.setCellValue(dto.getPay());
+			
+			cell=row.createCell(4);
+			cell.setCellValue(dto.getMonthNum());
+			
+		}
+		
+		try {
+			workbook.write(fos);
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+			
+			
+		}
+		
+		
+	public void writeLogDetailExcel(ArrayList<PmsDto>arr) throws FileNotFoundException{ //데이터 담을 리스트 
+		String path="C://Download/";
+		//파일경로 	
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyyMMddHHmmss");
+				
+		String today = format1.format (System.currentTimeMillis());
+		
+		File Folder = new File(path);
+		// 해당 디렉토리가 없을경우 
+		if (!Folder.exists()) {
+			try {
+				Folder.mkdirs(); // 폴더 생성합니다.
+				System.out.println("폴더가 생성되었습니다.");
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+		} else {
+			System.out.println("이미 폴더가 생성되어 있습니다.");
+		}
+			
+		   File file = new File(path+today+"Detaillog.xls");
+        
+           FileOutputStream fos = new FileOutputStream(file); 
+           
+
+		HSSFWorkbook workbook=new HSSFWorkbook();//새 엑셀 생성
+		HSSFSheet sheet =workbook.createSheet("차량조회");//새 시트 생성
+		
+		HSSFRow row=null;//행
+		HSSFCell cell=null;//셀
+		
+		//첫번째 줄
+		row=sheet.createRow(0);
+		//첫 번째출 cell 설정
+		cell=row.createCell(0);
+		cell.setCellValue("No.");
+		
+		cell=row.createCell(1);
+		cell.setCellValue("차량번호");
+		
+		cell=row.createCell(2);
+		cell.setCellValue("입차시간");
+		
+		cell=row.createCell(3);
+		cell.setCellValue("출차시간");;
+		
+		cell=row.createCell(4);
+		cell.setCellValue("사용금액");
+		
+		cell=row.createCell(5);
+		cell.setCellValue("쿠폰사용 여부");
+		cell=row.createCell(6);
+		cell.setCellValue("월정액 여부");
+		
+		for(int i=0;i<arr.size();i++) {
+			PmsDto dto=arr.get(i);
+			row=sheet.createRow(i+1);
+
+			cell=row.createCell(0);
+			cell.setCellValue(dto.getIdx());
+			
+			cell=row.createCell(1);
+			cell.setCellValue(dto.getCnum());
+			
+			cell=row.createCell(2);
+			cell.setCellValue(dto.getInTime());
+			
+			cell=row.createCell(3);
+			cell.setCellValue(dto.getOutTime());
+			
+			
+			cell=row.createCell(4);
+			cell.setCellValue(dto.getPay());
+		
+			cell=row.createCell(5);
+			cell.setCellValue(dto.getCnum());
+			cell=row.createCell(6);
+			cell.setCellValue(dto.getMonthNum());
+			
+		}
+		
+		try {
+			workbook.write(fos);
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+			
+			
+		}
+		
+		
+		}
+		
+		
+		
+	  
+
+
 
 
