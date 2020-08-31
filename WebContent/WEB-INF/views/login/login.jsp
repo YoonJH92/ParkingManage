@@ -15,8 +15,7 @@
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.5/examples/floating-labels/">
 
-<!-- Bootstrap core CSS -->
-<link href="../resources/bootstrap.css" rel="stylesheet">
+
 
  
 <style>
@@ -53,14 +52,13 @@ body {
 	font-family: 'Yeon Sung', cursive;
 }
 </style>
+<!-- Bootstrap core CSS -->
+<link href="resources/bootstrap.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="../resources/floating-labels.css" rel="stylesheet">
+<link href="resources/floating-labels.css" rel="stylesheet">
 
 <body>
- <!-- header -->
-<%@ include file="../WEB-INF/views/include/header.jsp" %> 
 
-<main>
 
 	<div class="container" id="contain">
 		<div class="jumbotron " id="jumbo" style="width: 50%">
@@ -95,12 +93,12 @@ body {
 				</div>
 				<button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
 
-				<a href="join.jsp">가입이 안되어 있으신가요?</a><br> <a
-					href="searchId.jsp">아이디</a> <a href="searchPass.jsp">비밀번호찾기</a> <br>
+				<a href="joinac.do">가입이 안되어 있으신가요?</a><br> <a
+					href="searchIdac.do">아이디</a> <a href="searchPassac.do">비밀번호찾기</a> <br>
 				<br>
 
 
-				<p class="mt-5 mb-3 text-muted text-center">&copy; 2020~</p>
+				<p class="mt-5 mb-3 text-muted text-center">&copy; PMS 2020</p>
 			</form>
 		</div>
 	</div>
@@ -122,12 +120,10 @@ body {
 
 	<c:if test="${re == 1 }">
 		<script type="text/javascript">
-			document.location.href = "join.jsp";
+			document.location.href = "../join.jsp";
 		</script>
 	</c:if>
 
-</main>
- <!-- footer -->
-<%@ include file="../WEB-INF/views/include/footer.jsp" %> 
+
 </body>
 </html>

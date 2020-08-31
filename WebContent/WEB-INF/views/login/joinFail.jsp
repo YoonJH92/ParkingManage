@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html>
 <body>
-
+	
 	<script type="text/javascript">
-		alert("수정이 완료되었습니다");
-		document.location.href="login.jsp";
+		alert("아이디가 이미 존제합니다");
+		history.go(-1);
 	</script>
-
+	
 </body>
 </html>

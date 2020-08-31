@@ -33,7 +33,6 @@ public class Add_C_DCommand implements Command{
 		String c_d = request.getParameter("c_d");
 		// 요청된 값들에 대한 인코딩
 		request.setCharacterEncoding("UTF-8");
-
 		if (c_d.equals("쿠폰")) {
 			PmsCouponDto dto = new PmsCouponDto();
 			dto.setCPNAME(request.getParameter("name"));

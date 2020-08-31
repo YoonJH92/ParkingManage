@@ -56,7 +56,7 @@ public class LoginCommand implements Command{
 					 
 				}
 		
-		return "login";
+		return "index";
 	}
 	
 	

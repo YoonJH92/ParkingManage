@@ -30,8 +30,8 @@ public class SettingDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-
-			String sql = "update pms_setting set count=?,dtime=?,fare=?,otime=?,ofare=?,month_fare=?";
+			con = pool.getConnection();
+			String sql = "update pms_setting set count=?,dtime=?,fare=?,otime=?,ofare=?,month_fare=? ";
 
 			pstmt = con.prepareStatement(sql);
 
