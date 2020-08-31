@@ -9,5 +9,5 @@ public class CDCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "coupon/new_cp_dc";
 	}
-//	http://localhost/ParkingManage/coupon/new_cp_dc.do
+//	http://localhost/ParkingManage/new_cp_dc.do
 }

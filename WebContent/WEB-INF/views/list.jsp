@@ -4,6 +4,36 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
         <!-- Begin Page Content -->
+        
+        <style>
+        
+        #modalimg{
+        	  max-width: 450px;
+             max-height: 300px;
+        	display: block; 
+        	margin: 0px auto;
+        
+        }
+        
+        
+        #logcard1{
+        border-right: .25rem solid #4e73df !important;
+        
+        
+        }
+        
+         #logcard2{
+        border-right: .25rem solid #1cc88a !important;
+        
+        
+        }
+         #logcard3{
+        border-right: .25rem solid #f6c23e !important;
+        
+        
+        }
+        
+        </style>        
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -16,20 +46,20 @@
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-4 col-md-4 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card border-left-primary shadow h-100 py-2" id="logcard1">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">총 주자수</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <div class="text-s font-weight-bold text-primary text-center text-uppercase mb-1">총 주자수</div>
+                      <div class="h4 mb-0 font-weight-bold text-gray-800 text-center">
                       
                       <c:out value="${total['allCum']}"/>
                       
                       </div>
                     </div>
-                    <div class="col-auto">
+                   <!--  <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -37,32 +67,28 @@
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-4 col-md-4 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
+              <div class="card border-left-success shadow h-100 py-2" id="logcard2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">일반 </div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><c:out value="${total['gNum']}"/></div>
+                      <div class="text-s font-weight-bold text-success text-center text-uppercase mb-1" >일반 </div>
+                      <div class="h4 mb-0 font-weight-bold text-gray-800 text-center"><c:out value="${total['gNum']}"/></div>
                     </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
+                 
                   </div>
                 </div>
               </div>
             </div>
    
              <div class="col-xl-4 col-md-4 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card border-left-warning shadow h-100 py-2" id="logcard3">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">월정액</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><c:out value="${total['mNum']}"/></div>
+                      <div class="text-s font-weight-bold text-warning text-uppercase mb-1 text-center" >월정액</div>
+                      <div class="h4 mb-0 font-weight-bold text-gray-800 text-center"><c:out value="${total['mNum']}"/></div>
                     </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
+                   
                   </div>
                 </div>
               </div>
@@ -85,15 +111,15 @@
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">실시간 조회</h6>
+                  <h6 class="m-0 font-weight-bold text-black">실시간 조회</h6>
                 </div>
                 <div class="card-body">
                <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">No.</th>
-      <th scope="col">입차시간</th>
       <th scope="col">차량번호</th>
+      <th scope="col">입차시간</th>
       <th scope="col">사용금액</th>
       <th scope="col">여부</th>
       <th scope="col">월정액여부</th>
@@ -102,38 +128,33 @@
     </tr>
   </thead>
   <tbody>
-    
-	<c:forEach var="arr" items="${list}">
+ 
+ 
+	<c:set var="cFare" value="${farelist}"></c:set>
+	<c:forEach var="arr" items="${list}"  varStatus="status">
 <tr>
-      <th scope="row">${arr.idx}</th>
+     <th scope="row">${arr.idx}</th>
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
-<%--     <td>${arr.pay}</td> 
- --%> 	
- 	<td></td>
+	<c:if test="${arr.monthNum == 0}">
+     <td>${cFare[status.index]}</td>	
+     </c:if>
+     <c:if test="${arr.monthNum != 0}">
+     <td>0</td>	
+     </c:if>
     <td>${arr.cpNum}</td>
    <td>${arr.monthNum}</td>
    <td></td>
-  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+  <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
 </tr>	
 	</c:forEach> 
-  
   </tbody>
 </table>
                        
                </div>
               </div>
 
-              <!-- Approach -->
-               <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                </div>
-                <div class="card-body">
-                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                </div>
-              </div>
+            
 
             </div>
           </div>
@@ -152,7 +173,7 @@
  	<table>
  		<form action="imgupdate.do" enctype="multipart/form-data" method="post">
  		<tr>
- 		<td><input type="text" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
+ 		<td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
  		<tr><td><input type="hidden" name="cimg" id="cimg" value=""></td>	<tr>
  			
         <tr>
@@ -160,10 +181,10 @@
  		<img id="modalimg" src="" >
 
         </td></tr>
+       
         <tr>
         <td><input type="file" name="fileName"></td>
  		</tr>
-	<img alt="" src=""> 		
  		
  	</table>
       <div class="modal-footer">
@@ -198,13 +219,7 @@
       
       
       
-      
-      
-      
-      
-      
-      
-      
+  
       
       
  <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

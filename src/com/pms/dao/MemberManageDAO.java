@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Map;
+
+import javax.naming.directory.SearchControls;
 
 import com.pms.dto.memberManageDTO;
 import com.pms.util.DBConnectionMgr;
@@ -24,7 +27,7 @@ public class MemberManageDAO {
 		return instance;
 	}
 	
-	//¿ùÁ¤¾× È¸¿ø Ãß°¡
+	//ì›”ì •ì•¡ íšŒì› ì¶”ê°€
 	public void insertMember(memberManageDTO mem) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -52,7 +55,7 @@ public class MemberManageDAO {
 	}
 	
 	
-	//¸®½ºÆ® Ãß°¡
+	//ì›”ì •ì•¡ ë¦¬ìŠ¤íŠ¸ 
 	public ArrayList<memberManageDTO> ListMember() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -87,4 +90,66 @@ public class MemberManageDAO {
 		return arr;
 	}
 	
+	//ì›”ì •ì•¡ ë¦¬ìŠ¤íŠ¸ 
+		public ArrayList<memberManageDTO> ListMember(Map<String, String> map) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			ResultSet rs = null;
+			ArrayList<memberManageDTO> arr = new ArrayList<memberManageDTO>();
+			String where = "";
+			
+			try {
+				con = pool.getConnection();
+				if(map.get("searchForm") != "") where += map.get("search")+" LIKE ?";
+				if(map.get("startForm")  != "" && map.get("endForm")  != "") where += map.get("dateSearch")+" BETWEEN ? AND ? ";
+				else if(map.get("startForm")  != "") where += map.get("dateSearch")+" >= ?";
+				else if(map.get("endForm")  != "") where += map.get("dateSearch")+" <= ?";
+				
+				sql = "select * from PMS_MONTH_MEMBER where "+ where +" order by JDATE desc";
+				pstmt = con.prepareStatement(sql);
+				if(map.get("searchForm")  != "") {
+					pstmt.setString(1, "%"+map.get("searchForm")+"%");
+					if(map.get("startForm")  != "" && map.get("endForm")  != "") {
+						pstmt.setString(2, map.get("startForm"));
+						pstmt.setString(3, map.get("endForm"));
+					}else if(map.get("startForm")  != "") {
+						pstmt.setString(2, map.get("startForm"));
+					}else if(map.get("endForm")  != "") {
+						pstmt.setString(2, map.get("endForm"));
+					}
+				}else {
+					if(map.get("startForm")  != "" && map.get("endForm")  != "") {
+						pstmt.setString(1, map.get("startForm"));
+						pstmt.setString(2, map.get("endForm"));
+					}else if(map.get("startForm")  != "") {
+						pstmt.setString(1, map.get("startForm"));
+					}else if(map.get("endForm")  != "") {
+						pstmt.setString(1, map.get("endForm"));
+					}
+				}
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					memberManageDTO mem = new memberManageDTO();
+					mem.setCNUM(rs.getString("CARN"));
+					mem.setEmail(rs.getString("email"));
+					mem.setName(rs.getString("name"));
+					mem.setPay(rs.getInt("month_pay"));
+					mem.setPhone(rs.getString("phone"));
+					mem.setStartDate(rs.getString("sdate"));
+					mem.setStopDate(rs.getString("edate"));
+					mem.setType(rs.getString("type"));
+					mem.setRegDate(rs.getString("jdate"));
+					arr.add(mem);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
+			}
+			return arr;
+		}
+		
 }

@@ -78,7 +78,7 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if(value.isEmpty()) {
-				sql= "select * from PMS_COUPON where rownum <="+align+"ORDER BY CPNUM ASC";
+				sql= "select * from PMS_COUPON where rownum <="+align+" ORDER BY CPNUM ASC";
 			}
 			else {
 				sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"' ORDER BY CPNUM ASC";
@@ -101,5 +101,60 @@ public class PmsC_D_Dao {
 			pool.freeConnection(con, pstmt);
 		}
 		return arr;
+	}
+	
+	public ArrayList<PmsDiscountDto> SearchDiscount(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		ArrayList<PmsDiscountDto> arr = new ArrayList<PmsDiscountDto>();
+		
+		try {
+			con = pool.getConnection();
+			if(value.isEmpty()) {
+				sql= "select * from PMS_Discount_manage where rownum <="+align+" ORDER BY COM_NUM ASC";
+			}
+			else {
+				sql = "select * from PMS_Discount_manage where "+condition+" = "+"'"+value+"' ORDER BY COM_NUM ASC";
+			}
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs =pstmt.executeQuery();
+			while(rs.next()) {
+				PmsDiscountDto dto = new PmsDiscountDto(); 
+				dto.setCOM_NUM(rs.getInt("COM_NUM"));
+				dto.setCOMPANY(rs.getString("COMPANY"));
+				dto.setUSE_TIME(rs.getInt("use_time"));
+				dto.setPURPOSE(rs.getString("purpose"));
+				arr.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return arr;
+	}
+	
+	public void Delete(int num, String c_d) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			if(c_d.equals("쿠폰")) {
+				sql = "delete from PMS_COUPON where CPNUM = "+num;
+			}else if(c_d.equals("할인권")) {
+				sql = "delete from PMS_DISCOUNT_MANAGE where COM_NUM = "+num;
+			}
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
 	}
 }

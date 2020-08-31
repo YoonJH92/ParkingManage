@@ -3,6 +3,22 @@
     <%@ include file="/WEB-INF/views/include/header.jsp" %> 
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<style>
+
+ #modalimg{
+        	  max-width: 450px;
+             max-height: 300px;
+        	display: block; 
+        	margin: 0px auto;
+        
+        }
+
+
+</style>
+
+
+
  <div class="container-fluid">
 	  <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">차량조회</h1>          
@@ -48,15 +64,16 @@
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">실시간 조회</h6>
+                  <h6 class="m-0 font-weight-bold text-black">실시간 조회</h6>
                 </div>
                 <div class="card-body">
                <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">No.</th>
-      <th scope="col">입차시간</th>
       <th scope="col">차량번호</th>
+      <th scope="col">입차시간</th>
+      <th scope="col">출차시간</th>
       <th scope="col">사용금액</th>
       <th scope="col">여부</th>
       <th scope="col">월정액여부</th>
@@ -67,18 +84,21 @@
   <tbody>
     
 	<c:forEach var="arr" items="${detail}">
+	
+	
 <tr>
       <th scope="row">${arr.idx}</th>
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
+	<td>${arr.outTime}</td>  	
 <%--     <td>${arr.pay}</td> 
  --%> 	
  	<td></td>
     <td>${arr.cpNum}</td>
    <td>${arr.monthNum}</td>
    <td></td>
-  <td><button type="button" class="btn btn-primary" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
-</tr>	
+  <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+</tr>
 	</c:forEach> 
   
   </tbody>
@@ -87,16 +107,7 @@
                </div>
               </div>
 
-              <!-- Approach -->
-               <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                </div>
-                <div class="card-body">
-                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                </div>
-              </div>
+        
 
             </div>
           </div>
@@ -105,7 +116,59 @@
       </div>
 
 
+ <!-- 모달창 --> 
+        <div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="carModalLabel">차량이미지</h4>
+      </div>
+      <div class="modal-body">     
+ 	<table>
+ 		<form action="imgupdate.do" enctype="multipart/form-data" method="post">
+ 		<tr>
+ 		<td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
+ 		<tr><td><input type="hidden" name="cimg" id="cimg" value=""></td>	<tr>
+ 			
+        <tr>
+        <td>
+ 		<img id="modalimg" src="" >
 
+        </td></tr>
+       
+        <tr>
+        <td><input type="file" name="fileName"></td>
+ 		</tr>
+ 		
+ 	</table>
+      <div class="modal-footer">
+      	<input type="submit" value="수정">
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </form>
+      </div>
+    </div>
+  </div></div>
+  </div>
+      
+      
+      <!-- 모달창 -->
+      
+      <script>
+	var LOGIDX="";
+	var CIMG="";
+	var IMGSRC="";
+	$(document).ready(function() {
+		$('#carModal').on('show.bs.modal', function(event) {   
+			LOGIDX=$(event.relatedTarget).data('idx');
+			CIMG=$(event.relatedTarget).data('cimg');
+			var modal=$(this);
+			$(".modal-body #idx ").val(LOGIDX);
+			$(".modal-body #cimg ").val(CIMG);	
+			$(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
+					});		
+	});
+	
+</script>
 
 
 
