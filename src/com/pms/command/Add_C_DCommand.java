@@ -9,7 +9,7 @@ import com.pms.dao.PmsC_D_Dao;
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
 
-public class AddC_DCommand implements Command{
+public class Add_C_DCommand implements Command{
 
 	private String removeCommas(String x) {
 

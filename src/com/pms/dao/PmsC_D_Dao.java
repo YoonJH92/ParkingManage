@@ -136,4 +136,25 @@ public class PmsC_D_Dao {
 		}
 		return arr;
 	}
+	
+	public void Delete(int num, String c_d) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			if(c_d.equals("쿠폰")) {
+				sql = "delete from PMS_COUPON where CPNUM = "+num;
+			}else if(c_d.equals("할인권")) {
+				sql = "delete from PMS_DISCOUNT_MANAGE where COM_NUM = "+num;
+			}
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
 }
