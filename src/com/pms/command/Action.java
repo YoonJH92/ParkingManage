@@ -28,17 +28,19 @@ public class Action {
       	map.put("/login/searchPass",new SearchPassCommand());
       	map.put("/login/setting",new SettingCommand());
       	map.put("/login/change",new ChangeCommand());
-//      	map.put("/memberSearch",new memberSearchCommand());
+     	map.put("/memberSearch",new memberSearchCommand());
       	map.put("/new_cp_dc",new CDCommand());
       	map.put("/addc_d",new Add_C_DCommand());
       	map.put("/search_cp_dc",new CDCommand2());  	
       	map.put("/search_C_D",new Search_C_DCommand());  	  	
       	map.put("/delete_C_D",new Delete_C_DCommand());  	  	
+      	map.put("/memberUpdate",new MemberUpdateCommand());  	  	
 //      	map.put("/login/login",new LoginCommand());
 //      	map.put("/login/join",new JoinCommand());
 //      	map.put("/login/searchId",new SearchIdCommand());
 //      	map.put("/login/searchPass",new SearchPassCommand());
 //      	map.put("/login/setting",new SettingCommand());
+      	
 	}
 	
 	public Command getAction(String command) {

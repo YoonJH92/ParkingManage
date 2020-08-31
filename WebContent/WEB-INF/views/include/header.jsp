@@ -37,7 +37,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.do">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="loglist.do">
         <div class="sidebar-brand-icon rotate-n-15">
  
        
@@ -50,7 +50,7 @@
       <hr class="sidebar-divider my-0">
 
       <li class="nav-item active" id="test">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="loglist.do">
            <i class="fas fa-fw fa-tachometer-alt"></i>
           <span></span></a>
       </li>
