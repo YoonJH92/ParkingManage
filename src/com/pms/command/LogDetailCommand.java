@@ -17,12 +17,16 @@ public class LogDetailCommand implements Command {
 		
 		String cnum=request.getParameter("cnum");
 		String fDate=request.getParameter("FDate");
-		String LDate=request.getParameter("LDate");
-		
+		String LDate=request.getParameter("LDate");		
 		PmsLogDao dao=PmsLogDao.getInstance();
+		dao.imgUpdate(request);  
+		if(fDate==null&&cnum==null) {
+			System.out.println("null");			
+		}
+		else {
 		ArrayList<PmsDto> arr=dao.viewDetail(fDate, LDate, cnum);
 		 request.setAttribute("detail", arr);
-		 
+		}
 		return "list/logdetails";
 	}
 
