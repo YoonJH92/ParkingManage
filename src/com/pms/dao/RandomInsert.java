@@ -46,9 +46,28 @@ public class RandomInsert {
 		}
 	}
 
-	public void randomMemberAdd(String key, String toDate, String stopDate) {
-		// TODO Auto-generated method stub
-		
+	public void randomMemberAdd(String key, String toDate, String stopDate, String name) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+
+		try {
+			con = pool.getConnection();
+			
+			sql = "insert into PMS_MONTH_MEMBER(IDX,JDATE,SDATE,EDATE,CARN,NAME) values(MONTH_MEMBER_SEQ.nextval,SYSDATE,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, toDate);
+			pstmt.setString(2, stopDate);
+			pstmt.setString(3, key);
+			pstmt.setString(4, name);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}		
 	}
 }
 
