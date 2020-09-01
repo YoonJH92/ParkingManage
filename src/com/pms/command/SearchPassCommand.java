@@ -15,6 +15,11 @@ public class SearchPassCommand implements Command {
 		request.setCharacterEncoding("UTF-8");
 		ManagerDAO mdao = new ManagerDAO();
 		ManagerBean passbean = new ManagerBean();
+		passbean.setName(request.getParameter("name"));
+		passbean.setId(request.getParameter("id"));
+		passbean.setEmail(request.getParameter("email"));
+		passbean.setTel(request.getParameter("tel"));
+		
 		String passsearch =mdao.MdSearchPass(passbean);
 		
 		request.setAttribute("passsearch", passsearch);

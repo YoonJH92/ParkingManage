@@ -1,4 +1,4 @@
-<%@page import="com.pms.dto.ManagerBean"%>
+<%-- <%@page import="com.pms.dto.ManagerBean"%>
 <%@page import="com.pms.dao.ManagerDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -55,48 +55,58 @@ body {
 </head>
 
 <body>
+ --%>
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
+<%@ include file="/WEB-INF/views/include/header.jsp" %> 
+
 
 
 
 	<main>
 		<!-- header -->
-		<%@ include file="/WEB-INF/views/include/header.jsp"%>
+		<%-- <%@ include file="/WEB-INF/views/include/header.jsp"%> --%>
 		<div class="container" id="contain">
 			<div class="jumbotron " style="width: 60%">
 				<center>
 					<h1>회원정보 수정</h1>
 				</center>
 				<br>
-				<form action="ChangeCommand.do" method="post">
+				<form action="change.do" method="post">
 
 					<div class="mb-3">
-						<label for="address">ID : ${scbean.getId }</label>
+						<label for="address"><h3>ID : ${id }</h3></label>
 
 
 					</div>
 
 					<div class="mb-3">
-						<label for="email">Name </label> <input type="email" name="name"
-							class="form-control" value="${scbean.getName }">
+						<label for="email">Name </label> <input type="text" name="name"
+							class="form-control" value="${name }">
 
 					</div>
 
 
 					<div class="mb-3">
 						<label for="email">Email </label> <input type="email" name="email"
-							class="form-control" value="${scbean.getEmail }">
+							class="form-control" value="${email }">
 
 					</div>
 
 					<div class="mb-3">
 						<label for="address">Tel</label> <input type="tel" name="tel"
-							class="form-control" value="${scbean.getTel }">
+							class="form-control" value="${tel }">
 
 					</div>
 
 					<div class="mb-3">
 						<label for="address">Password</label> <input type="password"
-							name="pass" class="form-control" value="비밀번호를 입력해 주세요" required>
+							name="pass" class="form-control" placeholder="비밀번호를 입력해 주세요" required>
 
 					</div>
 
@@ -105,7 +115,7 @@ body {
 						<input style="margin-right: 5px;" class="btn btn-primary btn-lg"
 							type="submit" value="수정">
 						<button type="button" class="btn btn-primary btn-lg"
-							onclick="location.href = 'login.jsp' ">취소</button>
+							onclick="location.href = 'loglistac.do' ">취소</button>
 					</div>
 
 
@@ -113,8 +123,7 @@ body {
 				</form>
 			</div>
 		</div>
-		<!-- footer -->
-		<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+
 	</main>
-</body>
-</html>
+	</div>
+	 <%@ include file="/WEB-INF/views/include/footer.jsp" %>

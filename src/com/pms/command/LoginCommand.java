@@ -30,9 +30,9 @@ public class LoginCommand implements Command{
 		request.setAttribute("re", re);
 
 				
-				String save = request.getParameter("save");
+		String save = request.getParameter("save");
 				
-				String cid = request.getParameter("id");
+		String cid = request.getParameter("id");
 				
 				
 				if(save != null){
@@ -56,7 +56,7 @@ public class LoginCommand implements Command{
 					 
 				}
 		
-		return "index";
+		return "login/login";
 	}
 	
 	

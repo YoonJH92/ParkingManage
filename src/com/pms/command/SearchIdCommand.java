@@ -16,6 +16,9 @@ public class SearchIdCommand implements Command {
 		
 		ManagerDAO mdao = new ManagerDAO();
 		ManagerBean idbean = new ManagerBean();
+		idbean.setName(request.getParameter("name"));
+		idbean.setEmail(request.getParameter("email"));
+		idbean.setTel(request.getParameter("tel"));
 		String idsearch =mdao.MdSearchId(idbean);
 		
 		request.setAttribute("idsearch", idsearch);

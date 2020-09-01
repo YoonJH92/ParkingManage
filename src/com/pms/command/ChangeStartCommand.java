@@ -23,7 +23,10 @@ public class ChangeStartCommand implements Command {
 		
 		csbean = mdao.searchM(sessid);
 		
-		request.setAttribute("csbean", csbean);
+		request.setAttribute("id", csbean.getId());
+		request.setAttribute("name", csbean.getName());
+		request.setAttribute("email", csbean.getEmail());
+		request.setAttribute("tel", csbean.getTel());
 		
 		return "login/change";
 	}
