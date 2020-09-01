@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.pms.dao.PmsC_D_Dao;
 import com.pms.dto.PmsCouponDto;
@@ -28,9 +29,9 @@ public class Add_C_DCommand implements Command{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
 		String c_d = request.getParameter("a_c_d");
+		request.removeAttribute("c_d");
 		// 요청된 값들에 대한 인코딩
 		request.setCharacterEncoding("UTF-8");
 		if (c_d.equals("a_coupon")) {
@@ -39,6 +40,7 @@ public class Add_C_DCommand implements Command{
 			dto.setUSE_DATE(Integer.parseInt(removeCommas(choice(request, "date"))));
 			dto.setDISCOUNT(Integer.parseInt(removeCommas(choice(request, "price"))));
 			dto.setPURPOSE(request.getParameter("cpurpose"));
+			request.setAttribute("c_d", c_d);
 			dao.NewCoupon(dto);
 		} else if (c_d.equals("a_discount")) {
 			PmsDiscountDto dto = new PmsDiscountDto();
@@ -46,7 +48,8 @@ public class Add_C_DCommand implements Command{
 			dto.setPURPOSE(request.getParameter("dpurpose"));
 			dto.setUSE_TIME(Integer.parseInt(removeCommas(choice(request, "time"))));
 			dao.NewDiscount(dto);
+			request.setAttribute("c_d", c_d);
 		}
-		return "redirect:search_cp_dc.do";
+		return "/coupon/search_cp_dc";
 	}
 }
