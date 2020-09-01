@@ -11,7 +11,7 @@ String c_d = request.getParameter("c_d");
 PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
 JSONArray jarr = new JSONArray();
 
-if(c_d.equals("쿠폰"))
+if(c_d.equals("coupon"))
 {
 	String c_condition = request.getParameter("c_condition");
 	String c_value = request.getParameter("c_value");
@@ -27,7 +27,7 @@ if(c_d.equals("쿠폰"))
 		obj.put("DISCOUNT", d.getDISCOUNT());
 		jarr.add(obj);
 	}
-}else if(c_d.equals("할인권"))
+}else if(c_d.equals("discount"))
 {
 	String d_condition = request.getParameter("d_condition");
 	String d_value = request.getParameter("d_value");

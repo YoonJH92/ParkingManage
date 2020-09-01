@@ -7,8 +7,8 @@
 				<h1 class="mb-3">쿠폰 할인권 생성</h1>
 				<div class="card my-3">
 					<span>쿠폰 할인권 선택</span>
-					<span><input id="coupon" type="radio" name="c_d" value="쿠폰" checked />쿠폰</span>
-					<span><input id="discount" type="radio" name="c_d" value="할인권" />할인권</span>
+					<span><input id="coupon" type="radio" name="c_d" value="coupon" checked />쿠폰</span>
+					<span><input id="discount" type="radio" name="c_d" value="discount" />할인권</span>
 				</div>
 				<div id="toggle1">
 					<%@ include file="add_coupon.jsp"%>
@@ -72,7 +72,7 @@
 		});
 
 		$('input[name="c_d"]').change(function () {
-			if ($('input:radio[value="쿠폰"]').is(':checked')) {
+			if ($('input:radio[value="coupon"]').is(':checked')) {
 				$("#toggle1").show();
 				$("#toggle2").hide();
 			} else {

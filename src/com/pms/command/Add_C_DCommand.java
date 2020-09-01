@@ -33,14 +33,14 @@ public class Add_C_DCommand implements Command{
 		String c_d = request.getParameter("c_d");
 		// 요청된 값들에 대한 인코딩
 		request.setCharacterEncoding("UTF-8");
-		if (c_d.equals("쿠폰")) {
+		if (c_d.equals("coupon")) {
 			PmsCouponDto dto = new PmsCouponDto();
 			dto.setCPNAME(request.getParameter("name"));
 			dto.setUSE_DATE(Integer.parseInt(removeCommas(choice(request, "date"))));
 			dto.setDISCOUNT(Integer.parseInt(removeCommas(choice(request, "price"))));
 			dto.setPURPOSE(request.getParameter("cpurpose"));
 			dao.NewCoupon(dto);
-		} else if (c_d.equals("할인권")) {
+		} else if (c_d.equals("discount")) {
 			PmsDiscountDto dto = new PmsDiscountDto();
 			dto.setCOMPANY(request.getParameter("company"));
 			dto.setPURPOSE(request.getParameter("dpurpose"));

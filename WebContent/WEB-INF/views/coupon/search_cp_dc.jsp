@@ -6,10 +6,10 @@
 				<div class="card my-3">
 					<div>쿠폰 할인권 선택</div>
 					<div class="row">
-						<div class="col-xs-3 ml-3 col-md-offset-4"><input id="coupon" type="radio" name="c_d" value="쿠폰"
+						<div class="col-xs-3 ml-3 col-md-offset-4"><input id="coupon" type="radio" name="c_d" value="coupon"
 								checked />쿠폰
 						</div>
-						<div class="col-xs-3 ml-3"><input id="discount" type="radio" name="c_d" value="할인권" />할인권
+						<div class="col-xs-3 ml-3"><input id="discount" type="radio" name="c_d" value="discount" />할인권
 						</div>
 					</div>
 				</div>
@@ -25,7 +25,7 @@
 		$("#toggle2").hide();
 
 		$('input[name="c_d"]').change(function () {
-			if ($('input:radio[value="쿠폰"]').is(':checked')) {
+			if ($('input:radio[value="coupon"]').is(':checked')) {
 				$("#toggle1").show();
 				$("#toggle2").hide();
 			} else{

@@ -65,8 +65,8 @@
 			c_d_delete();
 		});
 
-		$('input:radio[value="쿠폰"]').change(function () {
-			if ($('input:radio[value="쿠폰"]').is(':checked')) {
+		$('input:radio[value="coupon"]').change(function () {
+			if ($('input:radio[value="coupon"]').is(':checked')) {
 				var htmlStr =
 					"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
 			} else {
@@ -79,12 +79,12 @@
 	});
 
 	function search() {
-		if ($('input:radio[value="쿠폰"]').is(':checked')) {
+		if ($('input:radio[value="coupon"]').is(':checked')) {
 			$.getJSON("search_C_D.do", {
 					"c_condition": $('select[name="c_condition"]').val(),
 					"c_value": $('input:text[name="c_value"]').val(),
 					"c_align": $('select[name="c_align"]').val(),
-					"c_d": "쿠폰"
+					"c_d": "coupon"
 				},
 				function (data) { //콜백함수
 					var htmlStr =
@@ -114,7 +114,7 @@
 					"d_condition": $('select[name="d_condition"]').val(),
 					"d_value": $('input:text[name="d_value"]').val(),
 					"d_align": $('select[name="d_align"]').val(),
-					"c_d": "할인권"
+					"c_d": "discount"
 				},
 				function (data) { //콜백함수
 					var htmlStr =
@@ -148,7 +148,7 @@
 				$('input[name="d_chk"]').each(function () {
 					if ($(this).is(":checked")) {
 						$.post("delete_C_D.do", {
-							c_d: "할인권",
+							c_d: "discount",
 							num: $(this).val()
 						}, function (data) {});
 						alert("삭제 완료!");
@@ -163,7 +163,7 @@
 				$('input[name="c_chk"]').each(function () {
 					if ($(this).is(":checked")) {
 						$.post("delete_C_D.do", {
-							c_d: "쿠폰",
+							c_d: "coupon",
 							num: $(this).val()
 						}, function (data) {});
 						alert("삭제 완료!");
