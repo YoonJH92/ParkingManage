@@ -57,9 +57,8 @@
 			search();
 		});
 
-
-		$('input:radio[value="coupon"]').change(function () {
-			if ($('input:radio[value="coupon"]').is(':checked')) {
+		$('input:radio[value="s_coupon"]').change(function () {
+			if ($('input:radio[value="s_coupon"]').is(':checked')) {
 				var htmlStr =
 					"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
 			} else {
@@ -72,7 +71,7 @@
 	});
 
 	function search() {
-		if ($('input:radio[value="coupon"]').is(':checked')) {
+		if ($('input:radio[value="s_coupon"]').is(':checked')) {
 			$.getJSON("search_C_D.do", {
 					"c_condition": $('select[name="c_condition"]').val(),
 					"c_value": $('input:text[name="c_value"]').val(),
@@ -134,7 +133,6 @@
 				});
 		}
 	}
-
 
 	$('button[name="d_delete"]').click(function () {
 		if ($('input[name="d_chk"]').is(":checked")) {
