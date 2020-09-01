@@ -20,17 +20,21 @@ public class LogDetailCommand implements Command {
 		String LDate=request.getParameter("LDate");		
 		PmsLogDao dao=PmsLogDao.getInstance();
 		dao.imgUpdate(request);  
-		dao.fare();
 		if(fDate==null&&cnum==null) {
-			System.out.println("null");			
+			System.out.println("null");
+			fDate="-1";
+			dao.fare();
+			ArrayList<PmsDto> arr=dao.viewDetail(fDate, LDate, cnum);
+			request.setAttribute("detail", arr);
+			dao.writeLogDetailExcel(arr);
+
 		}
 		else {
 		ArrayList<PmsDto> arr=dao.viewDetail(fDate, LDate, cnum);
 		 request.setAttribute("detail", arr);
-		 dao.writeLogDetailExcel(arr);
+			dao.writeLogDetailExcel(arr);
 		}
-		
-		
+				
 		return "list/logdetails";
 	}
 

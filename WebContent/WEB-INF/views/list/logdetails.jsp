@@ -7,22 +7,23 @@
 <style>
 
  #modalimg{
-        	  max-width: 450px;
-             max-height: 300px;
+        	max-width: 450px;
+            max-height: 300px;
         	display: block; 
-        	margin: 0px auto;
-        
-        }
-
+        	margin: 0px auto;       
+    }
 
 </style>
-
 
 
  <div class="container-fluid">
 	  <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">차량조회</h1>          
+            <a href="logdetaildown.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
           </div>
+          
+      
+          
    <div class="row">
             <div class="col-xl-12 col-md-12 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
@@ -45,16 +46,9 @@
                 </div>
               </div>
             </div>
-</div>
-
-
-     
-
-
-      
+</div>     
             <!-- Pending Requests Card Example -->
-          
-
+        
           <!-- Content Row -->
           <div class="row">
           
