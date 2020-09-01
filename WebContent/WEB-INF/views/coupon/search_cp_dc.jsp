@@ -2,13 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
-<div class="container-fluid"">
+<div class="container-fluid">
 	<h1 class="mb-3">쿠폰 할인권 조회</h1>
 	<div class="card my-3">
 		<div>쿠폰 할인권 선택</div>
 		<div class="row">
-			<div class="col-xs-3 ml-3 col-md-offset-4"><input type="radio" name="s_c_d" value="s_coupon"
-					checked />쿠폰
+			<div class="col-xs-3 ml-3 col-md-offset-4"><input type="radio" name="s_c_d" value="s_coupon" checked />쿠폰
 			</div>
 			<div class="col-xs-3 ml-3"><input id="discount" type="radio" name="s_c_d" value="s_discount" />할인권
 			</div>
@@ -38,10 +37,12 @@
 				search();
 			}
 		});
-		$('button[modal]').on('click', function(){
+		$('button[modal]').on('click', function () {
 			$('#modalBox').modal('show');
-			});
+		});
 	});
 </script>
 <%@ include file="new_cp_dc.jsp"%>
+
+</div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
