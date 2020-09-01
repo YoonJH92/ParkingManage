@@ -181,5 +181,22 @@ public class MemberManageDAO {
 				pool.freeConnection(con, pstmt);
 			}
 		}
+
+		public void deleteMember(int idx) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			try {
+				con = pool.getConnection();
+				sql = "DELETE FROM PMS_MONTH_MEMBER WHERE IDX = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
+			}			
+		}
 		
 }

@@ -17,7 +17,6 @@ public class RandomInsert {
 		pool = DBConnectionMgr.getInstance();
 	}
 
-	// 랜덤 차량번호 디비 저장
 	public void randomLogAdd(String key, String in_time, String out_time) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -45,6 +44,11 @@ public class RandomInsert {
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
+	}
+
+	public void randomMemberAdd(String key, String toDate, String stopDate) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

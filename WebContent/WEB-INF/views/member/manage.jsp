@@ -183,6 +183,7 @@
        </div>
        <div class="modal-body">
 			<input type="hidden" id="idx" name="idx" value="">
+			<input type="hidden" id="selectType" name="selectType" value="">
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
 			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
@@ -217,8 +218,8 @@
 			</div>
        </div>
        <div class="modal-footer">
-         <input type="button" onclick="deleteConfirm();" value="삭제" class="btn btn-danger fl">
-         <input type="button" onclick="updateConfirm();" value="확인" class="btn btn-primary">
+         <input type="button" onclick="Confirm('delete');" value="삭제" class="btn btn-danger fl">
+         <input type="button" onclick="Confirm('update');" value="확인" class="btn btn-primary">
          <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
        </div>
      </div>
@@ -229,7 +230,12 @@
  
     <script type="text/javascript">
       $(function () {
-          $('#startDate').datetimepicker();
+          $("input[name=startDate]").datetimepicker({  
+        	  format: 'Y-m-d H:i:s'
+          });
+          $("input[name=stopDate]").datetimepicker({  
+        	  format: 'Y-m-d H:i:s'
+          });
           $( "#startForm" ).datepicker({
         	    dateFormat: 'yy-mm-dd'
           });
@@ -277,10 +283,16 @@
           });
       });
 
-      function updateConfirm(){
-    	  if(confirm("수정하시겠습니까?")){
+      function Confirm(type){
+    	  var text ="";
+    	  if(type=="delete") text = "삭제";
+    	  else if(type=="update") text = "수정";
+    	  $("#selectType").val(type);
+    	  
+    	  if(confirm(text+"하시겠습니까?")){
 			$("#editFrm").submit();
     	  }
       }
+
   </script> 	
  <%@ include file="/WEB-INF/views/include/footer.jsp" %> 
