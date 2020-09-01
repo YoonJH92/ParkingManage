@@ -1,31 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ include file="/WEB-INF/views/include/header.jsp"%>
-
-		<div class="container">
-			<form method="GET" action="addc_d.do">
-				<h1 class="mb-3">쿠폰 할인권 생성</h1>
-				<div class="card my-3">
-					<span>쿠폰 할인권 선택</span>
-					<span><input id="coupon" type="radio" name="c_d" value="쿠폰" checked />쿠폰</span>
-					<span><input id="discount" type="radio" name="c_d" value="할인권" />할인권</span>
+<div class="modal fade" id="modalBox" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<form method="GET" action="addc_d.do">
+						<h1 class="mb-3">쿠폰 할인권 생성</h1>
+						<div class="card my-3">
+							<span>쿠폰 할인권 선택</span>
+							<span><input type="radio" name="a_c_d" value="a_coupon" checked />쿠폰</span>
+							<span><input type="radio" name="a_c_d" value="a_discount" />할인권</span>
+						</div>
+						<div id="toggle3">
+							<%@ include file="add_coupon.jsp"%>
+						</div>
+						<div id="toggle4">
+							<%@ include file="add_discount.jsp"%>
+						</div>
+						<div class="modal-footer">
+							<input class="btn -btn-lg btn-success" type="submit" value="생성" />
+							<input class="btn -btn-lg btn-success" type="reset" value="초기화" />
+						</div>
+					</form>
 				</div>
-				<div id="toggle1">
-					<%@ include file="add_coupon.jsp"%>
-				</div>
-				<div id="toggle2">
-					<%@ include file="add_discount.jsp"%>
-				</div>
-				<input class="btn -btn-lg btn-success" type="submit" value="생성" />
-				<input class="btn -btn-lg btn-success" type="reset" value="초기화" />
-				<button class="btn -btn-lg btn-success">취소</button>
-			</form>
+			</div>
 		</div>
+	</div>
+</div>
 <script>
 	$(function () {
 		$("#date").hide();
 		$("#price").hide();
-		$("#toggle2").hide();
+		$("#toggle4").hide();
 		$("#time").hide();
 
 		$("#show1").text("1,000원");
@@ -71,19 +82,19 @@
 			$("#show2").text($(this).val() + "시간");
 		});
 
-		$('input[name="c_d"]').change(function () {
-			if ($('input:radio[value="쿠폰"]').is(':checked')) {
-				$("#toggle1").show();
-				$("#toggle2").hide();
+		$('input[name="a_c_d"]').change(function () {
+			if ($('input:radio[value="a_coupon"]').is(':checked')) {
+				$("#toggle3").show();
+				$("#toggle4").hide();
 			} else {
-				$("#toggle1").hide();
-				$("#toggle2").show();
+				$("#toggle3").hide();
+				$("#toggle4").show();
 			}
 		});
 
 		$('input[type="reset"]').click(function () {
-			$("#toggle1").show();
-			$("#toggle2").hide();
+			$("#toggle3").show();
+			$("#toggle4").hide();
 		});
 
 		$('select[name="date"]').change(function () {
@@ -115,4 +126,3 @@
 		});
 	});
 </script>
-<%@ include file="/WEB-INF/views/include/footer.jsp"%>

@@ -102,7 +102,7 @@ public class PmsC_D_Dao {
 		}
 		return arr;
 	}
-	
+
 	public ArrayList<PmsDiscountDto> SearchDiscount(String condition, String value, int align) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -144,9 +144,9 @@ public class PmsC_D_Dao {
 		String sql = null;
 		try {
 			con = pool.getConnection();
-			if(c_d.equals("쿠폰")) {
+			if(c_d.equals("coupon")) {
 				sql = "delete from PMS_COUPON where CPNUM = "+num;
-			}else if(c_d.equals("할인권")) {
+			}else if(c_d.equals("discount")) {
 				sql = "delete from PMS_DISCOUNT_MANAGE where COM_NUM = "+num;
 			}
 			System.out.println(sql);
