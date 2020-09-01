@@ -20,12 +20,10 @@ public  class LogListCommand implements Command {
 		 PmsLogDao dao=PmsLogDao.getInstance(); 
 		 ArrayList<PmsDto> arr=dao.viewList();
 		 HashMap<String, Integer> result=dao.logTotalResult();
-		 ArrayList<Integer>fare=dao.Curentfare();
-		 
+		 ArrayList<Integer>fare=dao.Curentfare();		 
 		 request.setAttribute("list", arr);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);
-		 dao.writeLogExcel(arr);
 	     return "list";		
 	}
 
