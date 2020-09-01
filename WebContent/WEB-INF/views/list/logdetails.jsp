@@ -7,22 +7,23 @@
 <style>
 
  #modalimg{
-        	  max-width: 450px;
-             max-height: 300px;
+        	max-width: 450px;
+            max-height: 300px;
         	display: block; 
-        	margin: 0px auto;
-        
-        }
-
+        	margin: 0px auto;       
+    }
 
 </style>
-
 
 
  <div class="container-fluid">
 	  <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">차량조회</h1>          
+            <a href="logdetaildown.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
           </div>
+          
+      
+          
    <div class="row">
             <div class="col-xl-12 col-md-12 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
@@ -45,16 +46,9 @@
                 </div>
               </div>
             </div>
-</div>
-
-
-     
-
-
-      
+</div>     
             <!-- Pending Requests Card Example -->
-          
-
+        
           <!-- Content Row -->
           <div class="row">
           
@@ -75,7 +69,6 @@
       <th scope="col">입차시간</th>
       <th scope="col">출차시간</th>
       <th scope="col">사용금액</th>
-      <th scope="col">여부</th>
       <th scope="col">월정액여부</th>
       <th scope="col">구분</th>
       <th scope="col">차량이미지</th>
@@ -91,9 +84,7 @@
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
 	<td>${arr.outTime}</td>  	
-<%--     <td>${arr.pay}</td> 
- --%> 	
- 	<td></td>
+    <td>${arr.pay}</td> 
     <td>${arr.cpNum}</td>
    <td>${arr.monthNum}</td>
    <td></td>
@@ -113,8 +104,7 @@
           </div>
         </div>
         <!-- /.container-fluid -->
-      </div>
-
+      
 
  <!-- 모달창 --> 
         <div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel">
@@ -125,7 +115,7 @@
       </div>
       <div class="modal-body">     
  	<table>
- 		<form action="imgupdate.do" enctype="multipart/form-data" method="post">
+ 		<form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">
  		<tr>
  		<td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
  		<tr><td><input type="hidden" name="cimg" id="cimg" value=""></td>	<tr>
@@ -140,11 +130,11 @@
         <td><input type="file" name="fileName"></td>
  		</tr>
  		
- 	</table>
       <div class="modal-footer">
       	<input type="submit" value="수정">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
         </form>
+ 	</table>
       </div>
     </div>
   </div></div>

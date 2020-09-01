@@ -6,11 +6,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
-
+ <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
 <main>
 	<div class="container">
-		<h1>설정</h1>
+		<h1><i class="fas fa-cog"></i>설정</h1>
 		<br> <br>
 		<table class="table table-hover">
 			<form action="setting.do" method="post">

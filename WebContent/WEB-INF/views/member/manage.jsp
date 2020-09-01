@@ -5,6 +5,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <style>
 .fr{float:right!important;}
+.fl{float:left!important;}
 .py10{padding: 10px 0;}
 .al-center{align-items: center;}
 .text-right{text-align: right;}
@@ -87,6 +88,9 @@
               <th>시작 시간</th>
               <th>종료 시간</th>
               <th>사용 금액(원)</th>
+              <th>이메일</th>
+              <th>Phone</th>
+              <th>구분</th>
               <th></th>
             </tr>
           </thead>
@@ -99,8 +103,11 @@
 	              <td>${list.startDate}</td>
 	              <td>${list.stopDate}</td>
 	              <td class="text-right"><f:formatNumber type="number" maxFractionDigits="3" value="${list.pay}" /></td>
+	              <td>${list.email}</td>
+	              <td>${list.phone}</td>
+	              <td>${list.type}</td>
 	              <td>	    
-		              <a href="#" data-id="${list.idx }" class="d-none d-sm-inline-block btn btn-success shadow-sm btn-edit" data-toggle="modal" data-target="#EditModal">
+		              <a href="#" data-val="${list.idx }" class="d-none d-sm-inline-block btn btn-success shadow-sm btn-edit" data-toggle="modal" data-target="#EditModal">
 		      			<i class="fas fa-user fa-sm text-white-50"></i> 수정
 	      			  </a>
       			  </td>
@@ -131,27 +138,27 @@
 		
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" name="name"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">차량 번호</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="CNUM" name="CNUM"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" name="CNUM"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">시작 시간</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="startDate" name="startDate"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" name="startDate"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">이메일</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="email" name="email"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" name="email"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">Phone</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="phone" name="phone"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" name="phone"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">구 분</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="type" name="type"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" name="type"></div>
 			</div>
        </div>
        <div class="modal-footer">
@@ -165,7 +172,7 @@
  
   <!-- Logout Modal-->
  <div class="modal" id="EditModal" tabindex="-1" role="dialog" aria-hidden="true">
- <form class="user" action="memberInsert.do" method="post">
+ <form class="user" method="post" action="memberUpdate.do" id="editFrm" name="editFrm">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
@@ -175,7 +182,8 @@
          </button>
        </div>
        <div class="modal-body">
-		
+			<input type="hidden" id="idx" name="idx" value="">
+			<input type="hidden" id="selectType" name="selectType" value="">
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
 			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
@@ -187,6 +195,14 @@
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">시작 시간</div>
 			  <div class="col-md-8"><input type="text" class="form-control" id="startDate" name="startDate"></div>
+			</div>
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">종료 시간</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="stopDate" name="stopDate"></div>
+			</div>
+			<div class="row py10 al-center">
+			  <div class="col-md-4" style="text-align: center;">사용 금액</div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="pay" name="pay"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">이메일</div>
@@ -202,7 +218,8 @@
 			</div>
        </div>
        <div class="modal-footer">
-         <input type="submit" value="확인" class="btn btn-primary">
+         <input type="button" onclick="Confirm('delete');" value="삭제" class="btn btn-danger fl">
+         <input type="button" onclick="Confirm('update');" value="확인" class="btn btn-primary">
          <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
        </div>
      </div>
@@ -213,7 +230,12 @@
  
     <script type="text/javascript">
       $(function () {
-          $('#startDate').datetimepicker();
+          $("input[name=startDate]").datetimepicker({  
+        	  format: 'Y-m-d H:i:s'
+          });
+          $("input[name=stopDate]").datetimepicker({  
+        	  format: 'Y-m-d H:i:s'
+          });
           $( "#startForm" ).datepicker({
         	    dateFormat: 'yy-mm-dd'
           });
@@ -240,13 +262,37 @@
           
 
           $(".btn-edit").click(function(e){
-        	  alert(2);
-
+        	  var name = $(this).parent().siblings().eq(1).text();
+        	  var CNUM = $(this).parent().siblings().eq(2).text();
+        	  var startDate = $(this).parent().siblings().eq(3).text();
+        	  var stopDate = $(this).parent().siblings().eq(4).text();
+        	  var pay = $(this).parent().siblings().eq(5).text().replace(",", "");
+        	  var email = $(this).parent().siblings().eq(6).text();
+        	  var phone = $(this).parent().siblings().eq(7).text();
+        	  var type = $(this).parent().siblings().eq(8).text();
+        	  
+        	  $("#name").val(name);
+        	  $("#CNUM").val(CNUM);
+        	  $("#startDate").val(startDate);
+        	  $("#stopDate").val(stopDate);
+        	  $("#email").val(email);
+        	  $("#phone").val(phone);
+        	  $("#type").val(type);
+        	  $("#pay").val(pay);
+        	  $("#idx").val($(this).attr("data-val"));
           });
       });
-      
-      function view(type){
-    	  console.log(this);
+
+      function Confirm(type){
+    	  var text ="";
+    	  if(type=="delete") text = "삭제";
+    	  else if(type=="update") text = "수정";
+    	  $("#selectType").val(type);
+    	  
+    	  if(confirm(text+"하시겠습니까?")){
+			$("#editFrm").submit();
+    	  }
       }
+
   </script> 	
  <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

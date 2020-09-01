@@ -57,16 +57,8 @@
 			search();
 		});
 
-		$('button[name="c_delete"]').click(function () {
-			c_d_delete();
-		});
-
-		$('button[name="d_delete"]').click(function () {
-			c_d_delete();
-		});
-
-		$('input:radio[value="쿠폰"]').change(function () {
-			if ($('input:radio[value="쿠폰"]').is(':checked')) {
+		$('input:radio[value="s_coupon"]').change(function () {
+			if ($('input:radio[value="s_coupon"]').is(':checked')) {
 				var htmlStr =
 					"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
 			} else {
@@ -79,20 +71,21 @@
 	});
 
 	function search() {
-		if ($('input:radio[value="쿠폰"]').is(':checked')) {
+		if ($('input:radio[value="s_coupon"]').is(':checked')) {
 			$.getJSON("search_C_D.do", {
 					"c_condition": $('select[name="c_condition"]').val(),
 					"c_value": $('input:text[name="c_value"]').val(),
 					"c_align": $('select[name="c_align"]').val(),
-					"c_d": "쿠폰"
+					"c_d": "coupon"
 				},
 				function (data) { //콜백함수
+					console.log(data);
 					var htmlStr =
 						"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"c_chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
 
 					$.each(data, function (key, val) {
 						htmlStr += "<tr>";
-						htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "/></td>";
+						htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "></td>";
 						htmlStr += "<td>" + val.CPNUM + "</td>";
 						htmlStr += "<td>" + val.CPNAME + "</td>";
 						htmlStr += "<td>" + val.USE_DATE + "</td>";
@@ -114,7 +107,7 @@
 					"d_condition": $('select[name="d_condition"]').val(),
 					"d_value": $('input:text[name="d_value"]').val(),
 					"d_align": $('select[name="d_align"]').val(),
-					"c_d": "할인권"
+					"c_d": "discount"
 				},
 				function (data) { //콜백함수
 					var htmlStr =
@@ -123,7 +116,7 @@
 					$.each(data, function (key, val) {
 						htmlStr += "<tr>";
 						htmlStr += "<td><input type=\"checkbox\" name=\"d_chk\" value=" + val.COM_NUM +
-							"/></td>";
+							"></td>";
 						htmlStr += "<td>" + val.COM_NUM + "</td>";
 						htmlStr += "<td>" + val.COMPANY + "</td>";
 						htmlStr += "<td>" + val.USE_TIME + "</td>";
@@ -142,37 +135,36 @@
 		}
 	}
 
-	function c_d_delete() {
-		if ($('button[name="d_delete"]')) {
-			if ($('input[name="d_chk"]').is(":checked")) {
-				$('input[name="d_chk"]').each(function () {
-					if ($(this).is(":checked")) {
-						$.post("delete_C_D.do", {
-							c_d: "할인권",
-							num: $(this).val()
-						}, function (data) {});
-						alert("삭제 완료!");
-						search();
-					}
-				});
-			} else {
-				alert("체크 박스를 선택해주세요.");
-			}
-		} else if ($('button[name="c_delete"]')) {
-			if ($('input[name="c_chk"]').is(":checked")) {
-				$('input[name="c_chk"]').each(function () {
-					if ($(this).is(":checked")) {
-						$.post("delete_C_D.do", {
-							c_d: "쿠폰",
-							num: $(this).val()
-						}, function (data) {});
-						alert("삭제 완료!");
-						search();
-					}
-				});
-			} else {
-				alert("체크 박스를 선택해주세요.");
-			}
+	$('button[name="d_delete"]').click(function () {
+		if ($('input[name="d_chk"]').is(":checked")) {
+			$('input[name="d_chk"]').each(function () {
+				if ($(this).is(":checked")) {
+					$.post("delete_C_D.do", {
+						c_d: "discount",
+						num: $(this).val()
+					}, function (data) {});
+					alert("삭제 완료!");
+					search();
+				}
+			});
+		} else {
+			alert("체크 박스를 선택해주세요.");
 		}
-	}
+	});
+	$('button[name="c_delete"]').click(function () {
+		if ($('input[name="c_chk"]').is(":checked")) {
+			$('input[name="c_chk"]').each(function () {
+				if ($(this).is(":checked")) {
+					$.post("delete_C_D.do", {
+						c_d: "coupon",
+						num: $(this).val()
+					}, function (data) {});
+					alert("삭제 완료!");
+					search();
+				}
+			});
+		} else {
+			alert("체크 박스를 선택해주세요.");
+		}
+	});
 </script>

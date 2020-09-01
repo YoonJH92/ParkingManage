@@ -153,5 +153,50 @@ public class MemberManageDAO {
 			}
 			return arr;
 		}
+
+		public void updateMember(memberManageDTO mem) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			StringBuffer sql = null;
+			try {
+				con = pool.getConnection();
+				sql = new StringBuffer();
+				sql.append("UPDATE PMS_MONTH_MEMBER SET ");
+				sql.append("NAME=?,CARN=?,SDATE=TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),EDATE=TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')");
+				sql.append(",MONTH_PAY=?,EMAIL=?,PHONE=?,TYPE=? WHERE IDX=?");
+				pstmt = con.prepareStatement(sql.toString());
+				pstmt.setString(1, mem.getName());
+				pstmt.setString(2, mem.getCNUM());
+				pstmt.setString(3, mem.getStartDate());
+				pstmt.setString(4, mem.getStopDate());
+				pstmt.setInt(5, mem.getPay());
+				pstmt.setString(6, mem.getEmail());
+				pstmt.setString(7, mem.getPhone());
+				pstmt.setString(8, mem.getType());
+				pstmt.setInt(9, mem.getIdx());
+				pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
+			}
+		}
+
+		public void deleteMember(int idx) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			try {
+				con = pool.getConnection();
+				sql = "DELETE FROM PMS_MONTH_MEMBER WHERE IDX = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
+			}			
+		}
 		
 }

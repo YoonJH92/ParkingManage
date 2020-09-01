@@ -37,7 +37,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.do">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="loglist.do">
         <div class="sidebar-brand-icon rotate-n-15">
  
        
@@ -50,7 +50,7 @@
       <hr class="sidebar-divider my-0">
 
       <li class="nav-item active" id="test">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="loglist.do">
            <i class="fas fa-fw fa-tachometer-alt"></i>
           <span></span></a>
       </li>
@@ -85,8 +85,7 @@
 		<div id="collapsePages" class="collapse">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">쿠폰</h6>
-            <a class="collapse-item" href="new_cp_dc.do">쿠폰할인 생성</a>
-            <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 조회</a>
+            <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 생성 및 조회</a>
             <a class="collapse-item" href="#">쿠폰할인 사용 내역</a>
           </div>
         </div> 
