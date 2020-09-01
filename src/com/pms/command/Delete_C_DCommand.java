@@ -20,9 +20,9 @@ public class Delete_C_DCommand implements Command{
 		// 요청된 값들에 대한 인코딩
 		request.setCharacterEncoding("UTF-8");
 
-		if (c_d.equals("쿠폰")) {
+		if (c_d.equals("coupon")) {
 			dao.Delete(num, c_d);
-		} else if (c_d.equals("할인권")) {
+		} else if (c_d.equals("discount")) {
 			dao.Delete(num, c_d);
 		}
 		return "redirect:delete_C_D.do";
