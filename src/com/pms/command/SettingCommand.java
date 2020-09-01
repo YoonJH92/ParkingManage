@@ -22,7 +22,7 @@ public class SettingCommand implements Command {
 		sdto.setDtime(Integer.parseInt(request.getParameter("dtime")));
 		sdto.setFare(Integer.parseInt(request.getParameter("fare")));
 		sdto.setOtime(Integer.parseInt(request.getParameter("otime")));
-		sdto.setOtime(Integer.parseInt(request.getParameter("ofare")));
+		sdto.setOfare(Integer.parseInt(request.getParameter("ofare")));
 		sdto.setMonth_fare(Integer.parseInt(request.getParameter("month_fare")));
 
 		sdao.updateSetting(sdto);

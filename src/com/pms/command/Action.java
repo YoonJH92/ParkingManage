@@ -35,6 +35,8 @@ public class Action {
       	map.put("/setting",new SettingCommand());
       	map.put("/settingStart",new SettingStartCommand());
       	map.put("/change",new ChangeCommand());
+      	map.put("/changeStart",new ChangeStartCommand());
+      	map.put("/logout",new LogoutCommand());
       	
       	
 //      	map.put("/memberSearch",new memberSearchCommand());

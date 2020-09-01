@@ -61,7 +61,7 @@ body {
 		<div class="container" id="contain">
 			<div class="jumbotron " style="width: 50%">
 
-				<form action="SearchPass.do" method="post" class="form-signin"
+				<form action="searchPass.do" method="post" class="form-signin"
 					name="login">
 					<div class="text-center mb-4">
 
@@ -114,10 +114,10 @@ body {
 		</script>
 	</c:if>
 
-	<c:if test="${passsearch != null }">
+	<c:if test="${passsearch != null&&passsearch!=gggg}">
 		<h2>찾으시는 비밀번호는 ${passsearch } 입니다.</h2>
 		<button type="button" class="btn btn-primary btn-lg"
-			onclick="location.href = 'login.jsp' ">돌아가기</button>
+			onclick="location.href = 'loginac.do' ">돌아가기</button>
 	</c:if>
 
 

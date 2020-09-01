@@ -28,15 +28,16 @@ public class ChangeCommand implements Command {
 		cbean.setName(request.getParameter("name"));
 		cbean.setEmail(request.getParameter("email"));
 		cbean.setTel(request.getParameter("tel"));
-		cbean.setPass(request.getParameter("pass"));
-		
+		cbean.setPass(pass);
+		cbean.setId(sessid);
+		System.out.println(pass);
 		if(spass.equals(pass)) {
-			
+			System.out.println(pass);
 			mdao.updateM(cbean);
 			return "login/changeComp";
 			
 		}else {
-			
+			System.out.println("이까지 옴3");
 			return "login/changeFail";
 			
 		}
