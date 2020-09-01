@@ -57,7 +57,7 @@ body {
 
 <body>
 
-	<c:if test="${re==null }">
+
 
 
 		<div class="container" id="contain">
@@ -65,7 +65,7 @@ body {
 				<center>
 					<h1>회원가입</h1>
 				</center>
-				<form action="Join.do" method="post">
+				<form action="join.do" method="post">
 
 					<div class="mb-3">
 						<label for="address">Name</label> <input type="text" name="name"
@@ -80,13 +80,13 @@ body {
 					</div>
 					<div class="mb-3">
 						<label for="address">Password</label> <input type="password"
-							name="pass" class="form-control" placeholder="비밀번호를 입력해 주세요"
+							name="pass" id="pw" onchange="check_pw()" class="form-control" placeholder="비밀번호는 6글자 이상 16글자 이하 입니다"
 							required>
 
 					</div>
 					<div class="mb-3">
-						<label for="address">Password 확인</label> <input type="password"
-							name="pass2" class="form-control" placeholder="비밀번호를 확인해 주세요"
+						<label for="address">Password 확인 &nbsp;<span id="check"></span></label> <input type="password"
+							name="pass2" id="pw2" onchange="check_pw()" class="form-control" placeholder="비밀번호를 확인해 주세요"
 							required>
 
 					</div>
@@ -111,21 +111,34 @@ body {
 				</form>
 			</div>
 		</div>
-	</c:if>
 
-	<c:if test="${re==-1 }">
-		<script type="text/javascript">
-			alert("회원가입이 완료되었습니다");
-			document.location.href = "login.jsp";
-		</script>
-	</c:if>
 
-	<c:if test="${re==1 }">
-		<script type="text/javascript">
-			alert("비밀번호가 일치하지 않습니다");
-			history.go(-1);
-		</script>
-	</c:if>
+
+	<script>
+        function check_pw(){
+ 
+            var pw = document.getElementById('pw').value;
+           
+            var check_SC = 0;
+ 
+            if(pw.length < 6 || pw.length>16){
+                window.alert('비밀번호는 6글자 이상, 16글자 이하만 이용 가능합니다.');
+                document.getElementById('pw').value='';
+            }
+            
+            if(document.getElementById('pw').value !='' && document.getElementById('pw2').value!=''){
+                if(document.getElementById('pw').value==document.getElementById('pw2').value){
+                    document.getElementById('check').innerHTML='비밀번호가 일치합니다.'
+                    document.getElementById('check').style.color='blue';
+                }
+                else{
+                    document.getElementById('check').innerHTML='비밀번호가 일치하지 않습니다.';
+                    document.getElementById('check').style.color='red';
+                }
+            }
+        }
+    </script>
+
 
 
 

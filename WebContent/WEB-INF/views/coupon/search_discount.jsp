@@ -79,6 +79,7 @@
 					"c_d": "coupon"
 				},
 				function (data) { //콜백함수
+					console.log(data);
 					var htmlStr =
 						"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"c_chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
 

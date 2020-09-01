@@ -120,7 +120,7 @@ body {
 
 	<c:if test="${re == 1 }">
 		<script type="text/javascript">
-			document.location.href = "../join.jsp";
+			document.location.href = "loglistac.do";
 		</script>
 	</c:if>
 

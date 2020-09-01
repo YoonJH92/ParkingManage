@@ -5,32 +5,24 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
         <!-- Begin Page Content -->
         
-        <style>
-        
+        <style>        
         #modalimg{
         	  max-width: 450px;
              max-height: 300px;
         	display: block; 
-        	margin: 0px auto;
-        
+        	margin: 0px auto;       
         }
-        
-        
+              
         #logcard1{
-        border-right: .25rem solid #4e73df !important;
-        
-        
+        border-right: .25rem solid #4e73df !important;        
         }
         
          #logcard2{
         border-right: .25rem solid #1cc88a !important;
-        
-        
+                
         }
          #logcard3{
-        border-right: .25rem solid #f6c23e !important;
-        
-        
+        border-right: .25rem solid #f6c23e !important;       
         }
         
         </style>        
@@ -38,7 +30,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">실시간 현황 조회</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <a href="logexceldown.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
           </div>
 
           <!-- Content Row -->
@@ -57,9 +49,6 @@
                       
                       </div>
                     </div>
-                   <!--  <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -73,8 +62,7 @@
                     <div class="col mr-2">
                       <div class="text-s font-weight-bold text-success text-center text-uppercase mb-1" >일반 </div>
                       <div class="h4 mb-0 font-weight-bold text-gray-800 text-center"><c:out value="${total['gNum']}"/></div>
-                    </div>
-                 
+                    </div>                 
                   </div>
                 </div>
               </div>

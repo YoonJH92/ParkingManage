@@ -65,7 +65,7 @@ public class MemberManageDAO {
 		
 		try {
 			con = pool.getConnection();
-			sql = "select * from PMS_MONTH_MEMBER order by JDATE desc";
+			sql = "select * from PMS_MONTH_MEMBER order by SDATE desc";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
 			while(rs.next()) {
@@ -107,7 +107,7 @@ public class MemberManageDAO {
 				else if(map.get("startForm")  != "") where += "AND "+map.get("dateSearch")+" >= TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')";
 				else if(map.get("endForm")  != "") where += "AND "+map.get("dateSearch")+" <= TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')";
 				
-				sql = "select * from PMS_MONTH_MEMBER where "+ where +" order by JDATE desc";
+				sql = "select * from PMS_MONTH_MEMBER where "+ where +" order by SDATE desc";
 				pstmt = con.prepareStatement(sql);
 				if(map.get("searchForm")  != "") {
 					pstmt.setString(1, "%"+map.get("searchForm")+"%");
@@ -180,6 +180,23 @@ public class MemberManageDAO {
 			} finally {
 				pool.freeConnection(con, pstmt);
 			}
+		}
+
+		public void deleteMember(int idx) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			try {
+				con = pool.getConnection();
+				sql = "DELETE FROM PMS_MONTH_MEMBER WHERE IDX = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
+			}			
 		}
 		
 }

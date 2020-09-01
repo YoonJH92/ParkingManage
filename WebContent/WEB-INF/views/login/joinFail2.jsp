@@ -5,7 +5,7 @@
 <body>
 	
 	<script type="text/javascript">
-		alert("아이디가 이미 존재합니다");
+		alert("비밀번호를 다시 확인해 주세요");
 		history.go(-1);
 	</script>
 	
