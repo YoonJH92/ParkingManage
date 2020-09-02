@@ -5,8 +5,8 @@ import java.util.Date;
 public class PmsDto {
 		private int idx;
 		private String cnum;
-		private Date inTime;
-		private Date outTime;
+		private String inTime;
+		private String outTime;
 		private int pay;
 		private int cpNum;
 		private int saleNum;
@@ -25,16 +25,18 @@ public class PmsDto {
 		public void setCnum(String cnum) {
 			this.cnum = cnum;
 		}
-		public Date getInTime() {
+		
+		
+		public String getInTime() {
 			return inTime;
 		}
-		public void setInTime(Date inTime) {
+		public void setInTime(String inTime) {
 			this.inTime = inTime;
 		}
-		public Date getOutTime() {
+		public String getOutTime() {
 			return outTime;
 		}
-		public void setOutTime(Date outTime) {
+		public void setOutTime(String outTime) {
 			this.outTime = outTime;
 		}
 		public int getPay() {

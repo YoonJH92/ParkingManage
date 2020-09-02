@@ -70,7 +70,9 @@
       <th scope="col">출차시간</th>
       <th scope="col">사용금액</th>
       <th scope="col">월정액여부</th>
+      <th scope="col">할인여부</th>
       <th scope="col">구분</th>
+      <th scope="col">최종금액</th>      
       <th scope="col">차량이미지</th>
     </tr>
   </thead>
@@ -87,7 +89,9 @@
     <td>${arr.pay}</td> 
     <td>${arr.cpNum}</td>
    <td>${arr.monthNum}</td>
+   
    <td></td>
+   <td>${arr.totalPay}</td>
   <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
 </tr>
 	</c:forEach> 
