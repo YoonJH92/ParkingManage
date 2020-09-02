@@ -26,9 +26,9 @@ public class LoginCommand implements Command{
 		HttpSession session = request.getSession();
 		
 		session.setAttribute("sessid", id);
-		
+		session.setMaxInactiveInterval(-1);
 		request.setAttribute("re", re);
-
+			
 				
 		String save = request.getParameter("save");
 				

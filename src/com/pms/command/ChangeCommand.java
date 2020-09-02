@@ -11,39 +11,37 @@ public class ChangeCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		request.setCharacterEncoding("UTF-8");
-		
+
 		ManagerDAO spdao = new ManagerDAO();
 		ManagerDAO mdao = new ManagerDAO();
 		ManagerBean cbean = new ManagerBean();
-		
+
 		HttpSession session = request.getSession();
-		
+
 		String sessid = (String) session.getAttribute("sessid");
-		
+
 		String spass = spdao.searchM(sessid).getPass();
 		String pass = request.getParameter("pass");
-		
+
 		cbean.setName(request.getParameter("name"));
 		cbean.setEmail(request.getParameter("email"));
 		cbean.setTel(request.getParameter("tel"));
-		cbean.setPass(pass);
+		cbean.setPass(request.getParameter("pass2"));
 		cbean.setId(sessid);
 		System.out.println(pass);
-		if(spass.equals(pass)) {
+		if (spass.equals(pass)) {
 			System.out.println(pass);
 			mdao.updateM(cbean);
 			return "login/changeComp";
-			
-		}else {
+
+		} else {
 			System.out.println("이까지 옴3");
 			return "login/changeFail";
-			
+
 		}
-		
-		
-		
+
 	}
 
 }

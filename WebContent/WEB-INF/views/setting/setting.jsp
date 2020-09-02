@@ -9,8 +9,9 @@
  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
 <main>
-	<div class="container">
-		<h1><i class="fas fa-cog"></i>설정</h1>
+	<div class="container-fluid">
+	<br><br>
+		<h1><i class="fas fa-cog"></i>&nbsp;설정</h1>
 		<br> <br>
 		<table class="table table-hover">
 			<form action="setting.do" method="post">
