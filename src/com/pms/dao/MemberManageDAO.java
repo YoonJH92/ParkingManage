@@ -65,7 +65,7 @@ public class MemberManageDAO {
 		
 		try {
 			con = pool.getConnection();
-			sql = "select * from PMS_MONTH_MEMBER order by JDATE desc";
+			sql = "select * from PMS_MONTH_MEMBER order by SDATE desc";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
 			while(rs.next()) {
@@ -107,7 +107,7 @@ public class MemberManageDAO {
 				else if(map.get("startForm")  != "") where += "AND "+map.get("dateSearch")+" >= TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')";
 				else if(map.get("endForm")  != "") where += "AND "+map.get("dateSearch")+" <= TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')";
 				
-				sql = "select * from PMS_MONTH_MEMBER where "+ where +" order by JDATE desc";
+				sql = "select * from PMS_MONTH_MEMBER where "+ where +" order by SDATE desc";
 				pstmt = con.prepareStatement(sql);
 				if(map.get("searchForm")  != "") {
 					pstmt.setString(1, "%"+map.get("searchForm")+"%");

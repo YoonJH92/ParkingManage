@@ -1,10 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 
 <div class="container-fluid">
 	<h1 class="mb-3">쿠폰 할인권 조회</h1>
 	<div class="card my-3">
+	<c:out value="${c_d}"/>
+	
+	<c:choose>
+	<c:when test="${c_d=='a_discount'}">
+		<div>쿠폰 할인권 선택</div>
+		<div class="row">
+			<div class="col-xs-3 ml-3 col-md-offset-4"><input type="radio" name="s_c_d" value="s_coupon"  />쿠폰
+			</div>
+			<div class="col-xs-3 ml-3"><input id="discount" type="radio" name="s_c_d" value="s_discount" checked/>할인권
+			</div>
+		</div>
+		</c:when>
+	<c:otherwise>
 		<div>쿠폰 할인권 선택</div>
 		<div class="row">
 			<div class="col-xs-3 ml-3 col-md-offset-4"><input type="radio" name="s_c_d" value="s_coupon" checked />쿠폰
@@ -12,6 +27,9 @@
 			<div class="col-xs-3 ml-3"><input id="discount" type="radio" name="s_c_d" value="s_discount" />할인권
 			</div>
 		</div>
+	</c:otherwise>
+	</c:choose>
+	
 		<button class="btn btn-primary" modal>생성</button>
 	</div>
 	<div id="toggle1">
@@ -25,7 +43,12 @@
 <script>
 	$(function () {
 		search();
-
+		
+		if ($('input:radio[value="s_discount"]').is(':checked')) {
+			$("#toggle1").hide();
+			$("#toggle2").show();
+			search();
+		}
 		$('input[name="s_c_d"]').change(function () {
 			if ($('input:radio[value="s_coupon"]').is(':checked')) {
 				$("#toggle1").show();
