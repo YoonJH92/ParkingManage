@@ -32,6 +32,7 @@
             <option value="100">100개씩 보기</option>
           </select>
         </div>
+        <button class="btn btn-primary ml-auto" modal>쿠폰 및 할인권 생성</button>
       </div>
     </div>
     <div class="card-body row">
@@ -68,7 +69,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
             class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
+        <h4 class="modal-title custom_align" id="Heading">수정</h4>
       </div>
       <div class="modal-body">
         <div class="form-group">

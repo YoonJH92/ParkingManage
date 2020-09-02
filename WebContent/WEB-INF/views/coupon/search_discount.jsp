@@ -31,6 +31,7 @@
 						<option value="100">100개씩 보기</option>
 					</select>
 				</div>
+				<button class="btn btn-primary ml-auto" modal>쿠폰 및 할인권 생성</button>
 			</div>
 		</div>
 		<div class="card-body row">
@@ -234,6 +235,7 @@
 					}, function (data) {});
 				}
 			});
+			$("#d_chk").prop("checked",false);
 			alert("삭제 완료!");
 		} else {
 			alert("체크 박스를 선택해주세요.");
@@ -250,6 +252,7 @@
 					}, function (data) {});
 				}
 			});
+			$("#c_chk").prop("checked",false);
 			alert("삭제 완료!");
 		} else {
 			alert("체크 박스를 선택해주세요.");
