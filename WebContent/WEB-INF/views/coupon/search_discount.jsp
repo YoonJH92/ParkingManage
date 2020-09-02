@@ -143,13 +143,13 @@
 						c_d: "discount",
 						num: $(this).val()
 					}, function (data) {});
-					alert("삭제 완료!");
-					search();
 				}
 			});
 		} else {
 			alert("체크 박스를 선택해주세요.");
 		}
+		alert("삭제 완료!");
+		search();
 	});
 	$('button[name="c_delete"]').click(function () {
 		if ($('input[name="c_chk"]').is(":checked")) {
@@ -159,12 +159,12 @@
 						c_d: "coupon",
 						num: $(this).val()
 					}, function (data) {});
-					alert("삭제 완료!");
-					search();
 				}
 			});
 		} else {
 			alert("체크 박스를 선택해주세요.");
 		}
+		alert("삭제 완료!");
+		search();
 	});
 </script>

@@ -74,7 +74,6 @@ public class PmsC_D_Dao {
 		ResultSet rs = null;
 		String sql = null;
 		ArrayList<PmsCouponDto> arr = new ArrayList<PmsCouponDto>();
-		System.out.println("check");
 		try {
 			con = pool.getConnection();
 			if(value.isEmpty()) {
@@ -109,8 +108,6 @@ public class PmsC_D_Dao {
 		ResultSet rs = null;
 		String sql = null;
 		ArrayList<PmsDiscountDto> arr = new ArrayList<PmsDiscountDto>();
-		System.out.println("check");
-
 		try {
 			con = pool.getConnection();
 			if(value.isEmpty()) {
