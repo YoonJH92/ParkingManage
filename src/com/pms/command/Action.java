@@ -48,8 +48,7 @@ public class Action {
       	map.put("/change",new ChangeCommand());
       	map.put("/changeStart",new ChangeStartCommand());
       	map.put("/logout",new LogoutCommand());
-      	
-      	
+      	      	
 //      	map.put("/memberSearch",new memberSearchCommand());
 
       	map.put("/new_cp_dc",new CDCommand());

@@ -10,7 +10,6 @@ request.setCharacterEncoding("utf-8");
 String c_d = request.getParameter("c_d");
 PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
 JSONArray jarr = new JSONArray();
-System.out.println(c_d);
 
 if(c_d.equals("coupon"))
 {
@@ -18,12 +17,8 @@ if(c_d.equals("coupon"))
 	String c_value = request.getParameter("c_value");
 	int c_align = Integer.parseInt(request.getParameter("c_align"));
 	
-	System.out.println("1");
-	System.out.println(c_value);
-	System.out.println(c_align);
-	
 	ArrayList<PmsCouponDto> dto = dao.SearchCoupon(c_condition, c_value, c_align);
-
+	
 	for (PmsCouponDto d : dto) {
 		JSONObject obj = new JSONObject();
 		obj.put("CPNUM", d.getCPNUM());

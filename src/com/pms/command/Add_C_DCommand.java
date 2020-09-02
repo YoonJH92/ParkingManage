@@ -31,7 +31,7 @@ public class Add_C_DCommand implements Command{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
 		String c_d = request.getParameter("a_c_d");
-		request.removeAttribute("c_d");
+		HttpSession session = request.getSession();
 		// 요청된 값들에 대한 인코딩
 		request.setCharacterEncoding("UTF-8");
 		if (c_d.equals("a_coupon")) {
@@ -40,7 +40,7 @@ public class Add_C_DCommand implements Command{
 			dto.setUSE_DATE(Integer.parseInt(removeCommas(choice(request, "date"))));
 			dto.setDISCOUNT(Integer.parseInt(removeCommas(choice(request, "price"))));
 			dto.setPURPOSE(request.getParameter("cpurpose"));
-			request.setAttribute("c_d", c_d);
+			session.setAttribute("c_d", c_d);
 			dao.NewCoupon(dto);
 		} else if (c_d.equals("a_discount")) {
 			PmsDiscountDto dto = new PmsDiscountDto();
@@ -48,8 +48,8 @@ public class Add_C_DCommand implements Command{
 			dto.setPURPOSE(request.getParameter("dpurpose"));
 			dto.setUSE_TIME(Integer.parseInt(removeCommas(choice(request, "time"))));
 			dao.NewDiscount(dto);
-			request.setAttribute("c_d", c_d);
+			session.setAttribute("c_d", c_d);
 		}
-		return "/coupon/search_cp_dc";
+		return "redirect:search_cp_dc.do";
 	}
 }

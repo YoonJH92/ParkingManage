@@ -7,8 +7,6 @@
 <div class="container-fluid">
 	<h1 class="mb-3">쿠폰 할인권 조회</h1>
 	<div class="card my-3">
-	<c:out value="${c_d}"/>
-	
 	<c:choose>
 	<c:when test="${c_d=='a_discount'}">
 		<div>쿠폰 할인권 선택</div>
@@ -17,10 +15,11 @@
 			</div>
 			<div class="col-xs-3 ml-3"><input id="discount" type="radio" name="s_c_d" value="s_discount" checked/>할인권
 			</div>
+			<%session.removeAttribute("c_d"); %>
 		</div>
 		</c:when>
 	<c:otherwise>
-		<div>쿠폰 할인권 선택</div>
+		<h4>쿠폰 할인권 선택</h4>
 		<div class="row">
 			<div class="col-xs-3 ml-3 col-md-offset-4"><input type="radio" name="s_c_d" value="s_coupon" checked />쿠폰
 			</div>
