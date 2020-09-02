@@ -1,18 +1,71 @@
 
 
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
-<%@ include file="/WEB-INF/views/include/header.jsp" %> 
- <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+<style>
+body{
+		background-color: #25274d;
+	}
+	.contact{
+		padding: 4%;
+		height: 400px;
+	}
+	.col-md-3{
+		background: #606d9a;
+		padding: 4%;
+		border-top-left-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;
+		color : #ffffff;
+	}
+	.contact-info{
+		margin-top:10%;
+	}
+	.contact-info img{
+		margin-bottom: 15%;
+	}
+	.contact-info h2{
+		margin-bottom: 10%;
+	}
+	.col-md-9{
+		background: #fff;
+		padding: 3%;
+		border-top-right-radius: 0.5rem;
+		border-bottom-right-radius: 0.5rem;
+	}
+	.contact-form label{
+		font-weight:600;
+	}
+	.contact-form button{
+		background: #25274d;
+		color: #fff;
+		font-weight: 600;
+		width: 25%;
+	}
+	.contact-form button:focus{
+		box-shadow:none;
+	}
+</style>
 
 <main>
-	<div class="container-fluid">
-	<br><br>
-		<h1><i class="fas fa-cog"></i>&nbsp;설정</h1>
-		<br> <br>
+	
+	<div class="container contact">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="contact-info">
+				<h2><i class="fas fa-cog"></i>&nbsp;설정</h2>
+				<br><br>
+				<h4>주차요금 등의 정보 수정<br> 페이지 입니다.</h4>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="container" id="contain">
+		<br><br>
+		
 		<table class="table table-hover">
 			<form action="setting.do" method="post">
 				<tbody>
@@ -61,8 +114,13 @@
 			</form>
 		</table>
 	</div>
-</main>
 
+		</div>
+	</div>
+	</div>
+
+</main>
 </div>
- <%@ include file="/WEB-INF/views/include/footer.jsp" %> 
+<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+
 

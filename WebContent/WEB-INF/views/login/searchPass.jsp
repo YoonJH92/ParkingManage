@@ -115,9 +115,10 @@ body {
 	</c:if>
 
 	<c:if test="${passsearch != null&&passsearch!=gggg}">
-		<h2>찾으시는 비밀번호는 ${passsearch } 입니다.</h2>
-		<button type="button" class="btn btn-primary btn-lg"
-			onclick="location.href = 'loginac.do' ">돌아가기</button>
+		<script>
+			alert('이메일 에서 패스워드를 확인해 주세요!');
+			document.location.href = "loginac.do";
+		</script>
 	</c:if>
 
 

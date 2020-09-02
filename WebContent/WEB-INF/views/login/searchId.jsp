@@ -114,10 +114,12 @@ body {
 
 	<c:if test="${idsearch!=gggg&&idsearch!=null}">
 		<div class="container" id="contain">
-			<div class="jumbotron " style="width: 50%">
-						<h2>찾으시는 아이디는 ${idsearch}입니다.</h2>
-						<button type="button" class="btn btn-primary btn-lg"
-						onclick="location.href = 'loginac.do' ">돌아가기</button>
+			<script>
+				alert('이메일 에서 아이디를 확인해 주세요!');
+				document.location.href = "loginac.do";
+			</script>
+
+
 			</div>
 		</div>
 
