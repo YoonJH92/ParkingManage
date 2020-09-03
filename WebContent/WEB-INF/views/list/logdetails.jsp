@@ -21,9 +21,7 @@
             <h1 class="h3 mb-0 text-gray-800">차량조회</h1>          
             <a href="logdetaildown.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
           </div>
-          
-      
-          
+       
    <div class="row">
             <div class="col-xl-12 col-md-12 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
@@ -33,8 +31,8 @@
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">조회</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">                  
                       <form action="logdetail.do" method="post" >
-                      	기간  : <input type="text" id="FDate" name="FDate" size=17 maxlength=17> ~ <input type="text" id="LDate"  name="LDate" size=17 maxlength=17> 
-                      	  차량번호 <input type="text" name="cnum" size=10 maxlength=8>
+                      	기간  : <input type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}"> ~ <input type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17> 
+                      	  차량번호 <input type="text" name="cnum" size=10 maxlength=8 value="${cnum}">
                       	  <input type="submit" value="검색">                     
                       </form>                                          
                      </div>
@@ -69,9 +67,9 @@
       <th scope="col">입차시간</th>
       <th scope="col">출차시간</th>
       <th scope="col">사용금액</th>
+      <th scope="col">쿠폰 적용여부 </th>
       <th scope="col">월정액여부</th>
       <th scope="col">할인여부</th>
-      <th scope="col">구분</th>
       <th scope="col">최종금액</th>      
       <th scope="col">차량이미지</th>
     </tr>
@@ -86,24 +84,20 @@
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
 	<td>${arr.outTime}</td>  	
-    <td>${arr.pay}</td> 
+  <td> <fmt:formatNumber value="${arr.pay}" pattern="#,###" /></td>
     <td>${arr.cpNum}</td>
-   <td>${arr.monthNum}</td>
-   
-   <td></td>
-   <td>${arr.totalPay}</td>
-  <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+   <td>${arr.monthNum}</td>  
+   <td>${arr.saleNum }</td>
+  <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
+  <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
 </tr>
 	</c:forEach> 
   
   </tbody>
 </table>
                        
-               </div>
+          </div>
               </div>
-
-        
-
             </div>
           </div>
         </div>
@@ -122,23 +116,21 @@
  		<form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">
  		<tr>
  		<td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
- 		<tr><td><input type="hidden" name="cimg" id="cimg" value=""></td>	<tr>
- 			
+ 		<tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td>	<tr> 			 
         <tr>
         <td>
  		<img id="modalimg" src="" >
-
-        </td></tr>
-       
+       </td></tr>
+     
         <tr>
         <td><input type="file" name="fileName"></td>
  		</tr>
  		
+ 	</table>
       <div class="modal-footer">
       	<input type="submit" value="수정">
-        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button></div>
         </form>
- 	</table>
       </div>
     </div>
   </div></div>
@@ -158,8 +150,15 @@
 			var modal=$(this);
 			$(".modal-body #idx ").val(LOGIDX);
 			$(".modal-body #cimg ").val(CIMG);	
+			$(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
 			$(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-					});		
+
+	
+			
+		});	
+		
+		
+		
 	});
 	
 </script>
