@@ -29,7 +29,6 @@
           </div>
         </c:otherwise>
       </c:choose>
-      <button class="btn btn-primary" modal>생성</button>
     </div>
 
   </div>
