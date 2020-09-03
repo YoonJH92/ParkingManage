@@ -39,7 +39,7 @@
       <div class="col-md-12">
         <div class="table-responsive">
 
-          <table class="table table-bordred table-striped">
+          <table class="table table-bordred table-striped text-center">
 
             <thead>
               <th><input type="checkbox" id="c_chk" /></th>

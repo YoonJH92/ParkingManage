@@ -8,25 +8,29 @@
 						aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
-				<div class="container">
-					<form method="GET" action="addc_d.do">
-						<h1 class="mb-3">쿠폰 할인권 생성</h1>
-						<div class="card my-3">
-							<span>쿠폰 할인권 선택</span>
-							<span><input type="radio" name="a_c_d" value="a_coupon" checked />쿠폰</span>
-							<span><input type="radio" name="a_c_d" value="a_discount" />할인권</span>
+				<div class="container-fluid mb-3">
+					<div class="card border-left-primary shadow h-100 py-2" mborder>
+						<div class="card-body">
+							<form method="GET" action="addc_d.do">
+								<h1 class="mb-3">쿠폰 할인권 조회</h1>
+								<span class="switchToggle">
+									<input type="checkbox" id="a_switch" />
+									<label class="ml-auto" for="a_switch">Toggle</label>
+									<input type="hidden" name="a_c_d" value="a_coupon" />
+								</span>
+								<div id="toggle3">
+									<%@ include file="add_coupon.jsp"%>
+								</div>
+								<div id="toggle4">
+									<%@ include file="add_discount.jsp"%>
+								</div>
+								<div class="modal-footer" style="border-top: 0px;">
+									<input class="btn -btn-lg btn-primary" type="submit" value="생성" mborder />
+									<input class="btn -btn-lg btn-primary" type="reset" value="초기화" mborder />
+								</div>
+							</form>
 						</div>
-						<div id="toggle3">
-							<%@ include file="add_coupon.jsp"%>
-						</div>
-						<div id="toggle4">
-							<%@ include file="add_discount.jsp"%>
-						</div>
-						<div class="modal-footer">
-							<input class="btn -btn-lg btn-success" type="submit" value="생성" />
-							<input class="btn -btn-lg btn-success" type="reset" value="초기화" />
-						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -38,9 +42,6 @@
 		$("#price").hide();
 		$("#toggle4").hide();
 		$("#time").hide();
-
-		$("#show1").text("1,000원");
-		$("#show2").text("1시간");
 
 		//3자리 단위마다 콤마 생성
 		function addCommas(x) {
@@ -74,21 +75,23 @@
 			$(this).val($(this).val().replace(/[^0-9]/gi, ""));
 		});
 
-		$('input[name="price"]').on("focusout", function () {
-			$("#show1").text($(this).val() + "원");
-		});
-
-		$('input[name="time"]').on("focusout", function () {
-			$("#show2").text($(this).val() + "시간");
-		});
-
-		$('input[name="a_c_d"]').change(function () {
-			if ($('input:radio[value="a_coupon"]').is(':checked')) {
+		$("#a_switch").change(function () {
+			if ($("#a_switch").is(':checked') == false) {
 				$("#toggle3").show();
 				$("#toggle4").hide();
+				$('input[name="a_c_d"]').val("a_coupon");
+				$('div[mborder]').removeClass("border-left-info");
+				$('div[mborder]').addClass("border-left-primary");
+				$('input[mborder]').removeClass("btn-info");
+				$('input[mborder]').addClass("btn-primary");
 			} else {
 				$("#toggle3").hide();
 				$("#toggle4").show();
+				$('input[name="a_c_d"]').val("a_discount");
+				$('div[mborder]').removeClass("border-left-primary");
+				$('div[mborder]').addClass("border-left-info");
+				$('input[mborder]').removeClass("btn-primary");
+				$('input[mborder]').addClass("btn-info");
 			}
 		});
 
@@ -107,20 +110,16 @@
 
 		$('select[name="price"]').change(function () {
 			if ($('select[name="price"]').val() == "직접 입력") {
-				$("#show1").text("");
 				$("#price").show();
 			} else {
-				$("#show1").text($(this).val() + "원");
 				$("#price").hide();
 			}
 		});
 
 		$('select[name="time"]').change(function () {
 			if ($('select[name="time"]').val() == "직접 입력") {
-				$("#show2").text("");
 				$("#time").show();
 			} else {
-				$("#show2").text($(this).val() + "시간");
 				$("#time").hide();
 			}
 		});

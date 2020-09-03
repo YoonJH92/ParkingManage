@@ -17,11 +17,11 @@
 					<input class="form-control" type="text" name="d_value" />
 				</div>
 				<div class="col-xs-1 ml-2">
-					<button class="btn btn-primary" name="d_search">검색</button>
+					<button class="btn btn-info" name="d_search">검색</button>
 				</div>
 
 				<div class="col-xs-1 ml-1">
-					<button class="btn btn-primary" name="d_delete">선택 삭제</button>
+					<button class="btn btn-info" name="d_delete">선택 삭제</button>
 				</div>
 
 				<div class="col-xs-1 ml-3">
@@ -31,14 +31,14 @@
 						<option value="100">100개씩 보기</option>
 					</select>
 				</div>
-				<button class="btn btn-primary ml-auto" modal>쿠폰 및 할인권 생성</button>
+				<button class="btn btn-info ml-auto" modal>쿠폰 및 할인권 생성</button>
 			</div>
 		</div>
 		<div class="card-body row">
 			<div class="col-md-12">
 				<div class="table-responsive">
 
-					<table class="table table-bordred table-striped">
+					<table class="table table-bordred table-striped text-center">
 
 						<thead>
 							<th><input type="checkbox" id="d_chk" /></th>
@@ -155,7 +155,7 @@
 	});
 
 	function search() {
-		if ($('input:radio[value="s_coupon"]').is(':checked')) {
+		if ($("#s_switch").is(':checked') == false) {
 			$.getJSON("search_C_D.do", {
 					"c_condition": $('select[name="c_condition"]').val(),
 					"c_value": $('input:text[name="c_value"]').val(),
@@ -172,11 +172,11 @@
 						htmlStr += "<td>" + val.CPNAME + "</td>";
 						htmlStr += "<td>" + val.USE_DATE + "</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
-						htmlStr += "<td>" + val.DISCOUNT + "</td>";
+						htmlStr += "<td>" + val.DISCOUNT + "원</td>";
 						htmlStr +=
-							"<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><i class=\"fas fa-pen\"></i></button></p></td>";
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
-							"<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><i class=\"fas fa-trash\"></i></button></p></td>"
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 						htmlStr += "</tr>";
 					});
 					htmlStr += "</tbody>";
@@ -204,12 +204,12 @@
 							"></td>";
 						htmlStr += "<td>" + val.COM_NUM + "</td>";
 						htmlStr += "<td>" + val.COMPANY + "</td>";
-						htmlStr += "<td>" + val.USE_TIME + "</td>";
+						htmlStr += "<td>" + val.USE_TIME + "시간</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
 						htmlStr +=
-							"<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><i class=\"fas fa-pen\"></i></button></p></td>";
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
-							"<td><p data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><i class=\"fas fa-trash\"></i></button></p></td>"
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 						htmlStr += "</tr>";
 					});
 					htmlStr += "</tbody>";
