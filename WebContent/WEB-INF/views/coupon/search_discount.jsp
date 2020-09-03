@@ -65,9 +65,9 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-						class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-				<h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
+				<h4 class="modal-title">수정</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
@@ -100,22 +100,16 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-						class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-				<h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+			<h4 class="modal-title">확인</h4>
 			</div>
 			<div class="modal-body">
-
-				<div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you
-					want to
-					delete this Record?</div>
-
+				<div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 정말 삭제하시겠습니까?</div>
 			</div>
 			<div class="modal-footer ">
 				<button type="button" class="btn btn-success"><span
-						class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+						class="glyphicon glyphicon-ok-sign"></span>예</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal"><span
-						class="glyphicon glyphicon-remove"></span> No</button>
+						class="glyphicon glyphicon-remove"></span>아니오</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -235,7 +229,7 @@
 					}, function (data) {});
 				}
 			});
-			$("#d_chk").prop("checked",false);
+			$("#d_chk").prop("checked", false);
 			alert("삭제 완료!");
 		} else {
 			alert("체크 박스를 선택해주세요.");
@@ -252,7 +246,7 @@
 					}, function (data) {});
 				}
 			});
-			$("#c_chk").prop("checked",false);
+			$("#c_chk").prop("checked", false);
 			alert("삭제 완료!");
 		} else {
 			alert("체크 박스를 선택해주세요.");

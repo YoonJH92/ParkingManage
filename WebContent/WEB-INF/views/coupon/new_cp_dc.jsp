@@ -98,6 +98,11 @@
 		$('input[type="reset"]').click(function () {
 			$("#toggle3").show();
 			$("#toggle4").hide();
+			$('input[name="a_c_d"]').val("a_coupon");
+			$('div[mborder]').removeClass("border-left-info");
+			$('div[mborder]').addClass("border-left-primary");
+			$('input[mborder]').removeClass("btn-info");
+			$('input[mborder]').addClass("btn-primary");
 		});
 
 		$('select[name="date"]').change(function () {
