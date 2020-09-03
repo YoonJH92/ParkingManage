@@ -19,9 +19,12 @@ public class LogDetailCommand implements Command {
 		String fDate=request.getParameter("FDate");
 		String LDate=request.getParameter("LDate");		
 		PmsLogDao dao=PmsLogDao.getInstance();
-
+		
+		
 		if(fDate==null&&cnum==null) {
 			System.out.println("null");
+			dao.fare();
+			dao.totalfare();
 			fDate="-1";
 			ArrayList<PmsDto> arr=dao.viewDetail(fDate, LDate, cnum);
 			request.setAttribute("detail", arr);
@@ -29,7 +32,10 @@ public class LogDetailCommand implements Command {
 	}
 		else {
 		ArrayList<PmsDto> arr=dao.viewDetail(fDate, LDate, cnum);
-		 request.setAttribute("detail", arr);
+		   request.setAttribute("detail", arr);
+			request.setAttribute("cnum", cnum);
+			request.setAttribute("FDate", fDate);
+			request.setAttribute("LDate", LDate);
 			dao.writeLogDetailExcel(arr);
 		}
 				
