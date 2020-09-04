@@ -114,6 +114,7 @@ public class PMSRandom {
 				rand_time_arr.add(rand_st);
 			}
 			Collections.sort(rand_time_arr);
+			
 			map.put(CNUM.get(i), rand_time_arr);
 		}
 

@@ -14,6 +14,7 @@ public class LoglmgModifyAction implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {         
             	PmsLogDao dao=PmsLogDao.getInstance();
             	dao.imgUpdate(request);           
+        
 		return  "redirect:loglist.do";
 	}
 }
