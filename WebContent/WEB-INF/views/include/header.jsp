@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
   <!-- Custom styles for this template-->
-  <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="resources/css/sb-admin-2.css" rel="stylesheet">
   <script src="resources/jquery-3.5.1.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
   <link href="resources/jquery.datetimepicker.css" rel="stylesheet">
@@ -48,12 +48,6 @@
       </a>
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
-
-      <li class="nav-item active" id="test">
-        <a class="nav-link" href="loglist.do">
-           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span></span></a>
-      </li>
     
       <li class="nav-item">
         <a class="nav-link" href="loglist.do">
@@ -76,6 +70,7 @@
           <span>월정액 회원관리</span>
         </a>
       </li>
+      
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">

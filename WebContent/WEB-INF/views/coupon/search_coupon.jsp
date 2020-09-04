@@ -104,7 +104,7 @@
       <div class="modal-body">
         <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 정말 삭제하시겠습니까?</div>
       </div>
-      <div class="modal-footer ">
+      <div class="modal-footer">
         <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><span
             class="glyphicon glyphicon-remove"></span>아니오</button>
