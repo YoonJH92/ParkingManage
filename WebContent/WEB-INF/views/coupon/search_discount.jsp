@@ -61,30 +61,40 @@
 </div>
 
 
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-	<div class="modal-dialog">
+<div class="modal fade" id="d_edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">수정</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 						aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
-				<div class="form-group">
-					<input class="form-control " type="text" placeholder="Mohsin">
-				</div>
-				<div class="form-group">
-
-					<input class="form-control " type="text" placeholder="Irshad">
-				</div>
-				<div class="form-group">
-					<textarea rows="2" class="form-control"
-						placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
-
-
-				</div>
+				<table class="table table-bordered">
+					<tr>
+						<td style="width:30%; text-align: center;">발급처</td>
+						<td><input class="form-control" type="text" name="company" /></td>
+					</tr>
+					<tr>
+						<td style="width:30%; text-align: center;">발급 목적</td>
+						<td><input class="form-control" type="text" name="dpurpose" /></td>
+					</tr>
+					<tr>
+						<td style="width:30%; text-align: center;">할인 시간</td>
+						<td><select style="width: 30%; display:inline-block;" class="form-control animated--grow-in"
+								name="time">
+								<option value="1" selected>1시간</option>
+								<option value="3">3시간</option>
+								<option value="6">6시간</option>
+								<option value="10">10시간</option>
+								<option value="24">24시간</option>
+								<option value="직접 입력">직접 입력</option>
+							</select> <span id="time"><input style="width: 61%; display:inline-block;"
+									class="form-control" type="text" name="time" numberOnly>시간</span>
+						</td>
+					</tr>
+				</table>
 			</div>
-			<div class="modal-footer ">
+			<div class="modal-footer" style="border-top: 0px;">
 				<button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
 						class="glyphicon glyphicon-ok-sign"></span> Update</button>
 			</div>
@@ -96,16 +106,17 @@
 
 
 
-<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+<div class="modal fade" id="d_delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-			<h4 class="modal-title">확인</h4>
+				<h4 class="modal-title">확인</h4>
 			</div>
 			<div class="modal-body">
-				<div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 정말 삭제하시겠습니까?</div>
+				<div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 정말 삭제하시겠습니까?
+				</div>
 			</div>
-			<div class="modal-footer ">
+			<div class="modal-footer">
 				<button type="button" class="btn btn-success"><span
 						class="glyphicon glyphicon-ok-sign"></span>예</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal"><span
@@ -168,9 +179,9 @@
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
 						htmlStr += "<td>" + val.DISCOUNT + "원</td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#c_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#c_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 						htmlStr += "</tr>";
 					});
 					htmlStr += "</tbody>";
@@ -201,9 +212,9 @@
 						htmlStr += "<td>" + val.USE_TIME + "시간</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#d_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 						htmlStr += "</tr>";
 					});
 					htmlStr += "</tbody>";
