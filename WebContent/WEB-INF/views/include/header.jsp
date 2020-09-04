@@ -26,6 +26,7 @@
   <script src="resources/vendor/jquery/jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="resources/js/sb-admin-2.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -70,12 +71,14 @@
         </a>
       </li>
            
-      <li class="nav-item">
-        <a class="nav-link" href="member.do">
+      <li class="nav-item ">
+        <a class="nav-link" href="member.do" >
        <i class="far fa-calendar-check"></i>
           <span>월정액 회원관리</span>
         </a>
       </li>
+      
+      
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -90,6 +93,8 @@
           </div>
         </div> 
       </li>
+      
+      
      
       <!-- Nav Item - Charts -->
       <li class="nav-item">
