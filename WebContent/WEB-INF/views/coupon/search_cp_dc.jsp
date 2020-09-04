@@ -116,7 +116,9 @@
 </div>
 <script>
   $(function () {
-    search();
+	  $("#collapsePages").addClass("show");
+      $("#arrow").removeClass("collapsed");
+      search();
 
     if ($("#s_switch").is(':checked')) {
       $("#toggle1").hide();
