@@ -109,9 +109,9 @@
       <th scope="col">차량번호</th>
       <th scope="col">입차시간</th>
       <th scope="col">사용금액</th>
-      <th scope="col">여부</th>
-      <th scope="col">월정액여부</th>
-      <th scope="col">구분</th>
+      <th scope="col">쿠폰 사용</th>
+      <th scope="col">월 정액 사용</th>
+      <th scope="col">할인 적용</th>      
       <th scope="col">차량이미지</th>
     </tr>
   </thead>
@@ -132,7 +132,7 @@
      </c:if>
     <td>${arr.cpNum}</td>
    <td>${arr.monthNum}</td>
-   <td></td>
+   <td>${arr.saleNum}</td>
   <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
 </tr>	
 	</c:forEach> 
@@ -198,7 +198,9 @@
 			var modal=$(this);
 			$(".modal-body #idx ").val(LOGIDX);
 			$(".modal-body #cimg ").val(CIMG);	
+			$(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
 			$(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
+
 					});		
 	});
 	

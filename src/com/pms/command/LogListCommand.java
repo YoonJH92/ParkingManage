@@ -20,7 +20,7 @@ public  class LogListCommand implements Command {
 		 PmsLogDao dao=PmsLogDao.getInstance(); 
 		 ArrayList<PmsDto> arr=dao.viewList();
 		 HashMap<String, Integer> result=dao.logTotalResult();
-		 ArrayList<Integer>fare=dao.Curentfare();		 
+		 ArrayList<String>fare=dao.Curentfare();		 
 		 request.setAttribute("list", arr);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);

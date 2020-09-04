@@ -30,6 +30,8 @@ public class Add_C_DCommand implements Command{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
+		// 요청된 값들에 대한 인코딩
+		request.setCharacterEncoding("UTF-8");
 		String c_d = request.getParameter("a_c_d");
 		HttpSession session = request.getSession();
 		// 요청된 값들에 대한 인코딩

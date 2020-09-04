@@ -1,12 +1,12 @@
 /*관리자*/
 CREATE TABLE pms_admin (
-    admin_id   VARCHAR(20)
+    admin_id   VARCHAR(20 char)
         NOT NULL ENABLE,
-    pwd        VARCHAR2(20)
+    pwd        VARCHAR2(20 char)
         NOT NULL ENABLE,
-    name       VARCHAR2(20)
+    name       VARCHAR2(20 char)
         NOT NULL ENABLE,
-    email      VARCHAR2(20)
+    email      VARCHAR2(50 char)
         NOT NULL ENABLE,
     phone      VARCHAR2(20)
         NOT NULL ENABLE,
@@ -33,9 +33,9 @@ COMMENT ON COLUMN "PMS_ADMIN"."PHONE" IS
 
 CREATE TABLE pms_coupon (
     cpnum      NUMBER(10) NOT NULL,
-    use_date   NUMBER(3) NOT NULL,
-    cpname     VARCHAR2(20) NOT NULL,
-    purpose    VARCHAR2(100) NOT NULL,
+    use_date   NUMBER(4) NOT NULL,
+    cpname     VARCHAR2(20 char) NOT NULL,
+    purpose    VARCHAR2(30 char) NOT NULL,
     discount   NUMBER(8) NOT NULL,
     CONSTRAINT pms_coupon_pk PRIMARY KEY ( cpnum ) ENABLE
 );
@@ -62,7 +62,7 @@ COMMENT ON COLUMN pms_coupon.discount IS
 CREATE TABLE pms_coupon_log (
     idx        NUMBER(10) NOT NULL,
     cpnum      NUMBER(10) NOT NULL,
-    cpcode     VARCHAR2(40) NOT NULL,
+    cpcode     VARCHAR2(15 char) UNIQUE NOT NULL,
     validity   DATE NOT NULL,
     used       VARCHAR2(1) NOT NULL,
     cnum       VARCHAR2(20) NOT NULL,
@@ -128,8 +128,8 @@ COMMENT ON COLUMN pms_month_member.type IS
 
 CREATE TABLE pms_discount_manage (
     com_num    NUMBER(10) NOT NULL,
-    company    VARCHAR2(40) NOT NULL,
-    purpose    VARCHAR2(100) NOT NULL,
+    company    VARCHAR2(20 char) NOT NULL,
+    purpose    VARCHAR2(30 char) NOT NULL,
     use_time   NUMBER NOT NULL,
     CONSTRAINT pms_discount_manage_pk PRIMARY KEY ( com_num ) ENABLE
 );
