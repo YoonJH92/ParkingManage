@@ -18,8 +18,7 @@ public class LogDetailCommand implements Command {
 		String cnum=request.getParameter("cnum");
 		String fDate=request.getParameter("FDate");
 		String LDate=request.getParameter("LDate");		
-		PmsLogDao dao=PmsLogDao.getInstance();
-		
+		PmsLogDao dao=PmsLogDao.getInstance();		
 		
 		if(fDate==null&&cnum==null) {
 			System.out.println("null");
