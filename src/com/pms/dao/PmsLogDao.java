@@ -154,9 +154,9 @@ public class PmsLogDao {
 				if (fileName != null) {
 					type = multi.getContentType(fileInput);
 					fileobj = multi.getFile(fileInput);
-					originFileName = multi.getOriginalFileName(fileInput);
+					//originFileName = multi.getOriginalFileName(fileInput);
 					fileExtend = fileName.substring(fileName.lastIndexOf(".") + 1);// "file1.jpg"라면 jpg 반환
-					fileSize = String.valueOf(fileobj.length());// file도 결국 문자열이므로 length()로 반환
+					//fileSize = String.valueOf(fileobj.length());// file도 결국 문자열이므로 length()로 반환
 					String[] splitType = type.split("/");
 					if (!splitType[0].equals("image")) {
 						save = false;
@@ -946,7 +946,6 @@ public class PmsLogDao {
 				} else {
 					// 한글 파일명 처리
 					orgfilename = new String(orgfilename.getBytes("utf-8"), "iso-8859-1");
-
 					response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
 					response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
 				}

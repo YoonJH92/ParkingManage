@@ -100,7 +100,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="daily.do">
+        <a class="nav-link" href="monthly.do">
           <i class="fas fa-fw fa-table"></i>
           <span>월별통계</span></a>
       </li>

@@ -206,8 +206,6 @@ public class PMSRandom {
 		ArrayList<String> ran = random.CNUM_RAND(500); 
 		random.MONTH_SETTING(ran);
 		random.TIME_SETTING(ran, 50);
-
-
 		
 		System.out.println("성공");
 	}

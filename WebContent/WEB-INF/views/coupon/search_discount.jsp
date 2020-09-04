@@ -135,17 +135,6 @@
 			search();
 		});
 
-		$('input:radio[value="s_coupon"]').change(function () {
-			if ($('input:radio[value="s_coupon"]').is(':checked')) {
-				var htmlStr =
-					"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"chk\"/>전체선택</th><th>순번</th><th>쿠폰명</th><th>유효 기간</th><th>발급 목적</th><th>할인 금액</th></tr></table>";
-			} else {
-				var htmlStr =
-					"<table class=\"table table-bordered\" id=\"area\"><tr><th><input type=\"checkbox\" id=\"chk\"/>전체선택</th><th>순번</th><th>할인명</th><th>할인 시간</th><th>발급 목적</th></tr></table>";
-			}
-
-			$("#area").html(htmlStr);
-		})
 	});
 
 	function search() {
@@ -160,6 +149,7 @@
 					var htmlStr = "";
 
 					$.each(data, function (key, val) {
+						console.log(val);
 						htmlStr += "<tr>";
 						htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "></td>";
 						htmlStr += "<td>" + val.CPNUM + "</td>";
