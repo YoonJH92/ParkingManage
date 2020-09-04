@@ -90,11 +90,11 @@
       <h1 class="mb-3">쿠폰 할인권 조회</h1>
       <c:choose>
         <c:when test="${c_d=='a_discount'}">
-            <span class="switchToggle">
-              <input type="checkbox" id="s_switch" checked>
-              <label class="ml-auto" for="s_switch">Toggle</label>
-            </span>
-            <%session.removeAttribute("c_d"); %>
+          <span class="switchToggle">
+            <input type="checkbox" id="s_switch" checked>
+            <label class="ml-auto" for="s_switch">Toggle</label>
+          </span>
+          <%session.removeAttribute("c_d"); %>
         </c:when>
         <c:otherwise>
           <span class="switchToggle">
@@ -116,6 +116,8 @@
 </div>
 <script>
   $(function () {
+    $("#collapsePages").addClass("show");
+    $("#arrow").removeClass("collapsed");
     search();
 
     if ($("#s_switch").is(':checked')) {
@@ -123,7 +125,7 @@
       $("#toggle2").show();
       search();
     }
-    
+
     $("#s_switch").change(function () {
       if ($("#s_switch").is(':checked') == false) {
         $("#toggle1").show();

@@ -32,23 +32,24 @@ public class LoginCommand implements Command{
 				
 		String save = request.getParameter("save");
 				
-		String cid = request.getParameter("id");
-				
-				
-				if(save != null){
 		
-					Cookie cookie = new Cookie("cid",cid);
+				
+				
+				if(save == "on"){
+		
+					Cookie cookie = new Cookie("cid",id);
 
 					cookie.setMaxAge(60*60*24*7);
 
 					response.addCookie(cookie);
+					
 					
 					 
 				}
 				if(save == null){
 					
 					
-					Cookie cookie = new Cookie("cid",cid);
+					Cookie cookie = new Cookie("cid",id);
 
 					cookie.setMaxAge(0);
 					

@@ -1523,7 +1523,6 @@ pre code {
 .table th,
 .table td {
   padding: 0.75rem;
-  vertical-align: top;
   border-top: 1px solid #e3e6f0;
 }
 
@@ -9878,8 +9877,8 @@ a:focus {
   background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
   background-size: cover; */
    background-color: #212529;
-/*   background-image: linear-gradient(180deg, #212529 10%, black 100%);
- */  background-size: cover; 
+   background-image: linear-gradient(180deg, #212529 10%, black 100%);
+   background-size: cover; 
 }
 
 .bg-gradient-secondary {
@@ -10422,7 +10421,7 @@ a:focus {
 }
 
 .sidebar .sidebar-brand {
-  height: 4.375rem;
+  height: 10rem;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 800;
@@ -10454,7 +10453,7 @@ a:focus {
 
 @media (min-width: 768px) {
   .sidebar {
-    width: 14rem !important;
+    width: 18rem !important;
   }
   .sidebar .nav-item .collapse {
     position: relative;
@@ -10481,7 +10480,7 @@ a:focus {
     width: 100%;
     text-align: left;
     padding: 1rem;
-    width: 14rem;
+    width: 15rem;
   }
   .sidebar .nav-item .nav-link i {
     font-size: 0.85rem;
@@ -10492,7 +10491,7 @@ a:focus {
     display: inline;
   }
   .sidebar .nav-item .nav-link[data-toggle="collapse"]::after {
-    width: 1rem;
+    width: 0rem;
     text-align: center;
     float: right;
     vertical-align: 0;

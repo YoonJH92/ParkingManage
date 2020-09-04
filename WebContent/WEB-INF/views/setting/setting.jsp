@@ -75,7 +75,7 @@ body{
 							value="${sdto.getCount() }"></td>
 					</tr>
 					<tr>
-						<td align="center" width="30%">기본시간</td>
+						<td align="center" width="30%">기본시간(분)</td>
 						<td><input class="form-control" type="text" name="dtime"
 							value="${sdto.getDtime() }"></td>
 					</tr>
@@ -85,7 +85,7 @@ body{
 							value="${sdto.getFare() }"></td>
 					</tr>
 					<tr>
-						<td align="center" width="30%">오버시 시간</td>
+						<td align="center" width="30%">오버시 시간(분)</td>
 						<td><input class="form-control" type="text" name="otime"
 							value="${sdto.getOtime() }"></td>
 					</tr>

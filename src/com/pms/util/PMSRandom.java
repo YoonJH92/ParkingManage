@@ -115,6 +115,9 @@ public class PMSRandom {
 			}
 			Collections.sort(rand_time_arr); // 정렬
 			map.put(CNUM.get(i), rand_time_arr); // map에 key value로 저장
+			Collections.sort(rand_time_arr);
+			
+			map.put(CNUM.get(i), rand_time_arr);
 		}
 
 		Set<String> keys = map.keySet();

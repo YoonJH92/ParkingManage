@@ -28,16 +28,20 @@ public class RandomInsert {
 		ResultSet rs = null;
 		String sql = null;
 		String month_id = null;
+		PmsLogDao dao =PmsLogDao.getInstance();
+		
 		try {
 			con = pool.getConnection();
 
 			if(out_time != null) {
-				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,MONTH_NUM) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?)";
+				int pay= dao.fare2(in_time, out_time);
+				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,MONTH_NUM, pay) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'), ? , ? )";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
 				pstmt.setString(3, out_time);
 				pstmt.setInt(4, num);
+				pstmt.setInt(5, pay );
 			}else {
 				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,MONTH_NUM) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?)";
 				pstmt = con.prepareStatement(sql);

@@ -70,11 +70,19 @@ body {
 				</div>
 
 
-
+<%-- 					<c:if test="${cookie.cookie.cid==null}">
+						
+					</c:if>
+					
+					
+					<c:if test="${cookie.cookie.cid!=null}">
+						
+					</c:if> --%>
 				<div class="form-label-group">
 					<input name="id" type="text" id="loginID" class="form-control"
 						required autofocus> <label for="loginID">ID</label>
 				</div>
+				
 
 
 
