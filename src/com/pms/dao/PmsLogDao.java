@@ -82,7 +82,7 @@ public class PmsLogDao {
 		ArrayList<PmsDto> arr = new ArrayList<PmsDto>();
 		try {
 			con = pool.getConnection();
-			String sql = " select * from pms_log where out_time is null ";
+			String sql = " select * from pms_log where out_time is null order by in_time ";
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
 			ArrayList<String> fare = Curentfare();
@@ -192,7 +192,7 @@ public class PmsLogDao {
 		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		try {
 			con = pool.getConnection();
-			sql = " select count(cnum), count(month_num),count(case when month_num IS NULL then 1 end) from pms_log where out_time is Null ";
+			sql = " select count(cnum), count(case when month_num > 0 then 1 end),count(case when month_num = 0 then 1 end) from pms_log where out_time is Null ";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
 			if (rs.next()) {
@@ -235,7 +235,7 @@ public class PmsLogDao {
 		try {
 			con = pool.getConnection();
 			sql = "select idx, to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time, to_char( out_time, 'YYYY/MM/DD HH24:MI:SS' ) as out_time from "
-					+ " pms_log where ( out_time is Not Null) and (month_num is null) and (total_pay is null) ";
+					+ " pms_log where ( out_time is Not Null) and ( month_num = 0 ) and (total_pay is null) ";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 
@@ -279,7 +279,7 @@ public class PmsLogDao {
 				}
 				totalFareArr.add((int) fare);
 			}	if(totalFareArr.size()!=0) {
-				sql = " update pms_log set  pay =? ,total_pay = ? where (out_time is NOT NULL) and ( idx= ?) and (month_num is null)";
+				sql = " update pms_log set  pay =? ,total_pay = ? where (out_time is NOT NULL) and ( idx= ?) and (month_num = 0 )";
 				ps = con.prepareStatement(sql);
 				for (int i = 0; i < totalFareArr.size(); i++) {
 					ps.setInt(1, totalFareArr.get(i));
@@ -560,31 +560,24 @@ public class PmsLogDao {
 		try {
 			con = pool.getConnection();
 			//값 없을때
-			if ((FDate.equals("-1"))) {
-				sql = "select * from pms_log where (out_time is not null) and to_date (in_time,'YYYY/MM/DD') = TO_DATE(SYSDATE-20,'YYYY/MM/DD')";
-			}		
-			else if (LDate.equals("")) {								
-				if(FDate.equals("")){
-				sql = "select * from pms_log  WHERE (cnum='" + cnum + "') and (out_time is not null)";						
+			
+			if ((FDate.equals("-1"))) {		
+			sql = "select * from pms_log where (out_time is not null) and to_date (in_time,'YYYY/MM/DD') = TO_DATE(SYSDATE-1,'YYYY/MM/DD') order by in_time ";
+							
+			}						
+				
+			 else if (cnum.equals("")) {
+					sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate+ "', 'YYYY/MM/DD HH24:MI:SS') AND "
+							+ "TO_DATE('" + LDate + "','YYYY/MM/DD HH24:MI:SS') order by in_time ";
+				} else if (FDate.equals("")) {
+					sql = "select * from pms_log  WHERE (cnum='"+cnum+"') and (out_time is not null) order by in_time ";
+				} else {
+					sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate+ "', 'YYYY/MM/DD HH24:MI:SS') AND "
+							+ "TO_DATE('" + LDate + "','YYYY/MM/DD HH24:MI:SS') "
+							+ "and (out_time is Not null)and (cnum='" + cnum + "') order by in_time ";
 				}
-				else {
-				sql=" select * from pms_log where (in_time > = to_date('" + FDate+ "', 'YYYY/MM/DD HH24:MI:SS')) and (out_time is not null)";
-				}
-			} 			
-			  else if (cnum.equals("")) {				  
-				if(FDate.equals("")){
-				sql=" select * from pms_log where (in_time <= to_date('" + LDate+ "', 'YYYY/MM/DD HH24:MI:SS')) and (out_time is not null)";
-				}else {				  
-				sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-						+ "', 'YYYY/MM/DD HH24:MI:SS') AND " + "TO_DATE('" + LDate
-						+ "','YYYY/MM/DD HH24:MI:SS') and (out_time is not null) " ;}
-			} 
-			    //값 전부다 있을때 
-			     else {
-				sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-						+ "', 'YYYY/MM/DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY/MM/DD HH24:MI:SS')"
-						+ "and (out_time is Not null)and (cnum='" + cnum + "')";
-				}
+			
+			
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
 			while (rs.next()) {
