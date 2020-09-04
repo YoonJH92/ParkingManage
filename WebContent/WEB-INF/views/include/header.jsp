@@ -82,9 +82,9 @@
         <i class="fas fa-ticket-alt"></i>
           <span>쿠폰할인관리</span>
         </a>
-		<div id="collapsePages" class="collapse">
+		<div id="collapsePages" class="collapse show" >
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">쿠폰</h6>
+            <h5 class="collapse-header">쿠폰</h5>
             <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 생성 및 조회</a>
             <a class="collapse-item" href="#">쿠폰할인 사용 내역</a>
           </div>
@@ -153,19 +153,16 @@
                 </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
+                
                 <a class="dropdown-item" href="changeStart.do">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
+                  	관리자 정보/수정
                 </a>
             
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="logout.do" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
+                  	로그아웃
                 </a>
               </div>
             </li>

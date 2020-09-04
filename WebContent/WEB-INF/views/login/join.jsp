@@ -42,11 +42,9 @@
 }
 
 body {
-	background: #DAE2F8; /* fallback for old browsers */
-	background: -webkit-linear-gradient(to bottom, #D6A4A4, #DAE2F8);
-	/* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to bottom, #D6A4A4, #DAE2F8);
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: #0F2027;
+	background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+	background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
 	font-family: 'Yeon Sung', cursive;
 }
 </style>
@@ -60,57 +58,57 @@ body {
 
 
 
-		<div class="container" id="contain">
-			<div class="jumbotron " style="width: 60%">
-				<center>
-					<h1>회원가입</h1>
-				</center>
-				<form action="join.do" method="post">
+	<div class="container" id="contain">
+		<div class="jumbotron " style="width: 60%">
+			<center>
+				<h1>회원가입</h1>
+			</center>
+			<form action="join.do" method="post">
 
-					<div class="mb-3">
-						<label for="address">Name</label> <input type="text" name="name"
-							class="form-control" placeholder="이름을 입력해 주세요" required>
+				<div class="mb-3">
+					<label for="address">Name</label> <input type="text" name="name"
+						class="form-control" placeholder="이름을 입력해 주세요" required>
 
-					</div>
+				</div>
 
-					<div class="mb-3">
-						<label for="address">ID</label> <input type="text" name="id"
-							class="form-control" placeholder="아이디를 입력해 주세요" required>
+				<div class="mb-3">
+					<label for="address">ID</label> <input type="text" name="id"
+						class="form-control" placeholder="아이디를 입력해 주세요" required>
 
-					</div>
-					<div class="mb-3">
-						<label for="address">Password</label> <input type="password"
-							name="pass" id="pw" onchange="check_pw()" class="form-control" placeholder="비밀번호는 6글자 이상 16글자 이하 입니다"
-							required>
+				</div>
+				<div class="mb-3">
+					<label for="address">Password</label> <input type="password"
+						name="pass" id="pw" onchange="check_pw()" class="form-control"
+						placeholder="비밀번호는 6글자 이상 16글자 이하 입니다" required>
 
-					</div>
-					<div class="mb-3">
-						<label for="address">Password 확인 &nbsp;<span id="check"></span></label> <input type="password"
-							name="pass2" id="pw2" onchange="check_pw()" class="form-control" placeholder="비밀번호를 확인해 주세요"
-							required>
+				</div>
+				<div class="mb-3">
+					<label for="address">Password 확인 &nbsp;<span id="check"></span></label>
+					<input type="password" name="pass2" id="pw2" onchange="check_pw()"
+						class="form-control" placeholder="비밀번호를 확인해 주세요" required>
 
-					</div>
-					<div class="mb-3">
-						<label for="email">Email </label> <input type="email" name="email"
-							class="form-control" placeholder="이메일을 입력해주세요" required>
+				</div>
+				<div class="mb-3">
+					<label for="email">Email </label> <input type="email" name="email"
+						class="form-control" placeholder="이메일을 입력해주세요" required>
 
-					</div>
-					<div class="mb-3">
-						<label for="address">Tel</label> <input type="tel" name="tel"
-							class="form-control" placeholder="전화번호를 입력해 주세요" required>
+				</div>
+				<div class="mb-3">
+					<label for="address">Tel</label> <input type="tel" name="tel"
+						class="form-control" placeholder="전화번호를 입력해 주세요" required>
 
-					</div>
-					<br>
-					<div style="display: flex; justify-content: flex-end;">
-						<input style="margin-right: 5px;" class="btn btn-primary btn-lg"
-							href="joinProc.jsp" type="submit" value="확인">
-						<button type="button" class="btn btn-primary btn-lg"
-							onclick="location.href = 'loginac.do' ">취소</button>
-					</div>
+				</div>
+				<br>
+				<div style="display: flex; justify-content: flex-end;">
+					<input style="margin-right: 5px;" class="btn btn-primary btn-lg"
+						href="joinProc.jsp" type="submit" value="확인">
+					<button type="button" class="btn btn-primary btn-lg"
+						onclick="location.href = 'loginac.do' ">취소</button>
+				</div>
 
-				</form>
-			</div>
+			</form>
 		</div>
+	</div>
 
 
 
