@@ -76,19 +76,16 @@
           <input class="form-control " type="text" placeholder="Mohsin">
         </div>
         <div class="form-group">
-
           <input class="form-control " type="text" placeholder="Irshad">
         </div>
         <div class="form-group">
           <textarea rows="2" class="form-control"
             placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
-
-
         </div>
       </div>
       <div class="modal-footer ">
         <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-            class="glyphicon glyphicon-ok-sign"></span> Update</button>
+            class="glyphicon glyphicon-ok-sign"></span>완료</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -108,7 +105,7 @@
         <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 정말 삭제하시겠습니까?</div>
       </div>
       <div class="modal-footer ">
-        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>예</button>
+        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><span
             class="glyphicon glyphicon-remove"></span>아니오</button>
       </div>
