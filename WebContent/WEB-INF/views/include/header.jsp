@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
   <!-- Custom styles for this template-->
-  <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="resources/css/sb-admin-2.css" rel="stylesheet">
   <script src="resources/jquery-3.5.1.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
   <link href="resources/jquery.datetimepicker.css" rel="stylesheet">
@@ -49,12 +49,6 @@
       </a>
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
-
-      <li class="nav-item active" id="test">
-        <a class="nav-link" href="loglist.do">
-           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span></span></a>
-      </li>
     
       <li class="nav-item">
         <a class="nav-link" href="loglist.do">
@@ -78,14 +72,17 @@
         </a>
       </li>
       
+<<<<<<< HEAD
       
+=======
+>>>>>>> 72a0b25fa80df30b89ac26881d0c5139df04981d
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a id="arrow" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-ticket-alt"></i>
           <span>쿠폰할인관리</span>
         </a>
-		<div id="collapsePages" class="collapse show" >
+		<div id="collapsePages" class="collapse" >
           <div class="bg-white py-2 collapse-inner rounded">
             <h5 class="collapse-header">쿠폰</h5>
             <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 생성 및 조회</a>

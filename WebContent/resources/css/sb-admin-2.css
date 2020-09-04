@@ -9878,8 +9878,8 @@ a:focus {
   background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
   background-size: cover; */
    background-color: #212529;
-/*   background-image: linear-gradient(180deg, #212529 10%, black 100%);
- */  background-size: cover; 
+   background-image: linear-gradient(180deg, #212529 10%, black 100%);
+   background-size: cover; 
 }
 
 .bg-gradient-secondary {
@@ -10422,7 +10422,7 @@ a:focus {
 }
 
 .sidebar .sidebar-brand {
-  height: 4.375rem;
+  height: 10rem;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 800;
@@ -10454,7 +10454,7 @@ a:focus {
 
 @media (min-width: 768px) {
   .sidebar {
-    width: 14rem !important;
+    width: 18rem !important;
   }
   .sidebar .nav-item .collapse {
     position: relative;
