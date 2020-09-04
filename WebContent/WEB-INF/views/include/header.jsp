@@ -77,7 +77,7 @@
         <i class="fas fa-ticket-alt"></i>
           <span>쿠폰할인관리</span>
         </a>
-		<div id="collapsePages" class="collapse show" >
+		<div id="collapsePages" class="collapse" >
           <div class="bg-white py-2 collapse-inner rounded">
             <h5 class="collapse-header">쿠폰</h5>
             <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 생성 및 조회</a>
