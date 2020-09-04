@@ -72,10 +72,6 @@
         </a>
       </li>
       
-<<<<<<< HEAD
-      
-=======
->>>>>>> 72a0b25fa80df30b89ac26881d0c5139df04981d
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a id="arrow" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -90,7 +86,6 @@
           </div>
         </div> 
       </li>
-      
       
      
       <!-- Nav Item - Charts -->
