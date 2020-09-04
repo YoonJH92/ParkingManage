@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -95,26 +96,25 @@ public class PMSRandom {
 	// 로그 생성
 	public void TIME_SETTING(ArrayList<String> CNUM , int count) {
 		String startDate = "2020-5-1 00:00:00";
-		String endDate = "2020-9-10 00:00:00";
 		Timestamp stime = Timestamp.valueOf(startDate); 
-		Timestamp etime = Timestamp.valueOf(endDate);
+		Timestamp etime = Timestamp.valueOf(LocalDateTime.now());
 		
 		long rand_diff;
-		long diff = etime.getTime() - stime.getTime();
+		long diff = etime.getTime() - stime.getTime(); // 종료시간 - 시작시간
 		
 		HashMap<String, ArrayList<Long>> map = new HashMap<>();
 		
-		ArrayList<Long> rand_time_arr = null;
+		ArrayList<Long> rand_time_arr = null; // 랜덤 시간 배열
 		
-		for(int i = 0; i < CNUM.size() ; i++) {
+		for(int i = 0; i < CNUM.size() ; i++) { // 차량번호 수 만큼 반복문
 			rand_time_arr = new ArrayList<Long>();
 			for(int j = 0; j < count ; j++) {
-				rand_diff = (long)(Math.random() * diff);
-				long rand_st = stime.getTime() + rand_diff;
-				rand_time_arr.add(rand_st);
+				rand_diff = (long)(Math.random() * diff); // 뺀 랜덤시간만큼 추가
+				long rand_st = stime.getTime() + rand_diff; // 시작시간에 더함
+				rand_time_arr.add(rand_st); // 리스트에 저장
 			}
-			Collections.sort(rand_time_arr);
-			map.put(CNUM.get(i), rand_time_arr);
+			Collections.sort(rand_time_arr); // 정렬
+			map.put(CNUM.get(i), rand_time_arr); // map에 key value로 저장
 		}
 
 		Set<String> keys = map.keySet();
@@ -123,29 +123,29 @@ public class PMSRandom {
 		long endTime = 0;
 		int num = 0;
 		RandomInsert randomInsert = new RandomInsert();
-		for (String key : keys) {
-		  for(int i = 0; i < map.get(key).size(); i++) {
+		for (String key : keys) { // map foreach문
+		  for(int i = 0; i < map.get(key).size(); i++) { // map에 value 수만큼 반복
 			  num = 0;
 			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			  if(i > 0 ) {
-				  if(endTime > map.get(key).get(i)) {
+				  if(endTime > map.get(key).get(i)) { // 먼저 저장된 endTime값이랑 현재 시간 비교해서 endTime이 더 클시 패스
 					  continue;
 				  } 
 			  }
 			  
-			  rand_diff = (long)(Math.random() * 43200000) + 86400000;
-			  endTime = map.get(key).get(i) + rand_diff;			  
+			  rand_diff = (long)(Math.random() * 43200000) + 86400000; // 기본 하루 + 반나절랜덤 시간추가
+			  endTime = map.get(key).get(i) + rand_diff; //나간 시간
 			  
-			  in = format.format(new Date(map.get(key).get(i)));
+			  in = format.format(new Date(map.get(key).get(i))); //입장시간 string 형태로 변환 
 
 			  if(i < map.get(key).size()-1) {
-				  out = format.format(new Date(endTime));
+				  out = format.format(new Date(endTime));//마지막 시간은 null값으로 지정해서 실시간 주차현황 보여줌
 			  }else {
 				  out = null;
 			  }
-			  num = randomInsert.monthNum(key,in,out);
-			  randomInsert.randomLogAdd(key,in,out,num);
+			  num = randomInsert.monthNum(key,in,out); // 월정액 사용자 체크
+			  randomInsert.randomLogAdd(key,in,out,num); // 차량로그 추가
 		  }
 		}
 	}
@@ -153,21 +153,20 @@ public class PMSRandom {
 	//월정액 회원 생성
 	private void MONTH_SETTING(ArrayList<String> CNUM) {
 		String startDate = "2020-5-1 00:00:00";
-		String endDate = "2020-9-10 00:00:00";
 		Timestamp stime = Timestamp.valueOf(startDate); 
-		Timestamp etime = Timestamp.valueOf(endDate);
+		Timestamp etime = Timestamp.valueOf(LocalDateTime.now());
 		
 		long rand_diff;
-		long diff = etime.getTime() - stime.getTime();
+		long diff = etime.getTime() - stime.getTime(); // 종료시간 - 시작시간
 		
 		HashMap<String, ArrayList<Long>> map = new HashMap<>();
 		
 		ArrayList<Long> rand_time_arr = null;
 		
-		for(int i=0; i < (CNUM.size()/2); i++) {
+		for(int i=0; i < (CNUM.size()/2); i++) { // 전체 차량수 개수 지정
 			rand_time_arr = new ArrayList<Long>();
-			for(int j = 0; j < 4 ; j++) {
-				rand_diff = (long)(Math.random() * diff);
+			for(int j = 0; j < 4 ; j++) { // 월정액 로그 개수
+				rand_diff = (long)(Math.random() * diff); 
 				long rand_st = stime.getTime() + rand_diff;
 				rand_time_arr.add(rand_st);
 			}
@@ -182,18 +181,18 @@ public class PMSRandom {
 		String stopDate = null;
 		RandomInsert randomInsert = new RandomInsert();
 		for (String key : keys) {
-			  String name = randomHangulName();
-			  String email = randomEmailName();
-			  String phone = randomPhoneName();
-			  String type = randomPhoneType();
+			  String name = randomHangulName(); // 한글이름 랜덤생성
+			  String email = randomEmailName(); // 이메일 랜덤생성
+			  String phone = randomPhoneName(); // 전화번호 랜덤생성
+			  String type = randomPhoneType(); // 타입 랜덤생성
 		  for(int i = 0; i < map.get(key).size(); i++) {
 			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			  cal.setTime(new Date(map.get(key).get(i))); 
-			  cal.add(Calendar.MONTH, 1);	 
+			  cal.add(Calendar.MONTH, 1); // 저장된 시간 + 한달 데이터 구함
 			  
-			  if(i < map.get(key).size()-1) {
-				  if(map.get(key).get(i+1) > cal.getTimeInMillis() ) {
-					  toDate = format.format(new Date(map.get(key).get(i)));
+			  if(i < map.get(key).size()-1) { 
+				  if(map.get(key).get(i+1) > cal.getTimeInMillis() ) { // 한달 차이를 주기 위해 사용
+					  toDate = format.format(new Date(map.get(key).get(i))); 
 					  stopDate = format.format(cal.getTime()); // String 으로 반환
 					  randomInsert.randomMemberAdd(key,toDate,stopDate,name,email,phone,type);
 				  }
@@ -206,7 +205,7 @@ public class PMSRandom {
 		PMSRandom random = new PMSRandom();
 		ArrayList<String> ran = random.CNUM_RAND(500); 
 		random.MONTH_SETTING(ran);
-		random.TIME_SETTING(ran, 20);
+		random.TIME_SETTING(ran, 50);
 
 
 		
