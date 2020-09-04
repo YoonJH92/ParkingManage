@@ -59,7 +59,7 @@ body{
 			<div class="contact-info">
 				<h2><i class="fas fa-cog"></i>&nbsp;설정</h2>
 				<br><br>
-				<h4>주차요금 등의 정보 수정<br> 페이지 입니다.</h4>
+				<h4></h4>
 			</div>
 		</div>
 		<div class="col-md-9">

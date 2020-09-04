@@ -59,7 +59,7 @@ body{
 			<div class="contact-info">
 				<h2><i class="fas fa-user-cog"></i></h2>
 				<h2>정보 수정</h2>
-				<h4>사용자 개인정보 수정 페이지 입니다.</h4>
+				<h4></h4>
 			</div>
 		</div>
 		<div class="col-md-9">

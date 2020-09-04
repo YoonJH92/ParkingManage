@@ -17,7 +17,7 @@
 
 
 
- 
+
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Yeon+Sung&display=swap')
@@ -44,11 +44,9 @@
 }
 
 body {
-	background: #DAE2F8; /* fallback for old browsers */
-	background: -webkit-linear-gradient(to bottom, #D6A4A4, #DAE2F8);
-	/* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to bottom, #D6A4A4, #DAE2F8);
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: #0F2027;
+	background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+	background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
 	font-family: 'Yeon Sung', cursive;
 }
 </style>
