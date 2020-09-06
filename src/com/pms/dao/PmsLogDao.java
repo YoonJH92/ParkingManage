@@ -51,6 +51,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pms.dto.PmsDto;
+import com.pms.dto.PmsPageDto;
 import com.pms.dto.SettingDTO;
 import com.pms.util.DBConnectionMgr;
 import com.sun.javafx.collections.MappingChange.Map;
@@ -74,17 +75,30 @@ public class PmsLogDao {
 		pool = DBConnectionMgr.getInstance();
 	}
 	//실시간 조회
-	public ArrayList<PmsDto> viewList() {
+	public ArrayList<PmsDto> viewList(int page) {
 		Connection con = null;
-		Statement st = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<PmsDto> arr = new ArrayList<PmsDto>();
+		 int startNum = (page-1)*10+1;
+	     int endNum = page*10;
+		  // int startNum = page.getStartNum(); 
+		 // int endNum = page.getEndNum();
+		 
 
+		
 		try {
 			con = pool.getConnection();
-			String sql = " select * from pms_log where out_time is null order by in_time ";
-			st = con.createStatement();
-			rs = st.executeQuery(sql);
+			   String sql = "SELECT * FROM (" + 
+			   		"         SELECT * FROM (" + 
+			   		" SELECT ROWNUM row_num, pms_log.* FROM pms_log " + 
+			   		"               ) WHERE row_num >= ? " + 
+			   		"               ) WHERE row_num <= ? ";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, startNum);
+			ps.setInt(2, endNum);
+			
+			rs = ps.executeQuery();
 			while (rs.next()) {
 				PmsDto dto = new PmsDto();
 				dto.setIdx(rs.getInt("idx"));
@@ -102,11 +116,41 @@ public class PmsLogDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			pool.freeConnection(con, st, rs);
-
+			pool.freeConnection(con, ps, rs);
 		}
 		return arr;
 	}
+	//
+	public int getlistCount() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql="";
+		int count=0;
+		try {
+			con=pool.getConnection();
+			sql="select count(*) as count from pms_log";
+			ps=con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				
+				count=rs.getInt("count");
+			}
+		
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+			pool.freeConnection(con, ps, rs);
+		}
+		
+		
+	      return count;
+	
+	}
+	
 
 	// 실시간 차량 사진
 	public void imgUpdate(HttpServletRequest req) {
