@@ -34,10 +34,10 @@ public class Add_C_DCommand implements Command{
 		request.setCharacterEncoding("UTF-8");
 		String c_d = request.getParameter("a_c_d");
 		HttpSession session = request.getSession();
-		// 요청된 값들에 대한 인코딩
-		request.setCharacterEncoding("UTF-8");
+
 		if (c_d.equals("a_coupon")) {
 			PmsCouponDto dto = new PmsCouponDto();
+			System.out.println(request.getParameter("name"));
 			dto.setCPNAME(request.getParameter("name"));
 			dto.setUSE_DATE(Integer.parseInt(removeCommas(choice(request, "date"))));
 			dto.setDISCOUNT(Integer.parseInt(removeCommas(choice(request, "price"))));

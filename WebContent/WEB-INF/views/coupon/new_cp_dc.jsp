@@ -12,7 +12,7 @@
 					<div class="card border-left-primary shadow h-100 py-2" mborder>
 						<div class="card-body">
 							<form method="GET" action="addc_d.do">
-								<h1 class="mb-3">쿠폰 할인권 조회</h1>
+								<h2 class="mb-3">쿠폰 할인권 생성</h2>
 								<span class="switchToggle">
 									<input type="checkbox" id="a_switch" />
 									<label class="ml-auto" for="a_switch">Toggle</label>

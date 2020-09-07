@@ -115,6 +115,9 @@ public class PMSRandom {
 			}
 			Collections.sort(rand_time_arr); // 정렬
 			map.put(CNUM.get(i), rand_time_arr); // map에 key value로 저장
+			Collections.sort(rand_time_arr);
+			
+			map.put(CNUM.get(i), rand_time_arr);
 		}
 
 		Set<String> keys = map.keySet();
@@ -206,8 +209,6 @@ public class PMSRandom {
 		ArrayList<String> ran = random.CNUM_RAND(500); 
 		random.MONTH_SETTING(ran);
 		random.TIME_SETTING(ran, 50);
-
-
 		
 		System.out.println("성공");
 	}

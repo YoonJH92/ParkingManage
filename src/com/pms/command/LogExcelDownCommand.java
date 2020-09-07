@@ -15,9 +15,11 @@ public class LogExcelDownCommand implements Command {
 
 			
 		PmsLogDao dao= PmsLogDao.getInstance();
-		ArrayList<PmsDto> arr=dao.viewList();
-		
-		dao.writeLogExcel(arr);
+		/*
+		 * ArrayList<PmsDto> arr=dao.viewList(page);
+		 * 
+		 * dao.writeLogExcel(arr);
+		 */
 		dao.ExcelDownload(request, response);
 		
 		return "redirect:loglist.do";

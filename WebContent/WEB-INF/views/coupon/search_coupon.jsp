@@ -63,27 +63,53 @@
 </div>
 
 
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="c_edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">수정</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <input class="form-control " type="text" placeholder="Mohsin">
-        </div>
-        <div class="form-group">
-          <input class="form-control " type="text" placeholder="Irshad">
-        </div>
-        <div class="form-group">
-          <textarea rows="2" class="form-control"
-            placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
-        </div>
+        <table class="table table-bordered">
+          <tr>
+            <td style="width:30%; text-align: center;">쿠폰 이름</td>
+            <td><input class="form-control" type="text" name="name" />
+          </tr>
+          <tr>
+            <td style="width:30%; text-align: center;">사용 기간</td>
+            <td>발급일로부터<select style="width: 30%; display:inline-block; margin-left: 3%;"
+                class="form-control animated--grow-in" name="date">
+                <option value="1" selected>1일</option>
+                <option value="7">7일</option>
+                <option value="10">10일</option>
+                <option value="30">30일</option>
+                <option value="100">100일</option>
+                <option value="직접 입력">직접 입력</option>
+              </select> <span id="date"><input style="width: 40%; display:inline-block;" class="form-control"
+                  type="text" name="date" numberOnly>일</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:30%; text-align: center;">사용 목적</td>
+            <td><input class="form-control size" type="text" name="cpurpose" /></td>
+          </tr>
+          <tr>
+            <td style="width:30%; text-align: center;">차감 금액</td>
+            <td><select style="width: 30%; display:inline-block;" class="form-control animated--grow-in" name="price">
+                <option value="1,000" selected>1,000원</option>
+                <option value="3,000">3,000원</option>
+                <option value="5,000">5,000원</option>
+                <option value="10,000">10,000원</option>
+                <option value="30,000">30,000원</option>
+                <option value="직접 입력">직접 입력</option>
+              </select> <span id="price"><input style="width: 65%; display:inline-block;" class="form-control"
+                  type="text" name="price" numberOnly>원</span>
+            </td>
+          </tr>
+        </table>
       </div>
-      <div class="modal-footer ">
+      <div class="modal-footer" style="border-top: 0px;">
         <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
             class="glyphicon glyphicon-ok-sign"></span>완료</button>
       </div>
@@ -95,7 +121,7 @@
 
 
 
-<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+<div class="modal fade" id="c_delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -105,7 +131,8 @@
         <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 정말 삭제하시겠습니까?</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;</button>
+        <button type="button" class="btn btn-success"><span
+            class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><span
             class="glyphicon glyphicon-remove"></span>아니오</button>
       </div>

@@ -1523,7 +1523,6 @@ pre code {
 .table th,
 .table td {
   padding: 0.75rem;
-  vertical-align: top;
   border-top: 1px solid #e3e6f0;
 }
 
@@ -10481,7 +10480,7 @@ a:focus {
     width: 100%;
     text-align: left;
     padding: 1rem;
-    width: 14rem;
+    width: 15rem;
   }
   .sidebar .nav-item .nav-link i {
     font-size: 0.85rem;
@@ -10492,7 +10491,7 @@ a:focus {
     display: inline;
   }
   .sidebar .nav-item .nav-link[data-toggle="collapse"]::after {
-    width: 1rem;
+    width: 0rem;
     text-align: center;
     float: right;
     vertical-align: 0;

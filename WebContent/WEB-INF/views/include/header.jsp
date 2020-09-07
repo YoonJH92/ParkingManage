@@ -72,7 +72,10 @@
         </a>
       </li>
       
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6db68349cfbb4b87209f0243164644b897ec110
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a id="arrow" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -88,7 +91,6 @@
         </div> 
       </li>
       
-      
      
       <!-- Nav Item - Charts -->
       <li class="nav-item">
@@ -99,7 +101,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="daily.do">
+        <a class="nav-link" href="monthly.do">
           <i class="fas fa-fw fa-table"></i>
           <span>월별통계</span></a>
       </li>
