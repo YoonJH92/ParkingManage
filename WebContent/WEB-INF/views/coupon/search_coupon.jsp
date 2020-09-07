@@ -74,37 +74,37 @@
         <table class="table table-bordered">
           <tr>
             <td style="width:30%; text-align: center;">쿠폰 이름</td>
-            <td><input class="form-control" type="text" name="name" />
+            <td><input class="form-control" type="text" name="name1" />
           </tr>
           <tr>
             <td style="width:30%; text-align: center;">사용 기간</td>
             <td>발급일로부터<select style="width: 30%; display:inline-block; margin-left: 3%;"
-                class="form-control animated--grow-in" name="date">
+                class="form-control animated--grow-in" name="date1">
                 <option value="1" selected>1일</option>
                 <option value="7">7일</option>
                 <option value="10">10일</option>
                 <option value="30">30일</option>
                 <option value="100">100일</option>
                 <option value="직접 입력">직접 입력</option>
-              </select> <span id="date"><input style="width: 40%; display:inline-block;" class="form-control"
-                  type="text" name="date" numberOnly>일</span>
+              </select> <span id="date1"><input style="width: 40%; display:inline-block;" class="form-control"
+                  type="text" name="date2" numberOnly>일</span>
             </td>
           </tr>
           <tr>
             <td style="width:30%; text-align: center;">사용 목적</td>
-            <td><input class="form-control size" type="text" name="cpurpose" /></td>
+            <td><input class="form-control size" type="text" name="cpurpose1" /></td>
           </tr>
           <tr>
             <td style="width:30%; text-align: center;">차감 금액</td>
-            <td><select style="width: 30%; display:inline-block;" class="form-control animated--grow-in" name="price">
+            <td><select style="width: 30%; display:inline-block;" class="form-control animated--grow-in" name="price1">
                 <option value="1,000" selected>1,000원</option>
                 <option value="3,000">3,000원</option>
                 <option value="5,000">5,000원</option>
                 <option value="10,000">10,000원</option>
                 <option value="30,000">30,000원</option>
                 <option value="직접 입력">직접 입력</option>
-              </select> <span id="price"><input style="width: 65%; display:inline-block;" class="form-control"
-                  type="text" name="price" numberOnly>원</span>
+              </select> <span id="price1"><input style="width: 65%; display:inline-block;" class="form-control"
+                  type="text" name="price2" numberOnly>원</span>
             </td>
           </tr>
         </table>
@@ -131,7 +131,7 @@
         <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> 정말 삭제하시겠습니까?</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success"><span
+        <button type="button" class="btn btn-success" name="m_c_delete"><span
             class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><span
             class="glyphicon glyphicon-remove"></span>아니오</button>

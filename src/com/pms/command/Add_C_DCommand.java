@@ -37,7 +37,6 @@ public class Add_C_DCommand implements Command{
 
 		if (c_d.equals("a_coupon")) {
 			PmsCouponDto dto = new PmsCouponDto();
-			System.out.println(request.getParameter("name"));
 			dto.setCPNAME(request.getParameter("name"));
 			dto.setUSE_DATE(Integer.parseInt(removeCommas(choice(request, "date"))));
 			dto.setDISCOUNT(Integer.parseInt(removeCommas(choice(request, "price"))));

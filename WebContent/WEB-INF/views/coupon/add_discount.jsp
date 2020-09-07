@@ -15,7 +15,7 @@
 					<option value="1" selected>1시간</option>
 					<option value="3">3시간</option>
 					<option value="6">6시간</option>
-					<option value="10">10시간</option>
+					<option value="12">12시간</option>
 					<option value="24">24시간</option>
 					<option value="직접 입력">직접 입력</option>
 			</select> <span id="time"><input style="width: 61%; display:inline-block;" class="form-control" type="text" name="time" numberOnly>시간</span>

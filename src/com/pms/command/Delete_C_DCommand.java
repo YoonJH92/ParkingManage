@@ -24,6 +24,6 @@ public class Delete_C_DCommand implements Command{
 		} else if (c_d.equals("discount")) {
 			dao.Delete(num, c_d);
 		}
-		return "redirect:delete_C_D.do";
+		return "null";
 	}
 }

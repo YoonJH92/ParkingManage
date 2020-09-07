@@ -40,9 +40,12 @@
 	$(function () {
 		$("#date").hide();
 		$("#price").hide();
-		$("#toggle4").hide();
 		$("#time").hide();
-
+		$("#date1").hide();
+		$("#price1").hide();
+		$("#time1").hide();
+		$("#toggle4").hide();
+		
 		//3자리 단위마다 콤마 생성
 		function addCommas(x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -126,6 +129,30 @@
 				$("#time").show();
 			} else {
 				$("#time").hide();
+			}
+		});
+		
+		$('select[name="date1"]').change(function () {
+			if ($('select[name="date1"]').val() == "직접 입력") {
+				$("#date1").show();
+			} else {
+				$("#date1").hide();
+			}
+		});
+
+		$('select[name="price1"]').change(function () {
+			if ($('select[name="price1"]').val() == "직접 입력") {
+				$("#price1").show();
+			} else {
+				$("#price1").hide();
+			}
+		});
+
+		$('select[name="time1"]').change(function () {
+			if ($('select[name="time1"]').val() == "직접 입력") {
+				$("#time1").show();
+			} else {
+				$("#time1").hide();
 			}
 		});
 	});
