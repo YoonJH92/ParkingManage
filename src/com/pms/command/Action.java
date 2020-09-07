@@ -15,7 +15,6 @@ public class Action {
 		map.put("/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
       	map.put("/stat/test",new TestCommand());	
-      	map.put("/loglist",new LogListCommand());
       	map.put("/loglistac",new LogListacCommand());
       	map.put("/imgupdate",new LoglmgModifyAction());
       	map.put("/index",new IndexCommand());
