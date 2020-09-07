@@ -22,21 +22,24 @@ public  class LogListCommand implements Command {
 		 if(request.getParameter("page")!=null) {
 			 page=Integer.parseInt(request.getParameter("page"));
 		 }
-		 	PmsPageDto paging =new PmsPageDto();
-		 	paging.setPage(page);
+		 PmsPageDto paging =new PmsPageDto();
 		 
-		 	int count=dao.getlistCount();
-		 	paging.setTotalCount(count);
 		 	int dispalyRow=20;
 		 	if(request.getParameter("displayRow")!=null){
 		 		dispalyRow=Integer.parseInt(request.getParameter("displayRow"));
 		 		System.out.println(dispalyRow);
-		 		}
 		 		paging.setDisplayRow(dispalyRow);
+		 	}
+
+		 	int count=dao.getlistCount();
+		 	paging.setTotalCount(count);
+		 	
+		 	
+		 	paging.setPage(page);
 		
-		 	ArrayList<PmsDto> arr=dao.viewList(paging);		 	
 		 HashMap<String, Integer> result=dao.logTotalResult();
 		 ArrayList<String>fare=dao.Curentfare();		 
+		 ArrayList<PmsDto> arr=dao.viewList(paging);		 	
 		 request.setAttribute("list", arr);
 		 request.setAttribute("paging", paging);
 		 request.setAttribute("total", result);
