@@ -21,7 +21,9 @@ public class LoginCommand implements Command{
 		
 		ManagerDAO mdao = new ManagerDAO();
 		String id = request.getParameter("id");
+		
 		String pass = request.getParameter("pass");
+		
 		int re = mdao.loginManager(id,pass);
 		HttpSession session = request.getSession();
 		
@@ -35,13 +37,15 @@ public class LoginCommand implements Command{
 		
 				
 				
-				if(save == "on"){
+				if(save != null){
 		
 					Cookie cookie = new Cookie("cid",id);
 
 					cookie.setMaxAge(60*60*24*7);
 
 					response.addCookie(cookie);
+					
+					
 					
 					
 					 
@@ -55,6 +59,7 @@ public class LoginCommand implements Command{
 					
 					response.addCookie(cookie);
 					 
+				
 				}
 		
 		return "login/login";
