@@ -82,15 +82,7 @@
               </div>
             </div>
           </div>
-          
-          
-          
-          
-          
-          
-          
-
-          <!-- Content Row -->
+            <!-- Content Row -->
           <div class="row">
           
             <!-- Content Column -->
@@ -102,6 +94,16 @@
                   <h6 class="m-0 font-weight-bold text-black">실시간 조회</h6>
                 </div>
                 <div class="card-body">
+                <div class="ml-auto">
+                <form method="post" action="loglist.do">
+                	<select name="displayRow" id="displayRow" onchange="submit(this.value)" >
+       		<option value="20" >20</option> 	
+       		<option value="30">30</option> 	
+       		<option value="50">50</option> 	
+       		<option value="100">100</option> 	
+           </select>
+           </form>
+                </div>
                <table class="table table-hover">
   <thead>
     <tr>

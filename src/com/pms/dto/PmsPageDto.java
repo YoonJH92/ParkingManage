@@ -6,24 +6,24 @@ public class PmsPageDto {
 	    private int totalCount; 
 	    private int beginPage;  
 	    private int endPage;   
-	    private int displayRow =10;  
+	    private int displayRow =20;  
 	    private int displayPage =10;  
 	    boolean prev;
 	    boolean next;	    
 	    private int startNum;
 	    private int endNum;
 	
+	    public void setStartNum(int startNum) {
+	    	this.startNum = startNum;
+	    }
 	    public int getStartNum() {
-			return startNum;
+			return startNum=(page-1)*displayRow;
 		}
-		public void setStartNum(int startNum) {
-			this.startNum = startNum;
-		}
+	    public void setEndNum(int endNum) {
+	    	this.endNum = endNum;
+	    }
 		public int getEndNum() {
-			return endNum;
-		}
-		public void setEndNum(int endNum) {
-			this.endNum = endNum;
+			return endNum=page*displayRow;
 		}
 		public int getPage() {
 			return page;
@@ -56,7 +56,7 @@ public class PmsPageDto {
 		public void setDisplayRow(int displayRow) {
 			this.displayRow = displayRow;
 		}
-		public int getDisplayPage() {
+		public int getdisplayPage() {
 			return displayPage;
 		}
 		public void setDisplayPage(int displayPage) {
