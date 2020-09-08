@@ -14,13 +14,9 @@ table thead th{padding: 6px 10px!important;}
 table tbody td{padding: 4px 10px!important;}
 }
 
-table.dataTable tbody tr.selected {
-	background-color: #F5A9BC;
-    color: white;
-}
 </style>
 <div class="container py50">
-	<table id="example" class="table table-striped table-bordered text-center" style="width:100%;height:80%;">
+	<table id="example" class="table table-bordered text-center">
         <thead>
             <tr>
                 <th rowspan=2 class="v-mid">시간</th>
@@ -59,11 +55,16 @@ table.dataTable tbody tr.selected {
           	</c:forEach>
         </tbody>
         <tfoot>
-
+			<tr></tr>
         </tfoot>
     </table>
 </div>
 <script>
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 $(document).ready(function() {
     $('#example').DataTable( {
     	// 표시 건수기능 숨기기
@@ -82,37 +83,21 @@ $(document).ready(function() {
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
                     i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
+                    typeof i === 'number' ?i : 0;
             };
  
-            // Total over all pages
-            total = api
-                .column( 4 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
- 
-            // Total over this page
-            pageTotal = api
-                .column( 4, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
- 
+			var row = "<td>합계</td>";
+			for(var i = 1; i <= 10; i++ ){
+				row += "<td>"+numberWithCommas(api.column( i ).data().reduce( function (a, b) {
+			        return intVal(a) + intVal(b);
+			    }, 0 ))+"</td>"
+			};
             // Update footer
-            $( api.column( 4 ).footer() ).html(
-                '$'+pageTotal +' ( $'+ total +' total)'
-            );
+            $( "tfoot tr" ).html(row);
         }
     
     } );
-    
-    $('#example tr').click(function () {
-        $(this).css('background-color', "#F5A9BC");
-    });
+
 } );
 </script>
   
