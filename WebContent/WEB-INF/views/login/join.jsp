@@ -17,24 +17,8 @@
 
 
 <style>
-@import
-	url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Yeon+Sung&display=swap')
-	;
 
-.bd-placeholder-img {
-	font-size: 1.125rem;
-	text-anchor: middle;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
 
-@media ( min-width : 768px) {
-	.bd-placeholder-img-lg {
-		font-size: 3.5rem;
-	}
-}
 
 #contain {
 	display: flex;
@@ -65,11 +49,7 @@ body {
 			</center>
 			<form action="join.do" method="post">
 
-				<div class="mb-3">
-					<label for="address">Name</label> <input type="text" name="name"
-						class="form-control" placeholder="이름을 입력해 주세요" required>
 
-				</div>
 
 				<div class="mb-3">
 					<label for="address">ID</label> <input type="text" name="id"
@@ -86,6 +66,11 @@ body {
 					<label for="address">Password 확인 &nbsp;<span id="check"></span></label>
 					<input type="password" name="pass2" id="pw2" onchange="check_pw()"
 						class="form-control" placeholder="비밀번호를 확인해 주세요" required>
+
+				</div>
+				<div class="mb-3">
+					<label for="address">Name</label> <input type="text" name="name"
+						class="form-control" placeholder="이름을 입력해 주세요" required>
 
 				</div>
 				<div class="mb-3">

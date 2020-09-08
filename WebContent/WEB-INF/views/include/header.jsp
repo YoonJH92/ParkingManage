@@ -72,10 +72,7 @@
         </a>
       </li>
       
-<<<<<<< HEAD
 
-=======
->>>>>>> f6db68349cfbb4b87209f0243164644b897ec110
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a id="arrow" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">

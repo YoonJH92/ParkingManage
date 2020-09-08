@@ -380,7 +380,7 @@ public class PmsLogDao {
 				clIdxarr.add(clidx);
 				discountarr.add(discount);
 			}
-
+			
 			if(clIdxarr.size()!=0) {
 				sql = "update pms_coupon_log set used= ? where idx = ? ";
 				ps = con.prepareStatement(sql);
