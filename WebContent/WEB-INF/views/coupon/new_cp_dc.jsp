@@ -87,6 +87,10 @@
 				$('div[mborder]').addClass("border-left-primary");
 				$('input[mborder]').removeClass("btn-info");
 				$('input[mborder]').addClass("btn-primary");
+				$('input[name="name"]').prop("required", true);
+				$('input[name="cpurpose"]').prop("required", true);
+				$('input[name="company"]').prop("required", false);
+				$('input[name="dpurpose"]').prop("required", false);
 			} else {
 				$("#toggle3").hide();
 				$("#toggle4").show();
@@ -95,6 +99,11 @@
 				$('div[mborder]').addClass("border-left-info");
 				$('input[mborder]').removeClass("btn-primary");
 				$('input[mborder]').addClass("btn-info");
+				$('input[name="name"]').prop("required", false);
+				$('input[name="cpurpose"]').prop("required", false);
+				$('input[name="company"]').prop("required", true);
+				$('input[name="dpurpose"]').prop("required", true);
+
 			}
 		});
 
@@ -106,29 +115,38 @@
 			$('div[mborder]').addClass("border-left-primary");
 			$('input[mborder]').removeClass("btn-info");
 			$('input[mborder]').addClass("btn-primary");
+			$("#date").hide();
+			$("#price").hide();
+			$("#time").hide();
 		});
 
 		$('select[name="date"]').change(function () {
 			if ($('select[name="date"]').val() == "직접 입력") {
 				$("#date").show();
+				$('input[name="date"]').prop("required", true);
 			} else {
 				$("#date").hide();
+				$('input[name="date"]').prop("required", false);
 			}
 		});
 
 		$('select[name="price"]').change(function () {
 			if ($('select[name="price"]').val() == "직접 입력") {
 				$("#price").show();
+				$('input[name="price"]').prop("required", true);
 			} else {
 				$("#price").hide();
+				$('input[name="price"]').prop("required", false);
 			}
 		});
 
 		$('select[name="time"]').change(function () {
 			if ($('select[name="time"]').val() == "직접 입력") {
 				$("#time").show();
+				$('input[name="time"]').prop("required", true);
 			} else {
 				$("#time").hide();
+				$('input[name="time"]').prop("required", false);
 			}
 		});
 		

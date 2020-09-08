@@ -9,7 +9,7 @@
 				<div class="col-xs-1">
 					<select class="form-control animated--grow-in" name="d_condition">
 						<option value="company" selected>업체명</option>
-						<option value="use_date">할인 시간</option>
+						<option value="use_time">할인 시간</option>
 						<option value="purpose">발급 목적</option>
 					</select>
 				</div>
@@ -265,13 +265,33 @@
 			var price;
 			if($('select[name="date1"]').val() == "직접 입력"){
 				date = $('input[name="date2"]').val()
+				if($('input[name="date2"]').val() == ""){
+					alert("빈칸을 채워주세요.");
+					$('input[name="date2"]').focus();
+					return;
+				}
 			}else {
 				date = $('select[name="date1"]').val()
 			}
 			if($('select[name="price1"]').val() == "직접 입력"){
 				price = $('input[name="price2"]').val()
+				if($('input[name="price2"]').val() == ""){
+					alert("빈칸을 채워주세요.");
+					$('input[name="price2"]').focus();
+					return;
+				}
 			}else {
 				price = $('select[name="price1"]').val()
+			}
+			
+			if($('input[name="name1"]').val() == ""){
+				alert("빈칸을 채워주세요.");
+				$('input[name="name1"]').focus();
+				return;
+			}else if($('input[name="cpurpose1"]').val() == ""){
+				alert("빈칸을 채워주세요.");
+				$('input[name="cpurpose1"]').focus();
+				return;
 			}
 			$.post("modify_C_D.do", {
 				c_d: "coupon",
@@ -289,9 +309,25 @@
 			var time;
 			if($('select[name="time1"]').val() == "직접 입력"){
 				time = $('input[name="time2"]').val()
+				if($('input[name="time2"]').val() == ""){
+					alert("빈칸을 채워주세요.");
+					$('input[name="time2"]').focus();
+					return;
+				}
 			}else {
 				time = $('select[name="time1"]').val()
 			}
+			
+			if($('input[name="company1"]').val() == ""){
+				alert("빈칸을 채워주세요.");
+				$('input[name="company1"]').focus();
+				return;
+			}else if($('input[name="dpurpose1"]').val() == ""){
+				alert("빈칸을 채워주세요.");
+				$('input[name="dpurpose1"]').focus();
+				return;
+			}
+			
 			$.post("modify_C_D.do", {
 				c_d: "discount",
 				num: num,

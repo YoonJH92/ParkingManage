@@ -89,8 +89,8 @@
 					htmlStr += "<td><input type=\"checkbox\" name=\"l_chk\" value=" + val.CPNUM + "></td>";
 					htmlStr += "<td>" + val.IDX + "</td>";
 					htmlStr += "<td>" + val.CPNUM + "</td>";
-					htmlStr += "<td>" + val.VALIDITY+ "</td>";
 					htmlStr += "<td>" + val.CPCODE + "</td>";
+					htmlStr += "<td>" + val.VALIDITY+ "</td>";
 					htmlStr += "<td>" + val.USED+ "</td>";
 					htmlStr += "<td>" + val.CNUM + "</td>";
 					htmlStr += "</tr>";

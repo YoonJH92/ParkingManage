@@ -81,6 +81,13 @@ public class PmsC_D_Dao {
 				sql= "select * from PMS_COUPON where rownum <="+align+" ORDER BY CPNUM ASC";
 			}
 			else {
+				if(condition.equals("use_date")) {
+					value = value.replace("일", "");
+				}
+				if(condition.equals("discount")) {
+					value = value.replace("원", "");
+					value = value.replace(",", "");
+				}
 				sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"' ORDER BY CPNUM ASC";
 			}
 			System.out.println(sql);
@@ -115,6 +122,10 @@ public class PmsC_D_Dao {
 				sql= "select * from PMS_Discount_manage where rownum <="+align+" ORDER BY COM_NUM ASC";
 			}
 			else {
+				if(condition.equals("use_time")) {
+					value = value.replace("시간", "");
+				}
+				
 				sql = "select * from PMS_Discount_manage where "+condition+" = "+"'"+value+"' ORDER BY COM_NUM ASC";
 			}
 			System.out.println(sql);

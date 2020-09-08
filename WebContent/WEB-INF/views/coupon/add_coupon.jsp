@@ -3,7 +3,7 @@
 <table class="table table-bordered">
 	<tr>
 		<td style="width:30%; text-align: center;">쿠폰 이름</td>
-		<td><input class="form-control" type="text" name="name" />
+		<td><input class="form-control" type="text" name="name" required/>
 	</tr>
 	<tr>
 		<td style="width:30%; text-align: center;">사용 기간</td>
@@ -21,7 +21,7 @@
 	</tr>
 	<tr>
 		<td style="width:30%; text-align: center;">사용 목적</td>
-		<td><input class="form-control size" type="text" name="cpurpose" /></td>
+		<td><input class="form-control size" type="text" name="cpurpose" required/></td>
 	</tr>
 	<tr>
 		<td style="width:30%; text-align: center;">차감 금액</td>
