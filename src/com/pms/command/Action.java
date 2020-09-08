@@ -56,6 +56,8 @@ public class Action {
       	map.put("/search_C_D",new Search_C_DCommand());  	  	
       	map.put("/delete_C_D",new Delete_C_DCommand());  	  	
       	map.put("/modify_C_D",new Modify_C_DCommand());  	  	
+      	map.put("/search_log",new CDCommand3());
+      	map.put("/search_log_proc",new Search_Log_Command());
 
       	map.put("/memberUpdate",new MemberUpdateCommand());  	  	
 //      	map.put("/login/login",new LoginCommand());

@@ -83,7 +83,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h5 class="collapse-header">쿠폰</h5>
             <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 생성 및 조회</a>
-            <a class="collapse-item" href="#">쿠폰할인 사용 내역</a>
+            <a class="collapse-item" href="search_log.do">쿠폰할인 사용 내역</a>
           </div>
         </div> 
       </li>

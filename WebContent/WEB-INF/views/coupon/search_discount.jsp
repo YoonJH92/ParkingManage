@@ -44,8 +44,8 @@
 							<th><input type="checkbox" id="d_chk" /></th>
 							<th>순번</th>
 							<th>할인명</th>
-							<th>할인 시간</th>
 							<th>발급 목적</th>
+							<th>할인 시간</th>
 							<th>수정</th>
 							<th>삭제</th>
 						</thead>
@@ -320,9 +320,9 @@
 						htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "></td>";
 						htmlStr += "<td>" + val.CPNUM + "</td>";
 						htmlStr += "<td>" + val.CPNAME + "</td>";
-						htmlStr += "<td>" + val.USE_DATE + "</td>";
+						htmlStr += "<td>" + val.USE_DATE + "일</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
-						htmlStr += "<td>" + val.DISCOUNT + "원</td>";
+						htmlStr += "<td>" + val.DISCOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원</td>";
 						htmlStr +=
 							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\" data-discount=" +val.DISCOUNT+ " data-c_purpose=" +val.PURPOSE+ " data-date=" +val.USE_DATE+ " data-name=" +val.CPNAME+ " data-num=" +val.CPNUM+ " data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#c_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
@@ -354,8 +354,8 @@
 							"></td>";
 						htmlStr += "<td>" + val.COM_NUM + "</td>";
 						htmlStr += "<td>" + val.COMPANY + "</td>";
-						htmlStr += "<td>" + val.USE_TIME + "시간</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
+						htmlStr += "<td>" + val.USE_TIME + "시간</td>";
 						htmlStr +=
 							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\" data-num="+val.COM_NUM+" data-d_purpose="+val.PURPOSE+" data-use_time="+val.USE_TIME+" data-company="+val.COMPANY+" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
