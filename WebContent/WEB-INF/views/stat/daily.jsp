@@ -136,15 +136,15 @@ var config = {
 			{
 				label: '입차 수',
 				/*backgroundColor: 'transparent',*/
-				backgroundColor: '#B9DEA5',
-				borderColor: '#B9DEA5',
+				backgroundColor: '#CEECF5',
+				borderColor: '#CEECF5',
 				data: inArray,
 				
 			}, 
 			{
 				label: '출차 수',
-				backgroundColor: '#AFA7ED',
-				borderColor: '#AFA7ED',
+				backgroundColor: '#ECCEF5',
+				borderColor: '#ECCEF5',
 				data: outArray,
 			}
 		]
