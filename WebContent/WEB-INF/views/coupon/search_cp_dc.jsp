@@ -114,39 +114,10 @@
 <div id="toggle2" style="display: none;">
   <%@ include file="search_discount.jsp"%>
 </div>
-<script>
-  $(function () {
-    $("#collapsePages").addClass("show");
-    $("#arrow").removeClass("collapsed");
-    search();
 
-    if ($("#s_switch").is(':checked')) {
-      $("#toggle1").hide();
-      $("#toggle2").show();
-      search();
-    }
-
-    $("#s_switch").change(function () {
-      if ($("#s_switch").is(':checked') == false) {
-        $("#toggle1").show();
-        $("#toggle2").hide();
-        $('div[border]').removeClass("border-left-info");
-        $('div[border]').addClass("border-left-primary");
-        search();
-      } else {
-        $("#toggle1").hide();
-        $("#toggle2").show();
-        $('div[border]').removeClass("border-left-primary");
-        $('div[border]').addClass("border-left-info");
-        search();
-      }
-    });
-    $('button[modal]').on('click', function () {
-      $('#modalBox').modal('show');
-    });
-  });
-</script>
 <%@ include file="new_cp_dc.jsp"%>
+
+<script src="resources/js/coupon.js"></script>
 
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
