@@ -88,9 +88,8 @@ pageEncoding="UTF-8"%>
           </thead>
           <tbody>
             <c:forEach var="arr" items="${detail}">
-	
                 <tr>
-                      <th scope="row">${arr.idx}</th>
+                  <th scope="row">${arr.idx}</th>
                     <td>${arr.cnum}</td>
                     <td>${arr.inTime}</td>  	
                     <td>${arr.outTime}</td>  	
@@ -104,6 +103,18 @@ pageEncoding="UTF-8"%>
                     </c:forEach>   
           </tbody>
         </table>
+        
+        
+    <jsp:include page="test1.jsp"> 
+    <jsp:param value="${paging.page}" name="page"/>
+    <jsp:param value="${paging.beginPage}" name="beginPage"/>
+    <jsp:param value="${paging.endPage}" name="endPage"/>
+    <jsp:param value="${paging.prev}" name="prev"/>
+    <jsp:param value="${paging.next}" name="next"/> 
+
+ </jsp:include>
+        
+        
       </div>
     </div>
   </div>

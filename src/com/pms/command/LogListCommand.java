@@ -20,27 +20,24 @@ public  class LogListCommand implements Command {
 		 PmsLogDao dao=PmsLogDao.getInstance(); 
 		 int page = 1;	 
 		 if(request.getParameter("page")!=null) {
-			 page=Integer.parseInt(request.getParameter("page"));
-		 }
-		 PmsPageDto paging =new PmsPageDto();
-		 
-		 	int dispalyRow=20;
-		 	if(request.getParameter("displayRow")!=null){
-		 		dispalyRow=Integer.parseInt(request.getParameter("displayRow"));
-		 		System.out.println(dispalyRow);
-		 		paging.setDisplayRow(dispalyRow);
+			page=Integer.parseInt(request.getParameter("page"));
 		 	}
-
+		 	PmsPageDto paging =new PmsPageDto();		 
+		 	int dispalyRow=20;
+		 	if(request.getParameter("dRs")!=null){
+		 	dispalyRow=Integer.parseInt(request.getParameter("dRs"));
+		 	System.out.println(dispalyRow);
+		 	paging.setDisplayRow(dispalyRow);
+		 	}
 		 	int count=dao.getlistCount();
 		 	paging.setTotalCount(count);
-		 	
-		 	
 		 	paging.setPage(page);
-		
+		 
 		 HashMap<String, Integer> result=dao.logTotalResult();
 		 ArrayList<String>fare=dao.Curentfare();		 
 		 ArrayList<PmsDto> arr=dao.viewList(paging);		 	
 		 request.setAttribute("list", arr);
+		 request.setAttribute("displayRow", dispalyRow);
 		 request.setAttribute("paging", paging);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);

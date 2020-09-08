@@ -25,8 +25,7 @@ public class PmsDto {
 		public void setCnum(String cnum) {
 			this.cnum = cnum;
 		}
-		
-		
+			
 		public String getInTime() {
 			return inTime;
 		}

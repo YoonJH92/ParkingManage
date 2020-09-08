@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<c:url var="action" value="/loglist.do"/>
+<c:url var="action" value="/logdetail.do"/>
 <c:if test="${param.prev}">
     <a href="${action}?Row=${param.displayRow}&page=${param.beginPage-1}">prev</a>
    </c:if>
@@ -19,3 +19,4 @@
 <c:if test="${param.next}">
     <a href="${action}?Row=${param.displayRow}&page=${param.endPage+1}">next</a>
 </c:if>
+
