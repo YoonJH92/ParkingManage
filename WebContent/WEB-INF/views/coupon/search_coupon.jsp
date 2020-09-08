@@ -110,7 +110,7 @@
         </table>
       </div>
       <div class="modal-footer" style="border-top: 0px;">
-        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
+        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;" name="m_c_update"><span
             class="glyphicon glyphicon-ok-sign"></span>완료</button>
       </div>
     </div>

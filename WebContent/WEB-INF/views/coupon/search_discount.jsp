@@ -95,8 +95,8 @@
 				</table>
 			</div>
 			<div class="modal-footer" style="border-top: 0px;">
-				<button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-						class="glyphicon glyphicon-ok-sign"></span> Update</button>
+				<button type="button" class="btn btn-warning btn-lg" style="width: 100%;" name="m_d_update"><span
+						class="glyphicon glyphicon-ok-sign"></span>완료</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -129,12 +129,6 @@
 </div>
 
 <script>
-	var num;
-	var name;
-	var date;
-	var purpose;
-	var price;
-	
 	$(document).on("click", ".btn-sm", function () {
 		num = $(this).data('num');
 		name = $(this).data('name');
@@ -144,11 +138,12 @@
 		price = $(this).data('discount');
 		time = $(this).data('use_time');
 		company = $(this).data('company');
-						
+		
 		$('input[name="name1"]').val(name);
 		
 		if(date == "1" || date == "7" || date == "10" || date == "30" || date == "100"){
 			$('select[name="date1"]').val(date);
+			$("#date1").hide();
 		}else{
 			$('select[name="date1"]').val("직접 입력");
 			$("#date1").show();
@@ -173,6 +168,7 @@
 			if(price == "30000"){
 			$('select[name="price1"]').val("30,000");
 			}
+			$("#price1").hide();
 		}else{
 			$('select[name="price1"]').val("직접 입력");
 			$("#price1").show();
@@ -185,10 +181,11 @@
 		
 		if(time == "1" || time == "3" || time == "6" || time == "12" || time == "24"){
 			$('select[name="time1"]').val(time);
+			$("#time1").hide();
 		}else{
 			$('select[name="time1"]').val("직접 입력");
 			$("#time1").show();
-			$('input[name="time2"]').val(date);
+			$('input[name="time2"]').val(time);
 		}
 
 	});
@@ -262,6 +259,49 @@
 			$('#d_delete').modal("hide");
 			search();
 		});
+		
+		$('button[name="m_c_update"]').click(function () {
+			var date;
+			var price;
+			if($('select[name="date1"]').val() == "직접 입력"){
+				date = $('input[name="date2"]').val()
+			}else {
+				date = $('select[name="date1"]').val()
+			}
+			if($('select[name="price1"]').val() == "직접 입력"){
+				price = $('input[name="price2"]').val()
+			}else {
+				price = $('select[name="price1"]').val()
+			}
+			$.post("modify_C_D.do", {
+				c_d: "coupon",
+				num: num,
+				name: $('input[name="name1"]').val(),
+				date: date,
+				c_purpose: $('input[name="cpurpose1"]').val(),
+				price: price,
+			}, function (data) {});
+			$('#c_edit').modal("hide");
+			search();
+		});
+
+		$('button[name="m_d_update"]').click(function () {
+			var time;
+			if($('select[name="time1"]').val() == "직접 입력"){
+				time = $('input[name="time2"]').val()
+			}else {
+				time = $('select[name="time1"]').val()
+			}
+			$.post("modify_C_D.do", {
+				c_d: "discount",
+				num: num,
+				d_purpose: $('input[name="dpurpose1"]').val(),
+				time: time,
+				company: $('input[name="company1"]').val()
+			}, function (data) {});
+			$('#d_edit').modal("hide");
+			search();
+		});
 	});
 
 	function search() {
@@ -317,7 +357,7 @@
 						htmlStr += "<td>" + val.USE_TIME + "시간</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\" data-d_purpose="+val.PURPOSE+" data-use_time="+val.USE_TIME+" data-company="+val.COMPANY+" data-num="+val.CON_NUM+" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\" data-num="+val.COM_NUM+" data-d_purpose="+val.PURPOSE+" data-use_time="+val.USE_TIME+" data-company="+val.COMPANY+" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
 							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\" data-num="+val.COM_NUM+" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#d_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 						htmlStr += "</tr>";

@@ -13,7 +13,6 @@ import com.pms.dto.PmsDiscountDto;
 public class Add_C_DCommand implements Command{
 
 	private String removeCommas(String x) {
-
 		return x.replace(",", "");
 	}
 

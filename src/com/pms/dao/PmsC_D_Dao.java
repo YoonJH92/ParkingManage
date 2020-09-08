@@ -155,4 +155,38 @@ public class PmsC_D_Dao {
 			pool.freeConnection(con, pstmt);
 		}
 	}
+	
+	public void modifyCMember(int num, String c_d, String cpname, int date, String c_purpose, int discount) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "update pms_coupon set use_date="+date+", cpname='"+cpname+"', purpose='"+c_purpose+"', discount="+discount+" where cpnum="+num;
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
+	
+	public void modifyDMember(int num, String c_d, String d_purpose, int time, String company) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "update pms_discount_manage set company='"+company+"', purpose='"+d_purpose+"', use_time="+time+" where com_num="+num;
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
 }
