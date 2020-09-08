@@ -7,16 +7,27 @@
 
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"/>
+
+-->
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css"/>
 <style>
 .py50 {padding: 50px 0;}
 .v-mid{vertical-align: middle!important;}
 table thead th{padding: 6px 10px!important;}
 table tbody td{padding: 4px 10px!important;}
 }
-
 </style>
+
 <div class="container py50">
-	<table id="example" class="table table-bordered text-center">
+	<canvas id="myChart" width="400" height="400"></canvas>
+
+		
+	<table id="stat" class="table table-bordered text-center">
         <thead>
             <tr>
                 <th rowspan=2 class="v-mid">시간</th>
@@ -41,8 +52,8 @@ table tbody td{padding: 4px 10px!important;}
              <c:forEach var="list" items="${arr}">
           		<tr>
 	              <td>${list.time}</td>
-	              <td>${list.inMonth}</td>
 	              <td>${list.inNomal}</td>
+	              <td>${list.inMonth}</td>
 	              <td>${list.inMonth + list.inNomal}</td>
 	              <td>${list.outNomal}</td>
 	              <td>${list.outMonth}</td>
@@ -59,6 +70,7 @@ table tbody td{padding: 4px 10px!important;}
         </tfoot>
     </table>
 </div>
+
 <script>
 
 function numberWithCommas(x) {
@@ -66,7 +78,8 @@ function numberWithCommas(x) {
 }
 
 $(document).ready(function() {
-    $('#example').DataTable( {
+	
+    $('#stat').DataTable( {
     	// 표시 건수기능 숨기기
     	lengthChange: false,
     	// 검색 기능 숨기기
@@ -99,6 +112,51 @@ $(document).ready(function() {
     } );
 
 } );
+
+
+var ctx = document.getElementById('myChart').getContext('2d');
+console.log(ctx.canvas);
+ctx.canvas.width = 1000;
+ctx.canvas.height = 500;
+var labelArray =[];
+var inArray =[];
+var outArray =[];
+$("#stat tbody tr").each(function(index){
+	labelArray.push($("#stat tbody tr:eq("+index+")").children().eq(0).text());
+	inArray.push($("#stat tbody tr:eq("+index+")").children().eq(3).text());
+	outArray.push($("#stat tbody tr:eq("+index+")").children().eq(6).text());
+});
+
+
+var config = {
+	type: 'bar',
+	data: {
+		labels: labelArray ,
+		datasets: [
+			{
+				label: '입차 수',
+				/*backgroundColor: 'transparent',*/
+				backgroundColor: '#B9DEA5',
+				borderColor: '#B9DEA5',
+				data: inArray,
+				
+			}, 
+			{
+				label: '출차 수',
+				backgroundColor: '#AFA7ED',
+				borderColor: '#AFA7ED',
+				data: outArray,
+			}
+		]
+	},
+	options: {
+        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+	}
+};
+ 
+//차트 그리기
+var myChart = new Chart(ctx, config);
+
 </script>
   
 <!-- footer -->

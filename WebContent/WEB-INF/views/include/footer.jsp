@@ -51,7 +51,7 @@
   <script src="resources/js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="resources/vendor/chart.js/Chart.min.js"></script>
+  <!-- <script src="resources/vendor/chart.js/Chart.min.js"></script> -->
 
   <!-- Page level custom scripts -->
   <script src="resources/js/demo/chart-area-demo.js"></script>

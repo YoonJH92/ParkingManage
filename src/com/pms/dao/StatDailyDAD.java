@@ -9,7 +9,7 @@ import com.pms.dto.StatisticsDTO;
 import com.pms.dto.memberManageDTO;
 import com.pms.util.DBConnectionMgr;
 
-public class StatDailyDAD implements Statistics{
+public class StatDailyDAD{
 	private DBConnectionMgr pool;
 	
 	public StatDailyDAD() {
@@ -24,7 +24,6 @@ public class StatDailyDAD implements Statistics{
 		return instance;
 	}
 	
-	@Override
 	public ArrayList<StatisticsDTO> ListView() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
