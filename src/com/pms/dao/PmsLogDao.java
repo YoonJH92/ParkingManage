@@ -87,8 +87,8 @@ public class PmsLogDao {
 		try {
 			con = pool.getConnection();
 			String sql = "SELECT * FROM (" + "  SELECT * FROM ("
-					+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log " + ") WHERE row_num >= ? "
-					+ " ) WHERE row_num <= ? ";
+					+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is null ) WHERE row_num >= ?  "
+					+ " ) WHERE row_num <= ?  ";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, startNum);
 			ps.setInt(2, endNum);
@@ -124,7 +124,7 @@ public class PmsLogDao {
 		int count = 0;
 		try {
 			con = pool.getConnection();
-			sql = "select count(*) as count from pms_log";
+			sql = "select count(*) as count from pms_log where out_time is null ";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 
@@ -224,7 +224,7 @@ public class PmsLogDao {
 		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		try {
 			con = pool.getConnection();
-			sql = " select count(cnum), count(case when month_num > 0 then 1 end),count(case when month_num = 0 then 1 end) from pms_log where out_time is Null ";
+			sql = " select count(*), count(case when month_num > 0 then 1 end),count(case when month_num = 0 then 1 end) from pms_log where out_time is Null ";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
 			if (rs.next()) {
@@ -540,26 +540,28 @@ public class PmsLogDao {
 			con = pool.getConnection();
 			// 값 없을때
 			if ((FDate.equals("-1"))) {		
-			 sql = "SELECT * FROM (  SELECT * FROM ("
-						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log " + ") WHERE ( row_num >= ? ) and(out_time is not null)"
-								+ "and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time"
-						+ " ) WHERE row_num <= ? ";
-				
+			
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";				
 //				sql = "select * from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ";
 			}
 
 			else if (cnum.equals("")) {	
-				sql = "SELECT * FROM (  SELECT * FROM (  SELECT ROWNUM row_num, pms_log.* FROM pms_log " + ") WHERE row_num >= ?  and in_time BETWEEN TO_DATE('" + FDate
-										+ "', 'YYYY-MM-DD HH24:MI:SS') AND  TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') order by in_time )  WHERE row_num <= ? ";				
-				//sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-					//	+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate
-						//+ "','YYYY-MM-DD HH24:MI:SS') order by in_time ";						
+				
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
+						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS') ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";
 			} else if (FDate.equals("")) {
-				sql = "select * from pms_log  WHERE (cnum='" + cnum + "') and (out_time is not null) order by in_time ";
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and (cnum='"+ cnum + "' ) ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";
 			} else {
-				sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-						+ "', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS') "
-						+ "and (out_time is Not null)and (cnum='" + cnum + "') order by in_time ";
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
+						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS')  and (cnum='"+ cnum + "' ) ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";				
 			}		
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, startNum);
@@ -589,28 +591,36 @@ public class PmsLogDao {
 	}
 
 	public int datailCount(String FDate, String LDate, String cnum)  {
-		
 	    Connection con=null;
 	    PreparedStatement ps=null;
 	    ResultSet rs=null;
 	    String sql="";
 	    int Dcount=0;
-	 
-	   	    try {	
-	   	   con=pool.getConnection();
+	   	   try {	
+	   	    con=pool.getConnection();
 	      if(FDate.equals("-1")) {
-	        sql = "select count(*) as count from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ";}
-	    	else if(cnum.equals("")){
-			sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') order by in_time ";}
+	    	  sql = "select count(*) as count from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ";}
+	    		else if(cnum.equals("")){
+	    	  sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate	
+				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS')  ";
+				}
 	    	else if(LDate.equals("")) {
-			sql="select count(*) as count from pms_log where cnum="+cnum+" and out_time is null";}
-						
+	    	  sql="select count(*) as count from pms_log where cnum='"+cnum+"' and out_time is null";
+				}
+	    	else {
+	    	  sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
+	    				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') and (cnum ='"+cnum+"') order by in_time ";
+	    		}
+	    
+	    		    
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				Dcount = rs.getInt("count");
-			}			
+			}	else {
+				Dcount=0;
+				System.out.println("0");
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

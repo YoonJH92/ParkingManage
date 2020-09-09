@@ -6,7 +6,7 @@ public class PmsPageDto {
 	    private int totalCount; 
 	    private int beginPage;  
 	    private int endPage;   
-	    private int displayRow =20;  
+	    private int displayRow;  
 	    private int displayPage =10;  
 	    boolean prev;
 	    boolean next;	    
