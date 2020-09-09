@@ -83,13 +83,18 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h5 class="collapse-header">쿠폰</h5>
             <a class="collapse-item" href="search_cp_dc.do">쿠폰할인 생성 및 조회</a>
-            <a class="collapse-item" href="#">쿠폰할인 사용 내역</a>
+            <a class="collapse-item" href="search_log.do">쿠폰할인 사용 내역</a>
           </div>
         </div> 
       </li>
       
      
       <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="statTimeac.do">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>1일 시간별 통계</span></a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="daily.do">
           <i class="fas fa-fw fa-chart-area"></i>

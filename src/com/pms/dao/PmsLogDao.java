@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Vector;
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.jasper.tagplugins.jstl.core.Out;
@@ -75,17 +76,13 @@ public class PmsLogDao {
 		pool = DBConnectionMgr.getInstance();
 	}
 	//실시간 조회
-	public ArrayList<PmsDto> viewList(int page) {
+	public ArrayList<PmsDto> viewList(PmsPageDto page) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<PmsDto> arr = new ArrayList<PmsDto>();
-		 int startNum = (page-1)*10+1;
-	     int endNum = page*10;
-		  // int startNum = page.getStartNum(); 
-		 // int endNum = page.getEndNum();
-		 
-
+		int startNum = page.getStartNum();
+		int endNum=page.getEndNum();
 		
 		try {
 			con = pool.getConnection();

@@ -198,5 +198,4 @@ public class MemberManageDAO {
 				pool.freeConnection(con, pstmt);
 			}			
 		}
-		
 }

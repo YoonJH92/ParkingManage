@@ -155,9 +155,10 @@ public class PMSRandom {
 	
 	//월정액 회원 생성
 	private void MONTH_SETTING(ArrayList<String> CNUM) {
-		String startDate = "2020-5-1 00:00:00";
+		String startDate = "2020-4-1 00:00:00";
+		String endDate = "2020-10-1 00:00:00";
 		Timestamp stime = Timestamp.valueOf(startDate); 
-		Timestamp etime = Timestamp.valueOf(LocalDateTime.now());
+		Timestamp etime = Timestamp.valueOf(endDate);
 		
 		long rand_diff;
 		long diff = etime.getTime() - stime.getTime(); // 종료시간 - 시작시간
@@ -166,7 +167,7 @@ public class PMSRandom {
 		
 		ArrayList<Long> rand_time_arr = null;
 		
-		for(int i=0; i < (CNUM.size()/2); i++) { // 전체 차량수 개수 지정
+		for(int i=0; i < CNUM.size() ; i++) { // 전체 차량수 개수 지정
 			rand_time_arr = new ArrayList<Long>();
 			for(int j = 0; j < 4 ; j++) { // 월정액 로그 개수
 				rand_diff = (long)(Math.random() * diff); 
@@ -208,7 +209,7 @@ public class PMSRandom {
 		PMSRandom random = new PMSRandom();
 		ArrayList<String> ran = random.CNUM_RAND(500); 
 		random.MONTH_SETTING(ran);
-		random.TIME_SETTING(ran, 50);
+		random.TIME_SETTING(ran, 150);
 		
 		System.out.println("성공");
 	}

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <!-- header -->
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>	
 
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
@@ -13,10 +15,10 @@ table tbody td{padding: 4px 10px!important;}
 </style>
 <div class="container py50">
     <div class="card-header py-3">
-      <form action="memberSearch.do" method="post" id="frm" name="frm">
+      <form action="statTime.do" method="post" id="frm" name="frm">
       <div class="py10">
 		<span>날짜 검색</span>
-      	<input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}">
+      	<input type="text" autocomplete="off" class="form-control1" id="startForm" name="startForm" value="${today}">
       	
       
       	<a href="#" id="searchBtn" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
@@ -57,21 +59,21 @@ table tbody td{padding: 4px 10px!important;}
         
         
         <tbody>
-<%--           <c:forEach var="" items="${}">
+        
+          <c:forEach var="list" items="${arr}">
           		<tr>
-	              <td>${}</td>
-	              <td>${}</td>
-	              <td>${}</td>
-	              <td>${}</td>
-	              <td>${}</td>
-	              <td>${}</td>
-	              <td>${}</td>
-	              <td>${}</td>
-	              
-	              
-	              
+	              <td>${list.time} : 00~59</td>
+	              <td>${list.inMonth}</td>
+	              <td>${list.inNomal}</td>
+	              <td>${list.inMonth+list.inNomal}</td>
+	              <td>${list.outMonth}</td>
+	              <td>${list.outNomal}</td>
+	              <td>${list.outMonth+list.outNomal}</td>
+	              <td>${list.totalPay}</td>
+
+
 	            </tr>
-          </c:forEach> --%>
+          </c:forEach> 
 
         </tbody>
         
@@ -126,14 +128,14 @@ $(document).ready(function() {
       	    dateFormat: 'yy-mm-dd'
           });  
           
-          $("#frm").submit(function(){
+/*           $("#frm").submit(function(){
         	  var searchForm = $("#searchForm").val();
         	  if((searchForm == null || searchForm == "") ){
 				alert("날짜를 선택해주세요.");			        		  
 				$("#searchForm").focus();
 				return false;
         	  }
-          });
+          }); */
           
           $("#searchBtn").click(function(){
         	  $("#frm").submit();

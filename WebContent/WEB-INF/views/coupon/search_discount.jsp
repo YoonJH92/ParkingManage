@@ -44,8 +44,8 @@
 							<th><input type="checkbox" id="d_chk" /></th>
 							<th>순번</th>
 							<th>할인명</th>
-							<th>할인 시간</th>
 							<th>발급 목적</th>
+							<th>할인 시간</th>
 							<th>수정</th>
 							<th>삭제</th>
 						</thead>
@@ -72,31 +72,31 @@
 				<table class="table table-bordered">
 					<tr>
 						<td style="width:30%; text-align: center;">발급처</td>
-						<td><input class="form-control" type="text" name="company" /></td>
+						<td><input class="form-control" type="text" name="company1" /></td>
 					</tr>
 					<tr>
 						<td style="width:30%; text-align: center;">발급 목적</td>
-						<td><input class="form-control" type="text" name="dpurpose" /></td>
+						<td><input class="form-control" type="text" name="dpurpose1" /></td>
 					</tr>
 					<tr>
 						<td style="width:30%; text-align: center;">할인 시간</td>
 						<td><select style="width: 30%; display:inline-block;" class="form-control animated--grow-in"
-								name="time">
+								name="time1">
 								<option value="1" selected>1시간</option>
 								<option value="3">3시간</option>
 								<option value="6">6시간</option>
-								<option value="10">10시간</option>
+								<option value="12">12시간</option>
 								<option value="24">24시간</option>
 								<option value="직접 입력">직접 입력</option>
-							</select> <span id="time"><input style="width: 61%; display:inline-block;"
-									class="form-control" type="text" name="time" numberOnly>시간</span>
+							</select> <span id="time1"><input style="width: 61%; display:inline-block;"
+									class="form-control" type="text" name="time2" numberOnly>시간</span>
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div class="modal-footer" style="border-top: 0px;">
-				<button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span
-						class="glyphicon glyphicon-ok-sign"></span> Update</button>
+				<button type="button" class="btn btn-warning btn-lg" style="width: 100%;" name="m_d_update"><span
+						class="glyphicon glyphicon-ok-sign"></span>완료</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -117,8 +117,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success"><span
-						class="glyphicon glyphicon-ok-sign"></span>예</button>
+				<button type="button" class="btn btn-success" name="m_d_delete"><span
+						class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;&nbsp;예&nbsp;&nbsp;&nbsp;</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal"><span
 						class="glyphicon glyphicon-remove"></span>아니오</button>
 			</div>
@@ -129,6 +129,67 @@
 </div>
 
 <script>
+	$(document).on("click", ".btn-sm", function () {
+		num = $(this).data('num');
+		name = $(this).data('name');
+		date = $(this).data('date');
+		c_purpose = $(this).data('c_purpose');
+		d_purpose = $(this).data('d_purpose');
+		price = $(this).data('discount');
+		time = $(this).data('use_time');
+		company = $(this).data('company');
+		
+		$('input[name="name1"]').val(name);
+		
+		if(date == "1" || date == "7" || date == "10" || date == "30" || date == "100"){
+			$('select[name="date1"]').val(date);
+			$("#date1").hide();
+		}else{
+			$('select[name="date1"]').val("직접 입력");
+			$("#date1").show();
+			$('input[name="date2"]').val(date);
+		}
+		
+		$('input[name="cpurpose1"]').val(c_purpose);
+		
+		if(price == "1000" || price == "3000" || price == "5000" || price == "10000" || price == "30000"){
+			if(price == "1000"){
+			$('select[name="price1"]').val("1,000");
+			}
+			if(price == "3000"){
+			$('select[name="price1"]').val("3,000");
+			}
+			if(price == "5000"){
+			$('select[name="price1"]').val("5,000");
+			}
+			if(price == "10000"){
+			$('select[name="price1"]').val("10,000");
+			}
+			if(price == "30000"){
+			$('select[name="price1"]').val("30,000");
+			}
+			$("#price1").hide();
+		}else{
+			$('select[name="price1"]').val("직접 입력");
+			$("#price1").show();
+			$('input[name="price2"]').val(price);		
+		}
+		
+		$('input[name="company1"]').val(company);
+		
+		$('input[name="dpurpose1"]').val(d_purpose);
+		
+		if(time == "1" || time == "3" || time == "6" || time == "12" || time == "24"){
+			$('select[name="time1"]').val(time);
+			$("#time1").hide();
+		}else{
+			$('select[name="time1"]').val("직접 입력");
+			$("#time1").show();
+			$('input[name="time2"]').val(time);
+		}
+
+	});
+
 	$(function () {
 		$('button[name="c_search"]').click(function () {
 			search();
@@ -146,6 +207,101 @@
 			search();
 		});
 
+		$('button[name="d_delete"]').click(function () {
+			if ($('input[name="d_chk"]').is(":checked")) {
+				$('input[name="d_chk"]').each(function () {
+					if ($(this).is(":checked")) {
+						$.post("delete_C_D.do", {
+							c_d: "discount",
+							num: $(this).val()
+						}, function (data) {});
+					}
+				});
+				$("#d_chk").prop("checked", false);
+				alert("삭제 완료!");
+			} else {
+				alert("체크 박스를 선택해주세요.");
+			}
+			search();
+		});
+		$('button[name="c_delete"]').click(function () {
+			if ($('input[name="c_chk"]').is(":checked")) {
+				$('input[name="c_chk"]').each(function () {
+					if ($(this).is(":checked")) {
+						$.post("delete_C_D.do", {
+							c_d: "coupon",
+							num: $(this).val()
+						}, function (data) {});
+					}
+				});
+				$("#c_chk").prop("checked", false);
+				alert("삭제 완료!");
+			} else {
+				alert("체크 박스를 선택해주세요.");
+			}
+			search();
+		});
+
+		$('button[name="m_c_delete"]').click(function () {
+			$.post("delete_C_D.do", {
+				c_d: "coupon",
+				num: num
+			}, function (data) {});
+			$('#c_delete').modal("hide");
+			search();
+		});
+
+		$('button[name="m_d_delete"]').click(function () {
+			$.post("delete_C_D.do", {
+				c_d: "discount",
+				num: num
+			}, function (data) {});
+			$('#d_delete').modal("hide");
+			search();
+		});
+		
+		$('button[name="m_c_update"]').click(function () {
+			var date;
+			var price;
+			if($('select[name="date1"]').val() == "직접 입력"){
+				date = $('input[name="date2"]').val()
+			}else {
+				date = $('select[name="date1"]').val()
+			}
+			if($('select[name="price1"]').val() == "직접 입력"){
+				price = $('input[name="price2"]').val()
+			}else {
+				price = $('select[name="price1"]').val()
+			}
+			$.post("modify_C_D.do", {
+				c_d: "coupon",
+				num: num,
+				name: $('input[name="name1"]').val(),
+				date: date,
+				c_purpose: $('input[name="cpurpose1"]').val(),
+				price: price,
+			}, function (data) {});
+			$('#c_edit').modal("hide");
+			search();
+		});
+
+		$('button[name="m_d_update"]').click(function () {
+			var time;
+			if($('select[name="time1"]').val() == "직접 입력"){
+				time = $('input[name="time2"]').val()
+			}else {
+				time = $('select[name="time1"]').val()
+			}
+			$.post("modify_C_D.do", {
+				c_d: "discount",
+				num: num,
+				d_purpose: $('input[name="dpurpose1"]').val(),
+				time: time,
+				company: $('input[name="company1"]').val()
+			}, function (data) {});
+			$('#d_edit').modal("hide");
+			search();
+		});
 	});
 
 	function search() {
@@ -160,18 +316,17 @@
 					var htmlStr = "";
 
 					$.each(data, function (key, val) {
-						console.log(val);
 						htmlStr += "<tr>";
 						htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "></td>";
 						htmlStr += "<td>" + val.CPNUM + "</td>";
 						htmlStr += "<td>" + val.CPNAME + "</td>";
-						htmlStr += "<td>" + val.USE_DATE + "</td>";
+						htmlStr += "<td>" + val.USE_DATE + "일</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
-						htmlStr += "<td>" + val.DISCOUNT + "원</td>";
+						htmlStr += "<td>" + val.DISCOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원</td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#c_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\" data-discount=" +val.DISCOUNT+ " data-c_purpose=" +val.PURPOSE+ " data-date=" +val.USE_DATE+ " data-name=" +val.CPNAME+ " data-num=" +val.CPNUM+ " data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#c_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#c_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\" data-num="+val.CPNUM+" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#c_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 						htmlStr += "</tr>";
 					});
 					htmlStr += "</tbody>";
@@ -199,12 +354,12 @@
 							"></td>";
 						htmlStr += "<td>" + val.COM_NUM + "</td>";
 						htmlStr += "<td>" + val.COMPANY + "</td>";
-						htmlStr += "<td>" + val.USE_TIME + "시간</td>";
 						htmlStr += "<td>" + val.PURPOSE + "</td>";
+						htmlStr += "<td>" + val.USE_TIME + "시간</td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\"data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\" data-num="+val.COM_NUM+" data-d_purpose="+val.PURPOSE+" data-use_time="+val.USE_TIME+" data-company="+val.COMPANY+" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 						htmlStr +=
-							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\"data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#d_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+							"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\" data-num="+val.COM_NUM+" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#d_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 						htmlStr += "</tr>";
 					});
 					htmlStr += "</tbody>";
@@ -219,39 +374,4 @@
 				});
 		}
 	}
-
-	$('button[name="d_delete"]').click(function () {
-		if ($('input[name="d_chk"]').is(":checked")) {
-			$('input[name="d_chk"]').each(function () {
-				if ($(this).is(":checked")) {
-					$.post("delete_C_D.do", {
-						c_d: "discount",
-						num: $(this).val()
-					}, function (data) {});
-				}
-			});
-			$("#d_chk").prop("checked", false);
-			alert("삭제 완료!");
-		} else {
-			alert("체크 박스를 선택해주세요.");
-		}
-		search();
-	});
-	$('button[name="c_delete"]').click(function () {
-		if ($('input[name="c_chk"]').is(":checked")) {
-			$('input[name="c_chk"]').each(function () {
-				if ($(this).is(":checked")) {
-					$.post("delete_C_D.do", {
-						c_d: "coupon",
-						num: $(this).val()
-					}, function (data) {});
-				}
-			});
-			$("#c_chk").prop("checked", false);
-			alert("삭제 완료!");
-		} else {
-			alert("체크 박스를 선택해주세요.");
-		}
-		search();
-	});
 </script>

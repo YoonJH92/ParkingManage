@@ -47,9 +47,9 @@
       <div class="py10">
      	<span>날짜 검색</span>
      	<select name="dateSearch" id="dateSearch" class="form-control1">
-       		<option value="JDATE">등록 기간</option>
        		<option value="SDATE">시작 시간</option>
        		<option value="EDATE">종료 시간</option>
+       		<option value="JDATE">등록 기간</option>
        	</select>
       	<input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}">
       	~
@@ -82,7 +82,6 @@
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>등록 기간</th>
               <th>회원 이름</th>
               <th>차량 번호</th>
               <th>시작 시간</th>
@@ -97,7 +96,6 @@
           <tbody>
           	<c:forEach var="list" items="${arr}">
           		<tr>
-	              <td>${list.regDate}</td>
 	              <td>${list.name}</td>
 	              <td>${list.CNUM}</td>
 	              <td>${list.startDate}</td>
@@ -262,14 +260,14 @@
           
 
           $(".btn-edit").click(function(e){
-        	  var name = $(this).parent().siblings().eq(1).text();
-        	  var CNUM = $(this).parent().siblings().eq(2).text();
-        	  var startDate = $(this).parent().siblings().eq(3).text();
-        	  var stopDate = $(this).parent().siblings().eq(4).text();
-        	  var pay = $(this).parent().siblings().eq(5).text().replace(",", "");
-        	  var email = $(this).parent().siblings().eq(6).text();
-        	  var phone = $(this).parent().siblings().eq(7).text();
-        	  var type = $(this).parent().siblings().eq(8).text();
+        	  var name = $(this).parent().siblings().eq(0).text();
+        	  var CNUM = $(this).parent().siblings().eq(1).text();
+        	  var startDate = $(this).parent().siblings().eq(2).text();
+        	  var stopDate = $(this).parent().siblings().eq(3).text();
+        	  var pay = $(this).parent().siblings().eq(4).text().replace(",", "");
+        	  var email = $(this).parent().siblings().eq(5).text();
+        	  var phone = $(this).parent().siblings().eq(6).text();
+        	  var type = $(this).parent().siblings().eq(7).text();
         	  
         	  $("#name").val(name);
         	  $("#CNUM").val(CNUM);

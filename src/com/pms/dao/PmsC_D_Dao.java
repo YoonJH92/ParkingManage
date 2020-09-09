@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
+import com.pms.dto.Pms_Coupon_Log_Dto;
 import com.pms.util.DBConnectionMgr;
 
 public class PmsC_D_Dao {
@@ -154,5 +155,74 @@ public class PmsC_D_Dao {
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
+	}
+	
+	public void modifyCMember(int num, String c_d, String cpname, int date, String c_purpose, int discount) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "update pms_coupon set use_date="+date+", cpname='"+cpname+"', purpose='"+c_purpose+"', discount="+discount+" where cpnum="+num;
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
+	
+	public void modifyDMember(int num, String c_d, String d_purpose, int time, String company) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "update pms_discount_manage set company='"+company+"', purpose='"+d_purpose+"', use_time="+time+" where com_num="+num;
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
+	
+	public ArrayList<Pms_Coupon_Log_Dto> SearchCouponLog(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		ArrayList<Pms_Coupon_Log_Dto> arr = new ArrayList<Pms_Coupon_Log_Dto>();
+		try {
+			con = pool.getConnection();
+			if(value.isEmpty()) {
+				sql= "select * from PMS_COUPON_LOG where rownum <="+align+" ORDER BY IDX ASC";
+			}
+			else {
+				sql = "select * from PMS_COUPON_LOG where "+condition+" = "+"'"+value+"' ORDER BY IDX ASC";
+			}
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs =pstmt.executeQuery();
+			while(rs.next()) {
+				Pms_Coupon_Log_Dto dto = new Pms_Coupon_Log_Dto(); 
+				dto.setCNUM(rs.getString("cnum"));
+				dto.setCPCODE(rs.getString("cpcode"));
+				dto.setCPNUM(rs.getInt("cpnum"));
+				dto.setIDX(rs.getInt("idx"));
+				dto.setUSED(rs.getBoolean("used"));
+				dto.setVALIDITY(rs.getDate("validity"));
+				arr.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return arr;
 	}
 }

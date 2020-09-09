@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
 <%	
 
-
-
+	/*
 
 	String sessid = (String)session.getAttribute("sessid");
 	
@@ -15,9 +14,14 @@
 
 
 
+
 	}
 
 
+
+
+	*/
+	response.sendRedirect("loglist.do");
 
 %>
 

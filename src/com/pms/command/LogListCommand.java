@@ -8,6 +8,8 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.record.pivottable.PageItemRecord;
+
 import com.pms.dao.PmsLogDao;
 import com.pms.dto.PmsDto;
 import com.pms.dto.PmsPageDto;
@@ -16,26 +18,33 @@ public  class LogListCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 PmsLogDao dao=PmsLogDao.getInstance(); 
-		 int page = 1;//처음에는 1 	 
+		 int page = 1;	 
 		 if(request.getParameter("page")!=null) {
 			 page=Integer.parseInt(request.getParameter("page"));
 		 }
-		 	PmsPageDto paging =new PmsPageDto();
-		 	paging.setPage(page);
+		 PmsPageDto paging =new PmsPageDto();
+		 
+		 	int dispalyRow=20;
+		 	if(request.getParameter("displayRow")!=null){
+		 		dispalyRow=Integer.parseInt(request.getParameter("displayRow"));
+		 		System.out.println(dispalyRow);
+		 		paging.setDisplayRow(dispalyRow);
+		 	}
+
 		 	int count=dao.getlistCount();
 		 	paging.setTotalCount(count);
-		 
-		 ArrayList<PmsDto> arr=dao.viewList(page);
+		 	
+		 	
+		 	paging.setPage(page);
+		
 		 HashMap<String, Integer> result=dao.logTotalResult();
 		 ArrayList<String>fare=dao.Curentfare();		 
+		 ArrayList<PmsDto> arr=dao.viewList(paging);		 	
 		 request.setAttribute("list", arr);
 		 request.setAttribute("paging", paging);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);
 	     return "list";		
 	}
-
-	
-
 	
 }

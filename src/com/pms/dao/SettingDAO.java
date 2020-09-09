@@ -65,7 +65,7 @@ public class SettingDAO {
 			pstmt = con.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
-
+			
 			if (rs.next()) {
 				temp = new SettingDTO();
 				temp.setIdx(rs.getInt("idx"));
