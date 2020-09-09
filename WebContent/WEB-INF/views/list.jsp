@@ -95,8 +95,8 @@
        	    <option value="100" id="100" <c:if test="${displayRow==100}"> selected </c:if>>100</option> 	       	    
            </select>           
          </form>
-              </div>
-               <table class="table table-hover">
+           </div>
+            <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">No.</th>
@@ -143,8 +143,6 @@
 	</c:forEach> 
   </tbody>
 </table>
-
-	
     <jsp:include page="test.jsp">
     <jsp:param value="${paging.page}" name="page"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>

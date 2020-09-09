@@ -2,6 +2,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <style>
 .fr{float:right!important;}
@@ -41,7 +42,7 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">   
-      <form action="logdetail.do" method="get" id="frm" name="frm">                   
+      <form action="logdetail.do" method="post" id="frm" name="frm">                   
       <div class="py10">
       	<div>
      	<span>날짜 검색</span>
@@ -65,12 +66,16 @@
       </div>
       </form>  
       	  	<form method="post" action="logdetail.do" name="rowForm">      	                
-            <select name="dRs" id="DR" onchange="read()" >        	
+            <select name="dRs" id="DR" onchange="read()" >
+                    	
        		<option value="20"  id="20" <c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
        		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
        		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
        	    <option value="100" id="100" <c:if test="${displayRow==100}"> selected </c:if>>100</option> 	       	    
            </select>           
+               <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
+      <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
+      <input type="hidden" name="cnum" value="${cnum}">     
          </form>            
     </div>
     <div class="card-body">
@@ -129,6 +134,7 @@
   </div>
 </div>
 
+
 <form name="readFrm" method="get" >
       <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
@@ -150,7 +156,7 @@
         </div>
         <div class="modal-body">     
        <table>
-           <form action="imgDtailupdate.do"  method="get" enctype="multipart/form-data">
+           <form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">	
            <tr>
            <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
            <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td>	<tr> 			 
@@ -183,23 +189,17 @@
               $(".modal-body #cimg ").val(CIMG);	
               $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
               $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-          });	           
-               	       
+          });	                  	       
       	});         
-           
     	  function read() {   
-    		 	 // document.Form.action = "logdetail.do";
-    	  	  	  document.rowForm.submit();    	    	  	      	  	  	  
-    			  document.readFrm.action = "logdetail.do";
-        	  	  document.readFrm.submit(); 
-    		  
+    	    document.rowForm.submit();    	    	  	      	  	  	     			
        	 }   
-
-	  
-    	  	function rowForm() {
-			
-    	  	}
     	  
+    	  function modal(){	  
+    		location.href='logdetail.do?Search=&FDate=';	  
+    	  }
+
+	    	  
     	  
   	</script>
   <script type="text/javascript">

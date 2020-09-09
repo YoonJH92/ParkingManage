@@ -9,7 +9,7 @@ public class imgDtailupdate implements Command{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		PmsLogDao dao=PmsLogDao.getInstance();
     	dao.imgUpdate(request);           
 			

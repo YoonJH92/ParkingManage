@@ -142,79 +142,77 @@ public class PmsLogDao {
 	}
 
 	// 실시간 차량 사진
-	public void imgUpdate(HttpServletRequest req) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
-		String savepath = req.getServletContext().getRealPath("/img/");
-		// 실제파일 경로 경로
-		int maxSize = 1024 * 1024 * 50;// 파일크기 제한
-		String encoding = "utf-8";
-		System.out.println(savepath);
-		File Folder = new File(savepath);
-		// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-		if (!Folder.exists()) {
-			try {
-				Folder.mkdirs(); // 폴더 생성합니다.
-				System.out.println("폴더가 생성되었습니다.");
-			} catch (Exception e) {
-				e.getStackTrace();
+		public void imgUpdate(HttpServletRequest req) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			String savepath = req.getServletContext().getRealPath("/img/");
+			// 실제파일 경로 경로
+			int maxSize = 1024 * 1024 * 50;// 파일크기 제한
+			String encoding = "utf-8";
+			System.out.println(savepath);
+			File Folder = new File(savepath);
+			// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+			if (!Folder.exists()) {
+				try {
+					Folder.mkdirs(); // 폴더 생성합니다.
+					System.out.println("폴더가 생성되었습니다.");
+				} catch (Exception e) {
+					e.getStackTrace();
+				}
+			} else {
+				System.out.println("이미 폴더가 생성되어 있습니다.");
 			}
-		} else {
-			System.out.println("이미 폴더가 생성되어 있습니다.");
-		}
-		try {
-
-			con = pool.getConnection();
-			MultipartRequest multi = new MultipartRequest(req, savepath, maxSize, encoding,
-					new DefaultFileRenamePolicy());
-			Enumeration fileNames = multi.getFileNames();
-			// DefaultFileRenamePolicy() -> 중복파일명을 위한 매개변수
-			boolean save = true; // 파일 저장 성공
-			String fileInput = "";// 폼으로 받아온 filename
-			String fileName = "";// 저장된 파일 이름
-			String originFileName = "";// 원본 파일 이름
-			String type = "";// 저장된 파일 종류
-			File fileobj = null;// 저장된 파일 객체
-			String fileExtend = ""; // jpg,png,gif 등 확장자
-			String fileSize = ""; // 저장된 파일 사이즈
-			String newFileName = "pms_" + System.currentTimeMillis() + fileName;// 저장된 파일을 바꿀 이름
-			System.out.println("newFileName" + newFileName);
-			while (fileNames.hasMoreElements()) { // 있으면
-				fileInput = (String) fileNames.nextElement();// 폼에서 받아온 요소
-				fileName = multi.getFilesystemName(fileInput);
-				if (fileName != null) {
-					type = multi.getContentType(fileInput);
-					fileobj = multi.getFile(fileInput);
-					// originFileName = multi.getOriginalFileName(fileInput);
-					fileExtend = fileName.substring(fileName.lastIndexOf(".") + 1);// "file1.jpg"라면 jpg 반환
-					// fileSize = String.valueOf(fileobj.length());// file도 결국 문자열이므로 length()로 반환
-					String[] splitType = type.split("/");
-					if (!splitType[0].equals("image")) {
-						save = false;
-						fileobj.delete(); // 저장된 파일 객체로 삭제
-						break;
-					} else {// 만약 이미지 파일이면 저장 파일의 이름 바꾼다.
-						newFileName += "." + fileExtend;
-						fileobj.renameTo(new File(savepath + "\\" + newFileName));
+			try {
+				con = pool.getConnection();
+				MultipartRequest multi = new MultipartRequest(req, savepath, maxSize, encoding,
+						new DefaultFileRenamePolicy());
+				Enumeration fileNames = multi.getFileNames();
+				// DefaultFileRenamePolicy() -> 중복파일명을 위한 매개변수
+				boolean save = true; // 파일 저장 성공
+				String fileInput = "";// 폼으로 받아온 filename
+				String fileName = "";// 저장된 파일 이름
+				String originFileName = "";// 원본 파일 이름
+				String type = "";// 저장된 파일 종류
+				File fileobj = null;// 저장된 파일 객체
+				String fileExtend = ""; // jpg,png,gif 등 확장자
+				String fileSize = ""; // 저장된 파일 사이즈
+				String newFileName = "pms_" + System.currentTimeMillis() + fileName;// 저장된 파일을 바꿀 이름
+				System.out.println("newFileName" + newFileName);
+				while (fileNames.hasMoreElements()) { // 있으면
+					fileInput = (String) fileNames.nextElement();// 폼에서 받아온 요소
+					fileName = multi.getFilesystemName(fileInput);
+					if (fileName != null) {
+						type = multi.getContentType(fileInput);
+						fileobj = multi.getFile(fileInput);
+						originFileName = multi.getOriginalFileName(fileInput);
+						fileExtend = fileName.substring(fileName.lastIndexOf(".") + 1);// "file1.jpg"라면 jpg 반환
+						fileSize = String.valueOf(fileobj.length());// file도 결국 문자열이므로 length()로 반환
+						String[] splitType = type.split("/");
+						if (!splitType[0].equals("image")) {
+							save = false;
+							fileobj.delete(); // 저장된 파일 객체로 삭제
+							break;
+						} else {// 만약 이미지 파일이면 저장 파일의 이름 바꾼다.
+							newFileName += "." + fileExtend;
+							fileobj.renameTo(new File(savepath + "\\" + newFileName));
+						}
 					}
 				}
+				if (save) {
+					sql = " update pms_log set c_img = ? where idx = ? ";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, newFileName);
+					pstmt.setString(2, multi.getParameter("idx"));
+					pstmt.executeUpdate();
+				}
 			}
-			if (save) {
-				sql = " update pms_log set c_img = ? where idx = ? ";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, newFileName);
-				pstmt.setString(2, multi.getParameter("idx"));
-				pstmt.executeUpdate();
+			catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
 			}
 		}
-
-		catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, pstmt);
-		}
-	}
 	
 	public HashMap<String, Integer> logTotalResult() {
 		Connection con = null;

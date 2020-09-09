@@ -51,6 +51,7 @@ public class LogDetailCommand implements Command {
 				paging.setDisplayRow(displayRow); 
 				paging.setTotalCount(count);	 
 				ArrayList<PmsDto> arr=dao.viewDetail (paging,fDate, LDate, cnum); 
+				request.setAttribute("displayRow", displayRow);
 				request.setAttribute("detail", arr);
 				request.setAttribute("paging", paging);
 				request.setAttribute("cnum", cnum);
