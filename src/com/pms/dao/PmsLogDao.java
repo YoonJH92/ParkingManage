@@ -366,13 +366,12 @@ public class PmsLogDao {
 				clIdxarr.add(clidx);
 				discountarr.add(discount);
 			}
-<<<<<<< HEAD
+
 			
 			if(clIdxarr.size()!=0) {
-=======
 
-			if (clIdxarr.size() != 0) {
->>>>>>> fd9d3e822aa34deebb353b14c7939036a9a28f64
+
+
 				sql = "update pms_coupon_log set used= ? where idx = ? ";
 				ps = con.prepareStatement(sql);
 				for (int i = 0; i < cpnumarr.size(); i++) {

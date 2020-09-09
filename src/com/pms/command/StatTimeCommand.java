@@ -18,7 +18,7 @@ public class StatTimeCommand implements Command {
 		
 		StatisticsDTO stdto = new StatisticsDTO();
 		StatTimeDAO stdao = new StatTimeDAO();
-		stdao.timeList(startForm);
+		
 		
 		ArrayList<StatisticsDTO> arr = stdao.timeList(startForm);
 		

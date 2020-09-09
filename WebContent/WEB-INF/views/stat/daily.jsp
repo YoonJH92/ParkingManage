@@ -98,7 +98,7 @@ table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
 
 	<canvas id="myChart" style="display:none;"></canvas>
 	<canvas id="myChart1" style="display:none;" ></canvas>
-	<table id="stat" class="table table-bordered text-center">
+	<table id="stat" class="table table-striped table-bordered text-center">
         <thead>
             <tr>
                 <th rowspan=2 class="v-mid">시간</th>
