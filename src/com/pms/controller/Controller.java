@@ -19,7 +19,7 @@ public class Controller extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("UTF-8");
 		String getCommand = getCommand(request); // 키워드 추출 ex) /stat/daily
 		Command command = null; // 인터페이스 활용
 		String strView = null; // 리턴할때 사용		
@@ -47,7 +47,6 @@ public class Controller extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(jspPath);
 			dispatcher.forward(request, response);
 		}
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

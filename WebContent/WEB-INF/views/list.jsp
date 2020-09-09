@@ -3,20 +3,17 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
-        <!-- Begin Page Content -->
-        
+        <!-- Begin Page Content -->      
         <style>        
         #modalimg{
         	  max-width: 450px;
              max-height: 300px;
         	display: block; 
         	margin: 0px auto;       
-        }
-              
+        }            
         #logcard1{
         border-right: .25rem solid #4e73df !important;        
-        }
-        
+        }      
          #logcard2{
         border-right: .25rem solid #1cc88a !important;
                 
@@ -84,10 +81,9 @@
           </div>
             <!-- Content Row -->
           <div class="row">
-          
+                  
             <!-- Content Column -->
             <div class="col-lg-12 mb-12">
-
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -95,14 +91,15 @@
                 </div>
                 <div class="card-body">
                 <div class="ml-auto">
-                <form method="post" action="loglist.do">
-                	<select name="displayRow" id="displayRow" onchange="submit(this.value)" >
-       		<option value="20" >20</option> 	
-       		<option value="30">30</option> 	
-       		<option value="50">50</option> 	
-       		<option value="100">100</option> 	
-           </select>
-           </form>
+                <form method="post" action="loglist.do" id="rowForm">
+             <select name="dRs" id="DR" onchange="submit(this.value)" >
+       		<option value="20"  id="20"<c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
+       		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
+       		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
+       	    <option value="100" id="100" <c:if test="${displayRow==100}"> selected </c:if>>100</option> 	       	    
+           </select>           
+         </form>
+         
                 </div>
                <table class="table table-hover">
   <thead>
@@ -141,13 +138,14 @@
   </tbody>
 </table>
 
-<jsp:include page="test.jsp">
+    <jsp:include page="test.jsp"> 
     <jsp:param value="${paging.page}" name="page"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>
     <jsp:param value="${paging.endPage}" name="endPage"/>
     <jsp:param value="${paging.prev}" name="prev"/>
-    <jsp:param value="${paging.next}" name="next"/>
-</jsp:include>
+    <jsp:param value="${paging.next}" name="next"/> 
+
+ </jsp:include>
                        
                </div>
               </div>
@@ -192,11 +190,8 @@
       </div>
     </div>
   </div></div>
-  </div>
-      
-      
-      <!-- 모달창 -->
-      
+  </div>         
+     <!-- 모달창 -->    
       <script>
 	var LOGIDX="";
 	var CIMG="";
@@ -210,16 +205,19 @@
 			$(".modal-body #cimg ").val(CIMG);	
 			$(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
 			$(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-
-					});		
-	});
+		});		
+	/* var displayR =[[${dispayRow}]];	
 	
+    if(displayR==50){
+		$('#50').attr('selected',true);
+	} else if(displayR==100){
+		$('#100').attr('selected',true);
+	}					
+});  */
+			${param.displayRow}
+		
 </script>
       
-      
-      
-      
-  
-      
+          
       
  <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

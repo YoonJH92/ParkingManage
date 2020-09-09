@@ -46,18 +46,19 @@ public class Action {
       	map.put("/statTimeac",new StatTimeacCommand());     	
 //      	map.put("/memberSearch",new memberSearchCommand());
 
-      	map.put("/new_cp_dc",new CDCommand());
-      	map.put("/addc_d",new Add_C_DCommand());
+      	map.put("/add_c_d",new Add_C_DCommand());
       	map.put("/search_cp_dc",new CDCommand2());  	
       	map.put("/search_C_D",new Search_C_DCommand());  	  	
       	map.put("/delete_C_D",new Delete_C_DCommand());  	  	
       	map.put("/modify_C_D",new Modify_C_DCommand());  	  	
+      	map.put("/publish_sg_mt_proc",new publish_C_DCommand());  	  	
       	map.put("/search_log",new CDCommand3());
       	map.put("/search_log_proc",new Search_Log_Command());
 
       	map.put("/memberUpdate",new MemberUpdateCommand());  	  	
 
       	map.put("/monthly",new StatMonthCommand());
+      	map.put("/dailySearch",new StatDailySearchCommand());
 	}
 	
 	public Command getAction(String command) {

@@ -1,13 +1,9 @@
 package com.pms.command;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pms.dao.PmsC_D_Dao;
-import com.pms.dto.PmsCouponDto;
-import com.pms.dto.PmsDiscountDto;
 
 public class Delete_C_DCommand implements Command{
 
