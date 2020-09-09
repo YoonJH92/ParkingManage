@@ -8,7 +8,8 @@
       <div class="row my-2">
         <div class="col-xs-1">
           <select class="form-control animated--grow-in" name="c_condition">
-            <option value="cpname" selected>쿠폰명</option>
+            <option value="cpname" selected>쿠폰 명</option>
+            <option value="cpnum">쿠폰 타입</option>
             <option value="use_date">유효 기간</option>
             <option value="purpose">발급 목적</option>
             <option value="discount">할인 금액</option>
@@ -32,7 +33,9 @@
             <option value="100">100개씩 보기</option>
           </select>
         </div>
-        <button class="btn btn-primary ml-auto" modal>쿠폰 및 할인권 생성</button>
+        <button class="btn btn-primary ml-auto" publish_modal>선택한 쿠폰 발급</button>
+
+        <button class="btn btn-primary ml-2" add_modal>쿠폰 및 할인권 생성</button>
       </div>
     </div>
     <div class="card-body row">
@@ -43,8 +46,8 @@
 
             <thead>
               <th><input type="checkbox" id="c_chk" /></th>
-              <th>순번</th>
-              <th>쿠폰명</th>
+              <th>쿠폰 타입</th>
+              <th>쿠폰 명</th>
               <th>유효 기간</th>
               <th>발급 목적</th>
               <th>할인 금액</th>

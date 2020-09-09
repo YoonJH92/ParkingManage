@@ -3,9 +3,9 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
 <div class="container-fluid mb-3">
-	<div class="card border-left-primary shadow h-100 py-2" border>
+	<div class="card border-left-secondary shadow h-100 py-2" border>
 		<div class="card-body">
-			<h1 class="mb-3">로그 조회</h1>
+			<h1 class="mb-3">쿠폰 사용 내역 조회</h1>
 		</div>
 	</div>
 </div>
@@ -23,7 +23,7 @@
 					<input class="form-control" type="text" name="l_value" />
 				</div>
 				<div class="col-xs-1 ml-2">
-					<button class="btn btn-info" name="l_search">검색</button>
+					<button class="btn btn-secondary" name="l_search">검색</button>
 				</div>
 
 				<div class="col-xs-1 ml-3">
@@ -89,8 +89,8 @@
 					htmlStr += "<td><input type=\"checkbox\" name=\"l_chk\" value=" + val.CPNUM + "></td>";
 					htmlStr += "<td>" + val.IDX + "</td>";
 					htmlStr += "<td>" + val.CPNUM + "</td>";
-					htmlStr += "<td>" + val.VALIDITY+ "</td>";
 					htmlStr += "<td>" + val.CPCODE + "</td>";
+					htmlStr += "<td>" + val.VALIDITY+ "</td>";
 					htmlStr += "<td>" + val.USED+ "</td>";
 					htmlStr += "<td>" + val.CNUM + "</td>";
 					htmlStr += "</tr>";
