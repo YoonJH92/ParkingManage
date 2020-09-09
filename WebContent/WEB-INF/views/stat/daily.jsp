@@ -16,17 +16,88 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css"/>
 <style>
+.fr{float:right!important;}
+.fl{float:left!important;}
 .py50 {padding: 50px 0;}
 .v-mid{vertical-align: middle!important;}
-table thead th{padding: 6px 10px!important;}
-table tbody td{padding: 4px 10px!important;}
+table#stat thead{background-color: #526bbf59;color: #fff;}
+table#stat tfoot{background-color: #526bbf59;color: #fff;font-weight: bold;}
+table#stat thead th{padding: 6px 10px!important;}
+table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
+.btn-custom {
+    color: #fff;
+    background-color: #BCA9F5;
+    border-color: #BCA9F5;
 }
+.btn-custom:hover {
+	color: #fff;
+    background-color: #8258FA;
+    border-color: #8258FA;
+}
+.btn-custom1 {
+    color: #fff;
+    background-color: #A9A9F5;
+    border-color: #A9A9F5;
+}
+.btn-custom1:hover {
+	color: #fff;
+    background-color: #8181F7;
+    border-color: #8181F7;
+}
+.selected{
+	color: #fff;
+    background-color: #A9A9F5!important;
+}
+.form-control1{
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6e707e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d1d3e2;
+    border-radius: .35rem;
+    transition: border-color .15s
+}
+
+.form-control1:focus {
+	color: #6e707e;
+	background-color: #fff;
+	border-color: #bac8f3;
+	outline: 0;
+	box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25)
+}
+
+.display-inline{display:inline;}
 </style>
 
 <div class="container py50">
-	<canvas id="myChart" width="400" height="400"></canvas>
+	<div style="margin-bottom: 60px;">
+		<div class="display-inline fl">
+		   <form method="post" action="dailySearch.do" name="frm" id="frm">
+		   	   <span>기간 검색 : </span>
+			   <input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}" autocomplete="off">
+		      	~
+		      	<input type="text" class="form-control1" id="endForm" name="endForm" value="${endForm}" autocomplete="off">
+		      	<a href="#" id="searchBtn" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
+			      	<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
+		      	</a>
+	      	</form>
+		</div>
+		<div class="display-inline fr">
+			<a href="#" id="grapBtn" class="d-none d-sm-inline-block btn btn-custom shadow-sm mb4">
+	    		<i class="fas fa-search fa-sm text-white-50"></i> 출입차 현황 그래프
+	   		</a>
+	   		<a href="#" id="grapBtn1" class="d-none d-sm-inline-block btn btn-custom1 shadow-sm mb4">
+	    		<i class="fas fa-search fa-sm text-white-50"></i> 사용요금 현황 그래프
+	   		</a>
+		</div>
+	</div>
 
-		
+	<canvas id="myChart" style="display:none;"></canvas>
+	<canvas id="myChart1" style="display:none;" ></canvas>
 	<table id="stat" class="table table-bordered text-center">
         <thead>
             <tr>
@@ -77,8 +148,19 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function removeComma(str){
+	return parseInt(str.replace(/,/g,""));
+}
+
+
+
 $(document).ready(function() {
-	
+	$( "#startForm" ).datepicker({
+	    dateFormat: 'yy-mm-dd'
+	});
+	$( "#endForm" ).datepicker({
+	   dateFormat: 'yy-mm-dd'
+	});  
     $('#stat').DataTable( {
     	// 표시 건수기능 숨기기
     	lengthChange: false,
@@ -110,24 +192,45 @@ $(document).ready(function() {
         }
     
     } );
-
+    
+    $("#grapBtn").click(function(){
+    	$("#myChart").toggle();
+    });
+    $("#grapBtn1").click(function(){
+    	$("#myChart1").toggle();
+    });
+    $("#stat tbody tr").click(function (event) {
+    	if($(this).hasClass('selected')){
+    		$(this).removeClass('selected');
+    	}else{
+    		$(this).addClass('selected');
+    	}
+    });
+    $("#searchBtn").click(function(){
+  	  $("#frm").submit();
+    });
 } );
 
 
+
+
 var ctx = document.getElementById('myChart').getContext('2d');
-console.log(ctx.canvas);
+var ctx1 = document.getElementById('myChart1').getContext('2d');
 ctx.canvas.width = 1000;
 ctx.canvas.height = 500;
 var labelArray =[];
 var inArray =[];
 var outArray =[];
+var payArray =[];
+var paySumArray =[];
 $("#stat tbody tr").each(function(index){
 	labelArray.push($("#stat tbody tr:eq("+index+")").children().eq(0).text());
 	inArray.push($("#stat tbody tr:eq("+index+")").children().eq(3).text());
 	outArray.push($("#stat tbody tr:eq("+index+")").children().eq(6).text());
+	paySumArray.push(removeComma($("#stat tbody tr:eq("+index+")").children().eq(10).text()));
+	payArray.push(removeComma($("#stat tbody tr:eq("+index+")").children().eq(7).text()));
+	
 });
-
-
 var config = {
 	type: 'bar',
 	data: {
@@ -150,13 +253,36 @@ var config = {
 		]
 	},
 	options: {
-        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+        //maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
 	}
 };
- 
+var config1 = {
+		type: 'line',
+		data: {
+			labels: labelArray ,
+			datasets: [
+				{
+					label: '총 합계',
+					backgroundColor: 'transparent',
+					borderColor: '#F781BE',
+					data: paySumArray,
+					
+				}, 
+				{
+					label: '금액',
+					backgroundColor: 'transparent',
+					borderColor: '#ECE0F8',
+					data: payArray,
+				}, 
+			]
+		},
+		options: {
+	        //maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+		}
+	};
 //차트 그리기
 var myChart = new Chart(ctx, config);
-
+var myChart1 = new Chart(ctx1, config1);
 </script>
   
 <!-- footer -->

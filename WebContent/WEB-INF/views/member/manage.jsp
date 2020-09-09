@@ -51,9 +51,9 @@
        		<option value="EDATE">종료 시간</option>
        		<option value="JDATE">등록 기간</option>
        	</select>
-      	<input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}">
+      	<input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}" autocomplete="off">
       	~
-      	<input type="text" class="form-control1" id="endForm" name="endForm" value="${endForm}">
+      	<input type="text" class="form-control1" id="endForm" name="endForm" value="${endForm}" autocomplete="off">
       </div>
       <div>
       	<div>
@@ -64,7 +64,7 @@
        		<option value="NAME">이름</option>
        		<option value="CARN">차량 번호</option>
        	</select>
-      	<input type="text" class="form-control1" id="searchForm" name="searchForm" value="${searchForm}">
+      	<input type="text" class="form-control1" id="searchForm" name="searchForm" value="${searchForm}" autocomplete="off">
       	<a href="#" id="searchBtn" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
 	      	<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
       	</a>
@@ -192,11 +192,11 @@
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">시작 시간</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="startDate" name="startDate"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="startDate" name="startDate" autocomplete="off"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">종료 시간</div>
-			  <div class="col-md-8"><input type="text" class="form-control" id="stopDate" name="stopDate"></div>
+			  <div class="col-md-8"><input type="text" class="form-control" id="stopDate" name="stopDate" autocomplete="off"></div>
 			</div>
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">사용 금액</div>

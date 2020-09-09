@@ -66,6 +66,7 @@ public class Action {
 //      	map.put("/login/searchPass",new SearchPassCommand());
 //      	map.put("/login/setting",new SettingCommand());
       	map.put("/monthly",new StatMonthCommand());
+      	map.put("/dailySearch",new StatDailySearchCommand());
 	}
 	
 	public Command getAction(String command) {
