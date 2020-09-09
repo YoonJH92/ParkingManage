@@ -115,9 +115,9 @@
   <%@ include file="search_discount.jsp"%>
 </div>
 
-<%@ include file="new_cp_dc.jsp"%>
-
-<script src="resources/js/coupon.js"></script>
+<%@ include file="add_cp_dc.jsp"%>
+<%@ include file="publish_cp_dc.jsp"%>
 
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script src="resources/js/coupon.js"></script>

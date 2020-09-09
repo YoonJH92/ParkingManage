@@ -33,7 +33,9 @@
             <option value="100">100개씩 보기</option>
           </select>
         </div>
-        <button class="btn btn-primary ml-auto" modal>쿠폰 및 할인권 생성</button>
+        <button class="btn btn-primary ml-auto" publish_modal>선택한 쿠폰 발급</button>
+
+        <button class="btn btn-primary ml-2" add_modal>쿠폰 및 할인권 생성</button>
       </div>
     </div>
     <div class="card-body row">
@@ -75,7 +77,7 @@
         <table class="table table-bordered">
           <tr>
             <td style="width:30%; text-align: center;">쿠폰 이름</td>
-            <td><input class="form-control" type="text" name="name1"/>
+            <td><input class="form-control" type="text" name="name1" />
           </tr>
           <tr>
             <td style="width:30%; text-align: center;">사용 기간</td>
@@ -93,7 +95,7 @@
           </tr>
           <tr>
             <td style="width:30%; text-align: center;">사용 목적</td>
-            <td><input class="form-control size" type="text" name="cpurpose1"/></td>
+            <td><input class="form-control size" type="text" name="cpurpose1" /></td>
           </tr>
           <tr>
             <td style="width:30%; text-align: center;">차감 금액</td>

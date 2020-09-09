@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div class="modal fade" id="modalBox" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="add_modalBox" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -11,7 +11,7 @@
 				<div class="container-fluid mb-3">
 					<div class="card border-left-primary shadow h-100 py-2" mborder>
 						<div class="card-body">
-							<form method="POST" action="addc_d.do">
+							<form method="POST" action="add_c_d.do">
 								<h2 class="mb-3">쿠폰 할인권 생성</h2>
 								<span class="switchToggle">
 									<input type="checkbox" id="a_switch" />

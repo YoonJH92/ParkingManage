@@ -5,7 +5,7 @@
 <div class="container-fluid mb-3">
 	<div class="card border-left-secondary shadow h-100 py-2" border>
 		<div class="card-body">
-			<h1 class="mb-3">쿠폰 로그 조회</h1>
+			<h1 class="mb-3">쿠폰 사용 내역 조회</h1>
 		</div>
 	</div>
 </div>

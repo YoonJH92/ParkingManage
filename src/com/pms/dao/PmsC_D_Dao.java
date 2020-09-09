@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
 import com.pms.dto.Pms_Coupon_Log_Dto;
+import com.pms.dto.memberManageDTO;
 import com.pms.util.DBConnectionMgr;
 
 public class PmsC_D_Dao {
@@ -229,6 +230,47 @@ public class PmsC_D_Dao {
 				dto.setVALIDITY(rs.getDate("validity"));
 				arr.add(dto);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return arr;
+	}
+	
+	public ArrayList<memberManageDTO> SearchMember(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		ResultSet rs = null;
+		ArrayList<memberManageDTO> arr = new ArrayList<memberManageDTO>();
+		
+		try {
+			con = pool.getConnection();
+			if(value.isEmpty()) {
+				sql= "select * from PMS_MONTH_MEMBER where rownum <="+align+" ORDER BY IDX ASC";
+			}
+			else {
+				sql = "select * from PMS_MONTH_MEMBER where "+condition+" = "+"'"+value+"' ORDER BY IDX ASC";
+			}
+			System.out.println(sql);			
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			while(rs.next()) {
+				memberManageDTO mem = new memberManageDTO();
+				mem.setIdx(rs.getInt("idx"));
+				mem.setCNUM(rs.getString("CARN"));
+				mem.setEmail(rs.getString("email"));
+				mem.setName(rs.getString("name"));
+				mem.setPay(rs.getInt("month_pay"));
+				mem.setPhone(rs.getString("phone"));
+				mem.setStartDate(rs.getString("sdate"));
+				mem.setStopDate(rs.getString("edate"));
+				mem.setType(rs.getString("type"));
+				mem.setRegDate(rs.getString("jdate"));
+				arr.add(mem);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -31,34 +31,37 @@
 						<option value="100">100개씩 보기</option>
 					</select>
 				</div>
-				<button class="btn btn-info ml-auto" modal>쿠폰 및 할인권 생성</button>
+				<button class="btn btn-info ml-auto" publish_modal>선택한 쿠폰 발급</button>
+
+				<button class="btn btn-info ml-2" add_modal>쿠폰 및 할인권 생성</button>
 			</div>
-		</div>
-		<div class="card-body row">
-			<div class="col-md-12">
-				<div class="table-responsive">
+			</div>
+			
+			<div class="card-body row">
+				<div class="col-md-12">
+					<div class="table-responsive">
 
-					<table class="table table-bordred table-striped text-center">
+						<table class="table table-bordred table-striped text-center">
 
-						<thead>
-							<th><input type="checkbox" id="d_chk" /></th>
-							<th>순번</th>
-							<th>할인명</th>
-							<th>발급 목적</th>
-							<th>할인 시간</th>
-							<th>수정</th>
-							<th>삭제</th>
-						</thead>
+							<thead>
+								<th><input type="checkbox" id="d_chk" /></th>
+								<th>순번</th>
+								<th>할인명</th>
+								<th>발급 목적</th>
+								<th>할인 시간</th>
+								<th>수정</th>
+								<th>삭제</th>
+							</thead>
 
-						<tbody id="d_area">
-						</tbody>
-					</table>
+							<tbody id="d_area">
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
 
+			</div>
 		</div>
 	</div>
-</div>
 
 
 <div class="modal fade" id="d_edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">

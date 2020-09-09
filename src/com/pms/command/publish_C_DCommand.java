@@ -3,11 +3,10 @@ package com.pms.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CDCommand implements Command {
+public class publish_C_DCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "coupon/new_cp_dc";
+		return "publish_sg_mt_Proc";
 	}
-//	http://localhost/ParkingManage/new_cp_dc.do
 }

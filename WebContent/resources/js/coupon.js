@@ -63,18 +63,42 @@ $(document).on("click", ".btn-sm", function () {
 
 /*화면이 구현되었을 때 동작*/
 $(function () {
+
+	/*숨김 처리*/
+	$("#date").hide();
+	$("#price").hide();
+	$("#time").hide();
+	$("#date1").hide();
+	$("#price1").hide();
+	$("#time1").hide();
+	$("#toggle4").hide();
+	$("#toggle6").hide();
+
+
+	/*검색 이벤트 설정*/
+	$('button[name="c_search"]').click(function () {
+		search();
+	});
+
+	$('button[name="d_search"]').click(function () {
+		search();
+	});
+
+	$('select[name="c_align"]').change(function () {
+		search();
+	});
+
+	$('select[name="d_align"]').change(function () {
+		search();
+	});
+
 	/*페이지 접근 시 좌측 목록바 보이게 설정*/
 	$("#collapsePages").addClass("show");
 	$("#arrow").removeClass("collapsed");
 	search();
 
-	if ($("#s_switch").is(':checked')) {
-		$("#toggle1").hide();
-		$("#toggle2").show();
-		search();
-	}
 
-/*토글 동작 시 디자인 변경*/
+	/*토글 동작 시 디자인 및 값 변경*/
 	$("#s_switch").change(function () {
 		if ($("#s_switch").is(':checked') == false) {
 			$("#toggle1").show();
@@ -90,19 +114,71 @@ $(function () {
 			search();
 		}
 	});
-	
-	
-	$('button[modal]').on('click', function () {
-		$('#modalBox').modal('show');
+
+	if ($("#s_switch").is(':checked')) {
+		$("#toggle1").hide();
+		$("#toggle2").show();
+		search();
+	}
+
+	$("#a_switch").change(function () {
+		if ($("#a_switch").is(':checked') == false) {
+			$("#toggle3").show();
+			$("#toggle4").hide();
+			$('input[name="a_c_d"]').val("a_coupon");
+			$('div[mborder]').removeClass("border-left-info");
+			$('div[mborder]').addClass("border-left-primary");
+			$('input[mborder]').removeClass("btn-info");
+			$('input[mborder]').addClass("btn-primary");
+			$('input[name="name"]').prop("required", true);
+			$('input[name="cpurpose"]').prop("required", true);
+			$('input[name="company"]').prop("required", false);
+			$('input[name="dpurpose"]').prop("required", false);
+		} else {
+			$("#toggle3").hide();
+			$("#toggle4").show();
+			$('input[name="a_c_d"]').val("a_discount");
+			$('div[mborder]').removeClass("border-left-primary");
+			$('div[mborder]').addClass("border-left-info");
+			$('input[mborder]').removeClass("btn-primary");
+			$('input[mborder]').addClass("btn-info");
+			$('input[name="name"]').prop("required", false);
+			$('input[name="cpurpose"]').prop("required", false);
+			$('input[name="company"]').prop("required", true);
+			$('input[name="dpurpose"]').prop("required", true);
+
+		}
 	});
 
-	$("#date").hide();
-	$("#price").hide();
-	$("#time").hide();
-	$("#date1").hide();
-	$("#price1").hide();
-	$("#time1").hide();
-	$("#toggle4").hide();
+	$("#p_switch").change(function () {
+		if ($("#p_switch").is(':checked') == false) {
+			$("#toggle5").show();
+			$("#toggle6").hide();
+			$('div[pborder]').removeClass("border-left-info");
+			$('div[pborder]').addClass("border-left-primary");
+			$('input[pborder]').removeClass("btn-info");
+			$('input[pborder]').addClass("btn-primary");
+			search();
+		} else {
+			$("#toggle5").hide();
+			$("#toggle6").show();
+			$('div[pborder]').removeClass("border-left-primary");
+			$('div[pborder]').addClass("border-left-info");
+			$('input[pborder]').removeClass("btn-primary");
+			$('input[pborder]').addClass("btn-info");
+			search();
+		}
+	});
+
+	/*버튼 누를 시 모달창 표시*/
+	$('button[add_modal]').on('click', function () {
+		$('#add_modalBox').modal('show');
+	});
+
+	$('button[publish_modal]').on('click', function () {
+		$('#publish_modalBox').modal('show');
+	});
+
 
 	//3자리 단위마다 콤마 생성
 	function addCommas(x) {
@@ -136,35 +212,7 @@ $(function () {
 		$(this).val($(this).val().replace(/[^0-9]/gi, ""));
 	});
 
-	$("#a_switch").change(function () {
-		if ($("#a_switch").is(':checked') == false) {
-			$("#toggle3").show();
-			$("#toggle4").hide();
-			$('input[name="a_c_d"]').val("a_coupon");
-			$('div[mborder]').removeClass("border-left-info");
-			$('div[mborder]').addClass("border-left-primary");
-			$('input[mborder]').removeClass("btn-info");
-			$('input[mborder]').addClass("btn-primary");
-			$('input[name="name"]').prop("required", true);
-			$('input[name="cpurpose"]').prop("required", true);
-			$('input[name="company"]').prop("required", false);
-			$('input[name="dpurpose"]').prop("required", false);
-		} else {
-			$("#toggle3").hide();
-			$("#toggle4").show();
-			$('input[name="a_c_d"]').val("a_discount");
-			$('div[mborder]').removeClass("border-left-primary");
-			$('div[mborder]').addClass("border-left-info");
-			$('input[mborder]').removeClass("btn-primary");
-			$('input[mborder]').addClass("btn-info");
-			$('input[name="name"]').prop("required", false);
-			$('input[name="cpurpose"]').prop("required", false);
-			$('input[name="company"]').prop("required", true);
-			$('input[name="dpurpose"]').prop("required", true);
-
-		}
-	});
-
+	/*리셋 버튼을 눌렀을 때 설정*/
 	$('input[type="reset"]').click(function () {
 		$("#toggle3").show();
 		$("#toggle4").hide();
@@ -185,6 +233,7 @@ $(function () {
 		$('input[name="time"]').prop("required", false);
 	});
 
+	/*직접 입력을 선택했을 경우 input 표시처리 및 required 활성*/
 	$('select[name="date"]').change(function () {
 		if ($('select[name="date"]').val() == "직접 입력") {
 			$("#date").show();
@@ -239,24 +288,8 @@ $(function () {
 		}
 	});
 
-	$('button[name="c_search"]').click(function () {
-		search();
-	});
 
-	$('button[name="d_search"]').click(function () {
-		search();
-	});
-
-	$('select[name="c_align"]').change(function () {
-		search();
-	});
-
-	$('select[name="d_align"]').change(function () {
-		search();
-	});
-
-
-/*삭제 동작 구현*/
+	/*삭제 동작 구현*/
 	$('button[name="d_delete"]').click(function () {
 		if ($('input[name="d_chk"]').is(":checked")) {
 			$('input[name="d_chk"]').each(function () {
@@ -311,7 +344,7 @@ $(function () {
 	});
 
 
-/*업데이트 업데이트 동작 처리*/
+	/*업데이트 동작 처리*/
 	$('button[name="m_c_update"]').click(function () {
 		var date;
 		var price;
@@ -401,6 +434,75 @@ function search() {
 				"c_value": $('input:text[name="c_value"]').val(),
 				"c_align": $('select[name="c_align"]').val(),
 				"c_d": "coupon"
+			},
+			function (data) { //콜백함수
+				var htmlStr = "";
+
+				$.each(data, function (key, val) {
+					htmlStr += "<tr>";
+					htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "></td>";
+					htmlStr += "<td>" + val.CPNUM + "</td>";
+					htmlStr += "<td>" + val.CPNAME + "</td>";
+					htmlStr += "<td>" + val.USE_DATE + "일</td>";
+					htmlStr += "<td>" + val.PURPOSE + "</td>";
+					htmlStr += "<td>" + val.DISCOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원</td>";
+					htmlStr +=
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\" data-discount=" + val.DISCOUNT + " data-c_purpose=" + val.PURPOSE + " data-date=" + val.USE_DATE + " data-name=" + val.CPNAME + " data-num=" + val.CPNUM + " data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#c_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+					htmlStr +=
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\" data-num=" + val.CPNUM + " data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#c_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+					htmlStr += "</tr>";
+				});
+				htmlStr += "</tbody>";
+				$("#c_area").html(htmlStr);
+				$("#c_chk").click(function () {
+					if ($("#c_chk").prop("checked")) {
+						$('input[name="c_chk"]').prop("checked", true);
+					} else {
+						$('input[name="c_chk"]').prop("checked", false);
+					}
+				});
+			});
+	} else {
+		$.getJSON("search_C_D.do", {
+				"d_condition": $('select[name="d_condition"]').val(),
+				"d_value": $('input:text[name="d_value"]').val(),
+				"d_align": $('select[name="d_align"]').val(),
+				"c_d": "discount"
+			},
+			function (data) { //콜백함수
+				var htmlStr = "";
+				$.each(data, function (key, val) {
+					htmlStr += "<tr>";
+					htmlStr += "<td><input type=\"checkbox\" name=\"d_chk\" value=" + val.COM_NUM +
+						"></td>";
+					htmlStr += "<td>" + val.COM_NUM + "</td>";
+					htmlStr += "<td>" + val.COMPANY + "</td>";
+					htmlStr += "<td>" + val.PURPOSE + "</td>";
+					htmlStr += "<td>" + val.USE_TIME + "시간</td>";
+					htmlStr +=
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\" data-num=" + val.COM_NUM + " data-d_purpose=" + val.PURPOSE + " data-use_time=" + val.USE_TIME + " data-company=" + val.COMPANY + " data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+					htmlStr +=
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\" data-num=" + val.COM_NUM + " data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#d_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+					htmlStr += "</tr>";
+				});
+				htmlStr += "</tbody>";
+				$("#d_area").html(htmlStr);
+				$("#d_chk").click(function () {
+					if ($("#d_chk").prop("checked")) {
+						$('input[name="d_chk"]').prop("checked", true);
+					} else {
+						$('input[name="d_chk"]').prop("checked", false);
+					}
+				});
+			});
+	}
+
+	if ($("#p_switch").is(':checked') == false) {
+		$.getJSON("publish_sg_mt_proc.do", {
+				"s_condition": $('select[name="s_condition"]').val(),
+				"s_value": $('input:text[name="s_value"]').val(),
+				"s_align": $('select[name="s_align"]').val(),
+				"s_m": "single"
 			},
 			function (data) { //콜백함수
 				var htmlStr = "";
