@@ -165,8 +165,7 @@ public class PmsLogDao {
 			}
 			try {
 				con = pool.getConnection();
-				MultipartRequest multi = new MultipartRequest(req, savepath, maxSize, encoding,
-						new DefaultFileRenamePolicy());
+				MultipartRequest multi = new MultipartRequest(req, savepath, maxSize, encoding, new DefaultFileRenamePolicy());
 				Enumeration fileNames = multi.getFileNames();
 				// DefaultFileRenamePolicy() -> 중복파일명을 위한 매개변수
 				boolean save = true; // 파일 저장 성공
@@ -537,8 +536,7 @@ public class PmsLogDao {
 		try {
 			con = pool.getConnection();
 			// 값 없을때
-			if ((FDate.equals("-1"))) {		
-			
+			if ((FDate.equals("-1"))) {				
 				sql= "SELECT * FROM (" + "  SELECT * FROM ("
 						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') ) WHERE row_num >= ? ) "
 						+ "WHERE row_num <= ? ";				
@@ -921,139 +919,139 @@ public class PmsLogDao {
 
 	}
 
-	public void ExcelDownload(HttpServletRequest request, HttpServletResponse response) {
+	public void ExcelDownload(HttpServletRequest request , HttpServletResponse response) {
+		
+		//파일이 업로드 된 경로 
+		String path="C://Download/";
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyMMddHHmmss");
+		String today = format1.format (System.currentTimeMillis());
+		String savepath=path;
+		//서버에 저장된 파일명
+		String filename="log.xls";
+		//실제 내보낼 파일명
+		String orgfilename=today+"log.xls";
+		InputStream in =null;
+		OutputStream os =null;
+		File file=null;
+		boolean skip=false;
+		String client="";
+	
+		   try{ 
+		        // 파일을 읽어 스트림에 담기
+		        try{
+		            file = new File(savepath, filename);
+		            in = new FileInputStream(file);
+		        }catch(FileNotFoundException fe){
+		            skip = true;
+		        }
+		        client = request.getHeader("User-Agent");	//유저의 시스템 정보 
+		        // 파일 다운로드 헤더 지정
+		        response.reset() ;
+		        response.setContentType("application/octet-stream");
+		        response.setHeader("Content-Description", "JSP Generated Data");			 
+		 
+		        if(!skip){
+		       
+		            // IE
+		            if(client.indexOf("MSIE") != -1){
+		                response.setHeader ("Content-Disposition", "attachment; filename="+new String(orgfilename.getBytes("KSC5601"),"ISO8859_1"));
+		 
+		            }else{
+		                // 한글 파일명 처리
+		                orgfilename = new String(orgfilename.getBytes("utf-8"),"iso-8859-1");
+		 
+		                response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
+		                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
+		            } 		             
+		            response.setHeader ("Content-Length", ""+file.length() );			       
+		            os = response.getOutputStream();
+		            byte b[] = new byte[(int)file.length()];
+		            int leng = 0;
+		             
+		            while( (leng = in.read(b)) > 0 ){
+		                os.write(b,0,leng);
+		            }
+		 
+		        }else{
+		        	System.out.println("X");
+		        }
+		         
+		        in.close();
+		        os.flush();
+		        os.close();
+		 
+		    }catch(Exception e){
+		      e.printStackTrace();
+		    }
 
-		// 파일이 업로드 된 경로
-		String path = "C://Download/";
-		SimpleDateFormat format1 = new SimpleDateFormat("yyMMddHHmmss");
-		String today = format1.format(System.currentTimeMillis());
-		String savepath = path;
-		// 서버에 저장된 파일명
-		String filename = "log.xls";
-		// 실제 내보낼 파일명
-		String orgfilename = today + "log.xls";
-		InputStream in = null;
-		OutputStream os = null;
-		File file = null;
-		boolean skip = false;
-		String client = "";
 
-		try {
-			// 파일을 읽어 스트림에 담기
-			try {
-				file = new File(savepath, filename);
-				in = new FileInputStream(file);
-			} catch (FileNotFoundException fe) {
-				skip = true;
-			}
-			client = request.getHeader("User-Agent"); // 유저의 시스템 정보
-			// 파일 다운로드 헤더 지정
-			response.reset();
-			response.setContentType("application/octet-stream");
-			response.setHeader("Content-Description", "JSP Generated Data");
-
-			if (!skip) {
-
-				// IE
-				if (client.indexOf("MSIE") != -1) {
-					response.setHeader("Content-Disposition",
-							"attachment; filename=" + new String(orgfilename.getBytes("KSC5601"), "ISO8859_1"));
-
-				} else {
-					// 한글 파일명 처리
-					orgfilename = new String(orgfilename.getBytes("utf-8"), "iso-8859-1");
-					response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
-					response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
-				}
-				response.setHeader("Content-Length", "" + file.length());
-				os = response.getOutputStream();
-				byte b[] = new byte[(int) file.length()];
-				int leng = 0;
-
-				while ((leng = in.read(b)) > 0) {
-					os.write(b, 0, leng);
-				}
-
-			} else {
-
-				System.out.println("X");
-			}
-
-			in.close();
-			os.flush();
-			os.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void ExcelDetaillogDown(HttpServletRequest request, HttpServletResponse response) {
-		// 파일이 업로드 된 경로
-		String path = "C://Download/";
-		SimpleDateFormat format1 = new SimpleDateFormat("yyMMddHHmmss");
-		String today = format1.format(System.currentTimeMillis());
-		String savepath = path;
-		// 서버에 저장된 파일명
-		String filename = "Detaillog.xls";
-		// 실제 내보낼 파일명
-		String orgfilename = today + "Detaillog.xls";
-		InputStream in = null;
-		OutputStream os = null;
-		File file = null;
-		boolean skip = false;
-		String client = "";
-
-		try {
-			// 파일을 읽어 스트림에 담기
-			try {
-				file = new File(savepath, filename);
-				in = new FileInputStream(file);
-			} catch (FileNotFoundException fe) {
-				skip = true;
-			}
-			client = request.getHeader("User-Agent"); // 유저의 시스템 정보
-			// 파일 다운로드 헤더 지정
-			response.reset();
-			response.setContentType("application/octet-stream");
-			response.setHeader("Content-Description", "JSP Generated Data");
-
-			if (!skip) {
-
-				// IE
-				if (client.indexOf("MSIE") != -1) {
-					response.setHeader("Content-Disposition",
-							"attachment; filename=" + new String(orgfilename.getBytes("KSC5601"), "ISO8859_1"));
-
-				} else {
-					// 한글 파일명 처리
-					orgfilename = new String(orgfilename.getBytes("utf-8"), "iso-8859-1");
-
-					response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
-					response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
-				}
-				response.setHeader("Content-Length", "" + file.length());
-				os = response.getOutputStream();
-				byte b[] = new byte[(int) file.length()];
-				int leng = 0;
-
-				while ((leng = in.read(b)) > 0) {
-					os.write(b, 0, leng);
-				}
-			} else {
-
-				System.out.println("X");
-			}
-			in.close();
-			os.flush();
-			os.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 	}
+
+
+	       public void ExcelDetaillogDown(HttpServletRequest request , HttpServletResponse response) {			
+		//파일이 업로드 된 경로 
+		String path="C://Download/";
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyMMddHHmmss");
+		String today = format1.format (System.currentTimeMillis());
+		String savepath=path;
+		//서버에 저장된 파일명
+		String filename="Detaillog.xls";
+		//실제 내보낼 파일명
+		String orgfilename=today+"Detaillog.xls";
+		InputStream in =null;
+		OutputStream os =null;
+		File file=null;
+		boolean skip=false;
+		String client="";
+	
+		   try{ 
+		        // 파일을 읽어 스트림에 담기
+		        try{
+		            file = new File(savepath, filename);
+		            in = new FileInputStream(file);
+		        }catch(FileNotFoundException fe){
+		            skip = true;
+		        }
+		        client = request.getHeader("User-Agent");	//유저의 시스템 정보 
+		        // 파일 다운로드 헤더 지정
+		        response.reset() ;
+		        response.setContentType("application/octet-stream");
+		        response.setHeader("Content-Description", "JSP Generated Data");
+		 
+		        if(!skip){
+		 		             
+		            // IE
+		            if(client.indexOf("MSIE") != -1){
+		                response.setHeader ("Content-Disposition", "attachment; filename="+new String(orgfilename.getBytes("KSC5601"),"ISO8859_1"));
+		 
+		            }else{
+		                // 한글 파일명 처리
+		                orgfilename = new String(orgfilename.getBytes("utf-8"),"iso-8859-1");
+		 
+		                response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
+		                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
+		            } 		             
+		            response.setHeader ("Content-Length", ""+file.length() );			       
+		            os = response.getOutputStream();
+		            byte b[] = new byte[(int)file.length()];
+		            int leng = 0;
+		             
+		            while( (leng = in.read(b)) > 0 ){
+		                os.write(b,0,leng);
+		            }		 
+		        }else{
+		        	System.out.println("X");
+		        }		         
+		        in.close();
+		        os.flush();
+		        os.close();
+		 
+		    }catch(Exception e){
+		      e.printStackTrace();
+		    }	
+	
+	}
+				
 
 }
-

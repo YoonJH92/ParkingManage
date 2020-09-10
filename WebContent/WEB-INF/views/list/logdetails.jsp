@@ -2,6 +2,9 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha512-YUkaLm+KJ5lQXDBdqBqk7EVhJAdxRnVdT2vtCzwPHSweCzyMgYV/tgGF4/dCyqtCC2eCphz0lRQgatGVdfR0ww==" crossorigin="anonymous"></script>
+<!-- 있어야 함  -->
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <style>
@@ -32,9 +35,7 @@
 	box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25)
 }
  .mb4{margin-bottom: 4px;}
- 
- </style>
-                   
+ </style>                  
  <!-- Begin Page Content -->
  <div class="container-fluid">
   <!-- Page Heading -->
@@ -73,7 +74,7 @@
        		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
        	    <option value="100" id="100" <c:if test="${displayRow==100}"> selected </c:if>>100</option> 	       	    
            </select>           
-               <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
+             <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
       <input type="hidden" name="cnum" value="${cnum}">     
          </form>            
@@ -116,7 +117,7 @@
    			<td><i class="fas fa-check" style="color:green"></i></td></c:if>
             	    <td>${arr.saleNum }</td>
                   <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
-           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal" data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
            </tr>
             </c:forEach>   
           </tbody>
@@ -134,20 +135,9 @@
   </div>
 </div>
 
-
-<form name="readFrm" method="get" >
-      <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
-      <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
-      <input type="hidden" name="cnum" value="${cnum}">     		
-      <input type="hidden" name="dRs" value="${displayRow}">     		
-</form>
-
 <!-- /.container-fluid -->
-</div>
 <!-- End of Main Content -->
-
  <!-- Logout Modal-->
-	
  <div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -155,33 +145,93 @@
           <h4 class="modal-title" id="carModalLabel">차량이미지</h4>
         </div>
         <div class="modal-body">     
-       <table>
-           <form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">	
-           <tr>
-           <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
-           <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td>	<tr> 			 
-          <tr>
-          <td>
-           <img id="modalimg" src="" >
-         </td></tr>
-          <tr>
-          <td><input type="file" name="fileName"></td>
-           </tr>           
+       <table> 
+         <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
+          <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td><tr> 	
+          <tr><td><img id="modalimg" src="" ></td></tr>
+          <tr><td><input type="file" id="fileup"name="fileName" accept="image/*"></td> </tr>           
        </table>
         <div class="modal-footer">
-            <input type="submit" value="수정">
-          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button></div>
+	          <button type="button" class="btn btn-default" id="imgUpdateBtn"> 수정 </button></div>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button></div>
           </form>
         </div>   
     </div></div>
     </div>      
         <!-- 모달창 -->        
         <script>
+        
+        
+        
+        
+        
+        
+        
+           
+        
+        
+        
+      
+        
       var LOGIDX="";
       var CIMG="";
       var IMGSRC="";
-      $(document).ready(function() {         	  
-    	  $('#carModal').on('show.bs.modal', function(event) {   
+  //값을 가지고   
+	$("#imgbtn").click(function(){
+		$.ajax({
+		    type: "post", //요청방식 get이면 생략가능
+		    url: "logdetail.do", //요청할 url
+		    data: {"idx": $("#id").val(),  			
+		    "pwd":$("#pwd").val(),
+		    "pwd":$("#pwd").val(),
+			"method":"post"},//전달할 데이터 				
+		    success: function(data){//서버로 받은 응답 
+		    	$("#modalFrm").html(data);
+		    },
+		    error: function (e){        
+			     alert("실패");
+	   }
+		  });
+	});
+  
+  	$("#imgUpdateBtn").click(function(){
+		var formData = new FormData();
+		formData.append("idx", $('input[name="idx"]').val());		
+		formData.append("filename", $('input[name="fileName"]')[0].files[0]);		
+  		
+			$.ajax({
+				type:'post',
+				url: '/imgDtailupdate.do',
+				data:formData,
+				processData:false,
+		        dataType : "json",
+				contentType:false,
+				  success : function(data) {
+			            alert("파일 업로드 성공.");
+			        },
+			        error : function(error) {
+			            alert("파일 업로드에 실패하였습니다.");
+			           
+			        }
+			
+  			});
+		}); 		
+			
+			
+			
+			
+  		
+  		
+ 
+    	  
+    	  
+    	  
+    	  
+    	  
+    	  
+  /*   	  
+    	  $('#carModal').on('show.bs.modal', function(event) {   		  
+    		  
               LOGIDX=$(event.relatedTarget).data('idx');
               CIMG=$(event.relatedTarget).data('cimg');
               var modal=$(this);
@@ -189,18 +239,27 @@
               $(".modal-body #cimg ").val(CIMG);	
               $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
               $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-          });	                  	       
+         		              
+    	  	});	                  	       
       	});         
     	  function read() {   
-    	    document.rowForm.submit();    	    	  	      	  	  	     			
-       	 }   
-    	  
-    	  function modal(){	  
-    		location.href='logdetail.do?Search=&FDate=';	  
-    	  }
-
-	    	  
-    	  
+    	    	document.rowForm.submit();    	    	  	      	  	  	     			
+       	 	}     	  
+    	  function modalread(){	  
+    	        var Fdate = $('#FDate').val();
+    	        var LDate = $('#LDate').val();
+    	        var displayRow = $('#dRs').val();
+    	        var cnum = $('#cnum').val();
+    	        var page = $('#page').val();
+    		   	var uri='${path}/logdetail.do?Search=&FDate='+Fdate+'&LDate='+LDate+'&cnum='+cnum+'&dRs='+displayRow+'&page='+page;
+    		  	var encoded = encodeURI(uri);
+  	         	//location.href=encoded;
+    		  	document.modalFrm.submit();    	
+  	         	//location.href=encoded;  	    
+   		}
+ */
+	      
+    	  	  
   	</script>
   <script type="text/javascript">
   $(function() {
