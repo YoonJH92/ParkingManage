@@ -123,25 +123,25 @@ table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
              <c:forEach var="list" items="${arr}">
           		<tr>
 	              <td>${list.time}</td>
-	              <td>${list.inNomal}</td>
-	              <td>${list.inMonth}</td>
-	              <td>${list.inMonth + list.inNomal}</td>
-	              <td>${list.outNomal}</td>
-	              <td>${list.outMonth}</td>
-	              <td>${list.outNomal + list.outMonth}</td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.inNomal}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.inMonth}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.inMonth + list.inNomal}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.outNomal}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.outMonth}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.outNomal + list.outMonth}" /></td>
 	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.pay}" /></td>
-	              <td>${list.monthCount}</td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.monthCount}" /></td>
 	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.monthPay}" /></td>
 	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.pay + list.monthPay}" /></td>
 	            </tr>
           	</c:forEach>
         </tbody>
         <tfoot>
-			<tr></tr>
+			<tr style="font-size:15px;"></tr>
         </tfoot>
     </table>
 </div>
-
+</div>
 <script>
 
 function numberWithCommas(x) {
@@ -225,11 +225,10 @@ var payArray =[];
 var paySumArray =[];
 $("#stat tbody tr").each(function(index){
 	labelArray.push($("#stat tbody tr:eq("+index+")").children().eq(0).text());
-	inArray.push($("#stat tbody tr:eq("+index+")").children().eq(3).text());
-	outArray.push($("#stat tbody tr:eq("+index+")").children().eq(6).text());
+	inArray.push(removeComma($("#stat tbody tr:eq("+index+")").children().eq(3).text()));
+	outArray.push(removeComma($("#stat tbody tr:eq("+index+")").children().eq(6).text()));
 	paySumArray.push(removeComma($("#stat tbody tr:eq("+index+")").children().eq(10).text()));
 	payArray.push(removeComma($("#stat tbody tr:eq("+index+")").children().eq(7).text()));
-	
 });
 var config = {
 	type: 'bar',

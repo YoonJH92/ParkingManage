@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pms.dao.StatDailyDAO;
+import com.pms.dao.StatMonthDAO;
 import com.pms.dto.StatisticsDTO;
 
-public class StatDailySearchCommand implements Command {
+public class StatMonthSearchCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -22,12 +23,12 @@ public class StatDailySearchCommand implements Command {
 		map.put("startForm",startForm);
 		map.put("endForm",endForm);
 		
-		StatDailyDAO dao = StatDailyDAO.getInstance();
+		StatMonthDAO dao = StatMonthDAO.getInstance();
 		ArrayList<StatisticsDTO> arr = dao.ListView(map);
 		request.setAttribute("arr", arr);
 		request.setAttribute("startForm", request.getParameter("startForm"));
 		request.setAttribute("endForm", request.getParameter("endForm"));
-		return "stat/daily";
+		return "stat/monthly";
 	}
 
 }

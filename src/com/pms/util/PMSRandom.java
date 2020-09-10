@@ -95,7 +95,7 @@ public class PMSRandom {
 
 	// 로그 생성
 	public void TIME_SETTING(ArrayList<String> CNUM , int count) {
-		String startDate = "2020-5-1 00:00:00";
+		String startDate = "2019-1-1 00:00:00";
 		Timestamp stime = Timestamp.valueOf(startDate); 
 		Timestamp etime = Timestamp.valueOf(LocalDateTime.now());
 		
@@ -155,7 +155,7 @@ public class PMSRandom {
 	
 	//월정액 회원 생성
 	private void MONTH_SETTING(ArrayList<String> CNUM) {
-		String startDate = "2020-4-1 00:00:00";
+		String startDate = "2019-1-1 00:00:00";
 		String endDate = "2020-10-1 00:00:00";
 		Timestamp stime = Timestamp.valueOf(startDate); 
 		Timestamp etime = Timestamp.valueOf(endDate);
