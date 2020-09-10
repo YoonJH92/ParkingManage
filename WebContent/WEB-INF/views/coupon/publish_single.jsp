@@ -2,20 +2,30 @@
 	pageEncoding="UTF-8"%>
 <table class="table table-bordered">
 	<tr>
-		<td><select style="width: 15%; display: inline-block; margin-left: 1%;"
-			class="form-control animated--grow-in" name="date">
+		<td>
+		<span>기간 검색</span>
+     	<select name="dateSearch" class="form-control" style="width: 10%; display: inline-block; margin-left: 1%">
+       		<option value="SDATE">시작 기간</option>
+       		<option value="EDATE">종료 기간</option>
+       	</select>
+      	<input type="text" class="form-control" name="startForm" style="width: 10%; display: inline-block; margin-left: 1%;" readonly  autocomplete="off">
+      	~
+      	<input type="text" class="form-control" name="endForm" style="width: 10%; display: inline-block;" readonly autocomplete="off">
+		
+		<select style="width: 10%; display: inline-block; margin-left: 5%;"
+			class="form-control animated--grow-in" name="s_condition">
 				<option value="name" selected>이름</option>
 				<option value="7">전화번호</option>
 				<option value="10">이메일</option>
 				<option value="직접 입력">차량 번호</option>
 		</select> 
 		
-		<input style="width: 59%; display: inline-block; margin-left: 1%;"
-			class="form-control" type="text" name="name" required />
+		<input style="width: 25%; display: inline-block; margin-left: 1%;"
+			class="form-control" type="text" name="s_value"/>
 			<button class="btn btn-primary ml-2" name="s_search">검색</button> 
 		
 		<select
-			class="form-control animated--grow-in" style="width: 15%; display: inline-block; margin-left: 1%;" name="s_align">
+			class="form-control animated--grow-in ml-4" style="width: 10%; display: inline-block;" name="s_align">
 				<option value="10" selected>10개씩 보기</option>
 				<option value="50">50개씩 보기</option>
 				<option value="100">100개씩 보기</option>
@@ -29,7 +39,6 @@
 		<thead>
 			<th><input type="checkbox" id="s_chk" /></th>
 			<th>회원 이름</th>
-			<th>월정액 등록</th>
 			<th>월정액 시작</th>
 			<th>월정액 종료</th>
 			<th>차량 번호</th>
