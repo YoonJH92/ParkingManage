@@ -34,6 +34,7 @@ public  class LogListCommand implements Command {
 		 	paging.setPage(page);
 		 	paging.setTotalCount(count);
 		 
+		 
 		 HashMap<String, Integer> result=dao.logTotalResult();
 		 ArrayList<String>fare=dao.Curentfare();		 
 		 ArrayList<PmsDto> arr=dao.viewList(paging);		 	
