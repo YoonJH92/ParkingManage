@@ -31,9 +31,7 @@
 						<option value="100">100개씩 보기</option>
 					</select>
 				</div>
-				<button class="btn btn-info ml-auto" publish_modal>선택한 쿠폰 발급</button>
-
-				<button class="btn btn-info ml-2" add_modal>쿠폰 및 할인권 생성</button>
+				<button class="btn btn-info ml-auto" add_modal>쿠폰 및 할인권 생성</button>
 			</div>
 			</div>
 			

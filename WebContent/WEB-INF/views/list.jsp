@@ -6,22 +6,20 @@
         <!-- Begin Page Content -->      
         <style>        
         #modalimg{
-        	  max-width: 450px;
-             max-height: 300px;
+            max-width: 450px;
+            max-height: 300px;
         	display: block; 
         	margin: 0px auto;       
-        }            
+        	}            
         #logcard1{
         border-right: .25rem solid #4e73df !important;        
-        }      
-         #logcard2{
-        border-right: .25rem solid #1cc88a !important;
-                
-        }
+        	}      
+        #logcard2{
+        border-right: .25rem solid #1cc88a !important;        
+        	}
          #logcard3{
         border-right: .25rem solid #f6c23e !important;       
         }
-        
         </style>        
         <div class="container-fluid">
           <!-- Page Heading -->
@@ -29,10 +27,8 @@
             <h1 class="h3 mb-0 text-gray-800">실시간 현황 조회</h1>
             <a href="logexceldown.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
           </div>
-
           <!-- Content Row -->
           <div class="row">
-
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-4 col-md-4 mb-4">
               <div class="card border-left-primary shadow h-100 py-2" id="logcard1">
@@ -91,7 +87,7 @@
                 </div>
                 <div class="card-body">
                 <div class="ml-auto">
-                <form method="post" action="loglist.do" id="rowForm">
+                <form method="get" action="loglist.do" name="rowForm">
              <select name="dRs" id="DR" onchange="submit(this.value)" >
        		<option value="20"  id="20"<c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
        		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
@@ -99,18 +95,17 @@
        	    <option value="100" id="100" <c:if test="${displayRow==100}"> selected </c:if>>100</option> 	       	    
            </select>           
          </form>
-         
-                </div>
-               <table class="table table-hover">
+           </div>
+            <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">No.</th>
       <th scope="col">차량번호</th>
       <th scope="col">입차시간</th>
       <th scope="col">사용금액</th>
-      <th scope="col">쿠폰 사용</th>
-      <th scope="col">월 정액 사용</th>
-      <th scope="col">할인 적용</th>      
+      <th scope="col">쿠폰 여부</th>
+      <th scope="col">월 정액 여부</th>
+      <th scope="col">할인 적용 여부 </th>      
       <th scope="col">차량이미지</th>
     </tr>
   </thead>
@@ -129,30 +124,38 @@
      <c:if test="${arr.monthNum != 0}">
      <td>0</td>	
      </c:if>
-    <td>${arr.cpNum}</td>
-   <td>${arr.monthNum}</td>
+         <c:if test="${arr.cpNum == 0 }">
+             <td><i class="fas fa-times " style="color:red"></i></td>      
+     </c:if>
+
+ <c:if test="${arr.cpNum != 0 }">
+            <td><i class="fas fa-ticket-alt"></i></td>      
+     </c:if>
+
+    <c:if test="${arr.monthNum == 0 }">
+    <td><i class="fas fa-times" style="color:red"></i></td>
+    </c:if>
+    <c:if test="${arr.monthNum != 0 }">
+   <td></td><i class="far fa-calendar-check"></i></c:if>
    <td>${arr.saleNum}</td>
   <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
 </tr>	
 	</c:forEach> 
   </tbody>
 </table>
-
-    <jsp:include page="test.jsp"> 
+    <jsp:include page="test.jsp">
     <jsp:param value="${paging.page}" name="page"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>
     <jsp:param value="${paging.endPage}" name="endPage"/>
     <jsp:param value="${paging.prev}" name="prev"/>
     <jsp:param value="${paging.next}" name="next"/> 
-
+    <jsp:param value="${paging.displayRow}" name="displayRow"/> 
  </jsp:include>
-                       
-               </div>
+                     
+              </div>
               </div>
 
-      
-
-            </div>
+          </div>
           </div>
         </div>
         <!-- /.container-fluid -->
@@ -205,16 +208,11 @@
 			$(".modal-body #cimg ").val(CIMG);	
 			$(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
 			$(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-		});		
-	/* var displayR =[[${dispayRow}]];	
+		});
+			
+	});
 	
-    if(displayR==50){
-		$('#50').attr('selected',true);
-	} else if(displayR==100){
-		$('#100').attr('selected',true);
-	}					
-});  */
-			${param.displayRow}
+  
 		
 </script>
       

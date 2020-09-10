@@ -26,6 +26,5 @@ for (Pms_Coupon_Log_Dto l : dto) {
 	obj.put("VALIDITY", l.getVALIDITY().toString());
 	jarr.add(obj);
 }
-System.out.println(jarr.toString());
 out.println(jarr.toString());
 %>

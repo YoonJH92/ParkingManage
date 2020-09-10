@@ -7,6 +7,6 @@ public class publish_C_DCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "publish_sg_mt_Proc";
+		return "coupon/publish_sg_mt_Proc";
 	}
 }

@@ -87,8 +87,8 @@ public class PmsLogDao {
 		try {
 			con = pool.getConnection();
 			String sql = "SELECT * FROM (" + "  SELECT * FROM ("
-					+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log " + ") WHERE row_num >= ? "
-					+ " ) WHERE row_num <= ? ";
+					+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is null ) WHERE row_num >= ?  "
+					+ " ) WHERE row_num <= ?  ";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, startNum);
 			ps.setInt(2, endNum);
@@ -124,7 +124,7 @@ public class PmsLogDao {
 		int count = 0;
 		try {
 			con = pool.getConnection();
-			sql = "select count(*) as count from pms_log";
+			sql = "select count(*) as count from pms_log where out_time is null ";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 
@@ -142,79 +142,77 @@ public class PmsLogDao {
 	}
 
 	// 실시간 차량 사진
-	public void imgUpdate(HttpServletRequest req) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
-		String savepath = req.getServletContext().getRealPath("/img/");
-		// 실제파일 경로 경로
-		int maxSize = 1024 * 1024 * 50;// 파일크기 제한
-		String encoding = "utf-8";
-		System.out.println(savepath);
-		File Folder = new File(savepath);
-		// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-		if (!Folder.exists()) {
-			try {
-				Folder.mkdirs(); // 폴더 생성합니다.
-				System.out.println("폴더가 생성되었습니다.");
-			} catch (Exception e) {
-				e.getStackTrace();
+		public void imgUpdate(HttpServletRequest req) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			String savepath = req.getServletContext().getRealPath("/img/");
+			// 실제파일 경로 경로
+			int maxSize = 1024 * 1024 * 50;// 파일크기 제한
+			String encoding = "utf-8";
+			System.out.println(savepath);
+			File Folder = new File(savepath);
+			// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+			if (!Folder.exists()) {
+				try {
+					Folder.mkdirs(); // 폴더 생성합니다.
+					System.out.println("폴더가 생성되었습니다.");
+				} catch (Exception e) {
+					e.getStackTrace();
+				}
+			} else {
+				System.out.println("이미 폴더가 생성되어 있습니다.");
 			}
-		} else {
-			System.out.println("이미 폴더가 생성되어 있습니다.");
-		}
-		try {
-
-			con = pool.getConnection();
-			MultipartRequest multi = new MultipartRequest(req, savepath, maxSize, encoding,
-					new DefaultFileRenamePolicy());
-			Enumeration fileNames = multi.getFileNames();
-			// DefaultFileRenamePolicy() -> 중복파일명을 위한 매개변수
-			boolean save = true; // 파일 저장 성공
-			String fileInput = "";// 폼으로 받아온 filename
-			String fileName = "";// 저장된 파일 이름
-			String originFileName = "";// 원본 파일 이름
-			String type = "";// 저장된 파일 종류
-			File fileobj = null;// 저장된 파일 객체
-			String fileExtend = ""; // jpg,png,gif 등 확장자
-			String fileSize = ""; // 저장된 파일 사이즈
-			String newFileName = "pms_" + System.currentTimeMillis() + fileName;// 저장된 파일을 바꿀 이름
-			System.out.println("newFileName" + newFileName);
-			while (fileNames.hasMoreElements()) { // 있으면
-				fileInput = (String) fileNames.nextElement();// 폼에서 받아온 요소
-				fileName = multi.getFilesystemName(fileInput);
-				if (fileName != null) {
-					type = multi.getContentType(fileInput);
-					fileobj = multi.getFile(fileInput);
-					// originFileName = multi.getOriginalFileName(fileInput);
-					fileExtend = fileName.substring(fileName.lastIndexOf(".") + 1);// "file1.jpg"라면 jpg 반환
-					// fileSize = String.valueOf(fileobj.length());// file도 결국 문자열이므로 length()로 반환
-					String[] splitType = type.split("/");
-					if (!splitType[0].equals("image")) {
-						save = false;
-						fileobj.delete(); // 저장된 파일 객체로 삭제
-						break;
-					} else {// 만약 이미지 파일이면 저장 파일의 이름 바꾼다.
-						newFileName += "." + fileExtend;
-						fileobj.renameTo(new File(savepath + "\\" + newFileName));
+			try {
+				con = pool.getConnection();
+				MultipartRequest multi = new MultipartRequest(req, savepath, maxSize, encoding,
+						new DefaultFileRenamePolicy());
+				Enumeration fileNames = multi.getFileNames();
+				// DefaultFileRenamePolicy() -> 중복파일명을 위한 매개변수
+				boolean save = true; // 파일 저장 성공
+				String fileInput = "";// 폼으로 받아온 filename
+				String fileName = "";// 저장된 파일 이름
+				String originFileName = "";// 원본 파일 이름
+				String type = "";// 저장된 파일 종류
+				File fileobj = null;// 저장된 파일 객체
+				String fileExtend = ""; // jpg,png,gif 등 확장자
+				String fileSize = ""; // 저장된 파일 사이즈
+				String newFileName = "pms_" + System.currentTimeMillis() + fileName;// 저장된 파일을 바꿀 이름
+				System.out.println("newFileName" + newFileName);
+				while (fileNames.hasMoreElements()) { // 있으면
+					fileInput = (String) fileNames.nextElement();// 폼에서 받아온 요소
+					fileName = multi.getFilesystemName(fileInput);
+					if (fileName != null) {
+						type = multi.getContentType(fileInput);
+						fileobj = multi.getFile(fileInput);
+						originFileName = multi.getOriginalFileName(fileInput);
+						fileExtend = fileName.substring(fileName.lastIndexOf(".") + 1);// "file1.jpg"라면 jpg 반환
+						fileSize = String.valueOf(fileobj.length());// file도 결국 문자열이므로 length()로 반환
+						String[] splitType = type.split("/");
+						if (!splitType[0].equals("image")) {
+							save = false;
+							fileobj.delete(); // 저장된 파일 객체로 삭제
+							break;
+						} else {// 만약 이미지 파일이면 저장 파일의 이름 바꾼다.
+							newFileName += "." + fileExtend;
+							fileobj.renameTo(new File(savepath + "\\" + newFileName));
+						}
 					}
 				}
+				if (save) {
+					sql = " update pms_log set c_img = ? where idx = ? ";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, newFileName);
+					pstmt.setString(2, multi.getParameter("idx"));
+					pstmt.executeUpdate();
+				}
 			}
-			if (save) {
-				sql = " update pms_log set c_img = ? where idx = ? ";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, newFileName);
-				pstmt.setString(2, multi.getParameter("idx"));
-				pstmt.executeUpdate();
+			catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
 			}
 		}
-
-		catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, pstmt);
-		}
-	}
 	
 	public HashMap<String, Integer> logTotalResult() {
 		Connection con = null;
@@ -224,7 +222,7 @@ public class PmsLogDao {
 		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		try {
 			con = pool.getConnection();
-			sql = " select count(cnum), count(case when month_num > 0 then 1 end),count(case when month_num = 0 then 1 end) from pms_log where out_time is Null ";
+			sql = " select count(*), count(case when month_num > 0 then 1 end),count(case when month_num = 0 then 1 end) from pms_log where out_time is Null ";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
 			if (rs.next()) {
@@ -540,26 +538,28 @@ public class PmsLogDao {
 			con = pool.getConnection();
 			// 값 없을때
 			if ((FDate.equals("-1"))) {		
-			 sql = "SELECT * FROM (  SELECT * FROM ("
-						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log " + ") WHERE ( row_num >= ? ) and(out_time is not null)"
-								+ "and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time"
-						+ " ) WHERE row_num <= ? ";
-				
+			
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";				
 //				sql = "select * from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ";
 			}
 
 			else if (cnum.equals("")) {	
-				sql = "SELECT * FROM (  SELECT * FROM (  SELECT ROWNUM row_num, pms_log.* FROM pms_log " + ") WHERE row_num >= ?  and in_time BETWEEN TO_DATE('" + FDate
-										+ "', 'YYYY-MM-DD HH24:MI:SS') AND  TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') order by in_time )  WHERE row_num <= ? ";				
-				//sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-					//	+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate
-						//+ "','YYYY-MM-DD HH24:MI:SS') order by in_time ";						
+				
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
+						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS') ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";
 			} else if (FDate.equals("")) {
-				sql = "select * from pms_log  WHERE (cnum='" + cnum + "') and (out_time is not null) order by in_time ";
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and (cnum='"+ cnum + "' ) ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";
 			} else {
-				sql = "select * from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-						+ "', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS') "
-						+ "and (out_time is Not null)and (cnum='" + cnum + "') order by in_time ";
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
+						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS')  and (cnum='"+ cnum + "' ) ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";				
 			}		
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, startNum);
@@ -589,28 +589,36 @@ public class PmsLogDao {
 	}
 
 	public int datailCount(String FDate, String LDate, String cnum)  {
-		
 	    Connection con=null;
 	    PreparedStatement ps=null;
 	    ResultSet rs=null;
 	    String sql="";
 	    int Dcount=0;
-	 
-	   	    try {	
-	   	   con=pool.getConnection();
+	   	   try {	
+	   	    con=pool.getConnection();
 	      if(FDate.equals("-1")) {
-	        sql = "select count(*) as count from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ";}
-	    	else if(cnum.equals("")){
-			sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
-				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') order by in_time ";}
+	    	  sql = "select count(*) as count from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ";}
+	    		else if(cnum.equals("")){
+	    	  sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate	
+				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS')  ";
+				}
 	    	else if(LDate.equals("")) {
-			sql="select count(*) as count from pms_log where cnum="+cnum+" and out_time is null";}
-						
+	    	  sql="select count(*) as count from pms_log where cnum='"+cnum+"' and out_time is null";
+				}
+	    	else {
+	    	  sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
+	    				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') and (cnum ='"+cnum+"') order by in_time ";
+	    		}
+	    
+	    		    
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				Dcount = rs.getInt("count");
-			}			
+			}	else {
+				Dcount=0;
+				System.out.println("0");
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

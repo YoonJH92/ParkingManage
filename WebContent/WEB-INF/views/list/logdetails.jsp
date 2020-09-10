@@ -1,9 +1,9 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <style>
 .fr{float:right!important;}
 .fl{float:left!important;}
@@ -23,8 +23,7 @@ pageEncoding="UTF-8"%>
     border: 1px solid #d1d3e2;
     border-radius: .35rem;
     transition: border-color .15s
-}
-
+  }
 .form-control1:focus {
 	color: #6e707e;
 	background-color: #fff;
@@ -32,42 +31,52 @@ pageEncoding="UTF-8"%>
 	outline: 0;
 	box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25)
 }
-
-.mb4{margin-bottom: 4px;}
-</style>
-<!-- Begin Page Content -->
-<div class="container-fluid">
-
+ .mb4{margin-bottom: 4px;}
+ 
+ </style>
+                   
+ <!-- Begin Page Content -->
+ <div class="container-fluid">
   <!-- Page Heading -->
   <h1 class="h2 mb-5 text-gray-800">차량 조회 </h1>
-
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <form action="logdetail.do" method="post" id="frm" name="frm">
+    <div class="card-header py-3">   
+      <form action="logdetail.do" method="post" id="frm" name="frm">                   
       <div class="py10">
       	<div>
-      	
      	<span>날짜 검색</span>
-     	<select name="dateSearch" id="dateSearch" class="form-control1">
-       		<option value="JDATE">입차 시간</option> 	
-           </select>
+     	<select name="Search" id="dateSearch" class="form-control1">
+       		<option value>입차 시간</option> 	
+           </select>           
            <input type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
           ~
           <input type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1"> 
         <span>차량번호</span>
-        <select name="search" id="search" class="form-control1">
-       		<option value="CARN">차량 번호</option>
+        <select  id="search" class="form-control1">
+       		<option>차량 번호</option>
        	</select>
            <input type="text" name="cnum" size=10 maxlength=8 value="${cnum}" class="form-control1">
              </div>
-           <div class="btndiv ">
-           <input type="submit"  class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4 " value="검색하기">
+           <div class="btndiv">
+           <input type="submit"  class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4" value="검색하기">
           <a href="logdetaildown.do" class="d-none d-sm-inline-block btn  btn-primary shadow-sm mb4">
           <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
          </div>
       </div>
-      </form>
+      </form>  
+      	  	<form method="post" action="logdetail.do" name="rowForm">      	                
+            <select name="dRs" id="DR" onchange="read()" >
+                    	
+       		<option value="20"  id="20" <c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
+       		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
+       		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
+       	    <option value="100" id="100" <c:if test="${displayRow==100}"> selected </c:if>>100</option> 	       	    
+           </select>           
+               <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
+      <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
+      <input type="hidden" name="cnum" value="${cnum}">     
+         </form>            
     </div>
     <div class="card-body">
       <div class="table-responsive text-center">
@@ -93,39 +102,51 @@ pageEncoding="UTF-8"%>
                     <td>${arr.cnum}</td>
                     <td>${arr.inTime}</td>  	
                     <td>${arr.outTime}</td>  	
-                  <td> <fmt:formatNumber value="${arr.pay}" pattern="#,###" /></td>
-                    <td>${arr.cpNum}</td>
-                   <td>${arr.monthNum}</td>  
-                   <td>${arr.saleNum }</td>
+                  <td> <fmt:formatNumber value="${arr.pay}" pattern="#,###" /></td>             
+                   <c:if test="${arr.cpNum == 0 }">
+              <td><i class="fas fa-times " style="color:red"></i></td>          				
+ 				</c:if>
+ 				<c:if test="${arr.cpNum > 0 }">
+            	<td><i class="fas fa-check" style="color:green"></i></td>      
+     			</c:if>
+    			<c:if test="${arr.monthNum == 0 }">
+ 	   		<td><i class="fas fa-times" style="color:red"></i></td>
+    			</c:if>
+    		<c:if test="${arr.monthNum != 0 }">
+   			<td><i class="fas fa-check" style="color:green"></i></td></c:if>
+            	    <td>${arr.saleNum }</td>
                   <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
-                  <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
-                </tr>
-                    </c:forEach>   
+           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+           </tr>
+            </c:forEach>   
           </tbody>
-        </table>
-        
-        
+        </table>         
     <jsp:include page="test1.jsp"> 
     <jsp:param value="${paging.page}" name="page"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>
     <jsp:param value="${paging.endPage}" name="endPage"/>
     <jsp:param value="${paging.prev}" name="prev"/>
     <jsp:param value="${paging.next}" name="next"/> 
-
- </jsp:include>
-        
-        
+    <jsp:param value="${paging.displayRow}" name="displayRow"/>   
+    </jsp:include>               
       </div>
     </div>
   </div>
 </div>
+
+
+<form name="readFrm" method="get" >
+      <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
+      <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
+      <input type="hidden" name="cnum" value="${cnum}">     		
+      <input type="hidden" name="dRs" value="${displayRow}">     		
+</form>
+
 <!-- /.container-fluid -->
 </div>
 <!-- End of Main Content -->
 
  <!-- Logout Modal-->
-
- 
 	
  <div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel">
     <div class="modal-dialog" role="document">
@@ -135,7 +156,7 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="modal-body">     
        <table>
-           <form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">
+           <form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">	
            <tr>
            <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
            <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td>	<tr> 			 
@@ -159,8 +180,8 @@ pageEncoding="UTF-8"%>
       var LOGIDX="";
       var CIMG="";
       var IMGSRC="";
-      $(document).ready(function() {
-          $('#carModal').on('show.bs.modal', function(event) {   
+      $(document).ready(function() {         	  
+    	  $('#carModal').on('show.bs.modal', function(event) {   
               LOGIDX=$(event.relatedTarget).data('idx');
               CIMG=$(event.relatedTarget).data('cimg');
               var modal=$(this);
@@ -168,22 +189,24 @@ pageEncoding="UTF-8"%>
               $(".modal-body #cimg ").val(CIMG);	
               $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
               $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-          });	                   
-      });
-      
-  </script>
-  
-  
-  
+          });	                  	       
+      	});         
+    	  function read() {   
+    	    document.rowForm.submit();    	    	  	      	  	  	     			
+       	 }   
+    	  
+    	  function modal(){	  
+    		location.href='logdetail.do?Search=&FDate=';	  
+    	  }
+
+	    	  
+    	  
+  	</script>
   <script type="text/javascript">
-  
   $(function() {
-    
-  
           $("#FDate").datetimepicker(
           );
           $("#LDate").datetimepicker();
-  
       });  
       </script>
 
