@@ -120,5 +120,27 @@ public class RandomInsert {
 		}		
 		return num;
 	}
+	
+	public void randomCoupon(String coupon,String coupon2,String coupon3,String coupon4) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "";
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}		
+	}
+	
+	
 }
 
