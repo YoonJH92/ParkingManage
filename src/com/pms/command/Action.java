@@ -12,7 +12,7 @@ public class Action {
 	private HashMap<String, Command> map = new HashMap<String, Command>();
 	
 	private Action() {
-		map.put("/daily", new StatDailySearchCommand());
+		map.put("/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
       	map.put("/stat/test",new TestCommand());	
       	map.put("/loglistac",new LogListacCommand());
