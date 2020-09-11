@@ -987,13 +987,9 @@ public class PmsLogDao {
 		    }catch(Exception e){
 		      e.printStackTrace();
 		    }
-
-
-
 	}
 
-
-	       public void ExcelDetaillogDown(HttpServletRequest request , HttpServletResponse response) {			
+	public void ExcelDetaillogDown(HttpServletRequest request , HttpServletResponse response) {			
 		//파일이 업로드 된 경로 
 		String path="C://Download/";
 		SimpleDateFormat format1 = new SimpleDateFormat ( "yyMMddHHmmss");

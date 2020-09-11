@@ -76,6 +76,10 @@ table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
 <div class="container py50">
 	<div style="margin-bottom: 60px;">
 		<div class="display-inline fl">
+			<form method="post" action="daily.ex" name="frmEx" id="frmEx">
+		   	   <input type="hidden" name="HidStartForm" id="HidStartForm" value="${startForm}"/>
+		   	   <input type="hidden" name="HidEndForm" id="HidEndForm" value="${endForm}"/>
+			</form>
 		   <form method="post" action="dailySearch.do" name="frm" id="frm">
 		   	   <span>기간 검색 : </span>
 			   <input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}" autocomplete="off">
@@ -93,6 +97,7 @@ table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
 	   		<a href="#" id="grapBtn1" class="d-none d-sm-inline-block btn btn-custom1 shadow-sm mb4">
 	    		<i class="fas fa-search fa-sm text-white-50"></i> 사용요금 현황 그래프
 	   		</a>
+	   		<a href="#" id="excelBtn" class="d-none d-sm-inline-block btn btn-custom1 shadow-sm mb4">엑셀다운</a>
 		</div>
 	</div>
 
@@ -155,6 +160,7 @@ function removeComma(str){
 
 
 $(document).ready(function() {
+	
 	$( "#startForm" ).datepicker({
 	    dateFormat: 'yy-mm-dd'
 	});
@@ -209,10 +215,11 @@ $(document).ready(function() {
     $("#searchBtn").click(function(){
   	  $("#frm").submit();
     });
+    
+    $("#excelBtn").click(function(){
+		$("#frmEx").submit();
+      });
 } );
-
-
-
 
 var ctx = document.getElementById('myChart').getContext('2d');
 var ctx1 = document.getElementById('myChart1').getContext('2d');

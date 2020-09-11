@@ -228,7 +228,8 @@ CREATE SEQUENCE log_seq INCREMENT BY 1 START WITH 1 MINVALUE 1;
 
 CREATE SEQUENCE setting_seq INCREMENT BY 1 START WITH 1 MINVALUE 1;
 
-
+/*데이터생성 com.pms.util에서 PMSRandom.java 실행*/
+/*com.pms.util / DBConnectionMgr에서 db 설정*/
 
 INSERT INTO PMS_SETTING VALUES(setting_seq.nextval,500,60,1000,30,500,100000);
 commit;
