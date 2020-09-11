@@ -56,7 +56,7 @@ public class SearchIdCommand implements Command {
 		
 		Properties p = new Properties(); // 정보를 담을 객체
 		
-		p.put("mail.smtp.host","smtp.naver.com"); // 네이버 SMTP
+		p.put("mail.smtp.host","smtp.naver.com"); // 네이버 SMTP(키값,메일서버주소)
 
 		p.put("mail.smtp.port", "465");
 		p.put("mail.smtp.starttls.enable", "true");
