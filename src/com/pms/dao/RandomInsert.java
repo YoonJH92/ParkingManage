@@ -121,7 +121,7 @@ public class RandomInsert {
 		return num;
 	}
 	
-	public void randomCoupon(String coupon,String coupon2,String coupon3,String coupon4) {
+	public void randomCoupon(String coupon,String coupon2,int coupon3,String coupon4,String coupon5) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

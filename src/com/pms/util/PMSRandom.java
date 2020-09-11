@@ -216,7 +216,7 @@ public class PMSRandom {
 	    return daynum.get(0);
 	  }
 	public static String randomCouponPurpose() {
-	    List<String> purpose = Arrays.asList("밥","영화","강도질하러옴","몰라");
+	    List<String> purpose = Arrays.asList("밥","영화","도둑","몰라","데이트","경찰");
 	    Collections.shuffle(purpose);
 	    return purpose.get(0);
 	  }
@@ -245,7 +245,18 @@ public class PMSRandom {
 	
 	private void randomCP(int num) {
 		
-	
+		for(int i =0; i<num;i++) {
+			
+			String cname = randomCouponName();
+			String daynum = randomCouponDay();
+//			int dpay = randomCouponDPay
+			String purpose = randomCouponPurpose();
+			String ccode = randomCCode();
+			RandomInsert randomInsert = new RandomInsert();
+//			randomInsert.randomCoupon(cname, daynum, , coupon4, coupon5);
+			
+			
+		}
 		
 	}
 	
