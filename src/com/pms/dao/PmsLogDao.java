@@ -942,12 +942,10 @@ public class PmsLogDao {
 				while ((leng = in.read(b)) > 0) {
 					os.write(b, 0, leng);
 				}
-
 			} else {
 
 				System.out.println("X");
 			}
-
 			in.close();
 			os.flush();
 			os.close();
