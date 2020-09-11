@@ -12,17 +12,17 @@ import com.pms.dto.StatisticsDTO;
 import com.pms.dto.memberManageDTO;
 import com.pms.util.DBConnectionMgr;
 
-public class StatDailyDAD{
+public class StatDailyDAO{
 	private DBConnectionMgr pool;
 	
-	public StatDailyDAD() {
+	public StatDailyDAO() {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	private static StatDailyDAD instance;
-	public static StatDailyDAD getInstance() {
+	private static StatDailyDAO instance;
+	public static StatDailyDAO getInstance() {
 		if (instance == null) {
-			instance = new StatDailyDAD();
+			instance = new StatDailyDAO();
 		}
 		return instance;
 	}
@@ -93,9 +93,9 @@ public class StatDailyDAD{
 		try {
 			con = pool.getConnection();
 			
-			if(map.get("startForm")  != "" && map.get("endForm")  != "") where = "A.TIME BETWEEN TO_DATE(?,'YYYY-MM-DD') AND TO_DATE(?,'YYYY-MM-DD') ";
-			else if(map.get("startForm")  != "") where = "A.TIME >= TO_DATE(?,'YYYY-MM-DD')";
-			else if(map.get("endForm")  != "") where = "A.TIME <= TO_DATE(?,'YYYY-MM-DD')";
+			if(map.get("startForm")  != "" && map.get("endForm")  != "") where = "A.TIME BETWEEN ? AND ? ";
+			else if(map.get("startForm")  != "") where = "A.TIME >= ?";
+			else if(map.get("endForm")  != "") where = "A.TIME <= ?";
 			
 			sql = new StringBuffer();
 			sql.append("SELECT A.TIME, A.IN_MONTH,A.IN_NOMAL,B.OUT_MONTH,B.OUT_NOMAL,B.PAY,B.TOTAL_PAY,C.COUNT,C.MONTH_PAY FROM ");

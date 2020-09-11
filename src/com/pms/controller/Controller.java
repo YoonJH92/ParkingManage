@@ -39,14 +39,17 @@ public class Controller extends HttpServlet {
 			// 리다이렉트 이동
 			String redirectPath = strView.substring("redirect:".length());
 			response.sendRedirect(redirectPath); 
-		} else {
+		} 
+		
+		else {
 			// 값포함 페이지 이동
 			String prefix = "/WEB-INF/views/";
 			String suffix = ".jsp";
 			String jspPath = prefix + strView + suffix;
 			RequestDispatcher dispatcher = request.getRequestDispatcher(jspPath);
 			dispatcher.forward(request, response);
-		}
+		}	
+				
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

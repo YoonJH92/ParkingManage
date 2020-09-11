@@ -81,7 +81,7 @@
 </style>	
 	
 <div class="modal fade" id="publish_modalBox" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document" style="max-width: 70%; width: auto; ">
+	<div class="modal-dialog modal-lg" role="document" style="max-width: 90%; width: auto; ">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -91,7 +91,6 @@
 				<div class="container-fluid mb-3">
 					<div class="card border-left-primary shadow h-100 py-2" pborder>
 						<div class="card-body">
-							<form method="POST" action="publish_c_d.do">
 								<h2 class="mb-3">쿠폰 발급</h2>
 								<span class="p_switchToggle">
 									<input type="checkbox" id="p_switch" />
@@ -105,10 +104,8 @@
 									<%@ include file="publish_multi.jsp"%>
 								</div>
 								<div class="modal-footer" style="border-top: 0px;">
-									<input class="btn -btn-lg btn-primary" type="submit" value="생성" pborder />
-									<input class="btn -btn-lg btn-primary" type="reset" value="초기화" pborder />
+									<button class="btn btn-primary" pborder>발급</button>
 								</div>
-							</form>
 						</div>
 					</div>
 				</div>

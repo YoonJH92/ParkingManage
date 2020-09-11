@@ -29,9 +29,11 @@ public  class LogListCommand implements Command {
 		 	System.out.println(dispalyRow);
 		 	paging.setDisplayRow(dispalyRow);
 		 	}
+		 	paging.setDisplayRow(dispalyRow);
 		 	int count=dao.getlistCount();
-		 	paging.setTotalCount(count);
 		 	paging.setPage(page);
+		 	paging.setTotalCount(count);
+		 
 		 
 		 HashMap<String, Integer> result=dao.logTotalResult();
 		 ArrayList<String>fare=dao.Curentfare();		 

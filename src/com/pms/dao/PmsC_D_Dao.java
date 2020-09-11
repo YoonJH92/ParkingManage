@@ -89,7 +89,7 @@ public class PmsC_D_Dao {
 					value = value.replace("원", "");
 					value = value.replace(",", "");
 				}
-				sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"' ORDER BY CPNUM ASC";
+				sql = "select * from PMS_COUPON where "+condition+" = "+"'"+value+"' AND rownum <="+align+"ORDER BY CPNUM ASC";
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -127,7 +127,7 @@ public class PmsC_D_Dao {
 					value = value.replace("시간", "");
 				}
 				
-				sql = "select * from PMS_Discount_manage where "+condition+" = "+"'"+value+"' ORDER BY COM_NUM ASC";
+				sql = "select * from PMS_Discount_manage where "+condition+" = "+"'"+value+"' AND rownum <="+align+"ORDER BY COM_NUM ASC";
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -215,7 +215,7 @@ public class PmsC_D_Dao {
 				sql= "select * from PMS_COUPON_LOG where rownum <="+align+" ORDER BY IDX ASC";
 			}
 			else {
-				sql = "select * from PMS_COUPON_LOG where "+condition+" = "+"'"+value+"' ORDER BY IDX ASC";
+				sql = "select * from PMS_COUPON_LOG where "+condition+" = "+"'"+value+"' AND rownum <="+align+" ORDER BY IDX ASC";
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -238,7 +238,7 @@ public class PmsC_D_Dao {
 		return arr;
 	}
 	
-	public ArrayList<memberManageDTO> SearchMember(String condition, String value, int align) {
+	public ArrayList<memberManageDTO> SearchMember(String condition, String value, int align, String date, String startForm, String endForm) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -247,11 +247,22 @@ public class PmsC_D_Dao {
 		
 		try {
 			con = pool.getConnection();
-			if(value.isEmpty()) {
+			if(value.isEmpty() && startForm.isEmpty() && endForm.isEmpty()) {
 				sql= "select * from PMS_MONTH_MEMBER where rownum <="+align+" ORDER BY IDX ASC";
+			}else if(startForm.isEmpty() && endForm.isEmpty()) {
+				sql = "select * from PMS_MONTH_MEMBER where "+condition+" = "+"'"+value+"' AND rownum <="+align+" ORDER BY IDX ASC";
+			}
+			else if(startForm.isEmpty()) {
+				sql = "select * from PMS_MONTH_MEMBER where "+condition+" = "+"'"+value+"' AND "+date+" BETWEEN '01/01/01' AND '"+endForm+"' AND rownum <="+align+" ORDER BY IDX ASC";
+			}
+			else if(endForm.isEmpty()) {
+				sql = "select * from PMS_MONTH_MEMBER where "+condition+" = "+"'"+value+"' AND "+date+" BETWEEN '"+ startForm +"' AND sysdate AND rownum <="+align+" ORDER BY IDX ASC";
+			}
+			else if(value.isEmpty()) {
+				sql= "select * from PMS_MONTH_MEMBER where "+date+" BETWEEN '"+startForm+"' AND '"+endForm+"' AND rownum <="+align+" ORDER BY IDX ASC";
 			}
 			else {
-				sql = "select * from PMS_MONTH_MEMBER where "+condition+" = "+"'"+value+"' ORDER BY IDX ASC";
+				sql = "select * from PMS_MONTH_MEMBER where "+condition+" = "+"'"+value+"' AND "+date+" BETWEEN '"+startForm+"' AND '"+endForm+"' AND rownum <="+align+" ORDER BY IDX ASC";
 			}
 			System.out.println(sql);			
 			pstmt = con.prepareStatement(sql);

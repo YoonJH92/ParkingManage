@@ -13,19 +13,25 @@ JSONArray jarr = new JSONArray();
 String s_condition = request.getParameter("s_condition");
 String s_value = request.getParameter("s_value");
 int s_align = Integer.parseInt(request.getParameter("s_align"));
+String s_date = request.getParameter("s_date");
+String s_startForm = request.getParameter("s_startForm");
+String s_endForm = request.getParameter("s_endForm");
 
-ArrayList<memberManageDTO> dto = dao.SearchMember(s_condition, s_value, s_align);
 
-for (memberManageDTO l : dto) {
+ArrayList<memberManageDTO> dto = dao.SearchMember(s_condition, s_value, s_align, s_date, s_startForm, s_endForm);
+
+for (memberManageDTO m : dto) {
 	JSONObject obj = new JSONObject();
-	obj.put("CPNUM", l.getCPNUM());
-	obj.put("CNUM", l.getCNUM());
-	obj.put("CPCODE", l.getCPCODE());
-	obj.put("IDX", l.getIDX());
-	obj.put("USED", l.isUSED());
-	obj.put("VALIDITY", l.getVALIDITY().toString());
+	obj.put("idx", m.getIdx());
+	obj.put("name", m.getName());
+	obj.put("regdate", m.getRegDate().toString());
+	obj.put("startdate", m.getStartDate().toString());
+	obj.put("stopdate", m.getStopDate().toString());
+	obj.put("pay", m.getPay());
+	obj.put("cnum", m.getCNUM());
+	obj.put("email", m.getEmail());
+	obj.put("phone", m.getPhone());
 	jarr.add(obj);
 }
-System.out.println(jarr.toString());
 out.println(jarr.toString());
 %>
