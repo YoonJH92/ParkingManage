@@ -23,8 +23,13 @@ public class Action {
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());
-      	map.put("/logdetaildown",new LogExcelDetailDownCommand());
-      	map.put("/logexceldown",new LogExcelDownCommand());
+  
+      	map.put("/login/login",new LoginCommand());
+      	map.put("/login/join",new JoinCommand());
+      	map.put("/login/searchId",new SearchIdCommand());
+      	map.put("/login/searchPass",new SearchPassCommand());
+      	map.put("/login/setting",new SettingCommand());
+      	map.put("/login/change",new ChangeCommand());
      	map.put("/memberSearch",new memberSearchCommand());
      	
 
