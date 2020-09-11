@@ -205,13 +205,68 @@ public class PMSRandom {
 		}
 	}
 	
+	public static String randomCouponName() {
+	    List<String> cname = Arrays.asList("1주년기념","10주년기념","건물주탄신일","생일이니까 하나준다","기부해준다","영화보고옴","제휴식당갔다옴","건물내 마트이용","월정액","월정액","월정액","월정액");
+	    Collections.shuffle(cname);
+	    return cname.get(0);
+	  }
+	public static String randomCouponDay() {
+	    List<String> daynum = Arrays.asList("1일","10일","30일","100일");
+	    Collections.shuffle(daynum);
+	    return daynum.get(0);
+	  }
+	public static String randomCouponPurpose() {
+	    List<String> purpose = Arrays.asList("밥","영화","강도질하러옴","몰라");
+	    Collections.shuffle(purpose);
+	    return purpose.get(0);
+	  }
+	public static int randomCouponDPay() {
+	    List<Integer> dpay = Arrays.asList(1000,2000,5000,10000,50000);
+	    Collections.shuffle(dpay);
+	    return dpay.get(0);
+	  }
+	public static String randomCCode() {
+	    List<String> name = Arrays.asList("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z");
+	    List<String> addr = Arrays.asList("1","2","3","4","5","6","7","8","9");
+	    Collections.shuffle(addr);
+	    Collections.shuffle(name);
+	    
+	    StringBuffer buff = new StringBuffer();
+	    StringBuffer buff2 = new StringBuffer();
+	    
+	    for(int i = 0 ; i < 6 ; i++) {
+	    	buff.append(name.get(i));
+	    }
+	    for(int j = 0 ; j < 4 ; j++) {
+	    	buff2.append(addr.get(j));
+	    }
+	    return buff.toString() + buff2.toString();
+	  }
+	
+	private void randomCP(int num) {
+		
+	
+		
+	}
+	
+	
 	public static void main(String[] args) {
 		PMSRandom random = new PMSRandom();
 		ArrayList<String> ran = random.CNUM_RAND(500); 
 		random.MONTH_SETTING(ran);
 		random.TIME_SETTING(ran, 150);
 		
+		
+		
 		System.out.println("성공");
 	}
+	
+	
 
 }
+
+
+
+
+
+
