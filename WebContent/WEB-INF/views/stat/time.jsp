@@ -5,56 +5,95 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 
-<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css"/>
+<link
+	href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
+	rel="stylesheet">
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css" />
 <style>
-.fr{float:right!important;}
-.fl{float:left!important;}
-.py50 {padding: 50px 0;}
-.v-mid{vertical-align: middle!important;}
-table#stat thead{background-color: #526bbf59;color: #fff;}
-table#stat tfoot{background-color: #526bbf59;color: #fff;font-weight: bold;}
-table#stat thead th{padding: 6px 10px!important;}
-table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
-.btn-custom {
-    color: #fff;
-    background-color: #BCA9F5;
-    border-color: #BCA9F5;
+.fr {
+	float: right !important;
 }
+
+.fl {
+	float: left !important;
+}
+
+.py50 {
+	padding: 50px 0;
+}
+
+.v-mid {
+	vertical-align: middle !important;
+}
+
+table#stat thead {
+	background-color: #526bbf59;
+	color: #fff;
+}
+
+table#stat tfoot {
+	background-color: #526bbf59;
+	color: #fff;
+	font-weight: bold;
+}
+
+table#stat thead th {
+	padding: 6px 10px !important;
+}
+
+table#stat tbody td {
+	padding: 4px 10px !important;
+	cursor: pointer;
+}
+
+.btn-custom {
+	color: #fff;
+	background-color: #BCA9F5;
+	border-color: #BCA9F5;
+}
+
 .btn-custom:hover {
 	color: #fff;
-    background-color: #8258FA;
-    border-color: #8258FA;
+	background-color: #8258FA;
+	border-color: #8258FA;
 }
+
 .btn-custom1 {
-    color: #fff;
-    background-color: #A9A9F5;
-    border-color: #A9A9F5;
+	color: #fff;
+	background-color: #A9A9F5;
+	border-color: #A9A9F5;
 }
+
 .btn-custom1:hover {
 	color: #fff;
-    background-color: #8181F7;
-    border-color: #8181F7;
+	background-color: #8181F7;
+	border-color: #8181F7;
 }
-.selected{
+
+.selected {
 	color: #fff;
-    background-color: #A9A9F5!important;
+	background-color: #A9A9F5 !important;
 }
-.form-control1{
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #6e707e;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #d1d3e2;
-    border-radius: .35rem;
-    transition: border-color .15s
+
+.form-control1 {
+	height: calc(1.5em + .75rem + 2px);
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #6e707e;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #d1d3e2;
+	border-radius: .35rem;
+	transition: border-color .15s
 }
 
 .form-control1:focus {
@@ -65,29 +104,19 @@ table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
 	box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25)
 }
 
-.display-inline{display:inline;}
+.display-inline {
+	display: inline;
+}
 </style>
 <div class="container py50">
-	<%--     <div class="card-header py-3">
-      <form action="statTime.do" method="post" id="frm" name="frm">
-      <div class="py10">
-		<span>날짜 검색</span>
-      	<input type="text" autocomplete="off" class="form-control1" id="startForm" name="startForm" value="${today}">
-      	
-      
-      	<a href="#" id="searchBtn" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
-	      	<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
-      	</a>
 
-      </div>
-      </form>
-    </div> --%>
 	<div style="margin-bottom: 60px;">
 		<div class="display-inline fl">
 			<form method="post" action="statTime.do" name="frm" id="frm">
-				<span>날짜 검색 : </span> <input type="text" autocomplete="off"
-					class="form-control1" id="startForm" name="startForm"
-					value="${today}"> <a href="#" id="searchBtn"
+				<span style="font-weight: 800;">날짜 검색 : </span> <input type="text"
+					autocomplete="off" class="form-control1" id="startForm"
+					name="startForm" value="${today}"> <a href="#"
+					id="searchBtn"
 					class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
 					<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
 				</a>
@@ -103,32 +132,31 @@ table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
 			</a>
 		</div>
 	</div>
-	<canvas id="myChart" style="display:none;"></canvas>
-	<canvas id="myChart1" style="display:none;" ></canvas>	
-	<table id="stat"
-		class="table table-striped table-bordered text-center"
+	<canvas id="myChart" style="display: none;"></canvas>
+	<canvas id="myChart1" style="display: none;"></canvas>
+	<table id="stat" class="table table-striped table-bordered text-center"
 		style="width: 100%; height: 80%;">
 
 		<thead>
-            <tr>
-                <th rowspan=2 class="v-mid">시간</th>
-                <th colspan=3>입차 수</th>
-                <th colspan=4>출차 수</th>
-                <th colspan=2>월정액 가입</th>
-                <th rowspan=1 class="v-mid">합 계</th>
-            </tr>
-            <tr>
-                <th>일 반</th>
-                <th>월정액</th>
-                <th>합 계</th>
-                <th>일 반</th>
-                <th>월정액</th>
-                <th>합 계</th>
-                <th>일반차량 수익</th>
-                <th>등 록</th>
-                <th>월정액 수익</th>
-                <th>수익 합계</th>
-            </tr>
+			<tr>
+				<th rowspan=2 class="v-mid">시간</th>
+				<th colspan=3>입차 수</th>
+				<th colspan=4>출차 수</th>
+				<th colspan=2>월정액 가입</th>
+				<th rowspan=1 class="v-mid">합 계</th>
+			</tr>
+			<tr>
+				<th>일 반</th>
+				<th>월정액</th>
+				<th>합 계</th>
+				<th>일 반</th>
+				<th>월정액</th>
+				<th>합 계</th>
+				<th>일반차량 수익</th>
+				<th>등 록</th>
+				<th>월정액 수익</th>
+				<th>수익 합계</th>
+			</tr>
 		</thead>
 
 
@@ -155,19 +183,19 @@ table#stat tbody td{padding: 4px 10px!important; cursor:pointer;}
 		</tbody>
 		<tfoot>
 			<tr></tr>
-        </tfoot>
+		</tfoot>
 
-		
+
 	</table>
 </div>
 <script>
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+	function numberWithCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 
-function removeComma(str){
-	return parseInt(str.replace(/,/g,""));
-}
+	function removeComma(str) {
+		return parseInt(str.replace(/,/g, ""));
+	}
 
 	$(document).ready(function() {
 		$('#example').DataTable({
@@ -190,63 +218,71 @@ function removeComma(str){
 </script>
 <script type="text/javascript">
 	$(function() {
-	
+
 		$("#startForm").datepicker({
 			dateFormat : 'yy-mm-dd'
 		});
 		$("#endForm").datepicker({
 			dateFormat : 'yy-mm-dd'
 		});
-	    $('#stat').DataTable( {
-	    	// 표시 건수기능 숨기기
-	    	lengthChange: false,
-	    	// 검색 기능 숨기기
-	    	searching: false,
-	    	// 정보 표시 숨기기
-	    	info: false,
-	    	// 페이징 기능 숨기기
-	    	paging: false,
-	    	
-	        "footerCallback": function ( row, data, start, end, display ) {
-	            var api = this.api(), data;
-	 
-	            // Remove the formatting to get integer data for summation
-	            var intVal = function ( i ) {
-	                return typeof i === 'string' ?
-	                    i.replace(/[\$,]/g, '')*1 :
-	                    typeof i === 'number' ?i : 0;
-	            };
-	 
-				var row = "<td>합계</td>";
-				for(var i = 1; i <= 10; i++ ){
-					row += "<td>"+numberWithCommas(api.column( i ).data().reduce( function (a, b) {
-				        return intVal(a) + intVal(b);
-				    }, 0 ))+"</td>"
-				};
-	            // Update footer
-	            $( "tfoot tr" ).html(row);
-	        }
-	    
-	    } );
+		$('#stat')
+				.DataTable(
+						{
+							// 표시 건수기능 숨기기
+							lengthChange : false,
+							// 검색 기능 숨기기
+							searching : false,
+							// 정보 표시 숨기기
+							info : false,
+							// 페이징 기능 숨기기
+							paging : false,
 
+							"footerCallback" : function(row, data, start, end,
+									display) {
+								var api = this.api(), data;
 
+								// Remove the formatting to get integer data for summation
+								var intVal = function(i) {
+									return typeof i === 'string' ? i.replace(
+											/[\$,]/g, '') * 1
+											: typeof i === 'number' ? i : 0;
+								};
+
+								var row = "<td>합계</td>";
+								for (var i = 1; i <= 10; i++) {
+									row += "<td>"
+											+ numberWithCommas(api
+													.column(i)
+													.data()
+													.reduce(
+															function(a, b) {
+																return intVal(a)
+																		+ intVal(b);
+															}, 0)) + "</td>"
+								}
+								;
+								// Update footer
+								$("tfoot tr").html(row);
+							}
+
+						});
 
 		$("#searchBtn").click(function() {
 			$("#frm").submit();
 		});
-	    $("#grapBtn").click(function(){
-	    	$("#myChart").toggle();
-	    });
-	    $("#grapBtn1").click(function(){
-	    	$("#myChart1").toggle();
-	    });
-	    $("#stat tbody tr").click(function (event) {
-	    	if($(this).hasClass('selected')){
-	    		$(this).removeClass('selected');
-	    	}else{
-	    		$(this).addClass('selected');
-	    	}
-	    });
+		$("#grapBtn").click(function() {
+			$("#myChart").toggle();
+		});
+		$("#grapBtn1").click(function() {
+			$("#myChart1").toggle();
+		});
+		$("#stat tbody tr").click(function(event) {
+			if ($(this).hasClass('selected')) {
+				$(this).removeClass('selected');
+			} else {
+				$(this).addClass('selected');
+			}
+		});
 
 	});
 	var ctx = document.getElementById('myChart').getContext('2d');
@@ -265,11 +301,12 @@ function removeComma(str){
 				inArray.push($("#stat tbody tr:eq(" + index + ")").children()
 						.eq(3).text());
 				outArray.push($("#stat tbody tr:eq(" + index + ")").children()
-						.eq(10).text());
- 				paySumArray.push(removeComma($(
-						"#stat tbody tr:eq(" + index + ")").children().eq(7)
+						.eq(6).text());
+				paySumArray.push(removeComma($(
+						"#stat tbody tr:eq(" + index + ")").children().eq(10)
 						.text()));
-
+				payArray.push(removeComma($("#stat tbody tr:eq(" + index + ")")
+						.children().eq(7).text()));
 
 			});
 	var config = {
@@ -304,14 +341,12 @@ function removeComma(str){
 				borderColor : '#F781BE',
 				data : paySumArray,
 
-			},
-			{
-				label: '시간별 요금 합계',
-				backgroundColor: 'transparent',
-				borderColor: '#ECE0F8',
-				data: payArray,
-			}, 
-			]
+			}, {
+				label : '시간별 요금 합계',
+				backgroundColor : 'transparent',
+				borderColor : '#ECE0F8',
+				data : payArray,
+			}, ]
 		},
 		options : {
 		//maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
