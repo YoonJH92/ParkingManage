@@ -1,5 +1,4 @@
 package com.pms.dao;
-
 import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,13 +25,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.Vector;
+import java.util.UUID;
+
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.catalina.LifecycleListener;
 import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -49,6 +61,13 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pms.dto.PmsDto;
@@ -83,7 +102,6 @@ public class PmsLogDao {
 		ArrayList<PmsDto> arr = new ArrayList<PmsDto>();
 		int startNum = page.getStartNum();
 		int endNum = page.getEndNum();
-
 		try {
 			con = pool.getConnection();
 			String sql = "SELECT * FROM (" + "  SELECT * FROM ("
@@ -140,7 +158,6 @@ public class PmsLogDao {
 		}
 		return count;
 	}
-
 	// 실시간 차량 사진
 		public void imgUpdate(HttpServletRequest req) {
 			Connection con = null;
@@ -331,160 +348,6 @@ public class PmsLogDao {
 
 		}
 	}
-
-	// 쿠폰 적용
-	@SuppressWarnings("resource")
-	public void totalfare() {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String sql = "";
-		// 요금
-		ArrayList<Integer> payarr = new ArrayList<Integer>();
-		ArrayList<Integer> discountarr = new ArrayList<Integer>();
-		ArrayList<Integer> idxarr = new ArrayList<Integer>();
-		ArrayList<Integer> cpnumarr = new ArrayList<Integer>();
-		ArrayList<Integer> clIdxarr = new ArrayList<Integer>();
-		try {
-			con = pool.getConnection();
-			sql = " SELECT l.idx, l.pay ,cp.discount ,cl.cpnum ,cl.idx as clidx from pms_log l Join pms_coupon cp "
-					+ " on l.cp_num=cp.cpnum  Join pms_coupon_log cl  on cl.cpnum=cp.cpname " + " where cl.used= 1 ";
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery(sql);
-			while (rs.next()) {
-				int idx = rs.getInt("idx");
-				int pay = rs.getInt("pay");
-				int cpnum = rs.getInt("cpnum");
-				int discount = rs.getInt("discount");
-				int clidx = rs.getInt("clidx");
-				payarr.add(pay);
-				idxarr.add(idx);
-				cpnumarr.add(cpnum);
-				clIdxarr.add(clidx);
-				discountarr.add(discount);
-			}
-
-			if (clIdxarr.size() != 0) {
-				sql = "update pms_coupon_log set used= ? where idx = ? ";
-				ps = con.prepareStatement(sql);
-				for (int i = 0; i < cpnumarr.size(); i++) {
-					ps.setInt(1, 2);
-					ps.setInt(2, clIdxarr.get(i));
-					ps.executeUpdate();
-					ps.clearParameters();
-				}
-			}
-
-			if (discountarr.size() != 0) {
-				sql = "update pms_log set total_pay = ? where idx = ?  and cp_num = ?";
-				ps = con.prepareStatement(sql);
-				for (int i = 0; i <= discountarr.size(); i++) {
-					int discountfare = payarr.get(i) - discountarr.get(i);
-					ps.setInt(1, discountfare);
-					ps.setInt(2, idxarr.get(i));
-					ps.setInt(3, cpnumarr.get(i));
-					ps.executeUpdate();
-					ps.clearParameters();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, ps, rs);
-		}
-	}
-	// 할인권 적용
- 
-	@SuppressWarnings("resource")
-	public void discountfare() {
-
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String sql = "";
-		SettingDAO settingDao = SettingDAO.getInstance();
-		SettingDTO setingDto = settingDao.settItem();
-		// 기본 시간
-		final int dtime = setingDto != null ? setingDto.getDtime() : 1;
-		// 기본 요금
-		final int settingfare = setingDto != null ? setingDto.getFare() : 0;
-		// 오버시 시간
-		final int otime = setingDto != null ? setingDto.getOtime() : 1;
-		// 오버시 요금
-		final int ofare = setingDto != null ? setingDto.getOfare() : 0;
-		long fare = 0;
-		ArrayList<Integer> useTimearr = new ArrayList<Integer>();
-		ArrayList<Integer> idxarr = new ArrayList<Integer>();
-		ArrayList<String> intimearr = new ArrayList<String>();
-		ArrayList<String> Otimearr = new ArrayList<String>();
-		ArrayList<Integer> totalarr = new ArrayList<Integer>();
-		try {
-			con = pool.getConnection();
-			sql = "select dm.use_time , l.idx , dm.use_time,to_char( l.in_time, 'YYYY-MM-DD HH24:MI:SS' ) as in_time, to_char( l.out_time, 'YYYY-MM-DD HH24:MI:SS' ) as out_time "
-					+ " from pms_log l join pms_discount_manage dm on l.sale_num = dm.com_num "
-					+ " where l.sale_num is not null ";
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery(sql);
-			while (rs.next()) {
-				int idx = rs.getInt("idx");
-				String iTimes = rs.getString("in_time");
-				String Otimes = rs.getString("out_time");
-				int useTime = rs.getInt("use_time");
-				useTimearr.add(useTime);
-				idxarr.add(idx);
-				intimearr.add(iTimes);
-				Otimearr.add(Otimes);
-			}
-			if (useTimearr.size() != 0) {
-				SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-				todaySdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-				for (int i = 0; i < useTimearr.size(); i++) {
-					long disCTimes = useTimearr.get(i) * (60 * 60 * 1000);// 시간
-					String inTimevalues = intimearr.get(i);
-					String oTimevalues = Otimearr.get(i);
-					long inTimeStamp = todaySdf.parse(inTimevalues).getTime();
-					long OTimeStamp = todaySdf.parse(oTimevalues).getTime();
-					long diff = OTimeStamp - inTimeStamp - disCTimes;
-					long x = diff / dtime;
-					long y = diff % dtime;
-					if (diff < 0) {
-						fare = 0;
-					} else if (x < 1) {
-						fare = ofare;
-						if (diff > otime) {
-							fare = settingfare;
-						}
-					} else if (x >= 1) {
-						fare = settingfare * x;
-						if (y > 0) {
-							fare += ofare;
-						}
-						if (y > otime) {
-							fare += settingfare;
-						}
-					}
-					totalarr.add((int) fare);
-				}
-
-			}
-			if (totalarr.size() != 0) {
-				sql = " update pms_log set total_pay = ? where (out_time is NOT NULL) and (idx= ?) ";
-				ps = con.prepareStatement(sql);
-				for (int i = 0; i < totalarr.size(); i++) {
-					ps.setInt(1, totalarr.get(i));
-					ps.setInt(2, idxarr.get(i));
-					ps.executeUpdate();
-					ps.clearParameters();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, ps, rs);
-
-		}
-	}
-
 	// 실시간 요금
 	public ArrayList<String> Curentfare() throws ParseException {
 		Connection con = null;
@@ -540,7 +403,6 @@ public class PmsLogDao {
 				sql= "SELECT * FROM (" + "  SELECT * FROM ("
 						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') ) WHERE row_num >= ? ) "
 						+ "WHERE row_num <= ? ";				
-//				sql = "select * from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ";
 			}
 
 			else if (cnum.equals("")) {	
@@ -607,8 +469,7 @@ public class PmsLogDao {
 	    	  sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
 	    				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') and (cnum ='"+cnum+"') order by in_time ";
 	    		}
-	    
-	    		    
+	       		    
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -627,27 +488,16 @@ public class PmsLogDao {
 		return Dcount;		
 	}
 	
-	
-	// 실시간 엑셀
-	public void writeLogExcel(ArrayList<PmsDto> arr) throws FileNotFoundException { // 데이터 담을 리스트
-		String path = "C://Download/";
-		// 파일경로
-		File Folder = new File(path);
-		// 해당 디렉토리가 없을경우
-		if (!Folder.exists()) {
-			try {
-				Folder.mkdirs(); // 폴더 생성합니다.
-				System.out.println("폴더가 생성되었습니다.");
-			} catch (Exception e) {
-				e.getStackTrace();
-			}
-		} else {
-			System.out.println("이미 폴더가 생성되어 있습니다.");
-		}
+		// 실시간 엑셀
+	public void writeLogExcel(ArrayList<PmsDto> arr,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, Exception { // 데이터 담을 리스트
+		 String contentType = "application/vnd.ms-excel";
 
-		File file = new File(path + "log.xls");
-
-		FileOutputStream fos = new FileOutputStream(file);
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddSS");
+         Calendar c1 = Calendar.getInstance();
+         String yds = sdf.format(c1.getTime());
+         String fileName = yds + "log.xls";
+        fileName = URLEncoder.encode(fileName,"UTF-8"); // UTF-8로 인코딩
+       response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
 		HSSFWorkbook workbook = new HSSFWorkbook();// 새 엑셀 생성
 		HSSFSheet sheet = workbook.createSheet("실시간");// 새 시트 생성
@@ -741,317 +591,61 @@ public class PmsLogDao {
 			cell.setCellStyle(bodycellstyle);
 
 		}
-
-		try {
-			workbook.write(fos);
-			fos.close();
-			workbook.close();
+		try 
+		{	  ServletOutputStream out = response.getOutputStream();
+	           workbook.write(out);
+	            if (out != null) out.close();
+	            workbook.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-
-	public void writeLogDetailExcel(ArrayList<PmsDto> arr) throws FileNotFoundException { // 데이터 담을 리스트
-
-		String path = "C://Download/";
-		// 파일경로
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMddHHmmss");
-
-		String today = format1.format(System.currentTimeMillis());
-
-		File Folder = new File(path);
-		// 해당 디렉토리가 없을경우
-		if (!Folder.exists()) {
-			try {
-				Folder.mkdirs(); // 폴더 생성합니다.
-				System.out.println("폴더가 생성되었습니다.");
-			} catch (Exception e) {
-				e.getStackTrace();
-			}
-		} else {
-			System.out.println("이미 폴더가 생성되어 있습니다.");
-		}
-
-		File file = new File(path + "Detaillog.xls");
-
-		FileOutputStream fos = new FileOutputStream(file);
-
-		HSSFWorkbook workbook = new HSSFWorkbook();// 새 엑셀 생성
-		HSSFSheet sheet = workbook.createSheet("차량조회");// 새 시트 생성
-
-		sheet.setDefaultColumnWidth((short) 20);
-		sheet.setDefaultRowHeight((short) 300);
-
-		CellStyle cellstyle = workbook.createCellStyle();
-		// 가운데 정렬
-		cellstyle.setAlignment(HorizontalAlignment.CENTER);
-		// 세로 정렬
-		cellstyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.CENTER);
-		cellstyle.setBorderLeft(BorderStyle.THIN);
-		cellstyle.setBorderTop(BorderStyle.THIN);
-		cellstyle.setBorderRight(BorderStyle.THIN);
-		cellstyle.setBorderBottom(BorderStyle.THIN);
-		cellstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-		cellstyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-		//
-		CellStyle bodycellstyle = workbook.createCellStyle();
-		bodycellstyle.setAlignment(HorizontalAlignment.CENTER);
-		bodycellstyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.CENTER);
-		bodycellstyle.setBorderLeft(BorderStyle.THIN);
-		bodycellstyle.setBorderTop(BorderStyle.THIN);
-		bodycellstyle.setBorderRight(BorderStyle.THIN);
-		bodycellstyle.setBorderBottom(BorderStyle.THIN);
-
-		// 요금 형식
-		CellStyle moneyCellstyle = workbook.createCellStyle();
-		moneyCellstyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
-		moneyCellstyle.setAlignment(HorizontalAlignment.CENTER);
-		moneyCellstyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.CENTER);
-		moneyCellstyle.setBorderLeft(BorderStyle.THIN);
-		moneyCellstyle.setBorderTop(BorderStyle.THIN);
-		moneyCellstyle.setBorderRight(BorderStyle.THIN);
-		moneyCellstyle.setBorderBottom(BorderStyle.THIN);
-
-		HSSFFont Headerfont = workbook.createFont();
-		Headerfont.setFontName("맑은 고딕");
-		Headerfont.setBold(true);
-
-		// body
-		HSSFFont font = workbook.createFont();
-		Headerfont.setFontName("맑은 고딕");
-
-		bodycellstyle.setFont(font);
-		cellstyle.setFont(Headerfont); // cellstyle 적용
-
-		HSSFRow row = null;// 행
-		HSSFCell cell = null;// 셀
-
-		// 첫번째 줄
-		row = sheet.createRow(0);
-		// 첫 번째출 cell 설정
-		cell = row.createCell(0);
-		cell.setCellValue("No.");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(1);
-		cell.setCellValue("차량 번호");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(2);
-		cell.setCellValue("입 차 시간");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(3);
-		cell.setCellValue("출 차 시간");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(4);
-		cell.setCellValue("사용 금액");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(5);
-		cell.setCellValue("쿠폰 사용 여부");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(6);
-		cell.setCellValue("월 정액 여부");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(7);
-		cell.setCellValue("할인 여부");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(8);
-		cell.setCellValue("최종 금액 ");
-		cell.setCellStyle(cellstyle);
-
-		for (int i = 0; i < arr.size(); i++) {
-			PmsDto dto = arr.get(i);
-			row = sheet.createRow(i + 1);
-
-			cell = row.createCell(0);
-			cell.setCellValue(dto.getIdx());
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(1);
-			cell.setCellValue(dto.getCnum());
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(2);
-			cell.setCellValue(String.valueOf(dto.getInTime()));
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(3);
-			cell.setCellValue(String.valueOf(dto.getOutTime()));
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(4);
-			cell.setCellValue(dto.getPay());
-			cell.setCellStyle(moneyCellstyle);
-
-			cell = row.createCell(5);
-			cell.setCellValue(dto.getCpNum());
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(6);
-			cell.setCellValue(dto.getMonthNum());
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(7);
-			cell.setCellValue(dto.getSaleNum());
-			cell.setCellStyle(moneyCellstyle);
-
-			cell = row.createCell(8);
-			cell.setCellValue(dto.getTotalPay());
-			cell.setCellStyle(moneyCellstyle);
-
-		}
-
-		try {
-			workbook.write(fos);
-			fos.close();
-			workbook.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void ExcelDownload(HttpServletRequest request , HttpServletResponse response) {
 		
-		//파일이 업로드 된 경로 
-		String path="C://Download/";
-		SimpleDateFormat format1 = new SimpleDateFormat ( "yyMMddHHmmss");
-		String today = format1.format (System.currentTimeMillis());
-		String savepath=path;
-		//서버에 저장된 파일명
-		String filename="log.xls";
-		//실제 내보낼 파일명
-		String orgfilename=today+"log.xls";
-		InputStream in =null;
-		OutputStream os =null;
-		File file=null;
-		boolean skip=false;
-		String client="";
-	
-		   try{ 
-		        // 파일을 읽어 스트림에 담기
-		        try{
-		            file = new File(savepath, filename);
-		            in = new FileInputStream(file);
-		        }catch(FileNotFoundException fe){
-		            skip = true;
-		        }
-		        client = request.getHeader("User-Agent");	//유저의 시스템 정보 
-		        // 파일 다운로드 헤더 지정
-		        response.reset() ;
-		        response.setContentType("application/octet-stream");
-		        response.setHeader("Content-Description", "JSP Generated Data");			 
-		 
-		        if(!skip){
-		       
-		            // IE
-		            if(client.indexOf("MSIE") != -1){
-		                response.setHeader ("Content-Disposition", "attachment; filename="+new String(orgfilename.getBytes("KSC5601"),"ISO8859_1"));
-		 
-		            }else{
-		                // 한글 파일명 처리
-		                orgfilename = new String(orgfilename.getBytes("utf-8"),"iso-8859-1");
-		 
-		                response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
-		                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
-		            } 		             
-		            response.setHeader ("Content-Length", ""+file.length() );			       
-		            os = response.getOutputStream();
-		            byte b[] = new byte[(int)file.length()];
-		            int leng = 0;
-		             
-		            while( (leng = in.read(b)) > 0 ){
-		                os.write(b,0,leng);
-		            }
-		 
-		        }else{
-		        	System.out.println("X");
-		        }
-		         
-		        in.close();
-		        os.flush();
-		        os.close();
-		 
-		    }catch(Exception e){
-		      e.printStackTrace();
-		    }
+		public void datailImgUpdate(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+			request.setCharacterEncoding("utf-8");
+			int maxSize = 1024 * 1024 * 50;
+			String Temp ="c:/";
+			String path = request.getServletContext().getRealPath("/img/"); //저장경로 
+			
+			DiskFileItemFactory diskFacktory =new DiskFileItemFactory();
+			
+			diskFacktory.setSizeThreshold(5000); //업로드시 사용할 임시 메모리 
+			
+			diskFacktory.setRepository(new File(Temp)); //임시저장 폴더 
+			
+			ServletFileUpload upload =new ServletFileUpload(diskFacktory);
+			
+			upload.setSizeMax(100*1024*1024);//업로드 크기 
+			
+			java.util.List<FileItem> items = (List<FileItem>) upload.parseRequest(request);
 
-
-
-	}
-
-
-	       public void ExcelDetaillogDown(HttpServletRequest request , HttpServletResponse response) {			
-		//파일이 업로드 된 경로 
-		String path="C://Download/";
-		SimpleDateFormat format1 = new SimpleDateFormat ( "yyMMddHHmmss");
-		String today = format1.format (System.currentTimeMillis());
-		String savepath=path;
-		//서버에 저장된 파일명
-		String filename="Detaillog.xls";
-		//실제 내보낼 파일명
-		String orgfilename=today+"Detaillog.xls";
-		InputStream in =null;
-		OutputStream os =null;
-		File file=null;
-		boolean skip=false;
-		String client="";
-	
-		   try{ 
-		        // 파일을 읽어 스트림에 담기
-		        try{
-		            file = new File(savepath, filename);
-		            in = new FileInputStream(file);
-		        }catch(FileNotFoundException fe){
-		            skip = true;
-		        }
-		        client = request.getHeader("User-Agent");	//유저의 시스템 정보 
-		        // 파일 다운로드 헤더 지정
-		        response.reset() ;
-		        response.setContentType("application/octet-stream");
-		        response.setHeader("Content-Description", "JSP Generated Data");
-		 
-		        if(!skip){
-		 		             
-		            // IE
-		            if(client.indexOf("MSIE") != -1){
-		                response.setHeader ("Content-Disposition", "attachment; filename="+new String(orgfilename.getBytes("KSC5601"),"ISO8859_1"));
-		 
-		            }else{
-		                // 한글 파일명 처리
-		                orgfilename = new String(orgfilename.getBytes("utf-8"),"iso-8859-1");
-		 
-		                response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfilename + "\"");
-		                response.setHeader("Content-Type", "application/octet-stream; charset=utf-8");
-		            } 		             
-		            response.setHeader ("Content-Length", ""+file.length() );			       
-		            os = response.getOutputStream();
-		            byte b[] = new byte[(int)file.length()];
-		            int leng = 0;
-		             
-		            while( (leng = in.read(b)) > 0 ){
-		                os.write(b,0,leng);
-		            }		 
-		        }else{
-		        	System.out.println("X");
-		        }		         
-		        in.close();
-		        os.flush();
-		        os.close();
-		 
-		    }catch(Exception e){
-		      e.printStackTrace();
-		    }	
-	
-	}
+			Iterator<FileItem> iter =(Iterator<FileItem>) items.iterator();
+			while(iter.hasNext()) {
+				FileItem item  = (FileItem) items.iterator();
 				
+			if(item.isFormField()) {
+				String fieldName =item.getFieldName();
+				String fieldValue=item.getString("utf-8");
+				}
+				else { 
+					 if( item.getSize()> 0) {
+						 	String newFileName= UUID.randomUUID().toString(); 
+						 	String name = item.getFieldName();
+						 	String ContentType=item.getContentType();
+						 	long fileSize =item.getSize();			 	
+						 	Path newFilePath = Paths.get(path+"/"+newFileName); 
+						 	File uploadedFile = newFilePath.toFile(); item.write(uploadedFile); //파일 저장	 
+					 }	
+				}			
+			}
+						
+		}		
+	}		
+	
 
-}
+	
+	
+

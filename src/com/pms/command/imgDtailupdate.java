@@ -17,7 +17,7 @@ public class imgDtailupdate implements Command{
 
 		
 		PmsLogDao dao=PmsLogDao.getInstance();
-    	dao.imgUpdate(request);           
+    	dao.datailImgUpdate(request, response);      
     
     	
 		return "redirect:logdetail.do";

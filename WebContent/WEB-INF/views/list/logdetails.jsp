@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha512-YUkaLm+KJ5lQXDBdqBqk7EVhJAdxRnVdT2vtCzwPHSweCzyMgYV/tgGF4/dCyqtCC2eCphz0lRQgatGVdfR0ww==" crossorigin="anonymous"></script>
 <!-- 있어야 함  -->
 
@@ -135,6 +136,8 @@
   </div>
 </div>
 
+
+
 <!-- /.container-fluid -->
 <!-- End of Main Content -->
  <!-- Logout Modal-->
@@ -146,118 +149,64 @@
         </div>
         <div class="modal-body">     
        <table> 
+       <form id="mdFrm" method="post" enctype="multipart/form-data" >
          <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
           <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td><tr> 	
           <tr><td><img id="modalimg" src="" ></td></tr>
           <tr><td><input type="file" id="fileup"name="fileName" accept="image/*"></td> </tr>           
        </table>
         <div class="modal-footer">
-	          <button type="button" class="btn btn-default" id="imgUpdateBtn"> 수정 </button></div>
+	          <button type="button" class="btn btn-default" id="imgUpdateBtn"  onClick="imgEvents()"> 수정 </button></div>
 	          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button></div>
           </form>
         </div>   
     </div></div>
     </div>      
         <!-- 모달창 -->        
-        <script>
-        
-        
-        
-        
-        
-        
-        
-           
-        
-        
-        
-      
-        
+        <script>        
       var LOGIDX="";
       var CIMG="";
       var IMGSRC="";
-  //값을 가지고   
-	$("#imgbtn").click(function(){
-		$.ajax({
-		    type: "post", //요청방식 get이면 생략가능
-		    url: "logdetail.do", //요청할 url
-		    data: {"idx": $("#id").val(),  			
-		    "pwd":$("#pwd").val(),
-		    "pwd":$("#pwd").val(),
-			"method":"post"},//전달할 데이터 				
-		    success: function(data){//서버로 받은 응답 
-		    	$("#modalFrm").html(data);
-		    },
-		    error: function (e){        
-			     alert("실패");
-	   }
-		  });
-	});
-  
-  	$("#imgUpdateBtn").click(function(){
-		var formData = new FormData();
-		formData.append("idx", $('input[name="idx"]').val());		
-		formData.append("filename", $('input[name="fileName"]')[0].files[0]);		
-  		
-			$.ajax({
-				type:'post',
-				url: '/imgDtailupdate.do',
-				data:formData,
-				processData:false,
-		        dataType : "json",
-				contentType:false,
-				  success : function(data) {
-			            alert("파일 업로드 성공.");
-			        },
-			        error : function(error) {
-			            alert("파일 업로드에 실패하였습니다.");
-			           
-			        }
-			
-  			});
-		}); 		
-			
-			
-			
-			
-  		
-  		
- 
-    	  
-    	  
-    	  
-    	  
-    	  
-    	  
-  /*   	  
-    	  $('#carModal').on('show.bs.modal', function(event) {   		  
-    		  
+
+  		function imgEvents(){
+  		 
+  			var frm=document.getElementById('mdFrm');
+			//var fileData  = new FormData(frm);
+  			fileData.append("idx", $('input[name="idx"]').val());		
+  			fileData.append("filename", $('input[name="fileName"]')[0].files[0]);
+  			
+				$.ajax({
+					type:'post',
+					url : 'imgDtailupdate.do',
+					//data:fileData,
+					data:{"test":"1234"},
+					//entype:'multipart/form-data',
+			    	//processData: false,
+					//contentType: false,
+				    //cache: false,
+					//dataType: 'json', 
+				  	success : function(data) {
+			       		alert("파일 업로드 성공.");
+			       		 },
+			       		error : function(error) {
+			        			alert(error.status);
+			     		}		
+  					});	
+ 				}	
+   			 function read() {   
+    	document.rowForm.submit();
+    	}
+    	   $('#carModal').on('show.bs.modal', function(event) {   		      		  
               LOGIDX=$(event.relatedTarget).data('idx');
               CIMG=$(event.relatedTarget).data('cimg');
               var modal=$(this);
               $(".modal-body #idx ").val(LOGIDX);
               $(".modal-body #cimg ").val(CIMG);	
               $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
-              $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-         		              
-    	  	});	                  	       
-      	});         
-    	  function read() {   
-    	    	document.rowForm.submit();    	    	  	      	  	  	     			
-       	 	}     	  
-    	  function modalread(){	  
-    	        var Fdate = $('#FDate').val();
-    	        var LDate = $('#LDate').val();
-    	        var displayRow = $('#dRs').val();
-    	        var cnum = $('#cnum').val();
-    	        var page = $('#page').val();
-    		   	var uri='${path}/logdetail.do?Search=&FDate='+Fdate+'&LDate='+LDate+'&cnum='+cnum+'&dRs='+displayRow+'&page='+page;
-    		  	var encoded = encodeURI(uri);
-  	         	//location.href=encoded;
-    		  	document.modalFrm.submit();    	
-  	         	//location.href=encoded;  	    
-   		}
- */
+              $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );                    	  	                  	       
+      	});  
+    	     	  
+   
 	      
     	  	  
   	</script>

@@ -95,10 +95,7 @@ public class PmsPageDto {
 	        System.out.println("endPage : " + endPage);
 	        System.out.println("totalPage : " + totalPage);
 		
-			
-			
-		}
-		
-	
+						
+		}			
 
 }
