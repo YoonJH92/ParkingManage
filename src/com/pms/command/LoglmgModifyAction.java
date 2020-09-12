@@ -7,7 +7,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import javax.servlet.http.Part;
 import com.pms.dao.PmsLogDao;
-import com.pms.dto.PmsDto;
+import com.pms.dto.PmsLogDto;
 import com.sun.glass.ui.Application;
 public class LoglmgModifyAction implements Command {
 	@Override

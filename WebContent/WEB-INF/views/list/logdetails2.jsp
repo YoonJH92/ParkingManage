@@ -4,8 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha512-YUkaLm+KJ5lQXDBdqBqk7EVhJAdxRnVdT2vtCzwPHSweCzyMgYV/tgGF4/dCyqtCC2eCphz0lRQgatGVdfR0ww==" crossorigin="anonymous"></script>
 <!-- 있어야 함  -->
-
-
 <style>
 .fr{float:right!important;}
 .fl{float:left!important;}
@@ -16,8 +14,6 @@
         	display: block; 
         	margin: 0px auto;       
         	}          
-
-
 .al-center{align-items: center;}
 .text-right{text-align: right;}
 .text-center{text-align: center;}
@@ -50,7 +46,6 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">   
-      <form action="logdetail.do" method="post" id="frm" name="frm">                   
       <div class="py10">
       	<div>
      	<span>날짜 검색</span>
@@ -67,15 +62,13 @@
            <input type="text" name="cnum" size=10 maxlength=8 value="${cnum}" class="form-control1">
              </div>
            <div class="btndiv">
+           <button id="test">전송</button>
            <input type="submit"  class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4" value="검색하기">
           <a href="logdetaildown.do" class="d-none d-sm-inline-block btn  btn-primary shadow-sm mb4">
           <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
          </div>
       </div>
-      </form>  
-      	  	<form method="post" action="logdetail.do" name="rowForm">      	                
-            <select name="dRs" id="DR" onchange="read()" >
-                    	
+            <select name="dRs" id="DR" onchange="read()" >                  	
        		<option value="20"  id="20" <c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
        		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
        		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
@@ -84,7 +77,7 @@
              <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
       <input type="hidden" name="cnum" value="${cnum}">     
-         </form>            
+                    
     </div>
     <div class="card-body">
       <div class="table-responsive text-center">
@@ -103,34 +96,11 @@
                 <th scope="col">차량이미지</th>
             </tr>
           </thead>
-          <tbody>
-            <c:forEach var="arr" items="${detail}">
-                <tr>
-                  <th scope="row">${arr.idx}</th>
-                    <td>${arr.cnum}</td>
-                    <td>${arr.inTime}</td>  	
-                    <td>${arr.outTime}</td>  	
-                  <td> <fmt:formatNumber value="${arr.pay}" pattern="#,###" /></td>             
-                   <c:if test="${arr.cpNum == 0 }">
-              <td><i class="fas fa-times " style="color:red"></i></td>          				
- 				</c:if>
- 				<c:if test="${arr.cpNum > 0 }">
-            	<td><i class="fas fa-check" style="color:green"></i></td>      
-     			</c:if>
-    			<c:if test="${arr.monthNum == 0 }">
- 	   		<td><i class="fas fa-times" style="color:red"></i></td>
-    			</c:if>
-    		<c:if test="${arr.monthNum != 0 }">
-   			<td><i class="fas fa-check" style="color:green"></i></td></c:if>
-            	    <td>${arr.saleNum }</td>
-                  <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
-           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal" data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
-           </tr>
-            </c:forEach>   
-          </tbody>
+          <tbody id="dtbody">
+        
         </table>         
     <jsp:include page="test1.jsp"> 
-    <jsp:param value="${paging.page}" name="page_"/>
+    <jsp:param value="${paging.page}" name="page"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>
     <jsp:param value="${paging.endPage}" name="endPage"/>
     <jsp:param value="${paging.prev}" name="prev"/>
@@ -141,7 +111,6 @@
     </div>
   </div>
 </div>
-
 <!-- /.container-fluid -->
 <!-- End of Main Content -->
  <!-- Logout Modal-->
@@ -166,68 +135,161 @@
         </div>   
     </div></div>
     </div>      
-        <!-- 모달창 -->          
-        <script>
-                       
-      var LOGIDX="";
-      var CIMG="";
-      var IMGSRC="";
-  //값을 가지고   
- function imgEvents(e){
-	e.stopPropagation();
-	  e.stopImmediatePropagation();
-  			var frm=document.getElementById('mdFrm');
-			var fileData  = new FormData(frm);
-  			fileData.append("idx", $('input[name="idx"]').val());		
-  			fileData.append("filename", $('input[name="fileName"]')[0].files[0]);			
-				$.ajax({
-					type:'post',
-					url : 'imgDtailupdate.do',
-					data:fileData,
-					entype:'multipart/form-data',
-			    	processData: false,
-					contentType: false,
-				    cache: false,
-					//dataType: 'json', 
-				  	success : function(data) {
-			       		alert("파일 업로드 성공.");
-			       		 },
-			       		error : function(error) {
-			        			alert(error.status);
-			     		}		
-  					});	
- 				}	
-   			 function read() {   
-    	document.rowForm.submit();
-    	}
+        <!-- 모달창 -->                 
+        <script>              
+        $(document).ready(function() { 
+        	$.getJSON('logdetail.do',  
+        	 {
+        		"FDate": $('input:text[name="FDate"]').val(),
+        		"LDate": $('input:text[name="LDate"]').val(),
+				"cnum": $('input:text[name="cnum"]').val(),
+				"dRs": $('select[name="dRs"]').val() 		    				   
+        		},       		      			
+        		function(data) {
+        			var htmlStr ="";
+        			$.each(data, function(key, val)
+        					{ 
+        					htmlStr += "<tr>";
+        					htmlStr += "<td>" + val.idx + "</td>";
+        					htmlStr += "<td>" + val.cnum + "</td>";
+        					htmlStr += "<td>" + val.in_time + "</td>";
+        					htmlStr += "<td>" + val.out_time+ "</td>";
+        					htmlStr += "<td>" + val.pay + "</td>";
+        					htmlStr += "<td>" + val.cpNum+ "</td>";
+        					htmlStr += "<td>" + val.monthNum + "</td>";
+        					htmlStr += "<td>" + val.sale_num + "</td>";
+        					htmlStr += "<td>" + val.total_pay + "</td>";
+        					htmlStr += "<td>" + val.c_img + "</td>";
+							htmlStr += "<td><button type='button' class='btn btn-dark' id='imgbtn' data-toggle='modal' data-cnum="+val.cnum+ " data-idx="+val.idx+" data-cimg="+val.c_img+" data-target='#carModal'> 차량 사진 </button></td>";
+
+        					
+        					htmlStr += "</tr>";
+        		            });
+            				htmlStr += "</tbody>";
+            				$("#dtbody").html(htmlStr);
+
+        				}); 
+    				});
+        
+        $('#carModal').on('show.bs.modal', function(event) {   		   		  
+            LOGIDX=$(event.relatedTarget).data('idx');
+            CIMG=$(event.relatedTarget).data('cimg');
+            var modal=$(this);
+            $(".modal-body #idx ").val(LOGIDX);
+            $(".modal-body #cimg ").val(CIMG);	
+            $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
+            $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
+        		              
+          	});	 
+</script>
+<script>
+
+
+		$(document).ready(function() {
+       $("#test").click(function() {
+    	   $.getJSON('logdetail.do',  
+     			  {
+     		"FDate": $('input:text[name="FDate"]').val(),
+     		"LDate": $('input:text[name="LDate"]').val(),
+				"cnum": $('input:text[name="cnum"]').val(),
+				"dRs": $('select[name="dRs"]').val() 		    				   
+     			 },       		
+    	   function(data) {   
+         			var htmlStr ="";
+
+            $.each(data, function(key, val) {
+            	htmlStr += "<tr>";
+        		htmlStr += "<td>" + val.idx + "</td>";
+				htmlStr += "<td>" + val.cnum + "</td>";
+				htmlStr += "<td>" + val.in_time + "</td>";
+				htmlStr += "<td>" + val.out_time+ "</td>";
+				htmlStr += "<td>" + val.pay + "</td>";
+				htmlStr += "<td>" + val.cpNum+ "</td>";
+				htmlStr += "<td>" + val.monthNum + "</td>";
+				htmlStr += "<td>" + val.sale_num + "</td>";
+				htmlStr += "<td>" + val.total_pay + "</td>";
+				htmlStr += "<td>" + val.c_img + "</td>";
+				htmlStr += "<td><button type='button' class='btn btn-dark' id='imgbtn' data-toggle='modal' data-cnum="+val.cnum+ " data-idx="+val.idx+" data-cimg="+val.c_img+" data-target='#carModal'> 차량 사진 </button></td>";
+				htmlStr += "</tr>";
+            });
+				htmlStr += "</tbody>";
+				$("#dtbody").html(htmlStr);
+        });
+    });
+
+});
+
+
+ 
+
+
+$(function() {
+    $("#FDate").datetimepicker(
+    );
+    $("#LDate").datetimepicker();
+});
+
+var LOGIDX="";
+var CIMG="";
+var IMGSRC="";
+
+function imgEvents(e){
+e.stopPropagation();
+e.stopImmediatePropagation();
+		var frm=document.getElementById('mdFrm');
+		var fileData  = new FormData(frm);
+		fileData.append("idx", $('input[name="idx"]').val());		
+		fileData.append("filename", $('input[name="fileName"]')[0].files[0]);			
+			$.ajax({
+				type:'post',
+				url : 'imgDtailupdate.do',
+				data:fileData,
+				entype:'multipart/form-data',
+		    	processData: false,
+				contentType: false,
+			    cache: false,
+				//dataType: 'json', 
+			  	success : function(data) {
+		       		alert("파일 업로드 성공.");
+		       		 },
+		       		error : function(error) {
+		        			alert(error.status);
+		     		}		
+				});	
+			}	
+			 function read() {   
+				document.rowForm.submit();
+		}
+		  	  
+	                	       
+	  
+		</script>
+
+ <!--     function log_search() {
+    		$.getJSON("logdetail.do",
+    			function (data) { 
+    				var htmlStr = "";
+    				
+    				$.each(data, function (key, val) {
+    					htmlStr += "<tr>";
+    					htmlStr += "<td>" + val.idx + "</td>";
+    					htmlStr += "<td>" + val.cnum + "</td>";
+    					htmlStr += "<td>" + val.in_time + "</td>";
+    					htmlStr += "<td>" + val.out_time+ "</td>";
+    					htmlStr += "<td>" + val.cpNum+ "</td>";
+    					htmlStr += "<td>" + val.monthNum + "</td>";
+    					htmlStr += "<td>" + val.sale_num + "</td>";
+    					htmlStr += "<td>" + val.pay + "</td>";
+    					htmlStr += "<td>" + val.total_pay + "</td>";
+    					htmlStr += "<td>" + val.c_img + "</td>";
+    					htmlStr += "</tr>";
+    					});
+    				htmlStr += "</tbody>";
+    				$("#dtbody").html(htmlStr);
+    			});
+  			});
+			 -->
 			
-  		
-  	 
-    	  
-    	  $('#carModal').on('show.bs.modal', function(event) {   		  
-    		  
-              LOGIDX=$(event.relatedTarget).data('idx');
-              CIMG=$(event.relatedTarget).data('cimg');
-              var modal=$(this);
-              $(".modal-body #idx ").val(LOGIDX);
-              $(".modal-body #cimg ").val(CIMG);	
-              $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
-              $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-         		              
-    	  	});	                  	       
-    	  function read() {   
-    	    	document.rowForm.submit();    	    	  	      	  	  	     			
-       	 	}     	  
-    	
-	      
-    	  	  
-  	</script>
-  <script type="text/javascript">
-  $(function() {
-          $("#FDate").datetimepicker(
-          );
-          $("#LDate").datetimepicker();
-      });  
-      </script>
+	
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

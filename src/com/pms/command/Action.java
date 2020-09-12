@@ -20,11 +20,10 @@ public class Action {
       	map.put("/index",new IndexCommand());
       	map.put("/logdetail",new LogDetailCommand());
       	map.put("/imgDtailupdate", new imgDtailupdate());
+      	map.put("/logDetaillist",new LogDetailListCommand());
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());
-      	map.put("/logdetaildown",new LogExcelDetailDownCommand());
-      	map.put("/logexceldown",new LogExcelDownCommand());
      	map.put("/memberSearch",new memberSearchCommand());
      	
 
