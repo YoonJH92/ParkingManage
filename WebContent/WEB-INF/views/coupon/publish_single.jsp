@@ -12,20 +12,27 @@
       	~
       	<input type="text" class="form-control" name="endForm" style="width: 10%; display: inline-block;" readonly autocomplete="off">
 		
-		<select style="width: 10%; display: inline-block; margin-left: 5%;"
+		<select style="width: 10%; display: inline-block; margin-left: 2%;"
 			class="form-control animated--grow-in" name="s_condition">
 				<option value="name" selected>이름</option>
-				<option value="7">전화번호</option>
-				<option value="10">이메일</option>
-				<option value="직접 입력">차량 번호</option>
+				<option value="phone">전화번호</option>
+				<option value="email">이메일</option>
+				<option value="cnum">차량 번호</option>
 		</select> 
 		
-		<input style="width: 25%; display: inline-block; margin-left: 1%;"
+		<input style="width: 20%; display: inline-block; margin-left: 1%;"
 			class="form-control" type="text" name="s_value"/>
 			<button class="btn btn-primary ml-2" name="s_search">검색</button> 
 		
 		<select
-			class="form-control animated--grow-in ml-4" style="width: 10%; display: inline-block;" name="s_align">
+			class="form-control animated--grow-in ml-4" style="width: 10%; display: inline-block;" name="s_align2">
+				<option value="name" selected>이름순</option>
+				<option value="sdate">시작 일자순</option>
+				<option value="edate">종료 일자순</option>
+		</select>
+		
+		<select
+			class="form-control animated--grow-in ml-1" style="width: 10%; display: inline-block;" name="s_align1">
 				<option value="10" selected>10개씩 보기</option>
 				<option value="50">50개씩 보기</option>
 				<option value="100">100개씩 보기</option>
