@@ -1,13 +1,11 @@
 package com.pms.dto;
 
-import java.sql.Date;
-
 public class Pms_Coupon_Log_Dto {
 	int IDX;
 	int CPNUM;
 	String CPCODE;
-	Date VALIDITY;
-	boolean USED;
+	String VALIDITY;
+	String USED;
 	String CNUM;
 	
 	public int getIDX() {
@@ -28,16 +26,16 @@ public class Pms_Coupon_Log_Dto {
 	public void setCPCODE(String cPCODE) {
 		CPCODE = cPCODE;
 	}
-	public Date getVALIDITY() {
+	public String getVALIDITY() {
 		return VALIDITY;
 	}
-	public void setVALIDITY(Date vALIDITY) {
-		VALIDITY = vALIDITY;
+	public void setVALIDITY(String date) {
+		VALIDITY = date;
 	}
-	public boolean isUSED() {
+	public String isUSED() {
 		return USED;
 	}
-	public void setUSED(boolean uSED) {
+	public void setUSED(String uSED) {
 		USED = uSED;
 	}
 	public String getCNUM() {

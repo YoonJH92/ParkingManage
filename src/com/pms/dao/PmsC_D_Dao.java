@@ -303,6 +303,28 @@ public class PmsC_D_Dao {
 		}
 		return arr;
 	}
+	
+	public void NewCoupon_Log(Pms_Coupon_Log_Dto Log) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+
+		try {
+			con = pool.getConnection();
+			sql = "insert into PMS_COUPON_LOG(IDX,CPNUM,CPCODE,VALIDITY,USED,CNUM) values(COUPON_LOG_SEQ.nextval,?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Log.getCPNUM());
+			pstmt.setString(2, Log.getCPCODE());
+			pstmt.setString(3, Log.getVALIDITY());
+			pstmt.setString(4, Log.isUSED());
+			pstmt.setString(5, Log.getCNUM());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+	}
 
 	public void SendSms(String name, String num, String cpname, String date, String discount, String purpose) {
 		System.out.println(name+"님 안녕하세요. 반갑습니다.\n"

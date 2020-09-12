@@ -4,7 +4,9 @@ $(function () {
 	/*환경 변수*/
 	var phone = [];
 	var name = [];
+	var scnum = [];
 	var scpname = [];
+	var scpnum =[];
 	var sdate = [];
 	var sdiscount = [];
 	var spurpose = [];
@@ -26,8 +28,9 @@ $(function () {
 		if ($('input[name="s_chk"]').is(":checked")) {
 			$('input[name="s_chk"]').each(function () {
 				if ($(this).is(":checked")) {
-					phone.push($(this).parent().siblings().eq(4).text());
 					name.push($(this).parent().siblings().eq(0).text());
+					scnum.push($(this).parent().siblings().eq(3).text());
+					phone.push($(this).parent().siblings().eq(4).text());
 				}
 			});
 			$.ajax({
@@ -37,6 +40,8 @@ $(function () {
 				data: {
 					'num': phone,
 					'name': name,
+					'cnum' : scnum,
+					'cpnum' : scpnum,
 					'cpname': scpname,
 					'date': sdate,
 					'discount': sdiscount,
@@ -66,6 +71,7 @@ $(function () {
 		if ($('input[name="c_chk"]').is(":checked")) {
 			$('input[name="c_chk"]').each(function () {
 				if ($(this).is(":checked")) {
+					scpnum.push($(this).parent().siblings().eq(0).text());
 					scpname.push($(this).parent().siblings().eq(1).text());
 					sdate.push($(this).parent().siblings().eq(2).text());
 					spurpose.push($(this).parent().siblings().eq(3).text());
