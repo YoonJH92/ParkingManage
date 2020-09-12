@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.record.pivottable.PageItemRecord;
 
 import com.pms.dao.PmsLogDao;
-import com.pms.dto.PmsDto;
+import com.pms.dto.PmsLogDto;
 import com.pms.dto.PmsPageDto;
 
 public  class LogListCommand implements Command {
@@ -37,7 +37,7 @@ public  class LogListCommand implements Command {
 		 
 		 HashMap<String, Integer> result=dao.logTotalResult();
 		 ArrayList<String>fare=dao.Curentfare();		 
-		 ArrayList<PmsDto> arr=dao.viewList(paging);		 	
+		 ArrayList<PmsLogDto> arr=dao.viewList(paging);		 	
 		 request.setAttribute("list", arr);
 		 request.setAttribute("displayRow", dispalyRow);
 		 request.setAttribute("paging", paging);
