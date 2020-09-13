@@ -38,6 +38,21 @@
 	box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25)
 }
  .mb4{margin-bottom: 4px;}
+ 
+  .btndiv{
+ 	margin-top: 0.5rem;
+ 	padding-left: 0;
+ }
+ .list_s{
+ 	margin-bottom: 0.5rem;
+ }
+	tr,td{
+	
+		color: black;
+	
+	} 
+ 
+ 
  </style>                  
  <!-- Begin Page Content -->
  <div class="container-fluid">
@@ -55,20 +70,32 @@
            <input type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
           ~
           <input type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1"> 
-        <span>차량번호</span>
+             </div>
+           <div class="btndiv">
+           <div class="row">
+           <div class="col-lg-6 mb-6 sm-6">
+        	<span>차량번호</span>
         <select  id="search" class="form-control1">
        		<option>차량 번호</option>
        	</select>
            <input type="text" name="cnum" size=10 maxlength=8 value="${cnum}" class="form-control1">
-             </div>
-           <div class="btndiv">
+           </div>
+            <div class="col-lg-6 mb-6 sm-6 text-right btn_se">
            <button id="test">전송</button>
-           <input type="submit"  class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4" value="검색하기">
-          <a href="logdetaildown.do" class="d-none d-sm-inline-block btn  btn-primary shadow-sm mb4">
+           <input type="submit"  class=" btn btn-warning shadow-sm mb4" value="검색하기">
+          <a href="logdetaildown.do" class=" btn  btn-primary shadow-sm mb4">
           <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
+        	</div>
          </div>
-      </div>
-            <select name="dRs" id="DR" onchange="read()" >                  	
+         </div>
+      </div>               
+    </div>
+    
+    
+    
+    <div class="card-body">
+      	<div div class="list_s text-right">목록 :
+      <select name="dRs" id="DR" onchange="read()" >                  	
        		<option value="20"  id="20" <c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
        		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
        		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
@@ -76,10 +103,9 @@
            </select>           
              <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
-      <input type="hidden" name="cnum" value="${cnum}">     
-                    
-    </div>
-    <div class="card-body">
+      <input type="hidden" name="cnum" value="${cnum}">    
+      </div>
+      
       <div class="table-responsive text-center">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
@@ -97,16 +123,8 @@
             </tr>
           </thead>
           <tbody id="dtbody">
-        
         </table>         
-    <jsp:include page="test1.jsp"> 
-    <jsp:param value="${paging.page}" name="page"/>
-    <jsp:param value="${paging.beginPage}" name="beginPage"/>
-    <jsp:param value="${paging.endPage}" name="endPage"/>
-    <jsp:param value="${paging.prev}" name="prev"/>
-    <jsp:param value="${paging.next}" name="next"/> 
-    <jsp:param value="${paging.displayRow}" name="displayRow"/>   
-    </jsp:include>               
+ 
       </div>
     </div>
   </div>
@@ -130,20 +148,39 @@
        </table>
         <div class="modal-footer">
 	          <button type="button" class="btn btn-default" id="imgUpdateBtn"  onClick="imgEvents(event)"> 수정 </button></div>
-	          <button type="button" class="btn btn-default" data-dismiss="modal" class="close">닫기</button></div>
+	          <button type="button" class="btn btn-default" id="closebtn" data-dismiss="modal" class="close">닫기</button></div>
           </form>
         </div>   
     </div></div>
     </div>      
         <!-- 모달창 -->                 
-        <script>              
+        <script>        
+        $(function() {
+        	$.ajax({
+        		url:"logdetail.do",
+        		type: "GET",
+        		data: {
+        			page:1,
+        			pagelimit:10			
+        		},	success : function(data) {
+					console.log(data);
+        		},error:function(textStatus,errorThrown,jqXHR){	       			 
+        			console.log(jqXHR);
+        			console.log(errorThrown);
+        			console.log(textStatus);
+	       		 }      	    		       		
+        	});			
+		});
+        
+        
         $(document).ready(function() { 
+        	pageMove(1);
         	$.getJSON('logdetail.do',  
-        	 {
+        	 {  
         		"FDate": $('input:text[name="FDate"]').val(),
         		"LDate": $('input:text[name="LDate"]').val(),
 				"cnum": $('input:text[name="cnum"]').val(),
-				"dRs": $('select[name="dRs"]').val() 		    				   
+				"dRs": $('select[name="dRs"]').val(),			
         		},       		      			
         		function(data) {
         			var htmlStr ="";
@@ -160,9 +197,7 @@
         					htmlStr += "<td>" + val.sale_num + "</td>";
         					htmlStr += "<td>" + val.total_pay + "</td>";
         					htmlStr += "<td>" + val.c_img + "</td>";
-							htmlStr += "<td><button type='button' class='btn btn-dark' id='imgbtn' data-toggle='modal' data-cnum="+val.cnum+ " data-idx="+val.idx+" data-cimg="+val.c_img+" data-target='#carModal'> 차량 사진 </button></td>";
-
-        					
+							htmlStr += "<td><button type='button' class='btn btn-dark' id='imgbtn' data-toggle='modal' data-cnum="+val.cnum+ " data-idx="+val.idx+" data-cimg="+val.c_img+" data-target='#carModal'> 차량 사진 </button></td>";     					
         					htmlStr += "</tr>";
         		            });
             				htmlStr += "</tbody>";
@@ -170,6 +205,12 @@
 
         				}); 
     				});
+         
+        
+      
+		var LOGIDX="";
+		var CIMG="";
+		var IMGSRC="";
         
         $('#carModal').on('show.bs.modal', function(event) {   		   		  
             LOGIDX=$(event.relatedTarget).data('idx');
@@ -183,7 +224,6 @@
           	});	 
 </script>
 <script>
-
 
 		$(document).ready(function() {
        $("#test").click(function() {
@@ -217,25 +257,50 @@
         });
     });
 
-});
+});	
+		$(document).ready(function() {
+		       $("#closebtn").click(function() {
+		    	   $.getJSON('logdetail.do',  
+		     			  {
+		     		"FDate": $('input:text[name="FDate"]').val(),
+		     		"LDate": $('input:text[name="LDate"]').val(),
+						"cnum": $('input:text[name="cnum"]').val(),
+						"dRs": $('select[name="dRs"]').val() 		    				   
+		     			 },       		
+		    	   function(data) {   
+		         			var htmlStr ="";
+		            $.each(data, function(key, val) {
+		            	htmlStr += "<tr>";
+		        		htmlStr += "<td>" + val.idx + "</td>";
+						htmlStr += "<td>" + val.cnum + "</td>";
+						htmlStr += "<td>" + val.in_time + "</td>";
+						htmlStr += "<td>" + val.out_time+ "</td>";
+						htmlStr += "<td>" + val.pay + "</td>";
+						htmlStr += "<td>" + val.cpNum+ "</td>";
+						htmlStr += "<td>" + val.monthNum + "</td>";
+						htmlStr += "<td>" + val.sale_num + "</td>";
+						htmlStr += "<td>" + val.total_pay + "</td>";
+						htmlStr += "<td>" + val.c_img + "</td>";
+						htmlStr += "<td><button type='button' class='btn btn-dark' id='imgbtn' data-toggle='modal' data-cnum="+val.cnum+ " data-idx="+val.idx+" data-cimg="+val.c_img+" data-target='#carModal'> 차량 사진 </button></td>";
+						htmlStr += "</tr>";
+		            });
+						htmlStr += "</tbody>";
+						$("#dtbody").html(htmlStr);
+		        });
+		    });
 
-
+		});
  
-
-
-$(function() {
+	$(function() {
     $("#FDate").datetimepicker(
     );
     $("#LDate").datetimepicker();
-});
+	});
 
-var LOGIDX="";
-var CIMG="";
-var IMGSRC="";
 
-function imgEvents(e){
-e.stopPropagation();
-e.stopImmediatePropagation();
+	function imgEvents(e){
+	e.stopPropagation();
+	e.stopImmediatePropagation();
 		var frm=document.getElementById('mdFrm');
 		var fileData  = new FormData(frm);
 		fileData.append("idx", $('input[name="idx"]').val());		
@@ -257,39 +322,8 @@ e.stopImmediatePropagation();
 		     		}		
 				});	
 			}	
-			 function read() {   
-				document.rowForm.submit();
-		}
-		  	  
-	                	       
-	  
+		
+		  	  	                	 
 		</script>
-
- <!--     function log_search() {
-    		$.getJSON("logdetail.do",
-    			function (data) { 
-    				var htmlStr = "";
-    				
-    				$.each(data, function (key, val) {
-    					htmlStr += "<tr>";
-    					htmlStr += "<td>" + val.idx + "</td>";
-    					htmlStr += "<td>" + val.cnum + "</td>";
-    					htmlStr += "<td>" + val.in_time + "</td>";
-    					htmlStr += "<td>" + val.out_time+ "</td>";
-    					htmlStr += "<td>" + val.cpNum+ "</td>";
-    					htmlStr += "<td>" + val.monthNum + "</td>";
-    					htmlStr += "<td>" + val.sale_num + "</td>";
-    					htmlStr += "<td>" + val.pay + "</td>";
-    					htmlStr += "<td>" + val.total_pay + "</td>";
-    					htmlStr += "<td>" + val.c_img + "</td>";
-    					htmlStr += "</tr>";
-    					});
-    				htmlStr += "</tbody>";
-    				$("#dtbody").html(htmlStr);
-    			});
-  			});
-			 -->
-			
-	
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

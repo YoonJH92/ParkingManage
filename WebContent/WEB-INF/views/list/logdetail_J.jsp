@@ -15,10 +15,8 @@
 	String cnum=request.getParameter("cnum"); 
 	String LDate=request.getParameter("LDate");	
 	int displayRow=20; //기본 값 
-	System.out.println("되고있긴하다.");
-
 	String fDate=request.getParameter("FDate");	
-	if(fDate==""){
+	if(fDate==null){
 		fDate="-1"; 
 	}
 	
@@ -26,6 +24,10 @@
 	System.out.println(LDate);
 	System.out.println(cnum);
 	
+	request.setAttribute("paging", paging);
+	request.setAttribute("cnum", cnum);
+	request.setAttribute("FDate", fDate);
+	request.setAttribute("LDate", LDate);
 
 	int count=dao.datailCount(fDate, LDate, cnum); 
 	if(request.getParameter("page_")!=null) {
@@ -36,11 +38,10 @@
 		 }			
 	 paging.setPage(page_);
 	 paging.setDisplayRow(displayRow);
-
 	paging.setTotalCount(count);	
 	System.out.println(count);
-
 	ArrayList<PmsLogDto> arr = dao.viewDetail(paging, fDate, LDate, cnum);
+	
 	for (PmsLogDto dto : arr) {
 		JSONObject obj = new JSONObject();
 		obj.put("idx",dto.getIdx());
@@ -54,14 +55,11 @@
 		obj.put("total_pay", dto.getTotalPay());
 		obj.put("c_img", dto.getcImg());
 		jarr.add(obj);
-		} 
+		
+	}
+		
 	out.println(jarr.toString());
-	
-	request.setAttribute("paging", paging);
-	request.setAttribute("cnum", cnum);
-	request.setAttribute("FDate", fDate);
-	request.setAttribute("LDate", LDate);
-	
+
 %>
 
 

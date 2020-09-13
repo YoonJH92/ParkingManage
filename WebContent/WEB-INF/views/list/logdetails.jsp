@@ -4,20 +4,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha512-YUkaLm+KJ5lQXDBdqBqk7EVhJAdxRnVdT2vtCzwPHSweCzyMgYV/tgGF4/dCyqtCC2eCphz0lRQgatGVdfR0ww==" crossorigin="anonymous"></script>
 <!-- 있어야 함  -->
-
-
 <style>
 .fr{float:right!important;}
 .fl{float:left!important;}
 .py10{padding: 10px 0;}
-   #modalimg{
+   #modalimg{            
             max-width: 450px;
             max-height: 300px;
         	display: block; 
-        	margin: 0px auto;       
+        	margin: 0px auto;               	
         	}          
-
-
 .al-center{align-items: center;}
 .text-right{text-align: right;}
 .text-center{text-align: center;}
@@ -42,15 +38,28 @@
 	box-shadow: 0 0 0 .2rem rgba(78, 115, 223, .25)
 }
  .mb4{margin-bottom: 4px;}
+ .btndiv{
+ 	margin-top: 0.5rem;
+ 	padding-left: 0;
+ }
+ .list_s{
+ 	margin-bottom: 0.5rem;
+ }
+	tr,td{
+		color: black;
+	} 
+ 
  </style>                  
  <!-- Begin Page Content -->
- <div class="container-fluid">
+ 		<div class="container">
   <!-- Page Heading -->
-  <h1 class="h2 mb-5 text-gray-800">차량 조회 </h1>
+  		<h1 class="h2 mb-5 text-gray-800">차량 조회 </h1>
   <!-- DataTales Example -->
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">   
-      <form action="logdetail.do" method="post" id="frm" name="frm">                   
+  
+  			<div calss="row">
+  		<div class="card shadow mb-4">
+    		<div class="card-header py-3">   
+      	<form action="logDetailTest.do" method="post" id="frm" name="frm">                   
       <div class="py10">
       	<div>
      	<span>날짜 검색</span>
@@ -59,21 +68,35 @@
            </select>           
            <input type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
           ~
-          <input type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1"> 
-        <span>차량번호</span>
-        <select  id="search" class="form-control1">
-       		<option>차량 번호</option>
-       	</select>
-           <input type="text" name="cnum" size=10 maxlength=8 value="${cnum}" class="form-control1">
+          <input type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1">         
              </div>
-           <div class="btndiv">
-           <input type="submit"  class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4" value="검색하기">
-          <a href="logdetaildown.do" class="d-none d-sm-inline-block btn  btn-primary shadow-sm mb4">
-          <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
-         </div>
-      </div>
+                     
+             <div class="btndiv">
+   			 <div class="row">
+        <div class="col-lg-6 mb-6 sm-6">
+        <span>차량번호</span>
+        	<select  id="search" class="form-control1">
+       		<option>차량 번호</option>
+       			</select>
+           <input type="text" name="cnum" size=14 maxlength=8 value="${cnum}" class="form-control1">
+        
+        </div>
+        <div class="col-lg-6 mb-6 sm-6 text-right btn_se">
+          <input type="submit"  class=" btn btn-warning shadow-sm mb4" value="검색하기">
       </form>  
-      	  	<form method="post" action="logdetail.do" name="rowForm">      	                
+          <a href="logdetaildown.do" class="btn  btn-primary shadow-sm mb4">
+          <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
+        
+        </div>
+    </div>
+</div>
+           
+    </div>  	  	
+    </div>
+    
+    <div class="card-body">
+    	<div class="list_s text-right">
+    <form method="post" action="logDetailTest.do" name="rowForm">   목록:   	                
             <select name="dRs" id="DR" onchange="read()" >
                     	
        		<option value="20"  id="20" <c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
@@ -86,7 +109,6 @@
       <input type="hidden" name="cnum" value="${cnum}">     
          </form>            
     </div>
-    <div class="card-body">
       <div class="table-responsive text-center">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
@@ -161,14 +183,19 @@
        </table>
         <div class="modal-footer">
 	          <button type="button" class="btn btn-default" id="imgUpdateBtn"  onClick="imgEvents(event)"> 수정 </button></div>
-	          <button type="button" class="btn btn-default" data-dismiss="modal" class="close">닫기</button></div>
+	          <button type="button" class="btn btn-default" data-dismiss="modal" >닫기</button></div>
           </form>
         </div>   
     </div></div>
     </div>      
         <!-- 모달창 -->          
         <script>
-                       
+        
+   
+        
+        
+            
+                           
       var LOGIDX="";
       var CIMG="";
       var IMGSRC="";
@@ -188,24 +215,22 @@
 			    	processData: false,
 					contentType: false,
 				    cache: false,
+			        async:false,
 					//dataType: 'json', 
 				  	success : function(data) {
 			       		alert("파일 업로드 성공.");
+			       		
 			       		 },
 			       		error : function(error) {
 			        			alert(error.status);
 			     		}		
-  					});	
+  					});					
  				}	
    			 function read() {   
     	document.rowForm.submit();
     	}
-			
-  		
-  	 
-    	  
-    	  $('#carModal').on('show.bs.modal', function(event) {   		  
-    		  
+				 	  
+    	  $('#carModal').on('show.bs.modal', function(event) {   		      		  
               LOGIDX=$(event.relatedTarget).data('idx');
               CIMG=$(event.relatedTarget).data('cimg');
               var modal=$(this);
@@ -215,11 +240,8 @@
               $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
          		              
     	  	});	                  	       
-    	  function read() {   
-    	    	document.rowForm.submit();    	    	  	      	  	  	     			
-       	 	}     	  
+        
     	
-	      
     	  	  
   	</script>
   <script type="text/javascript">
@@ -227,7 +249,21 @@
           $("#FDate").datetimepicker(
           );
           $("#LDate").datetimepicker();
-      });  
+      });
+  
+  var id = document.getElementById("FDate");
+  var pw = document.getElementById("LDate");
+  var cnum = document.getElementById("cnum");
+  
+  
+  function validate() {
+	  
+   if(cnum.value=="") {
+      alert("검색 값을 입력해주세요");
+  }
+  
+  
+  
       </script>
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

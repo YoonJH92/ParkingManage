@@ -21,6 +21,7 @@ public class Action {
       	map.put("/logdetail",new LogDetailCommand());
       	map.put("/imgDtailupdate", new imgDtailupdate());
       	map.put("/logDetaillist",new LogDetailListCommand());
+      	map.put("/logDetailTest",new LogDetailTextCommand());
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());

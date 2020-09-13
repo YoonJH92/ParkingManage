@@ -86,7 +86,6 @@ public class PmsLogDao {
 	public PmsLogDao() {
 		pool = DBConnectionMgr.getInstance();
 	}
-
 	// 실시간 조회
 	public ArrayList<PmsLogDto> viewList(PmsPageDto page) {
 		Connection con = null;
@@ -126,8 +125,6 @@ public class PmsLogDao {
 		}
 		return arr;
 	}
-
-	
 	public int getlistCount() {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -152,6 +149,73 @@ public class PmsLogDao {
 		}
 		return count;
 	}
+		
+	
+	public ArrayList<PmsLogDto> viewList() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();
+		try {
+			con = pool.getConnection();
+			String sql =  " SELECT * FROM pms_log where out_time is null ";
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				PmsLogDto dto = new PmsLogDto();
+				dto.setIdx(rs.getInt("idx"));
+				dto.setCnum(rs.getString("cnum"));
+				dto.setInTime(rs.getString("in_time"));
+				dto.setOutTime(rs.getString("out_time"));
+				dto.setPay(rs.getInt("pay"));
+				dto.setCpNum(rs.getInt("cp_num"));
+				dto.setSaleNum(rs.getInt("sale_num"));
+				dto.setTotalPay(rs.getInt("total_pay"));
+				dto.setMonthNum(rs.getInt("month_num"));
+				dto.setcImg(rs.getString("c_img"));
+				arr.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, ps, rs);
+		}
+		return arr;
+	}
+	
+	
+	public PmsLogDto view(int idx) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		PmsLogDto dto = new PmsLogDto();
+		try {
+			con = pool.getConnection();
+			String sql =  " SELECT * FROM pms_log where out_time is null and idx = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, idx);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				dto.setIdx(rs.getInt("idx"));
+				dto.setCnum(rs.getString("cnum"));
+				dto.setInTime(rs.getString("in_time"));
+				dto.setOutTime(rs.getString("out_time"));
+				dto.setPay(rs.getInt("pay"));
+				dto.setCpNum(rs.getInt("cp_num"));
+				dto.setSaleNum(rs.getInt("sale_num"));
+				dto.setTotalPay(rs.getInt("total_pay"));
+				dto.setMonthNum(rs.getInt("month_num"));
+				dto.setcImg(rs.getString("c_img"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, ps, rs);
+		}
+		return dto;
+	}
+		
+	
 
 	// 실시간 차량 사진
 		public void imgUpdate(HttpServletRequest req) {
@@ -241,7 +305,6 @@ public class PmsLogDao {
 				result.put("mNum", rs.getInt(2));
 				result.put("gNum", rs.getInt(3));
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -249,7 +312,6 @@ public class PmsLogDao {
 		}
 		return result;
 	}
-
 	public int fare2(String intime, String Outtime) {
 		SettingDAO settingDao = SettingDAO.getInstance();
 		SettingDTO setingDto = settingDao.settItem();
@@ -273,7 +335,6 @@ public class PmsLogDao {
 			if (minuteDiff < 0) {
 				fare = 0;
 			}
-
 			if (minuteDiff > 0) {
 				if (x < 1) {
 					fare = ofare;
@@ -342,9 +403,7 @@ public class PmsLogDao {
 			pool.freeConnection(con, ps, rs);
 
 		}
-	}
-
-	
+	}	
 	// 실시간 요금
 	public ArrayList<String> Curentfare() throws ParseException {
 		Connection con = null;
@@ -383,7 +442,6 @@ public class PmsLogDao {
 		}
 		return fareArr;
 	}
-
 	// 차량조회
 	public ArrayList<PmsLogDto> viewDetail(PmsPageDto page, String FDate, String LDate, String cnum) {
 		Connection con = null;
@@ -395,24 +453,38 @@ public class PmsLogDao {
 		int endNum=page.getEndNum();		
 		try {
 			con = pool.getConnection();
-			// 값 없을때
 			if ((FDate.equals("-1"))) {				
 				sql= "SELECT * FROM (" + "  SELECT * FROM ("
 						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') ) WHERE row_num >= ? ) "
 						+ "WHERE row_num <= ? ";				
+			}						
+			else if (FDate.equals("")) {	
+				if(cnum.equals("")) {
+					sql= "SELECT * FROM (" + "  SELECT * FROM ("
+							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and ( in_time <= TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS'))) WHERE row_num >= ? ) "
+							+ "WHERE row_num <= ? ";
+					
+				}else if(LDate.equals("")) {				
+				sql= "SELECT * FROM (" + "  SELECT * FROM ("
+						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and (cnum='"+ cnum + "' ) ) WHERE row_num >= ? ) "
+						+ "WHERE row_num <= ? ";
+				}
 			}
-
-			else if (cnum.equals("")) {	
-				
+								
+			else if (cnum.equals("")) {		
+				if(LDate.equals("")){
+					
+					sql= "SELECT * FROM (" + "  SELECT * FROM ("
+							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and ( in_time >= TO_DATE('" + FDate + "','YYYY-MM-DD HH24:MI:SS'))) WHERE row_num >= ? ) "
+							+ "WHERE row_num <= ? ";
+					
+				}else {				
 				sql= "SELECT * FROM (" + "  SELECT * FROM ("
 						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
 						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS') ) WHERE row_num >= ? ) "
 						+ "WHERE row_num <= ? ";
-			} else if (FDate.equals("")) {
-				sql= "SELECT * FROM (" + "  SELECT * FROM ("
-						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and (cnum='"+ cnum + "' ) ) WHERE row_num >= ? ) "
-						+ "WHERE row_num <= ? ";
-			} else {
+				}
+			}  else {							
 				sql= "SELECT * FROM (" + "  SELECT * FROM ("
 						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
 						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS')  and (cnum='"+ cnum + "' ) ) WHERE row_num >= ? ) "
@@ -455,19 +527,26 @@ public class PmsLogDao {
 	   	    con=pool.getConnection();
 	      if(FDate.equals("-1")) {
 	    	  sql = "select count(*) as count from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') order by in_time ";}
-	    		else if(cnum.equals("")){
+	      else if(FDate.equals("")) {
+	    	  if(cnum.equals("")) {
+	    		  sql="select count(*) as count from pms_log where out_time is not null and(( in_time <= TO_DATE('"+LDate+"','YYYY-MM-DD HH24:MI:SS')))";
+	    	  }if(LDate.equals("")) {    		  
+	    		  sql="select count(*) as count from pms_log where cnum='"+cnum+"' and out_time is null";  
+	    	  }  	  
+	      }	      
+	      else if(cnum.equals("")){
+	    	  if(LDate.equals("")) {
+	    		  sql="select count(*) as count from pms_log where out_time is not null and(( in_time >= TO_DATE('"+FDate+"','YYYY-MM-DD HH24:MI:SS')))";		 
+	    	  }
+	    	  else {
 	    	  sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate	
 				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS')  ";
-				}
-	    	else if(LDate.equals("")) {
-	    	  sql="select count(*) as count from pms_log where cnum='"+cnum+"' and out_time is null";
-				}
+			}
+	      }
 	    	else {
 	    	  sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate
 	    				+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate+ "','YYYY-MM-DD HH24:MI:SS') and (cnum ='"+cnum+"') order by in_time ";
-	    		}
-	    
-	    		    
+	    		}           	        		    
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -485,133 +564,63 @@ public class PmsLogDao {
 		}
 		return Dcount;		
 	}
+			
 	
-	
-	// 실시간 엑셀
-	public void writeLogExcel(ArrayList<PmsLogDto> arr) throws FileNotFoundException { // 데이터 담을 리스트
-		String path = "C://Download/";
-		// 파일경로
-		File Folder = new File(path);
-		// 해당 디렉토리가 없을경우
-		if (!Folder.exists()) {
-			try {
-				Folder.mkdirs(); // 폴더 생성합니다.
-				System.out.println("폴더가 생성되었습니다.");
-			} catch (Exception e) {
-				e.getStackTrace();
-			}
-		} else {
-			System.out.println("이미 폴더가 생성되어 있습니다.");
-		}
-
-		File file = new File(path + "log.xls");
-
-		FileOutputStream fos = new FileOutputStream(file);
-
-		HSSFWorkbook workbook = new HSSFWorkbook();// 새 엑셀 생성
-		HSSFSheet sheet = workbook.createSheet("실시간");// 새 시트 생성
-
-		// 스타일 설정
-
-		sheet.setDefaultColumnWidth((short) 20);
-		sheet.setDefaultRowHeight((short) 300);
-
-		CellStyle cellstyle = workbook.createCellStyle();
-		// 가운데 정렬
-		cellstyle.setAlignment(HorizontalAlignment.CENTER);
-		// 세로 정렬
-		cellstyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.CENTER);
-		cellstyle.setBorderLeft(BorderStyle.THIN);
-		cellstyle.setBorderTop(BorderStyle.THIN);
-		cellstyle.setBorderRight(BorderStyle.THIN);
-		cellstyle.setBorderBottom(BorderStyle.THIN);
-		cellstyle.setFillForegroundColor(HSSFColor.CORAL.index);
-		cellstyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-		CellStyle bodycellstyle = workbook.createCellStyle();
-		bodycellstyle.setAlignment(HorizontalAlignment.CENTER);
-		bodycellstyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.CENTER);
-		bodycellstyle.setBorderLeft(BorderStyle.THIN);
-		bodycellstyle.setBorderTop(BorderStyle.THIN);
-		bodycellstyle.setBorderRight(BorderStyle.THIN);
-		bodycellstyle.setBorderBottom(BorderStyle.THIN);
-		// 폰트 설정 적용
-
-		// Title
-		HSSFFont Headerfont = workbook.createFont();
-		Headerfont.setFontName("맑은 고딕");
-		Headerfont.setBold(true);
-
-		// body
-		HSSFFont font = workbook.createFont();
-		Headerfont.setFontName("맑은 고딕");
-
-		bodycellstyle.setFont(font);
-		cellstyle.setFont(Headerfont); // cellstyle 적용
-
-		HSSFRow row = null;// 행
-		HSSFCell cell = null;// 셀
-
-		// 첫번째 줄
-		row = sheet.createRow(1);
-		// 첫 번째출 cell 설정
-		cell = row.createCell(0);
-		cell.setCellValue("No.");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(1);
-		cell.setCellValue("차량번호");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(2);
-		cell.setCellValue("입차시간");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(3);
-		cell.setCellValue("할인 적용 여부 ");
-		cell.setCellStyle(cellstyle);
-
-		cell = row.createCell(4);
-		cell.setCellValue("월정액 여부");
-		cell.setCellStyle(cellstyle);
-
-		for (int i = 0; i < arr.size(); i++) {
-			PmsLogDto dto = arr.get(i);
-			row = sheet.createRow(i + 2);
-
-			cell = row.createCell(0);
-			cell.setCellValue(dto.getIdx());
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(1);
-			cell.setCellValue(dto.getCnum());
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(2);
-			cell.setCellValue(String.valueOf(dto.getInTime()));
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(3);
-			cell.setCellValue(dto.getCpNum());
-			cell.setCellStyle(bodycellstyle);
-
-			cell = row.createCell(4);
-			cell.setCellValue(dto.getMonthNum());
-			cell.setCellStyle(bodycellstyle);
-
-		}
-
+	public ArrayList<PmsLogDto> viewDetail(String FDate, String LDate, String cnum) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();
+		String sql = "";
+			
 		try {
-			workbook.write(fos);
-			fos.close();
-			workbook.close();
-		} catch (IOException e) {
+			con = pool.getConnection();
+			if ((FDate.equals("-1"))) {				
+				sql= "SELECT * FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') ";				
+			}						
+			else if (FDate.equals("")) {	
+				if(cnum.equals("")) {
+					sql= " SELECT * FROM pms_log  where out_time is not null  and ( in_time <= TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS'))";
+					
+				}else if(LDate.equals("")) {				
+				sql= "SELECT * FROM pms_log  where out_time is not null  and (cnum='"+ cnum + "' ) )";
+				}
+			}								
+			else if (cnum.equals("")) {		
+				if(LDate.equals("")){
+					sql= "SELECT * FROM pms_log  where out_time is not null  and ( in_time >= TO_DATE('" + FDate + "','YYYY-MM-DD HH24:MI:SS')))";				
+				}else {				
+				sql= "SELECT * FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
+						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS') )";
+				}
+			}  else {							
+				sql= "SELECT * FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate + 
+						"', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate + "','YYYY-MM-DD HH24:MI:SS')  and (cnum='"+ cnum + "' ) )";				
+			}		
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				PmsLogDto dto = new PmsLogDto();
+				dto.setIdx(rs.getInt("idx"));
+				dto.setCnum(rs.getString("cnum"));
+				dto.setInTime(rs.getString("in_time"));
+				dto.setOutTime(rs.getString("out_time"));
+				dto.setPay(rs.getInt("pay"));
+				dto.setCpNum(rs.getInt("cp_num"));
+				dto.setSaleNum(rs.getInt("sale_num"));
+				dto.setTotalPay(rs.getInt("total_pay"));
+				dto.setMonthNum(rs.getInt("month_num"));
+				dto.setcImg(rs.getString("c_img"));
+				arr.add(dto);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, ps , rs);
 		}
-
+		return arr;
 	}
-
-	
 	public void datailImgUpdate(HttpServletRequest request,HttpServletResponse response) throws FileUploadException, UnsupportedEncodingException  {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -619,14 +628,12 @@ public class PmsLogDao {
 		int maxSize = 1024 * 1024 * 100;
 		String path = request.getServletContext().getRealPath("/img/"); //저장경로	
 		
-		boolean isrequest =ServletFileUpload.isMultipartContent(request);//request 확인
+		boolean isrequest =ServletFileUpload.isMultipartContent(request);//request 확인 
 		
 		if(isrequest) {
-			DiskFileItemFactory diskFacktory =new DiskFileItemFactory();
-			diskFacktory.setSizeThreshold(5000); //업로드시 사용할 임시 메모리 		
+			DiskFileItemFactory diskFacktory =new DiskFileItemFactory(); //업로드 파일 보관
 			ServletFileUpload upload =new ServletFileUpload(diskFacktory);
-			upload.setSizeMax(maxSize);//업로드 크기 제한 
-			
+			upload.setSizeMax(maxSize);//업로드 크기 제한 			
 			List<FileItem> items =upload.parseRequest(request);
 			String FieldName=null;
 			String FileName=null;
@@ -637,65 +644,49 @@ public class PmsLogDao {
 				FileItem item =iter.next();				
 				if(item.isFormField()) {
 					FieldName=item.getFieldName();					
-					value=item.getString("utf-8");
-					System.out.println("form"+FieldName+","+value);
-					
-					 idx = value.substring(0,value.lastIndexOf(""));
-					System.out.println("idx:"+idx);
-
-				}else {
+					value=item.getString("utf-8");					
+					System.out.println("form"+FieldName+","+value);					
+					System.out.println("idx:"+value);		
+					idx=value;
+					if(value.contains(".")) {
+						idx="*";						
+					}
+				}		
+				else {
 					FieldName=item.getFieldName();
 					FileName=item.getName();
 					boolean isInMemory=item.isInMemory();
 					long sizeInBytes=item.getSize();
 					System.out.println("File"+FieldName +","+sizeInBytes+","+FileName+","+value);
 						if(!FileName.isEmpty()) {
-							File uploadFile=null;							
-							UUID id =UUID.randomUUID();
-							
+							//UUID id =UUID.randomUUID();
+							SimpleDateFormat format1 = new SimpleDateFormat ( "yyyyMMddHH:mm:ss");									
+							Date time = new Date();									
+							String day = format1.format(time);
 						try {
-							item.write(new File(path+"/"+id+FileName));	
-							
-							if (!idx.equals(null)) {
+							item.write(new File(path+"/"+time+FileName));													
+							System.out.println(isInMemory);							
+								if(idx.contains("*")) {								
+								System.out.println("실패");
+							}							
+							else {
 								con=pool.getConnection();
 								sql = " update pms_log set c_img = ? where idx = ? ";
 								ps = con.prepareStatement(sql);
-								ps.setString(1, id+FileName);
+								ps.setString(1, day+FileName);
 								ps.setString(2, idx);
 								ps.executeUpdate();
-							}	
-							
+							}  
 						}catch (Exception e) {
 							e.printStackTrace();
 							
 						}finally {
 						pool.freeConnection(con, ps);
-					}				
-				}	
-		
+						}				
+					}	
+				}
 			}
 		}
 	}
-	}
 }
-
-	
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
-
-	
-	
-				
-
 
