@@ -104,7 +104,7 @@
 									<%@ include file="publish_multi.jsp"%>
 								</div>
 								<div class="modal-footer" style="border-top: 0px;">
-									<button class="btn btn-primary" pborder>발급</button>
+									<button class="btn btn-primary" name="sms_send" pborder>SMS로 발급</button>
 								</div>
 						</div>
 					</div>

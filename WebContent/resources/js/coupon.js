@@ -1,13 +1,184 @@
 /*화면이 구현되었을 때 동작*/
 $(function () {
+
+	/*환경 변수*/
+	var phone = [];
+	var name = [];
+	var scnum = [];
+	var scpname = [];
+	var scpnum =[];
+	var sdate = [];
+	var sdiscount = [];
+	var spurpose = [];
+
+	var cnum;
+	var dnum;
+	var cpname;
+	var date;
+	var c_purpose;
+	var d_purpose;
+	var price;
+	var time;
+	var company;
+
+
+
+	/*단일 쿠폰 발급*/
+	$('button[name="sms_send"]').click(function () {
+		if ($('input[name="s_chk"]').is(":checked")) {
+			$('input[name="s_chk"]').each(function () {
+				if ($(this).is(":checked")) {
+					name.push($(this).parent().siblings().eq(0).text());
+					scnum.push($(this).parent().siblings().eq(3).text());
+					phone.push($(this).parent().siblings().eq(4).text());
+				}
+			});
+			$.ajax({
+				url: 'send_coupon.do', // 전송 URL
+				type: 'POST', // GET or POST 방식
+				traditional: true,
+				data: {
+					'num': phone,
+					'name': name,
+					'cnum' : scnum,
+					'cpnum' : scpnum,
+					'cpname': scpname,
+					'date': sdate,
+					'discount': sdiscount,
+					'purpose': spurpose
+				},
+				//Ajax 성공시 호출 
+				success: function (data) {
+					alert("발급 성공했습니다.");
+				},
+				//Ajax 실패시 호출
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert("발급에 실패하였습니다.");
+				}
+			});
+			$('input[name="s_chk"]').prop("checked", false);
+		} else {
+			alert("체크 박스를 선택해주세요.");
+		}
+	});
+
+	/*버튼 누를 시 모달창 표시*/
+	$('button[add_modal]').on('click', function () {
+		$('#add_modalBox').modal('show');
+	});
+
+	$('button[publish_modal]').on('click', function () {
+		if ($('input[name="c_chk"]').is(":checked")) {
+			$('input[name="c_chk"]').each(function () {
+				if ($(this).is(":checked")) {
+					scpnum.push($(this).parent().siblings().eq(0).text());
+					scpname.push($(this).parent().siblings().eq(1).text());
+					sdate.push($(this).parent().siblings().eq(2).text());
+					spurpose.push($(this).parent().siblings().eq(3).text());
+					sdiscount.push($(this).parent().siblings().eq(4).text());
+				}
+			});
+			$('#publish_modalBox').modal('show');
+			p_search();
+		} else {
+			alert("발급할 쿠폰을 체크해주세요!");
+		}
+	});
+
+	/*수정 모달창 관련 스크립트*/
+	$(document).on("click", ".coupon", function () {
+		cnum = $(this).parent().parent().siblings().eq(1).text();
+		cpname = $(this).parent().parent().siblings().eq(2).text();
+		date = $(this).parent().parent().siblings().eq(3).text().replace(/일/gi, "");
+		c_purpose = $(this).parent().parent().siblings().eq(4).text();
+		price = $(this).parent().parent().siblings().eq(5).text().replace(/원/gi, "");
+
+		$('input[name="name1"]').val(cpname);
+
+		if (date == "1" || date == "7" || date == "10" || date == "30" || date == "100") {
+			$('select[name="date1"]').val(date);
+			$("#date1").hide();
+		} else {
+			$('select[name="date1"]').val("직접 입력");
+			$("#date1").show();
+			$('input[name="date2"]').val(date);
+		}
+
+		$('input[name="cpurpose1"]').val(c_purpose);
+
+		if (price == "1000" || price == "3000" || price == "5000" || price == "10000" || price == "30000") {
+			if (price == "1000") {
+				$('select[name="price1"]').val("1,000");
+			}
+			if (price == "3000") {
+				$('select[name="price1"]').val("3,000");
+			}
+			if (price == "5000") {
+				$('select[name="price1"]').val("5,000");
+			}
+			if (price == "10000") {
+				$('select[name="price1"]').val("10,000");
+			}
+			if (price == "30000") {
+				$('select[name="price1"]').val("30,000");
+			}
+			$("#price1").hide();
+		} else {
+			$('select[name="price1"]').val("직접 입력");
+			$("#price1").show();
+			$('input[name="price2"]').val(price);
+		}
+	});
+
+	$(document).on("click", ".discount", function () {
+		dnum = $(this).parent().parent().siblings().eq(1).text();
+		company = $(this).parent().parent().siblings().eq(2).text();
+		d_purpose = $(this).parent().parent().siblings().eq(3).text();
+		time = $(this).parent().parent().siblings().eq(4).text().replace(/시간/gi, "");
+
+		$('input[name="company1"]').val(company);
+
+		$('input[name="dpurpose1"]').val(d_purpose);
+
+		if (time == "1" || time == "3" || time == "6" || time == "12" || time == "24") {
+			$('select[name="time1"]').val(time);
+			$("#time1").hide();
+		} else {
+			$('select[name="time1"]').val("직접 입력");
+			$("#time1").show();
+			$('input[name="time2"]').val(time);
+		}
+	});
+
 	/*날짜 선택을 위한 데이트 피커 구현*/
 	$('input[name="startForm"]').datepicker({
-        dateFormat: 'yy-mm-dd'
+		dateFormat: 'yy-mm-dd'
 	});
 	$('input[name="endForm"]').datepicker({
-    	dateFormat: 'yy-mm-dd'
-    });
-	
+		dateFormat: 'yy-mm-dd'
+	});
+
+	/*데이트 피커의 날짜 비교*/
+	$('input[name="startForm"]').change(function () {
+		compare();
+	});
+
+	$('input[name="endForm"]').change(function () {
+		compare();
+	});
+
+	function compare() {
+		if ($('input[name="endForm"]').val() != "") {
+			s = $('input[name="startForm"]').val().replace(/-/gi, "");
+			e = $('input[name="endForm"]').val().replace(/-/gi, "");
+			if (Number(s) >= Number(e)) {
+				alert("선택한 종료 날짜를 시작 날짜보다 크게 설정해주세요.");
+				$('input[name="startForm"]').val("");
+				$('input[name="endForm"]').val("");
+			}
+		}
+	}
+
 	/*숨김 처리*/
 	$("#date").hide();
 	$("#price").hide();
@@ -40,7 +211,11 @@ $(function () {
 		p_search();
 	});
 
-	$('select[name="s_align"]').change(function () {
+	$('select[name="s_align1"]').change(function () {
+		p_search();
+	});
+
+	$('select[name="s_align2"]').change(function () {
 		p_search();
 	});
 
@@ -120,17 +295,6 @@ $(function () {
 			$('button[pborder]').addClass("btn-info");
 		}
 	});
-
-	/*버튼 누를 시 모달창 표시*/
-	$('button[add_modal]').on('click', function () {
-		$('#add_modalBox').modal('show');
-	});
-
-	$('button[publish_modal]').on('click', function () {
-		$('#publish_modalBox').modal('show');
-		p_search();
-	});
-
 
 	//3자리 단위마다 콤마 생성
 	function addCommas(x) {
@@ -248,7 +412,7 @@ $(function () {
 				if ($(this).is(":checked")) {
 					$.post("delete_C_D.do", {
 						c_d: "discount",
-						num: $(this).val()
+						num: $(this).parent().siblings().eq(0).text()
 					}, function (data) {});
 				}
 			});
@@ -265,7 +429,7 @@ $(function () {
 				if ($(this).is(":checked")) {
 					$.post("delete_C_D.do", {
 						c_d: "coupon",
-						num: $(this).val()
+						num: $(this).parent().siblings().eq(0).text()
 					}, function (data) {});
 				}
 			});
@@ -280,7 +444,7 @@ $(function () {
 	$('button[name="m_c_delete"]').click(function () {
 		$.post("delete_C_D.do", {
 			c_d: "coupon",
-			num: num
+			num: cnum
 		}, function (data) {});
 		$('#c_delete').modal("hide");
 		search();
@@ -289,7 +453,7 @@ $(function () {
 	$('button[name="m_d_delete"]').click(function () {
 		$.post("delete_C_D.do", {
 			c_d: "discount",
-			num: num
+			num: dnum
 		}, function (data) {});
 		$('#d_delete').modal("hide");
 		search();
@@ -332,7 +496,7 @@ $(function () {
 		}
 		$.post("modify_C_D.do", {
 			c_d: "coupon",
-			num: num,
+			num: cnum,
 			name: $('input[name="name1"]').val(),
 			date: date,
 			c_purpose: $('input[name="cpurpose1"]').val(),
@@ -367,7 +531,7 @@ $(function () {
 
 		$.post("modify_C_D.do", {
 			c_d: "discount",
-			num: num,
+			num: dnum,
 			d_purpose: $('input[name="dpurpose1"]').val(),
 			time: time,
 			company: $('input[name="company1"]').val()
@@ -375,69 +539,6 @@ $(function () {
 		$('#d_edit').modal("hide");
 		search();
 	});
-});
-
-
-/*수정 모달창 관련 스크립트*/
-$(document).on("click", ".btn-sm", function () {
-	num = $(this).data('num');
-	name = $(this).data('name');
-	date = $(this).data('date');
-	c_purpose = $(this).data('c_purpose');
-	d_purpose = $(this).data('d_purpose');
-	price = $(this).data('discount');
-	time = $(this).data('use_time');
-	company = $(this).data('company');
-
-	$('input[name="name1"]').val(name);
-
-	if (date == "1" || date == "7" || date == "10" || date == "30" || date == "100") {
-		$('select[name="date1"]').val(date);
-		$("#date1").hide();
-	} else {
-		$('select[name="date1"]').val("직접 입력");
-		$("#date1").show();
-		$('input[name="date2"]').val(date);
-	}
-
-	$('input[name="cpurpose1"]').val(c_purpose);
-
-	if (price == "1000" || price == "3000" || price == "5000" || price == "10000" || price == "30000") {
-		if (price == "1000") {
-			$('select[name="price1"]').val("1,000");
-		}
-		if (price == "3000") {
-			$('select[name="price1"]').val("3,000");
-		}
-		if (price == "5000") {
-			$('select[name="price1"]').val("5,000");
-		}
-		if (price == "10000") {
-			$('select[name="price1"]').val("10,000");
-		}
-		if (price == "30000") {
-			$('select[name="price1"]').val("30,000");
-		}
-		$("#price1").hide();
-	} else {
-		$('select[name="price1"]').val("직접 입력");
-		$("#price1").show();
-		$('input[name="price2"]').val(price);
-	}
-
-	$('input[name="company1"]').val(company);
-
-	$('input[name="dpurpose1"]').val(d_purpose);
-
-	if (time == "1" || time == "3" || time == "6" || time == "12" || time == "24") {
-		$('select[name="time1"]').val(time);
-		$("#time1").hide();
-	} else {
-		$('select[name="time1"]').val("직접 입력");
-		$("#time1").show();
-		$('input[name="time2"]').val(time);
-	}
-
 });
 
 
@@ -452,19 +553,18 @@ function search() {
 			},
 			function (data) { //콜백함수
 				var htmlStr = "";
-
 				$.each(data, function (key, val) {
 					htmlStr += "<tr>";
-					htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.CPNUM + "></td>";
+					htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\"></td>";
 					htmlStr += "<td>" + val.CPNUM + "</td>";
 					htmlStr += "<td>" + val.CPNAME + "</td>";
 					htmlStr += "<td>" + val.USE_DATE + "일</td>";
 					htmlStr += "<td>" + val.PURPOSE + "</td>";
 					htmlStr += "<td>" + val.DISCOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원</td>";
 					htmlStr +=
-						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm\" data-discount=" + val.DISCOUNT + " data-c_purpose=" + val.PURPOSE + " data-date=" + val.USE_DATE + " data-name=" + val.CPNAME + " data-num=" + val.CPNUM + " data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#c_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-primary btn-circle btn-sm coupon\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#c_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
 					htmlStr +=
-						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\" data-num=" + val.CPNUM + " data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#c_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm coupon\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#c_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
 					htmlStr += "</tr>";
 				});
 				htmlStr += "</tbody>";
@@ -488,16 +588,15 @@ function search() {
 				var htmlStr = "";
 				$.each(data, function (key, val) {
 					htmlStr += "<tr>";
-					htmlStr += "<td><input type=\"checkbox\" name=\"d_chk\" value=" + val.COM_NUM +
-						"></td>";
+					htmlStr += "<td><input type=\"checkbox\" name=\"d_chk\"></td>";
 					htmlStr += "<td>" + val.COM_NUM + "</td>";
 					htmlStr += "<td>" + val.COMPANY + "</td>";
 					htmlStr += "<td>" + val.PURPOSE + "</td>";
-					htmlStr += "<td>" + val.USE_TIME + "시간</td>";
+					htmlStr += "<td>" + val.USE_TIME.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "시간</td>";
 					htmlStr +=
-						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm\" data-num=" + val.COM_NUM + " data-d_purpose=" + val.PURPOSE + " data-use_time=" + val.USE_TIME + " data-company=" + val.COMPANY + " data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\"><i class=\"fas fa-pen\"></i></button></span></td>";
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Edit\"><button class=\"btn btn-info btn-circle btn-sm discount\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#d_edit\" ><i class=\"fas fa-pen\"></i></button></span></td>";
 					htmlStr +=
-						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm\" data-num=" + val.COM_NUM + " data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#d_delete\"><i class=\"fas fa-trash\"></i></button></span></td>"
+						"<td><span data-placement=\"top\" data-toggle=\"tooltip\" title=\"Delete\"><button class=\"btn btn-circle btn-danger btn-sm discount\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#d_delete\" ><i class=\"fas fa-trash\"></i></button></span></td>"
 					htmlStr += "</tr>";
 				});
 				htmlStr += "</tbody>";
@@ -513,13 +612,14 @@ function search() {
 	}
 }
 
-function p_search(){
+function p_search() {
 	if ($("#p_switch").is(':checked') == false) {
 		$.getJSON("publish_sg_mt_proc.do", {
 				"s_condition": $('select[name="s_condition"]').val(),
 				"s_value": $('input:text[name="s_value"]').val(),
-				"s_align": $('select[name="s_align"]').val(),
-				"s_date" : $('select[name="dateSearch"]').val(),
+				"s_align1": $('select[name="s_align1"]').val(),
+				"s_align2": $('select[name="s_align2"]').val(),
+				"s_date": $('select[name="dateSearch"]').val(),
 				"s_startForm": $('input:text[name="startForm"]').val(),
 				"s_endForm": $('input:text[name="endForm"]').val(),
 				"s_m": "single"
@@ -529,7 +629,7 @@ function p_search(){
 
 				$.each(data, function (key, val) {
 					htmlStr += "<tr>";
-					htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\" value=" + val.idx + "></td>";
+					htmlStr += "<td><input type=\"checkbox\" name=\"s_chk\"></td>";
 					htmlStr += "<td>" + val.name + "</td>";
 					htmlStr += "<td>" + val.startdate + "</td>";
 					htmlStr += "<td>" + val.stopdate + "</td>";
@@ -541,10 +641,10 @@ function p_search(){
 				htmlStr += "</tbody>";
 				$("#s_area").html(htmlStr);
 				$("#s_chk").click(function () {
-					if ($("#c_chk").prop("checked")) {
-						$('input[name="c_chk"]').prop("checked", true);
+					if ($("#s_chk").prop("checked")) {
+						$('input[name="s_chk"]').prop("checked", true);
 					} else {
-						$('input[name="c_chk"]').prop("checked", false);
+						$('input[name="s_chk"]').prop("checked", false);
 					}
 				});
 			});

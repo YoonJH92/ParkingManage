@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="/WEB-INF/views/include/header.jsp" %> 
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
+<jsp:useBean id="now" class="java.util.Date" />
+
+ 
         <!-- Begin Page Content -->      
         <style>        
         #modalimg{
@@ -20,13 +23,24 @@
          #logcard3{
         border-right: .25rem solid #f6c23e !important;       
         }
+        
+        	td,th{
+        	text-align: center;
+        	color: black;
+        	}
+        	
+        	
+
+           	
         </style>        
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">실시간 현황 조회</h1>
-            <a href="logexceldown.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
+          <fmt:formatDate value="${now}" pattern="yyyy.MM.dd HH:mm:ss" var="today" />
+            <h1 class="h3 mb-0 text-gray-800">실시간 현황 조회     [ <c:out value="${today}"/> ] </h1> 
+            <a href="logexcel.ex" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
           </div>
+
           <!-- Content Row -->
           <div class="row">
             <!-- Earnings (Monthly) Card Example -->
@@ -76,27 +90,35 @@
             </div>
           </div>
             <!-- Content Row -->
-          <div class="row">
+          <div class="row" >
                   
             <!-- Content Column -->
-            <div class="col-lg-12 mb-12">
+            <div class="col-lg-12 mb-12 sm-6">
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-black">실시간 조회</h6>
-                </div>
-                <div class="card-body">
-                <div class="ml-auto">
-                <form method="get" action="loglist.do" name="rowForm">
-             <select name="dRs" id="DR" onchange="submit(this.value)" >
+                          <div class="row">               
+                  <div class="col-lg-6 mb-6 sm-3 text-left" >
+                  <h6 class="h5 m-0 font-weight-bold text-black">실시간 조회</h6>
+                  </div>
+                  <div class="col-lg-6 mb-6 sm-3 text-right" >
+                <form method="get" action="loglist.do" name="rowForm"> 목록 :
+             <select name="dRs" id="DR" onchange="submit(this.value)" > 
        		<option value="20"  id="20"<c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
        		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
        		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
        	    <option value="100" id="100" <c:if test="${displayRow==100}"> selected </c:if>>100</option> 	       	    
            </select>           
          </form>
+                </div>  
+                </div>
+                </div>
+                <div class="card-body">
+                <div ="row">
+                <div class="ml-auto col-lg-12 mb-12 sm-6 ">
            </div>
-            <table class="table table-hover">
+           
+            <table class="table table-responsive table-hover">
   <thead>
     <tr>
       <th scope="col">No.</th>
@@ -143,6 +165,7 @@
 	</c:forEach> 
   </tbody>
 </table>
+</div>
     <jsp:include page="test.jsp">
     <jsp:param value="${paging.page}" name="page"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>

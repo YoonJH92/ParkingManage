@@ -1,8 +1,7 @@
 package com.pms.dto;
 
-import java.util.Date;
 
-public class PmsDto {
+public class PmsLogDto {
 		private int idx;
 		private String cnum;
 		private String inTime;

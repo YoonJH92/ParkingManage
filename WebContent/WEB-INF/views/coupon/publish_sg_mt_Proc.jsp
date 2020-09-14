@@ -12,13 +12,14 @@ JSONArray jarr = new JSONArray();
 
 String s_condition = request.getParameter("s_condition");
 String s_value = request.getParameter("s_value");
-int s_align = Integer.parseInt(request.getParameter("s_align"));
+int s_align1 = Integer.parseInt(request.getParameter("s_align1"));
+String s_align2 = request.getParameter("s_align2");
 String s_date = request.getParameter("s_date");
 String s_startForm = request.getParameter("s_startForm");
 String s_endForm = request.getParameter("s_endForm");
 
 
-ArrayList<memberManageDTO> dto = dao.SearchMember(s_condition, s_value, s_align, s_date, s_startForm, s_endForm);
+ArrayList<memberManageDTO> dto = dao.SearchMember(s_condition, s_value, s_align1, s_align2, s_date, s_startForm, s_endForm);
 
 for (memberManageDTO m : dto) {
 	JSONObject obj = new JSONObject();

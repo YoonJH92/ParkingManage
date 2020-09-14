@@ -31,7 +31,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.pms.dto.PmsDto;
+import com.pms.dto.PmsLogDto;
 
 public class ExcelDAO  {
     

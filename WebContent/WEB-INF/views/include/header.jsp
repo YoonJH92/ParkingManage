@@ -54,12 +54,10 @@
         <a class="nav-link" href="loglist.do">
     <i class="far fa-clock"></i>
           <span>실시간 주차 현황</span>
-        </a>
-      
+        </a>      
       </li>
-
       <li class="nav-item">
-        <a class="nav-link" href="logdetail.do">
+        <a class="nav-link" href="logDetaillist.do">
           <i class="fas fa-car"></i>
           <span>차량조회</span>
         </a>

@@ -18,8 +18,6 @@
 	}
 
 
-
-
 	*/
 	response.sendRedirect("loglist.do");
 

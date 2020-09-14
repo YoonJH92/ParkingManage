@@ -20,11 +20,11 @@ public class Action {
       	map.put("/index",new IndexCommand());
       	map.put("/logdetail",new LogDetailCommand());
       	map.put("/imgDtailupdate", new imgDtailupdate());
+      	map.put("/logDetaillist",new LogDetailListCommand());
+      	map.put("/logDetailTest",new LogDetailTextCommand());
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());
-      	map.put("/logdetaildown",new LogExcelDetailDownCommand());
-      	map.put("/logexceldown",new LogExcelDownCommand());
      	map.put("/memberSearch",new memberSearchCommand());
      	
 
@@ -54,6 +54,7 @@ public class Action {
      	map.put("/publish_sg_mt_proc",new publish_C_DCommand());  	  	
       	map.put("/search_log",new CDCommand3());
       	map.put("/search_log_proc",new Search_Log_Command());
+      	map.put("/send_coupon",new Send_Coupon_Command());
 
       	map.put("/memberUpdate",new MemberUpdateCommand());  	  	
 
