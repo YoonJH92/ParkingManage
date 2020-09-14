@@ -349,7 +349,8 @@ public class PmsC_D_Dao {
 //				+ "쿠폰명: "+cpname+"\n"
 //				+ "발급사유: "+purpose+"\n"
 //				+ "할인 금액: "+discount+"\n"
-//				+ "유효 기간: "+date+"\n"
+//				+ "유효 기간: "+date+"까지\n"
+//				+ "쿠폰 코드: "+cpcode+"\n"
 //				+"감사합니다.");
 //		params.put("app_version", "test app 1.2");
 //
