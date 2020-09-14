@@ -41,7 +41,7 @@ public class ManagerDAO {
 
 			pstmt.executeUpdate();
 
-			con.close();
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
