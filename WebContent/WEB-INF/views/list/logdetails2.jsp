@@ -258,6 +258,17 @@
     });
 
 });	
+						
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		$(document).ready(function() {
 		       $("#closebtn").click(function() {
 		    	   $.getJSON('logdetail.do',  
@@ -284,6 +295,9 @@
 						htmlStr += "<td><button type='button' class='btn btn-dark' id='imgbtn' data-toggle='modal' data-cnum="+val.cnum+ " data-idx="+val.idx+" data-cimg="+val.c_img+" data-target='#carModal'> 차량 사진 </button></td>";
 						htmlStr += "</tr>";
 		            });
+		            
+		            
+		            
 						htmlStr += "</tbody>";
 						$("#dtbody").html(htmlStr);
 		        });
