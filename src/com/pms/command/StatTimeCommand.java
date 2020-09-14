@@ -23,6 +23,7 @@ public class StatTimeCommand implements Command {
 		ArrayList<StatisticsDTO> arr = stdao.timeList(startForm);
 		
 		request.setAttribute("arr", arr);
+		request.setAttribute("startForm", startForm);
 		
 		
 		return "stat/time";

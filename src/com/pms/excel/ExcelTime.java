@@ -12,26 +12,29 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.pms.dao.StatDailyDAO;
+import com.pms.dao.StatTimeDAO;
 import com.pms.dto.StatisticsDTO;
 
 public class ExcelTime implements ExcelCommand {
 
 	@Override
 	public HSSFWorkbook execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String startForm = request.getParameter("StartForm");
+		String startForm = request.getParameter("HidStartForm");
 		
 		
 		ArrayList<StatisticsDTO> arr = new ArrayList<StatisticsDTO>();
-		StatDailyDAO dao = StatDailyDAO.getInstance();
+		StatTimeDAO dao = StatTimeDAO.getInstance();
 		
-		if((startForm !="" && startForm != null)) {
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("startForm",startForm);
-			
-			arr = dao.ListView(map);
+		if((startForm !="" && startForm != null) ) {
+
+			arr = dao.timeList(startForm);
 		}else {
-			arr = dao.ListView();
+			arr = dao.timeList();
 		}
+			
+			
+		
+
 		
 		HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet();
@@ -73,7 +76,7 @@ public class ExcelTime implements ExcelCommand {
             cell.setCellValue(vo.getOutNomal()+vo.getOutMonth());
             
             cell = row.createCell(7);
-            cell.setCellValue(vo.getPay());
+            cell.setCellValue(vo.getTotalPay());
             
             cell = row.createCell(8);
             cell.setCellValue(vo.getMonthCount());
@@ -82,7 +85,7 @@ public class ExcelTime implements ExcelCommand {
             cell.setCellValue(vo.getMonthPay());
             
             cell = row.createCell(10);
-            cell.setCellValue(vo.getPay() + vo.getMonthPay());
+            cell.setCellValue(vo.getTotalPay() + vo.getMonthPay());
             
         }
 		return workbook;
