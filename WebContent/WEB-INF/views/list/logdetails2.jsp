@@ -141,7 +141,7 @@
         <div class="modal-body">     
        <table> 
        <form id="mdFrm" method="post" enctype="multipart/form-data" >
-         <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
+          <tr> <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
           <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td><tr> 	
           <tr><td><img id="modalimg" src="" ></td></tr>
           <tr><td><input type="file" id="fileup"name="fileName" accept="image/*"></td> </tr>           

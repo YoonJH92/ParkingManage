@@ -19,16 +19,13 @@ public class Action {
       	map.put("/imgupdate",new LoglmgModifyAction());
       	map.put("/index",new IndexCommand());
       	map.put("/logdetail",new LogDetailCommand());
-      	map.put("/imgDtailupdate", new imgDtailupdate());
-      	map.put("/logDetaillist",new LogDetailListCommand());
+      	map.put("/imgDtailupdate", new LogimgDtailupdate());
       	map.put("/logDetailTest",new LogDetailTextCommand());
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());
      	map.put("/memberSearch",new memberSearchCommand());
-     	
-
-      	
+           	
       	map.put("/login",new LoginCommand());
       	map.put("/loginac",new LoginacCommand());
       	map.put("/join",new JoinCommand());

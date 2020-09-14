@@ -117,9 +117,9 @@
                 <div ="row">
                 <div class="ml-auto col-lg-12 mb-12 sm-6 ">
            </div>
-           
-            <table class="table table-responsive table-hover">
-  <thead>
+                 <div class="table-responsive text-center">     
+            <table class="table  table-hover  table-bordered" >
+ 				<thead>
     <tr>
       <th scope="col">No.</th>
       <th scope="col">차량번호</th>
@@ -130,7 +130,7 @@
       <th scope="col">할인 적용 여부 </th>      
       <th scope="col">차량이미지</th>
     </tr>
-  </thead>
+ 	</thead>
   <tbody>
  
  
@@ -158,13 +158,23 @@
     <td><i class="fas fa-times" style="color:red"></i></td>
     </c:if>
     <c:if test="${arr.monthNum != 0 }">
-   <td></td><i class="far fa-calendar-check"></i></c:if>
-   <td>${arr.saleNum}</td>
-  <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+            <td><i class="fas fa-ticket-alt"></i></td>      
+</c:if>
+   
+       <c:if test="${arr.saleNum == 0 }">
+             <td><i class="fas fa-times " style="color:red"></i></td>      
+     </c:if>
+
+ <c:if test="${arr.saleNum != 0 }">
+            <td><i class="fas fa-ticket-alt"></i></td>      
+     </c:if>
+   
+    <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
 </tr>	
 	</c:forEach> 
   </tbody>
 </table>
+</div>
 </div>
     <jsp:include page="test.jsp">
     <jsp:param value="${paging.page}" name="page"/>
@@ -197,17 +207,13 @@
  		<tr>
  		<td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
  		<tr><td><input type="hidden" name="cimg" id="cimg" value=""></td>	<tr>
- 			
         <tr>
         <td>
  		<img id="modalimg" src="" >
-
         </td></tr>
-       
         <tr>
         <td><input type="file" name="fileName"></td>
- 		</tr>
- 		
+ 		</tr>	
  	</table>
       <div class="modal-footer">
       	<input type="submit" value="수정">
