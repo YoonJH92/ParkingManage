@@ -9,14 +9,14 @@ import com.pms.dao.PmsLogDao;
 import com.pms.dto.PmsLogDto;
 import com.pms.dto.PmsPageDto;
 
-public class imgDtailupdate implements Command{
+public class LogimgDtailupdate implements Command{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 				
 		PmsLogDao dao=PmsLogDao.getInstance();
-		dao.datailImgUpdate(request, response);
-    	
+		//dao.datailImgUpdate(request, response);    	
+		dao.imgUpdate(request);		
 		//return "redirect:logdetail.do";
 		return "redirect:logDetailTest.do";
 	}

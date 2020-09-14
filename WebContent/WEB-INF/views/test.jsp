@@ -1,25 +1,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
 <c:url var="action" value="/loglist.do"/>
-
 <style>
-
 	.pagination {
 	margin-bottom: 20px;
 	display:block;
 	text-align: center;
 }
-		
 	.modal-3 a {
   	margin-left: 0.5rem;
 	width: 28px;
   	height: 28px;
   	text-decoration:none;
    	color: black;
-   	padding: 0.3rem;
-	
+   	padding: 0.3rem;	
 
 }
 	.modal-3 a:hover {
@@ -32,8 +27,7 @@
   	color: black;
 }
 
-</style>
-      
+</style>      
 <div class="pagination modal-3 ">
 <c:if test="${param.prev}">
   <a class="prev" href="${action}?dRs=${param.displayRow}&page=${param.beginPage-1}"> &laquo </a>
