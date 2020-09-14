@@ -575,7 +575,6 @@ public class PmsLogDao {
 		}
 		return Dcount;
 	}
-
 	public ArrayList<PmsLogDto> viewDetail(String FDate, String LDate, String cnum) {
 		Connection con = null;
 		PreparedStatement ps = null;
