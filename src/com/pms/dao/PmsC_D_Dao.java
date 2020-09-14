@@ -233,8 +233,8 @@ public class PmsC_D_Dao {
 				dto.setCPCODE(rs.getString("cpcode"));
 				dto.setCPNUM(rs.getInt("cpnum"));
 				dto.setIDX(rs.getInt("idx"));
-				dto.setUSED(rs.getBoolean("used"));
-				dto.setVALIDITY(rs.getDate("validity"));
+				dto.setUSED(rs.getString("used"));
+				dto.setVALIDITY(rs.getString("validity"));
 				arr.add(dto);
 			}
 		} catch (Exception e) {
@@ -311,7 +311,7 @@ public class PmsC_D_Dao {
 
 		try {
 			con = pool.getConnection();
-			sql = "insert into PMS_COUPON_LOG(IDX,CPNUM,CPCODE,VALIDITY,USED,CNUM) values(COUPON_LOG_SEQ.nextval,?,?,?,?,?)";
+			sql = "insert into PMS_COUPON_LOG(IDX,CPNUM,CPCODE,VALIDITY,USED,CNUM) values(COUPON_LOG_SEQ.nextval,?,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, Log.getCPNUM());
 			pstmt.setString(2, Log.getCPCODE());
@@ -326,13 +326,14 @@ public class PmsC_D_Dao {
 		}
 	}
 
-	public void SendSms(String name, String num, String cpname, String date, String discount, String purpose) {
+	public void SendSms(String name, String num, String cpname, String date, String discount, String purpose, String cpcode) {
 		System.out.println(name+"님 안녕하세요. 반갑습니다.\n"
 				+ "PMS 건물에서 쿠폰을 발급해드립니다.\n"
 				+ "쿠폰명: "+cpname+"\n"
 				+ "발급사유: "+purpose+"\n"
 				+ "할인 금액: "+discount+"\n"
-				+ "유효 기간: "+date+"\n"
+				+ "유효 기간: "+date+"까지\n"
+				+ "쿠폰 코드: "+cpcode+"\n"
 				+"감사합니다.");
 		
 		//		String api_key = "";

@@ -23,7 +23,7 @@ for (Pms_Coupon_Log_Dto l : dto) {
 	obj.put("CPCODE", l.getCPCODE());
 	obj.put("IDX", l.getIDX());
 	obj.put("USED", l.isUSED());
-	obj.put("VALIDITY", l.getVALIDITY().toString());
+	obj.put("VALIDITY", l.getVALIDITY());
 	jarr.add(obj);
 }
 out.println(jarr.toString());

@@ -131,6 +131,7 @@ public class PMSRandom2 {
 		String out = null;
 		long endTime = 0;
 		int num = 0;
+		int cpnum = 0;
 		RandomInsert2 randomInsert = new RandomInsert2();
 		for (String key : keys) { // map foreach문
 			for (int i = 0; i < map.get(key).size(); i++) { // map에 value 수만큼 반복
@@ -154,7 +155,9 @@ public class PMSRandom2 {
 					out = null;
 				}
 				num = randomInsert.monthNum(key, in, out); // 월정액 사용자 체크
-				randomInsert.randomLogAdd(key, in, out, num); // 차량로그 추가
+				
+				cpnum = randomInsert.randomCoupon_Log(key);
+				randomInsert.randomLogAdd(key, in, out, num, cpnum); // 차량로그 추가
 			}
 		}
 	}
@@ -269,16 +272,16 @@ public class PMSRandom2 {
 		}
 	}
 
-	//할인권 회사 생성
+	// 할인권 회사 생성
 	public static String randomDiscountCompany() {
 		List<String> name = Arrays.asList("두산", "삼성", "LG", "롯데", "KT", "기아", "키움", "한화", "NC", "SK");
 		List<String> attr = Arrays.asList("중공업", "식품", "통신", "디스플레이", "전자", "전기", "SDS", "SDI");
 		Collections.shuffle(name);
 		Collections.shuffle(attr);
-		return name.get(0) + " "+ attr.get(0);
+		return name.get(0) + " " + attr.get(0);
 	}
 
-	//할인권 할인 시간 생성
+	// 할인권 할인 시간 생성
 	public static String randomDiscountTime() {
 		List<String> time = Arrays.asList("1", "3", "6", "12", "24", "48", "72");
 		Collections.shuffle(time);
@@ -289,21 +292,39 @@ public class PMSRandom2 {
 	public void DISCOUNT_SETTING(int num) {
 		PmsC_D_Dao dao = PmsC_D_Dao.getInstance();
 		PmsDiscountDto dto = new PmsDiscountDto();
-		
-		for(int i = 0; i<num; i++) {
+
+		for (int i = 0; i < num; i++) {
 			String company = randomDiscountCompany();
 			dto.setCOMPANY(company);
 			dto.setUSE_TIME(Integer.parseInt(randomDiscountTime()));
-			dto.setPURPOSE( company + " 을(를) 이용하여 할인 목적으로 생성");
+			dto.setPURPOSE(company + " 을(를) 이용하여 할인 목적으로 생성");
 			dao.NewDiscount(dto);
 		}
+	}
+
+	public static StringBuffer randomCouponCode(int num) {
+		List<String> chr = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+				"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8",
+				"9");
+		StringBuffer code = new StringBuffer();
+		
+		for(int i = 1; i<=num; i++) {
+			Collections.shuffle(chr);
+			code.append(chr.get(0));
+			if(i%5 == 0) {
+				code.append("-");
+			}
+		}
+		code.deleteCharAt(code.lastIndexOf("-"));
+		
+		return code;
 	}
 
 	public static void main(String[] args) {
 		PMSRandom2 random = new PMSRandom2();
 		random.COUPON_SETTING(randomCouponName());
 		random.DISCOUNT_SETTING(30);
-		ArrayList<String> ran = random.CNUM_RAND(500); 
+		ArrayList<String> ran = random.CNUM_RAND(500);
 		random.MONTH_SETTING(ran);
 		random.TIME_SETTING(ran, 150);
 

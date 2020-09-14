@@ -91,7 +91,11 @@
 					htmlStr += "<td>" + val.CPNUM + "</td>";
 					htmlStr += "<td>" + val.CPCODE + "</td>";
 					htmlStr += "<td>" + val.VALIDITY+ "</td>";
-					htmlStr += "<td>" + val.USED+ "</td>";
+					if(val.USED == "0"){
+						htmlStr += "<td><i class=\"fas fa-times \" style=\"color:red\"></i></td>"
+					}else{
+						htmlStr += "<td><i class=\"far fa-circle \" style=\"color:red\"></i></td>"
+					}
 					htmlStr += "<td>" + val.CNUM + "</td>";
 					htmlStr += "</tr>";
 				});
