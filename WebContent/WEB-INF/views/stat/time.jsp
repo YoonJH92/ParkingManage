@@ -112,10 +112,14 @@ table#stat tbody td {
 
 	<div style="margin-bottom: 60px;">
 		<div class="display-inline fl">
+			<form method="post" action="time.ex" name="frmEx" id="frmEx">
+		   	   <input type="hidden" name="HidStartForm" id="HidStartForm" value="${startForm}"/>
+		   	  
+			</form>
 			<form method="post" action="statTime.do" name="frm" id="frm">
 				<span style="font-weight: 800;">날짜 검색 : </span> <input type="text"
 					autocomplete="off" class="form-control1" id="startForm"
-					name="startForm" value="${today}"> <a href="#"
+					name="startForm" value="${startForm}"> <a href="#"
 					id="searchBtn"
 					class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
 					<i class="fas fa-search fa-sm text-white-50"></i> 검색하기
@@ -129,7 +133,9 @@ table#stat tbody td {
 			</a> <a href="#" id="grapBtn1"
 				class="d-none d-sm-inline-block btn btn-custom1 shadow-sm mb4">
 				<i class="fas fa-search fa-sm text-white-50"></i>시간별 사용요금 그래프
-			</a>
+			</a> <a href="#" id="excelBtn"
+				class="d-none d-sm-inline-block btn btn-custom1 shadow-sm mb4">엑셀다운</a>
+
 		</div>
 	</div>
 	<canvas id="myChart" style="display: none;"></canvas>
@@ -146,16 +152,16 @@ table#stat tbody td {
 				<th rowspan=1 class="v-mid">합 계</th>
 			</tr>
 			<tr>
-				<th>일 반</th>
-				<th>월정액</th>
-				<th>합 계</th>
-				<th>일 반</th>
-				<th>월정액</th>
-				<th>합 계</th>
-				<th>일반차량 수익</th>
-				<th>등 록</th>
-				<th>월정액 수익</th>
-				<th>수익 합계</th>
+				<th>입차일반</th>
+				<th>입차월정액</th>
+				<th>입차합계</th>
+				<th>출차일반</th>
+				<th>출차월정액</th>
+				<th>출차합계</th>
+				<th>출차일반 사용요금</th>
+				<th>월정액 등록수</th>
+				<th>월정액 사용요금</th>
+				<th>합계</th>
 			</tr>
 		</thead>
 
@@ -182,7 +188,7 @@ table#stat tbody td {
 
 		</tbody>
 		<tfoot>
-			<tr></tr>
+			<tr style="font-size: 15px;"></tr>
 		</tfoot>
 
 
@@ -282,6 +288,9 @@ table#stat tbody td {
 			} else {
 				$(this).addClass('selected');
 			}
+		});
+		$("#excelBtn").click(function() {
+			$("#frmEx").submit();
 		});
 
 	});
