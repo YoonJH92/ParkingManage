@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
+
 import org.apache.poi.ss.formula.ptg.Ptg;
 import com.pms.dto.SettingDTO;
 import com.pms.dto.memberManageDTO;
@@ -25,13 +27,16 @@ public class RandomInsert {
 		ResultSet rs = null;
 		String sql = null;
 		String month_id = null;
-		PmsLogDao dao =PmsLogDao.getInstance();
 		
+		PmsLogDao dao =PmsLogDao.getInstance();
+		PMSRandom random = new PMSRandom();
+		String Img =random.randomImg();
+
 		try {
 			con = pool.getConnection();
 
 			if(out_time != null) {
-				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,MONTH_NUM,pay,total_pay) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'), ? , ? , ? )";
+				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,MONTH_NUM,pay,total_pay,C_IMG) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'), ? , ? , ? ,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
@@ -45,13 +50,15 @@ public class RandomInsert {
 					pstmt.setInt(6, 0);
 				}
 				
+				pstmt.setString(7, Img);
 				
 			}else {
-				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,MONTH_NUM) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?)";
+				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,MONTH_NUM,C_IMG) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
 				pstmt.setInt(3, num);
+				pstmt.setString(4, Img);
 			}
 			pstmt.executeUpdate();
 			

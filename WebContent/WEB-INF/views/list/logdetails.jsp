@@ -48,17 +48,27 @@
 	tr,td{
 		color: black;
 	}  
+	
+	input[type="reset"] {
+   
+   font-family: "Font Awesome 5 Free"; 
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  font-weight: 600;
+	   
+}
  </style>                  
  <!-- Begin Page Content -->
  		<div class="container-fluid">
   <!-- Page Heading -->
-  		<h1 class="h2 mb-5 text-gray-800">차량 조회 </h1>
+  		<h1 class="h2 mb-4 text-gray-800">차량 조회 </h1>
   <!-- DataTales Example -->
   			<div calss="row">
   		<div class="card shadow mb-4">
     		<div class="card-header py-3">   
       	<form action="logDetailTest.do" method="post" id="frm" name="frm">                   
-      <div class="py10">
+      <div class="pt10">
       	<div>
      	<span>날짜 검색</span>
      	<select name="Search" id="dateSearch" class="form-control1">
@@ -70,17 +80,18 @@
              </div>                    
              <div class="btndiv">
    	<div class="row">
-        <div class="col-lg-6 mb-6 sm-6">
+        <div class="col-lg-8 mb-8 sm-8">
         <span>차량번호</span>
         	<select  id="search" class="form-control1">
        		<option>차량 번호</option>
        			</select>
-           <input type="text" name="cnum" id="cnum" size=14 maxlength=8 value="${cnum}" class="form-control1">
-        </div>
-        <div class="col-lg-5 mb-5 sm-5 text-right ">
-          <input type="submit" id="searchbtn" class=" btn btn-warning shadow-sm mb4" value="검색하기">
+           <input type="text" name="cnum" id="cnum" size=17 maxlength=8 value="${cnum}" class="form-control1">
+      		<button id="searchbtn" class=" btn btn-warning shadow-sm mb4" ><i class="fas fa-search fa-sm text-white-50"></i> 검색하기</button>
+      		<button  class="btn btn-danger shadow-sm mb4" type="reset">   <i class="fas fa-undo"></i>  초기화       </button>
+      
       </form>  
         </div>  
+               <div class="col-lg-4 mb-4 sm-4 text-right">
       	<form action="logDetailExcel.ex" method="post"  name="exfrm">
     	<input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       	<input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
@@ -89,9 +100,11 @@
  			 <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
 			</button>	           
         </form>
+        </div>
+		</div>
         </div>         
 		</div>          
-    </div>  	  	
+      	  	
     </div>      
     <div class="card-body">
     	<div class="list_s text-right">
@@ -110,6 +123,10 @@
       <div class="table-responsive text-center">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
+                <c:if test="${empty detail}">
+					<tr><td>검색결과가 없습니다</td></tr>
+	                </c:if>
+				<c:if test="${ not empty detail}">
             <tr>
                 <th scope="col">No.</th>
                 <th scope="col">차량번호</th>
@@ -121,10 +138,11 @@
                 <th scope="col">할인여부</th>
                 <th scope="col">최종금액</th>      
                 <th scope="col">차량이미지</th>
+                
             </tr>
           </thead>
-          <tbody>
-            <c:forEach var="arr" items="${detail}">
+          <tbody>       	                
+            <c:forEach var="arr" items="${detail}">	            
                 <tr>
                   <th scope="row">${arr.idx}</th>
                     <td>${arr.cnum}</td>
@@ -152,6 +170,8 @@
            <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal" data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
            </tr>
             </c:forEach>   
+    			</c:if>
+
           </tbody>
         </table>         
     <jsp:include page="test1.jsp"> 
@@ -195,8 +215,30 @@
           </form>
         </div>   
     </div></div>
-    </div>       
-        <script>
+    </div>
+    
+    
+    
+    
+    
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+<h4 class="modal-title" id="myModalLabel"></h4>
+</div>
+<div class="modal-body">
+	검색어를 입력해주세요				
+</div>
+<div class="modal-footer">
+ <button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
+</div>
+</div>
+</div>
+</div>    
+     
+   <script>
       var LOGIDX="";
       var CIMG="";
       var IMGSRC="";
@@ -211,35 +253,27 @@
               $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
           });	                   
       });  
-      /* 
-      
-     	 $('#searchbtn').click(function() {
-     		var cnum=document.getElementById('cnum').value;
-  			var FDATE=document.getElementById('FDate').value;
-  			var LDATE=document.getElementById('LDate').value;	
-  				if(FDATE== "" ){
-  				alert("검색어를 입력 하세요");
-  				return false;		
-  				} 
-     	 }); */
-     	    
-      		$('#exbtn').click(function() {      					
-      		/* 	var cnum=document.getElementById('cnum').value;
+  		 	 $('#exbtn').click(function() {
+     		  var exfrm =document.exfrm;	   
+   	  	  	 exfrm.submit();  
+     	 });     	    
+      		$('#searchbtn').click(function() {      					
+      		 	var cnum=document.getElementById('cnum').value;
       			var FDATE=document.getElementById('FDate').value;
       			var LDATE=document.getElementById('LDate').value;		
-      			if(FDATE == "" ) {
-				alert("먼저 검색 하세요");
+      			if((FDATE == "")&&(LDATE=="")&&(cnum=="")) {
+				$('#alertModal').modal('show');
 				return false;
-      			}    */ 			
-    	 	  var exfrm =document.exfrm;	   
-    	  	   exfrm.submit();  	  	   			      			      			
+      			}     			
+				var searchfrm=document.frm;  
+	   	  	  	 frm.submit();       			
       	});
       		
-       function read() {		 
+        function read() {		 
     	   var rowForm =document.rowForm;	   
-    	   rowForm.submit();	  	  
-		}
-	         
+    	    rowForm.submit();	  	  
+		} 
+        
   </script>
 
 

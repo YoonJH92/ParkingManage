@@ -243,13 +243,25 @@ public class PMSRandom {
 	    return buff.toString() + buff2.toString();
 	  }
 	
+	
 	private void randomCP(int num) {
 		
 	
 		
 	}
 	
-	
+	public String randomImg() {
+		StringBuffer imgName  =new StringBuffer();
+		List<String> imgNum = Arrays.asList("1","2","3","4","5","6","7","8","9","10");	
+		List<String> fileExtend=Arrays.asList(".jpg",".png");
+		Collections.shuffle(fileExtend);
+		Collections.shuffle(imgNum);	
+		imgName.append("pms_");
+		imgName.append(imgNum.get(0));
+		imgName.append(fileExtend.get(0));		
+		
+		return imgName.toString(); 
+	}
 	public static void main(String[] args) {
 		PMSRandom random = new PMSRandom();
 		ArrayList<String> ran = random.CNUM_RAND(500); 
@@ -258,6 +270,7 @@ public class PMSRandom {
 		
 		
 		
+		random.randomImg();
 		System.out.println("성공");
 	}
 	
