@@ -67,6 +67,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.pms.dto.PmsLogDto;
 import com.pms.dto.PmsPageDto;
 import com.pms.dto.SettingDTO;
+import com.pms.paging.Pagination;
+import com.pms.paging.Pagination2;
 import com.pms.util.DBConnectionMgr;
 import com.sun.javafx.collections.MappingChange.Map;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
@@ -87,21 +89,26 @@ public class PmsLogDao {
 		pool = DBConnectionMgr.getInstance();
 	}
 	// 실시간 조회
-	public ArrayList<PmsLogDto> viewList(PmsPageDto page) {
+	public ArrayList<PmsLogDto> viewList(Pagination p) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		StringBuffer sql=null;
+		
 		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();
-		int startNum = page.getStartNum();
-		int endNum = page.getEndNum();
+	
 		try {
 			con = pool.getConnection();
-			String sql = "SELECT * FROM (" + "  SELECT * FROM ( "
-					+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is null ) WHERE row_num >= ?  "
-					+ " ) WHERE row_num <= ?  ";
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, startNum);
-			ps.setInt(2, endNum);
+			sql=new StringBuffer();
+			sql.append(" SELECT * FROM (" );
+			sql.append(" SELECT A.*, ROWNUM AS RNUM FROM  ");
+			sql.append(" (select * from PMS_log where out_time is null) A ");
+			sql.append(" WHERE ROWNUM <= ? ");
+			sql.append(" ) WHERE RNUM > ? ");
+			ps = con.prepareStatement(sql.toString());
+			ps.setInt(1, p.getCurPage() * p.getPageSize()); 
+			ps.setInt(2, (p.getCurPage()-1) * p.getPageSize());
+			
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				PmsLogDto dto = new PmsLogDto();
@@ -461,7 +468,7 @@ public class PmsLogDao {
 			} else if (FDate.equals("")) {
 				if (cnum.equals("")) {
 					sql = "SELECT * FROM (" + "  SELECT * FROM ("
-							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and ( in_time <= TO_DATE('"
+							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and ( in_time < TO_DATE('"
 							+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time ) WHERE row_num >= ? ) "
 							+ "WHERE row_num <= ? ";
 
@@ -538,43 +545,41 @@ public class PmsLogDao {
 		int Dcount = 0;
 		try {		
 			con = pool.getConnection();
-			if (FDate.equals("-1")) {
-				sql = "select count(*) as count from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') order by in_time ";		
+			if ((FDate.equals("-1"))) {
+				sql = "SELECT count(*) as count FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') order by in_time";
 			} else if (FDate.equals("")) {
 				if (cnum.equals("")) {
-				sql ="select count(*) as count from pms_log where out_time is not null and(( in_time <= TO_DATE('"+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS')))";
-				}
-				if (LDate.equals("")) {
-				sql = "select count(*) as count from pms_log where cnum='" + cnum.trim() + "' and out_time is null ";
-				}				
-				else {									
-				sql = " SELECT count(*) as count FROM pms_log  where out_time is not null and ( cnum='" + cnum.trim() + "')"
-				+ " and ( in_time <= TO_DATE('"+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time  ";					
-				}
-				
-												
+					sql = " SELECT count(*) as count FROM pms_log  where out_time is not null  and ( in_time <= TO_DATE('"
+							+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS')) order by in_time ";					
+				} else if (LDate.equals("")) {
+					sql = "SELECT count(*) as count FROM pms_log  where out_time is not null  and (cnum='" + cnum.trim() + "' )  order by in_time ";
+				}else {
+						   sql = " SELECT count(*) as count FROM pms_log  where out_time is not null and ( cnum='" + cnum.trim() + "')"
+							+ " and ( in_time <= TO_DATE('"+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time  ";					
+					}					
 			} else if (cnum.equals("")) {
 				if (LDate.equals("")) {
-					sql = "select count(*) as count from pms_log where out_time is not null and(( in_time >= TO_DATE('"
-							+ FDate.trim() + "','YYYY-MM-DD HH24:MI:SS')))";
+					sql = "SELECT count(*) as count FROM pms_log  where out_time is not null  and ( in_time >= TO_DATE('" + FDate.trim()
+							+ "','YYYY-MM-DD HH24:MI:SS')) order by in_time ";
 				} else {
-					sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate.trim()
-							+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate.trim()
-							+ "','YYYY-MM-DD HH24:MI:SS')  ";
-				}
-			} else if(LDate.equals("")) {		
-				sql = " SELECT count(*) as count FROM pms_log  where out_time is not null and ( cnum='" + cnum.trim() + "')"
-						+ " and ( in_time <= TO_DATE('"+ FDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time  ";			
-				
-			}
+					sql = "SELECT count(*) as count FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('"
+							+ FDate.trim() + "', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate.trim()
+							+ "','YYYY-MM-DD HH24:MI:SS') order by in_time ";
+					} 
+			}	else if(LDate.equals("")) {		
+						
+				  sql = " SELECT count(*) as count FROM pms_log  where out_time is not null and ( cnum='" + cnum.trim() + "')"
+							+ " and ( in_time <= TO_DATE('"+ FDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time  ";			
+			}	
 			
-					
 			else {
-				sql = "select count(*) as count from pms_log  WHERE in_time BETWEEN TO_DATE('" + FDate.trim()
-						+ "', 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE('" + LDate.trim()
-						+ "','YYYY-MM-DD HH24:MI:SS') and (cnum ='" + cnum.trim() + "') ";
+				sql = "SELECT count(*) as count FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('" + FDate.trim()
+						+ "', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate.trim()
+						+ "','YYYY-MM-DD HH24:MI:SS')  and (cnum='" + cnum.trim() + "' ) order by in_time ";
 				}
 			
+			
+	
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -592,6 +597,7 @@ public class PmsLogDao {
 		}
 		return Dcount;
 	}
+	//엑셀용 조회
 	public ArrayList<PmsLogDto> viewDetail(String FDate, String LDate, String cnum) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -699,9 +705,8 @@ public class PmsLogDao {
 			while (fileNames.hasMoreElements()) { // 있으면
 				fileInput = (String) fileNames.nextElement();// 폼에서 받아온 요소			
 				String Ipage=multi.getParameter("ipage")==null?"1":multi.getParameter("ipage").trim();
-				String idrw=multi.getParameter("idrw")==null?"20":multi.getParameter("idrw").trim();
-				arr.add("dRs="+idrw+"&page="+Ipage);	
-				
+				String idrw=multi.getParameter("idrw")==null?"20":multi.getParameter("idrw").trim();				
+				arr.add("p="+Ipage+"&dRs="+idrw);
 				fileName = multi.getFilesystemName(fileInput);
 				if (fileName != null) {
 					type = multi.getContentType(fileInput);
