@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pms.dao.MemberManageDAO;
 import com.pms.dto.memberManageDTO;
 import com.pms.paging.Pagination;
+import com.pms.paging.Pagination2;
 
 public class MemberManageCommand implements Command {
 	@Override
@@ -15,7 +16,7 @@ public class MemberManageCommand implements Command {
 		MemberManageDAO dao = MemberManageDAO.getInstance();
 		int listCnt = dao.ListMemberCount();
 		int curPage = (request.getParameter("p") == null || request.getParameter("p") == "") ? 1 : Integer.parseInt(request.getParameter("p"));
-		Pagination pagination = new Pagination(listCnt, curPage);
+		Pagination2 pagination = new Pagination2(listCnt, curPage);
 		ArrayList<memberManageDTO> arr = dao.ListMember(pagination);
 		request.setAttribute("arr", arr);
 		request.setAttribute("pagination", pagination);

@@ -10,6 +10,7 @@ import javax.naming.directory.SearchControls;
 
 import com.pms.dto.memberManageDTO;
 import com.pms.paging.Pagination;
+import com.pms.paging.Pagination2;
 import com.pms.util.DBConnectionMgr;
 
 public class MemberManageDAO {
@@ -92,7 +93,7 @@ public class MemberManageDAO {
 	}
 	
 	//월정액 리스트 
-	public ArrayList<memberManageDTO> ListMember(Pagination p) {
+	public ArrayList<memberManageDTO> ListMember(Pagination2 p) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		StringBuffer sql = null;

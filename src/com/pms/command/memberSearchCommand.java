@@ -46,7 +46,6 @@ public class memberSearchCommand implements Command {
 		request.setAttribute("listCnt", listCnt); // 전체 개수
 		request.setAttribute("p", curPage); // 현재 페이지
 
-		
 		return "member/manage";
 	}
 
