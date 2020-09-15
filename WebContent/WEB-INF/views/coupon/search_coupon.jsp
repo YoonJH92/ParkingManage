@@ -59,6 +59,8 @@
             </tbody>
           </table>
         </div>
+        <div id = "c_page">
+		</div>
       </div>
 
     </div>

@@ -75,7 +75,7 @@ public class PmsC_D_Dao {
 		}
 	}
 
-	public ArrayList<PmsCouponDto> SearchCoupon(String condition, String value, int align) {
+	public ArrayList<PmsCouponDto> SearchCoupon(String condition, String value, int align, int idx) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -84,7 +84,7 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if (value.isEmpty()) {
-				sql = "select * from PMS_COUPON where rownum <=" + align + " ORDER BY CPNUM ASC";
+				sql = "select * from (select rownum rnum, cpnum, use_date, cpname, purpose, discount from PMS_COUPON ORDER BY cpnum ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
 			} else {
 				if (condition.equals("use_date")) {
 					value = value.replace("일", "");
@@ -93,8 +93,7 @@ public class PmsC_D_Dao {
 					value = value.replace("원", "");
 					value = value.replace(",", "");
 				}
-				sql = "select * from PMS_COUPON where " + condition + " = " + "'" + value + "' AND rownum <=" + align
-						+ "ORDER BY CPNUM ASC";
+				sql = "select * from (select rownum rnum, cpnum, use_date, cpname, purpose, discount from PMS_COUPON where " + condition + " LIKE " + "'" + value + "%' ORDER BY cpnum ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -116,7 +115,7 @@ public class PmsC_D_Dao {
 		return arr;
 	}
 
-	public ArrayList<PmsDiscountDto> SearchDiscount(String condition, String value, int align) {
+	public ArrayList<PmsDiscountDto> SearchDiscount(String condition, String value, int align, int idx) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -125,14 +124,12 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if (value.isEmpty()) {
-				sql = "select * from PMS_Discount_manage where rownum <=" + align + " ORDER BY COM_NUM ASC";
+				sql = "select * from (select rownum rnum, com_num, company, purpose, use_time from PMS_DISCOUNT_MANAGE ORDER BY com_num ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
 			} else {
 				if (condition.equals("use_time")) {
 					value = value.replace("시간", "");
 				}
-
-				sql = "select * from PMS_Discount_manage where " + condition + " = " + "'" + value + "' AND rownum <="
-						+ align + "ORDER BY COM_NUM ASC";
+				sql = "select * from (select rownum rnum, com_num, company, purpose, use_time from PMS_DISCOUNT_MANAGE where " + condition + " LIKE " + "'" + value + "%' ORDER BY com_num ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -220,24 +217,13 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			
-			if(idx == 0) {
-				if (value.isEmpty()) {
-					sql = "select * from PMS_COUPON_LOG where rownum <=" + align + " ORDER BY IDX ASC";
-				} else if(condition.equals("cnum")){
-					sql = "select * from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' AND ROWNUM <= "+align+" ORDER BY IDX ASC";
-				}
-				else if(condition.equals("cpnum")) {
-					sql = "select * from PMS_COUPON_LOG where " + condition + " = " + "'" + value + "' AND ROWNUM <= "+align+" ORDER BY IDX ASC";
-				}
-			}else {
-				if (value.isEmpty()) {
-					sql = "select * from PMS_COUPON_LOG where idx between "+idx+" AND "+ (idx+align-1)+" ORDER BY IDX ASC";
-				} else if(condition.equals("cnum")){
-					sql = "select * from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' AND idx between " + idx + " AND "+ (idx+align-1)+" ORDER BY IDX ASC";
-				}
-				else if(condition.equals("cpnum")) {
-					sql = "select * from PMS_COUPON_LOG where " + condition + " = " + "'" + value + "' AND idx between " + idx + " AND " + (idx+align-1)+" ORDER BY IDX ASC";
-				}
+			if (value.isEmpty()) {
+				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG ORDER BY IDX ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
+			} else if(condition.equals("cnum")){
+				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' ORDER BY IDX ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
+			}
+			else if(condition.equals("cpnum")) {
+				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG where " + condition + " = " + "'" + value +"' ORDER BY IDX ASC) where rnum between " + idx + " AND " + (idx+align-1);
 			}
 			
 			System.out.println(sql);
@@ -261,36 +247,107 @@ public class PmsC_D_Dao {
 		return arr;
 	}
 	
-	public ArrayList<Pms_Coupon_Log_Dto> SearchCouponLogSub() {
+	public int SearchCouponLogSub(String condition, String value, int align) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
-		ArrayList<Pms_Coupon_Log_Dto> arr = new ArrayList<Pms_Coupon_Log_Dto>();
+		int total = 0;
 		
 		try {
 			con = pool.getConnection();
 			
-			sql = "select * from PMS_COUPON_LOG ORDER BY IDX ASC";
+			if (value.isEmpty()) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON_LOG ORDER BY rnum ASC )";
+			} else if(condition.equals("cnum")){
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' ORDER BY rnum ASC )";
+			}
+			else if(condition.equals("cpnum")) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON_LOG where " + condition + " = " + "'" + value +"' ORDER BY rnum ASC)";
+			}			
+			
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				Pms_Coupon_Log_Dto dto = new Pms_Coupon_Log_Dto();
-				dto.setCNUM(rs.getString("cnum"));
-				dto.setCPCODE(rs.getString("cpcode"));
-				dto.setCPNUM(rs.getInt("cpnum"));
-				dto.setIDX(rs.getInt("idx"));
-				dto.setUSED(rs.getString("used"));
-				dto.setVALIDITY(rs.getString("validity"));
-				arr.add(dto);
+			if (rs.next()) {
+				total = rs.getInt("count(rnum)"); 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		return arr;
+		return total;
+	}
+	
+	public int SearchCouponSub(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int total = 0;
+		
+		try {
+			con = pool.getConnection();
+			
+			if (value.isEmpty()) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON ORDER BY rnum ASC )";
+			} else {
+				if (condition.equals("use_date")) {
+					value = value.replace("일", "");
+				}
+				if (condition.equals("discount")) {
+					value = value.replace("원", "");
+					value = value.replace(",", "");
+				}
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON where " + condition + " LIKE " + "'" + value + "%' ORDER BY rnum ASC )";
+			}
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("count(rnum)"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return total;
+	}
+	
+	public int SearchDiscountSub(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int total = 0;
+		
+		try {
+			con = pool.getConnection();
+			
+			if (value.isEmpty()) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_DISCOUNT_MANAGE ORDER BY rnum ASC )";
+			} else {
+				if (condition.equals("use_time")) {
+					value = value.replace("시간", "");
+				}
+				sql = "select count(rnum) from (select rownum rnum from PMS_DISCOUNT_MANAGE where " + condition + " LIKE " + "'" + value + "%' ORDER BY rnum ASC )";
+			}	
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("count(rnum)"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return total;
 	}
 
 	public ArrayList<memberManageDTO> SearchMember(String condition, String value, int align1, String align2,

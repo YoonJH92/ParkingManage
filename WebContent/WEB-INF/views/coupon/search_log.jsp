@@ -52,7 +52,7 @@
 						</thead>
 
 						<tbody id="l_area">
-						<input type="hidden" startidx="0">
+						<input type="hidden" startidx="1">
 						</tbody>
 					</table>
 				</div>
@@ -65,14 +65,14 @@
 
 
 <script>
-var page = 1;
-var endpage;
-var startidx = Number($('input:hidden').attr('startidx'));
-var total = 0;
-var pagesub = 0;
-var startpage = 1;
-var endpage;
-var plus = 0;
+var page = 1; //실시간 페이지
+var endpage; // 끝나는 페이지
+var startidx = 1; // 가져온 자료 순번(=rnum)
+var total = 0; // 자료의 총 개수
+var pagesub = 0; // 페이지의 총 개수
+var startpage = 1; // 시작 페이지;
+var endpage; // 끝나는 페이지;
+var plus = 0; 
 
 	$(function () {
 		$("#collapsePages").addClass("show");
@@ -81,14 +81,20 @@ var plus = 0;
 		
 		$('button[name="l_search"]').click(function () {
 			page = 1;
-			startidx = 0;
+			startidx = 1;
+			startpage = 1;
+			plus = 0;
 			log_search();
+			paging();
 		});
 
 		$('select[name="l_align"]').change(function () {
 			page = 1;
-			startidx = 0;
+			startidx = 1;
+			startpage = 1;
+			plus = 0;
 			log_search();
+			paging();
 		});
 		
 	});
@@ -98,10 +104,10 @@ var plus = 0;
 				"l_condition": $('select[name="l_condition"]').val(),
 				"l_value": $('input:text[name="l_value"]').val(),
 				"l_align": $('select[name="l_align"]').val(),
-				"startidx": startidx,
+				"startidx": startidx
 			},
 			function (data) { //콜백함수
-				var htmlStr = "<input type=\"hidden\" startidx="+data[0]["STARTIDX"]+" total="+data[0]["TOTAL"]+">";
+				var htmlStr = "<input type=\"hidden\" total="+data[0]["TOTAL"]+">";
 				data.shift();
 				$.each(data, function (key, val) {
 					htmlStr += "<tr>";
@@ -127,7 +133,6 @@ var plus = 0;
 						$('input[name="l_chk"]').prop("checked", false);
 					}
 				});
-				startidx = Number($('input:hidden').attr('startidx'));
 				total = Number($('input:hidden').attr('total'));
 				paging();
 			});
@@ -150,12 +155,17 @@ var plus = 0;
 			if(page >= 11){
 				htmlStr += "<button class=\"btn\" onclick=previous()>이전</button>";
 			}
-			for(var i = startpage+plus; i<=endpage; i++){
-				htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+			if(endpage >= pagesub){
+				endpage = pagesub;
+				for(var i = startpage+plus; i<=endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+				}
+			}else{
+				for(var i = startpage+plus; i<=endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+				}
+				htmlStr += "<button class=\"btn\" onclick=next();>다음</button>";
 			}
-			if(endpage > pagesub){
-			}
-			htmlStr += "<button class=\"btn\" onclick=next();>다음</button>";
 		}else
 			{
 			for(var i = 1; i<=pagesub; i++){
@@ -181,17 +191,18 @@ var plus = 0;
 	
 	function next(){
 		plus += 10;
-		page += 10;
+		page = endpage+1;
+		startidx = Number(endpage * $('select[name="l_align"]').val()+1);
+		log_search();	
 		paging();
-		log_search();
 	}
 	
 	function previous(){
 		plus -= 10;
-		page -= 10;
-		paging();
+		page = startpage+plus;
+		startidx = Number(startpage+plus * $('select[name="l_align"]').val());
 		log_search();
-
+		paging();
 	}
 </script>
 </div>
