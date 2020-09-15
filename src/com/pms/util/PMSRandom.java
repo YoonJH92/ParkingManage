@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.pms.dao.PmsLogDao;
 import com.pms.dao.RandomInsert;
 
 /*데이터 자동생성 클래스*/
@@ -262,14 +263,16 @@ public class PMSRandom {
 		
 		return imgName.toString(); 
 	}
+	
+	
+	
+	
 	public static void main(String[] args) {
 		PMSRandom random = new PMSRandom();
 		ArrayList<String> ran = random.CNUM_RAND(500); 
 		random.MONTH_SETTING(ran);
 		random.TIME_SETTING(ran, 150);
-		
-		
-		
+
 		random.randomImg();
 		System.out.println("성공");
 	}

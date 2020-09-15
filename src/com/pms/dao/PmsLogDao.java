@@ -210,7 +210,7 @@ public class PmsLogDao {
 		return dto;
 	}
 	// 실시간 차량 사진
-	public void imgUpdate(HttpServletRequest req) {
+		public ArrayList<String> imgDetailUpdate(HttpServletRequest req) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -220,6 +220,9 @@ public class PmsLogDao {
 		String encoding = "utf-8";
 		System.out.println(savepath);
 		File Folder = new File(savepath);
+		
+		String url="";
+		ArrayList<String>arr=new ArrayList<String>();
 		// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
 		if (!Folder.exists()) {
 			try {
@@ -249,6 +252,20 @@ public class PmsLogDao {
 			System.out.println("newFileName" + newFileName);
 			while (fileNames.hasMoreElements()) { // 있으면
 				fileInput = (String) fileNames.nextElement();// 폼에서 받아온 요소
+				
+				String cnum=multi.getParameter("cnum")==null?"":multi.getParameter("cnum").trim();
+				String FDATE=multi.getParameter("FDate")==null?"":multi.getParameter("FDate").trim();
+				String LDATE=multi.getParameter("LDate")==null?"":multi.getParameter("LDate").trim();
+				String Ipage=multi.getParameter("ipage")==null?"1":multi.getParameter("ipage").trim();
+				String idrw=multi.getParameter("idrw")==null?"20":multi.getParameter("idrw").trim();
+				System.out.println("cnum"+cnum);		
+				arr.add("FDate="+FDATE);
+				arr.add("&LDate="+LDATE+"&cnum=");
+				arr.add(cnum);
+				arr.add("&dRs="+idrw+"&page="+Ipage);
+				
+				
+				
 				fileName = multi.getFilesystemName(fileInput);
 				if (fileName != null) {
 					type = multi.getContentType(fileInput);
@@ -279,6 +296,7 @@ public class PmsLogDao {
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
+		return arr;
 	}
 	public HashMap<String, Integer> logTotalResult() {
 		Connection con = null;
@@ -524,8 +542,7 @@ public class PmsLogDao {
 				sql = "select count(*) as count from pms_log where (out_time is not null) and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') order by in_time ";		
 			} else if (FDate.equals("")) {
 				if (cnum.equals("")) {
-				sql = "select count(*) as count from pms_log where out_time is not null and(( in_time <= TO_DATE ('"
-				+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS')))";
+				sql ="select count(*) as count from pms_log where out_time is not null and(( in_time <= TO_DATE('"+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS')))";
 				}
 				if (LDate.equals("")) {
 				sql = "select count(*) as count from pms_log where cnum='" + cnum.trim() + "' and out_time is null ";
@@ -638,6 +655,102 @@ public class PmsLogDao {
 		}
 		return arr;
 	}
+	
+	public ArrayList<String> imgUpdate(HttpServletRequest req) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		String savepath = req.getServletContext().getRealPath("/img/");
+		// 실제파일 경로 경로
+		int maxSize = 1024 * 1024 * 50;// 파일크기 제한
+		String encoding = "utf-8";
+		System.out.println(savepath);
+		File Folder = new File(savepath);
+		
+		String url="";
+		ArrayList<String>arr=new ArrayList<String>();
+		// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+		if (!Folder.exists()) {
+			try {
+				Folder.mkdirs(); // 폴더 생성합니다.
+				System.out.println("폴더가 생성되었습니다.");
+			} catch (Exception e) {
+				e.getStackTrace();
+			}
+		} else {
+			System.out.println("이미 폴더가 생성되어 있습니다.");
+		}
+		try {
+			con = pool.getConnection();
+			MultipartRequest multi = new MultipartRequest(req, savepath, maxSize, encoding,
+					new DefaultFileRenamePolicy());
+			Enumeration fileNames = multi.getFileNames();
+			// DefaultFileRenamePolicy() -> 중복파일명을 위한 매개변수
+			boolean save = true; // 파일 저장 성공
+			String fileInput = "";// 폼으로 받아온 filename
+			String fileName = "";// 저장된 파일 이름
+			String originFileName = "";// 원본 파일 이름
+			String type = "";// 저장된 파일 종류
+			File fileobj = null;// 저장된 파일 객체
+			String fileExtend = ""; // jpg,png,gif 등 확장자
+			String fileSize = ""; // 저장된 파일 사이즈
+			String newFileName = "pms_" + System.currentTimeMillis() + fileName;// 저장된 파일을 바꿀 이름
+			System.out.println("newFileName" + newFileName);
+			while (fileNames.hasMoreElements()) { // 있으면
+				fileInput = (String) fileNames.nextElement();// 폼에서 받아온 요소			
+				String Ipage=multi.getParameter("ipage")==null?"1":multi.getParameter("ipage").trim();
+				String idrw=multi.getParameter("idrw")==null?"20":multi.getParameter("idrw").trim();
+				arr.add("dRs="+idrw+"&page="+Ipage);	
+				
+				fileName = multi.getFilesystemName(fileInput);
+				if (fileName != null) {
+					type = multi.getContentType(fileInput);
+					fileobj = multi.getFile(fileInput);
+					originFileName = multi.getOriginalFileName(fileInput);
+					fileExtend = fileName.substring(fileName.lastIndexOf(".") + 1);// "file1.jpg"라면 jpg 반환
+					fileSize = String.valueOf(fileobj.length());// file도 결국 문자열이므로 length()로 반환
+					String[] splitType = type.split("/");
+					if (!splitType[0].equals("image")) {
+						save = false;
+						fileobj.delete(); // 저장된 파일 객체로 삭제
+						break;
+					} else {// 만약 이미지 파일이면 저장 파일의 이름 바꾼다.
+						newFileName += "." + fileExtend;
+						fileobj.renameTo(new File(savepath + "\\" + newFileName));
+					}
+				}
+			}
+			if (save) {
+				sql = " update pms_log set c_img = ? where idx = ? ";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, newFileName);
+				pstmt.setString(2, multi.getParameter("idx"));
+				pstmt.executeUpdate();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return arr;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public void datailImgUpdate(HttpServletRequest request, HttpServletResponse response)
 			throws FileUploadException, UnsupportedEncodingException {
