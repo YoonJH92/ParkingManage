@@ -113,6 +113,7 @@
           	</c:forEach>
           </tbody>
         </table>
+        <%@ include file="/WEB-INF/views/util/pagination.jsp" %>
       </div>
     </div>
   </div>
@@ -171,6 +172,7 @@
   <!-- Logout Modal-->
  <div class="modal" id="EditModal" tabindex="-1" role="dialog" aria-hidden="true">
  <form class="user" method="post" action="memberUpdate.do" id="editFrm" name="editFrm">
+
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
@@ -182,6 +184,8 @@
        <div class="modal-body">
 			<input type="hidden" id="idx" name="idx" value="">
 			<input type="hidden" id="selectType" name="selectType" value="">
+			<input type="hidden" id="p" name="p" value="${pagination.curPage}">
+			
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
 			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
@@ -225,8 +229,11 @@
    </form>
  </div>
  
- 
     <script type="text/javascript">
+	    function fn_paging(curPage) {
+	    	location.href = "/ParkingManage/member.do?p=" + curPage;
+	    }
+    
       $(function () {
           $("input[name=startDate]").datetimepicker({  
         	  format: 'Y-m-d H:i:s'

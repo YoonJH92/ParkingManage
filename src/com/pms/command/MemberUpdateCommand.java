@@ -27,8 +27,8 @@ public class MemberUpdateCommand implements Command {
 			mem.setType(request.getParameter("type"));
 			dao.updateMember(mem);
 		}
-		
-		return "redirect:member.do";
+		String curPage = curPage = "?p="+request.getParameter("p");
+		return "redirect:member.do"+curPage;
 	}
 
 }

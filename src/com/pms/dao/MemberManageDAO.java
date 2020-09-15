@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.naming.directory.SearchControls;
 
 import com.pms.dto.memberManageDTO;
+import com.pms.paging.Pagination;
 import com.pms.util.DBConnectionMgr;
 
 public class MemberManageDAO {
@@ -56,18 +57,29 @@ public class MemberManageDAO {
 	
 	
 	//월정액 리스트 
-	public ArrayList<memberManageDTO> ListMember() {
+	public ArrayList<memberManageDTO> ListMember(Pagination p) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = null;
+		StringBuffer sql = null;
+		
+		
 		ResultSet rs = null;
 		ArrayList<memberManageDTO> arr = new ArrayList<memberManageDTO>();
 		
 		try {
 			con = pool.getConnection();
-			sql = "select * from PMS_MONTH_MEMBER order by SDATE desc";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery(sql);
+			sql = new StringBuffer();
+			sql.append("SELECT * FROM (");
+			sql.append(" SELECT A.*, ROWNUM AS RNUM FROM  ");
+			sql.append(" (SELECT * FROM PMS_MONTH_MEMBER ORDER BY SDATE DESC) A ");
+			sql.append(" WHERE ROWNUM <= ? ");
+			sql.append(" ) WHERE RNUM > ? ");
+			
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setInt(1, p.getCurPage() * p.getPageSize());
+			pstmt.setInt(2, (p.getCurPage()-1) * p.getPageSize());
+			
+			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				memberManageDTO mem = new memberManageDTO();
 				mem.setIdx(rs.getInt("idx"));
@@ -90,6 +102,30 @@ public class MemberManageDAO {
 		}
 		return arr;
 	}
+	
+	//월정액 리스트 
+	public int ListMemberCount() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		ResultSet rs = null;
+		int num = 0;
+		try {
+			con = pool.getConnection();
+			sql = "select count(*) from PMS_MONTH_MEMBER order by SDATE desc";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			while(rs.next()) {
+				num = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return num;
+	}
+	
 	
 	//월정액 리스트 
 		public ArrayList<memberManageDTO> ListMember(Map<String, String> map) {
