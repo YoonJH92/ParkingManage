@@ -18,12 +18,12 @@ public class MemberInsertCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Calendar cal = Calendar.getInstance(); // stopDate 사용
+		Calendar cal = Calendar.getInstance(); 
 		String startDate = request.getParameter("startDate"); // startDate 사용
  		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 		Date toDate = format.parse(startDate); // date 
 		cal.setTime(toDate); 
-		cal.add(Calendar.MONTH, 1);	 
+		cal.add(Calendar.MONTH, 1);	 //한달 후 데이터 저장
 		String stopDate = format.format(cal.getTime()); // String 으로 반환
 		
 		//주차장 세팅 

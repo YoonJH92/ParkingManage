@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pms.dao.MemberManageDAO;
 import com.pms.dto.memberManageDTO;
+import com.pms.paging.Pagination;
 
 public class memberSearchCommand implements Command {
 
@@ -16,6 +17,7 @@ public class memberSearchCommand implements Command {
 		
 		ArrayList<String> date = new ArrayList<String>();
 		HashMap<String, String> map = new HashMap<String, String>();
+		MemberManageDAO dao = MemberManageDAO.getInstance();
 		
 		String dateSearch = request.getParameter("dateSearch");
 		String startForm = request.getParameter("startForm") == "" ? "" : request.getParameter("startForm")+" 00:00:00";
@@ -29,14 +31,25 @@ public class memberSearchCommand implements Command {
 		map.put("search",search);
 		map.put("searchForm",searchForm);
 		
-		MemberManageDAO dao = MemberManageDAO.getInstance();
-		ArrayList<memberManageDTO> arr = dao.ListMember(map);
+		int listCnt = dao.ListMemberCount(map); //전체 리스트 수
+		int curPage = (request.getParameter("p") == null || request.getParameter("p") == "") ? 1 : Integer.parseInt(request.getParameter("p")); // 현재 페이지
+		Pagination pagination = new Pagination(listCnt, curPage); //페이징 객체 생성
+		ArrayList<memberManageDTO> arr = dao.ListMember(map,pagination); // 리스트 데이터 가져옴		
+
 		request.setAttribute("arr", arr);
-		
+		request.setAttribute("dateSearch", request.getParameter("dateSearch"));
+		request.setAttribute("search", request.getParameter("search"));
 		request.setAttribute("startForm", request.getParameter("startForm"));
 		request.setAttribute("endForm", request.getParameter("endForm"));
 		request.setAttribute("searchForm", request.getParameter("searchForm"));
+		request.setAttribute("pagination", pagination); // 페이징 설정 
+		request.setAttribute("listCnt", listCnt); // 전체 개수
+		request.setAttribute("p", curPage); // 현재 페이지
+
+		
 		return "member/manage";
 	}
 
 }
+
+
