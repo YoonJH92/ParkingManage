@@ -210,20 +210,68 @@ public class PmsC_D_Dao {
 		}
 	}
 
-	public ArrayList<Pms_Coupon_Log_Dto> SearchCouponLog(String condition, String value, int align) {
+	public ArrayList<Pms_Coupon_Log_Dto> SearchCouponLog(String condition, String value, int align, int idx) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		ArrayList<Pms_Coupon_Log_Dto> arr = new ArrayList<Pms_Coupon_Log_Dto>();
+		
 		try {
 			con = pool.getConnection();
-			if (value.isEmpty()) {
-				sql = "select * from PMS_COUPON_LOG where rownum <=" + align + " ORDER BY IDX ASC";
-			} else {
-				sql = "select * from PMS_COUPON_LOG where " + condition + " = " + "'" + value + "' AND rownum <="
-						+ align + " ORDER BY IDX ASC";
+			
+			if(idx == 0) {
+				if (value.isEmpty()) {
+					sql = "select * from PMS_COUPON_LOG where rownum <=" + align + " ORDER BY IDX ASC";
+				} else if(condition.equals("cnum")){
+					sql = "select * from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' AND ROWNUM <= "+align+" ORDER BY IDX ASC";
+				}
+				else if(condition.equals("cpnum")) {
+					sql = "select * from PMS_COUPON_LOG where " + condition + " = " + "'" + value + "' AND ROWNUM <= "+align+" ORDER BY IDX ASC";
+				}
+			}else {
+				if (value.isEmpty()) {
+					sql = "select * from PMS_COUPON_LOG where idx between "+idx+" AND "+ (idx+align-1)+" ORDER BY IDX ASC";
+				} else if(condition.equals("cnum")){
+					sql = "select * from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' AND idx between " + idx + " AND "+ (idx+align-1)+" ORDER BY IDX ASC";
+				}
+				else if(condition.equals("cpnum")) {
+					sql = "select * from PMS_COUPON_LOG where " + condition + " = " + "'" + value + "' AND idx between " + idx + " AND " + (idx+align-1)+" ORDER BY IDX ASC";
+				}
 			}
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Pms_Coupon_Log_Dto dto = new Pms_Coupon_Log_Dto();
+				dto.setCNUM(rs.getString("cnum"));
+				dto.setCPCODE(rs.getString("cpcode"));
+				dto.setCPNUM(rs.getInt("cpnum"));
+				dto.setIDX(rs.getInt("idx"));
+				dto.setUSED(rs.getString("used"));
+				dto.setVALIDITY(rs.getString("validity"));
+				arr.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return arr;
+	}
+	
+	public ArrayList<Pms_Coupon_Log_Dto> SearchCouponLogSub() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		ArrayList<Pms_Coupon_Log_Dto> arr = new ArrayList<Pms_Coupon_Log_Dto>();
+		
+		try {
+			con = pool.getConnection();
+			
+			sql = "select * from PMS_COUPON_LOG ORDER BY IDX ASC";
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
