@@ -49,15 +49,7 @@
 		color: black;
 	}  
 	
-	input[type="reset"] {
-   
-   font-family: "Font Awesome 5 Free"; 
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  font-weight: 600;
-	   
-}
+
  </style>                  
  <!-- Begin Page Content -->
  		<div class="container-fluid">
@@ -67,16 +59,16 @@
   			<div calss="row">
   		<div class="card shadow mb-4">
     		<div class="card-header py-3">   
-      	<form action="logDetailTest.do" method="post" id="frm" name="frm">                   
+      	<form action="logdetail.do" method="post" id="frm" name="frm">                   
       <div class="pt10">
       	<div>
      	<span>날짜 검색</span>
      	<select name="Search" id="dateSearch" class="form-control1">
        		<option value>입차 시간</option> 	
            </select>           
-           <input type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
+           <input  autocomplete="off" type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
           ~
-          <input type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1">         
+          <input autocomplete="off" type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1">         
              </div>                    
              <div class="btndiv">
    	<div class="row">
@@ -85,9 +77,9 @@
         	<select  id="search" class="form-control1">
        		<option>차량 번호</option>
        			</select>
-           <input type="text" name="cnum" id="cnum" size=17 maxlength=8 value="${cnum}" class="form-control1">
+           <input autocomplete="off"  type="text" name="cnum" id="cnum" size=17 maxlength=8 value="${Scnum}" class="form-control1">
       		<button id="searchbtn" class=" btn btn-warning shadow-sm mb4" ><i class="fas fa-search fa-sm text-white-50"></i> 검색하기</button>
-      		<button  class="btn btn-danger shadow-sm mb4" type="reset">   <i class="fas fa-undo"></i>  초기화       </button>
+      		<button class="btn btn-danger shadow-sm mb4" type="reset">  <i class="fas fa-undo"></i>  초기화      </button>
       
       </form>  
         </div>  
@@ -95,7 +87,7 @@
       	<form action="logDetailExcel.ex" method="post"  name="exfrm">
     	<input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       	<input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
-      	<input type="hidden" id="cnum" name="cnum" value="${cnum}">         	
+      	<input type="hidden" id="cnum" name="cnum" value="${Scnum}">         	
            <button class="btn  btn-primary shadow-sm mb4"  id="exbtn">
  			 <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
 			</button>	           
@@ -108,7 +100,7 @@
     </div>      
     <div class="card-body">
     	<div class="list_s text-right">
-    <form method="post" action="logDetailTest.do" name="rowForm">   목록:   	                
+    <form method="post" action="logdetail.do" name="rowForm">   목록:   	                
             <select name="dRs" id="DR" onchange="read()" >
        		<option value="20"  id="20" <c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
        		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
@@ -117,11 +109,13 @@
            </select>           
              <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
-      <input type="hidden" name="cnum" value="${cnum}">     
+      <input type="hidden" name="cnum" value="${Scnum}">     
          </form>            
     </div>
+    <div class="row">
+    <div class="col-sm-12">
       <div class="table-responsive text-center">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered" id="dataTable" width="100%" >
           <thead>
                 <c:if test="${empty detail}">
 					<tr><td>검색결과가 없습니다</td></tr>
@@ -167,13 +161,16 @@
     		<c:if test="${arr.saleNum != 0 }">
    			<td><i class="fas fa-check" style="color:green"></i></td></c:if>       	          	    
               <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
-           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal" data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
-           </tr>
+           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+           </tr>													
             </c:forEach>   
     			</c:if>
 
           </tbody>
-        </table>         
+        </table>     
+        </div>
+        </div>    
+        
     <jsp:include page="test1.jsp"> 
     <jsp:param value="${paging.page}" name="page_"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>
@@ -197,21 +194,25 @@
         </div>
         <div class="modal-body">     
        <table>
-           <form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">
-           <tr>
-           <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
-           <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td>	<tr> 			 
+           <form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">    
+      <tr><td><input type="hidden" id="FDate" name="FDate" value=""></td></tr>	  	
+      <tr><td><input type="hidden" id="LDate" name="LDate" value=""></td></tr> 
+      <tr><td><input type="hidden" id="cnum" name="cnum" value=""></td></tr>            
+      <tr><td><input type="hidden" id="IDRW" name="idrw" value=""></td></tr>            
+      <tr><td><input type="hidden" id="Ipage" name="ipage" value=""></td></tr>            
+           <tr><td><input type="hidden" name="idx" id="idx" value="" /></td></tr>
+           <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td>	</tr> 			 
           <tr>
           <td>
            <img id="modalimg" src="" >
          </td></tr>
-          <tr>
-          <td><input type="file" name="fileName"></td>
-           </tr>           
+          <tr> <td ><input type="file" name="fileName" ></td> </tr>  
+
+                   
        </table>
         <div class="modal-footer">
-            <input type="submit" value="수정">
-          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button></div>
+            <input type="submit" class="btn btn-primary" value="수정">
+          <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button></div>
           </form>
         </div>   
     </div></div>
@@ -243,12 +244,27 @@
       var CIMG="";
       var IMGSRC="";
       $(document).ready(function() {
+    	  
+    	  
+    	  	var Fdate = $('#FDate').val();
+	        var Ldate = $('#LDate').val();
+	        var displayRow = $('#dRs').val();
+	        var cnum = $('#cnum').val();
+	        var vidrw = $('#DR').val();
+	        var ipage = ${paging.page}
+
+    	  
           $('#carModal').on('show.bs.modal', function(event) {   
               LOGIDX=$(event.relatedTarget).data('idx');
               CIMG=$(event.relatedTarget).data('cimg');
               var modal=$(this);
               $(".modal-body #idx ").val(LOGIDX);
               $(".modal-body #cimg ").val(CIMG);	
+              $(".modal-body #FDate ").val(Fdate);	
+              $(".modal-body #LDate ").val(Ldate);	
+              $(".modal-body #cnum ").val(cnum);	
+              $(".modal-body #IDRW ").val(vidrw);	
+              $(".modal-body #Ipage ").val(ipage);	
               $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
               $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
           });	                   
@@ -273,6 +289,16 @@
     	   var rowForm =document.rowForm;	   
     	    rowForm.submit();	  	  
 		} 
+        
+    	$(function() {
+    	    $("#FDate").datetimepicker(
+    	    );
+    	    $("#LDate").datetimepicker();
+    		});
+
+        
+        
+        
         
   </script>
 

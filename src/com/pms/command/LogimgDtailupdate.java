@@ -1,5 +1,7 @@
 package com.pms.command;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +14,19 @@ import com.pms.dto.PmsPageDto;
 public class LogimgDtailupdate implements Command{
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-				
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {	
+		request.setCharacterEncoding("UTF-8");  	
 		PmsLogDao dao=PmsLogDao.getInstance();
-		//dao.datailImgUpdate(request, response);    	
-		dao.imgUpdate(request);		
-		//return "redirect:logdetail.do";
-		return "redirect:logDetailTest.do";
+
+
+		System.out.println(request.getParameter("cnum"));
+		ArrayList<String> url= dao.imgDetailUpdate(request);			
+
+		String encodedParam = URLEncoder.encode(url.get(2), "UTF-8");		
+		return "redirect:logdetail.do?Search=&"+url.get(0)+url.get(1)+encodedParam+url.get(3);
+		
+			
+	
 	}
 
 }

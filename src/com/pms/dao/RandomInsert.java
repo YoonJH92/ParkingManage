@@ -45,12 +45,14 @@ public class RandomInsert {
 				if(num==0) {
 					pstmt.setInt(5,dao.fare2(in_time, out_time));
 					pstmt.setInt(6, dao.fare2(in_time,out_time));
+					pstmt.setString(7, Img);
+
 				}else {
 					pstmt.setInt(5,0);
 					pstmt.setInt(6, 0);
+					pstmt.setString(7, Img);
 				}
 				
-				pstmt.setString(7, Img);
 				
 			}else {
 				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,MONTH_NUM,C_IMG) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?)";
