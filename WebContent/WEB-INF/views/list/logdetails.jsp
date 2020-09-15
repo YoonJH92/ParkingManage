@@ -161,16 +161,13 @@
     		<c:if test="${arr.saleNum != 0 }">
    			<td><i class="fas fa-check" style="color:green"></i></td></c:if>       	          	    
               <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
-           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> <i class="fas fa-car"></i> 차량 사진 </button></td>
            </tr>													
             </c:forEach>   
     			</c:if>
 
           </tbody>
         </table>     
-        </div>
-        </div>    
-        
     <jsp:include page="test1.jsp"> 
     <jsp:param value="${paging.page}" name="page_"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>
@@ -179,6 +176,9 @@
     <jsp:param value="${paging.next}" name="next"/> 
     <jsp:param value="${paging.displayRow}" name="displayRow"/>   
     </jsp:include>               
+        </div>
+        </div>    
+        
       </div>
     </div>
   </div>

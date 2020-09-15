@@ -27,7 +27,17 @@
         	text-align: center;
         	color: black;
         	}
-        	          	
+        	
+	
+	.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: black;
+    border-color: #4e73df;
+}
+	.page-link {
+	color: black;
+	}    	          	
         </style>        
         <div class="container-fluid">
           <!-- Page Heading -->
@@ -143,44 +153,31 @@
      <td>0</td>	
      </c:if>
          <c:if test="${arr.cpNum == 0 }">
-             <td><i class="fas fa-times " style="color:red"></i></td>      
+        <td><i class="fas fa-times " style="color:red"></i></td>      
      </c:if>
-
  <c:if test="${arr.cpNum != 0 }">
             <td><i class="fas fa-ticket-alt"></i></td>      
      </c:if>
-
     <c:if test="${arr.monthNum == 0 }">
     <td><i class="fas fa-times" style="color:red"></i></td>
     </c:if>
     <c:if test="${arr.monthNum != 0 }">
             <td><i class="fas fa-ticket-alt"></i></td>      
-</c:if>
-   
+</c:if>   
        <c:if test="${arr.saleNum == 0 }">
              <td><i class="fas fa-times " style="color:red"></i></td>      
      </c:if>
-
  <c:if test="${arr.saleNum != 0 }">
             <td><i class="fas fa-ticket-alt"></i></td>      
-     </c:if>
-   
-    <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+     </c:if> 
+    <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> <i class="fas fa-car"></i>  차량 사진 </button></td>
 </tr>	
 	</c:forEach> 
   </tbody>
 </table>
 </div>
 </div>
-    <jsp:include page="test.jsp">
-    <jsp:param value="${paging.page}" name="page"/>
-    <jsp:param value="${paging.beginPage}" name="beginPage"/>
-    <jsp:param value="${paging.endPage}" name="endPage"/>
-    <jsp:param value="${paging.prev}" name="prev"/>
-    <jsp:param value="${paging.next}" name="next"/> 
-    <jsp:param value="${paging.displayRow}" name="displayRow"/> 
- </jsp:include>
-                     
+       <%@ include file="/WEB-INF/views/util/pagination.jsp" %>                    
               </div>
               </div>
 
@@ -223,11 +220,17 @@
   </div>         
      <!-- 모달창 -->    
       <script>
+      
+      
+    function fn_paging(curPage) {
+       var vidrw = $('#DR').val();
+     location.href = window.location.pathname +"?p="+curPage+"&dRs="+vidrw;
+    }        
 	var LOGIDX="";
 	var CIMG="";
 	var IMGSRC="";
 	 var vidrw = $('#DR').val();
-     var ipage = ${paging.page}
+     var ipage = ${pagination.curPage}
 	$(document).ready(function() {
 		$('#carModal').on('show.bs.modal', function(event) {   
 			LOGIDX=$(event.relatedTarget).data('idx');
@@ -246,9 +249,42 @@
   
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	function printClock() {
-	    
-	    var clock = document.getElementById("clock");            // 출력할 장소 선택
+	    var clock = document.getElementById("clock");            
 	    var currentDate = new Date();                                     // 현재시간
 	    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() // 현재 날짜
 	    var amPm = 'AM'; // 초기값 AM
@@ -264,10 +300,10 @@
 	   
 	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:10px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
 	    
-	    setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
+	    setTimeout("printClock()",1000);         
 	}
 
-	function addZeros(num, digit) { // 자릿수 맞춰주기
+	function addZeros(num, digit) { 
 		  var zero = '';
 		  num = num.toString();
 		  if (num.length < digit) {

@@ -13,36 +13,43 @@ import org.apache.poi.hssf.record.pivottable.PageItemRecord;
 import com.pms.dao.PmsLogDao;
 import com.pms.dto.PmsLogDto;
 import com.pms.dto.PmsPageDto;
+import com.pms.paging.Pagination;
 
 public  class LogListCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 PmsLogDao dao=PmsLogDao.getInstance(); 
-		 int page = 1;	 
-		 if(request.getParameter("page")!=null) {
-			page=Integer.parseInt(request.getParameter("page"));
-		 	}
-		 	PmsPageDto paging =new PmsPageDto();		 
-		 	int dispalyRow=20;
-		 	if(request.getParameter("dRs")!=null){
-		 	dispalyRow=Integer.parseInt(request.getParameter("dRs"));
-		 	System.out.println(dispalyRow);
-		 	paging.setDisplayRow(dispalyRow);
-		 	}
-		 	paging.setDisplayRow(dispalyRow);
+		
+		 
 		 	int count=dao.getlistCount();
-		 	paging.setPage(page);
-		 	paging.setTotalCount(count);
+		 	int dispalyRow=20;
+		 	int curPage = (request.getParameter("p") == null || request.getParameter("p") == "") ? 1 : Integer.parseInt(request.getParameter("p")); // 현재 페이지
+		 	Pagination pagination = new Pagination(count, curPage); 	
+		 	if(request.getParameter("dRs")==null) {	 	
+		 	pagination.setPageSize(20);
+		 	pagination.setListCnt(count);
+		 	}
+		 	else if(request.getParameter("dRs")!=null){
+		 	dispalyRow=Integer.parseInt(request.getParameter("dRs"));
+		 	pagination.setPageSize(dispalyRow);
+	        pagination.setListCnt(count);
+		 	}
 		 
 		 
-		 HashMap<String, Integer> result=dao.logTotalResult();
-		 ArrayList<String>fare=dao.Curentfare();		 
-		 ArrayList<PmsLogDto> arr=dao.viewList(paging);		 	
-		 request.setAttribute("list", arr);
+		 ArrayList<PmsLogDto> arr=dao.viewList(pagination);		 	
 		 request.setAttribute("displayRow", dispalyRow);
-		 request.setAttribute("paging", paging);
+		 request.setAttribute("pagination", pagination);		 
+		 HashMap<String, Integer> result=dao.logTotalResult();		 
+		 ArrayList<String>fare=dao.Curentfare();		 		 
+		 request.setAttribute("list", arr);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);
+		 request.setAttribute("pagination", pagination); 
+		 request.setAttribute("listCnt", count); 
+		 request.setAttribute("p", curPage); 
+		 
+		 
+		 
 	     return "list";		
 	}
 	
