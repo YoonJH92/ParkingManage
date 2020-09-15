@@ -1,3 +1,5 @@
+<%@page import="java.net.URLDecoder"%>
+<%@page import="java.net.URLEncoder"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -29,8 +31,14 @@
   	color: black;
 }
 
+	<%
+	
+
+	
+	
+	%>
 </style>
-<c:url var="action" value="/logDetailTest.do"/>
+<c:url var="action" value="/logdetail.do"/>
 <div class="pagination modal-3 ">
 <c:if test="${param.prev}">
     <a href="${action}?Search=&FDate=${param.FDate }&LDate=${param.LDate}&cnum=${param.cnum}&dRs=${param.displayRow}&page=${param.beginPage-1}">&laquo</a>
@@ -39,10 +47,10 @@
 <c:forEach begin="${param.beginPage}" end="${param.endPage}" step="1" var="index">
     <c:choose>
         <c:when test="${param.page==index}">
-<a class="active"> ${index} </a>
+<a class="active" id="page_"> ${index} </a>
         </c:when>
         <c:otherwise>
-        <a  href="${action}?Search=&FDate=${param.FDate}&LDate=${param.LDate}&cnum=${param.cnum}&dRs=${param.displayRow}&page=${index}">${index}</a>
+        <a href="${action}?Search=&FDate=${param.FDate}&LDate=${param.LDate}&cnum=${param.cnum}&dRs=${param.displayRow}&page=${index}">${index}</a>
         </c:otherwise>
     </c:choose>
 </c:forEach>

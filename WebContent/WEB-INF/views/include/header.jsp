@@ -57,7 +57,7 @@
         </a>      
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="logDetaillist.do">
+        <a class="nav-link" href="logdetail.do">
           <i class="fas fa-car"></i>
           <span>차량조회</span>
         </a>
@@ -69,8 +69,6 @@
           <span>월정액 회원관리</span>
         </a>
       </li>
-      
-
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a id="arrow" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -85,8 +83,7 @@
           </div>
         </div> 
       </li>
-      
-     
+       
       <!-- Nav Item - Charts -->
       <li class="nav-item">
         <a class="nav-link" href="statTimeac.do">

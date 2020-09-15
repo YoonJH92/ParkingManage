@@ -18,9 +18,9 @@ public class Action {
       	map.put("/loglistac",new LogListacCommand());
       	map.put("/imgupdate",new LoglmgModifyAction());
       	map.put("/index",new IndexCommand());
-      	map.put("/logdetail",new LogDetailCommand());
       	map.put("/imgDtailupdate", new LogimgDtailupdate());
-      	map.put("/logDetailTest",new LogDetailTextCommand());
+      	map.put("/logdetail",new LogDetailCommand());
+      	
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());

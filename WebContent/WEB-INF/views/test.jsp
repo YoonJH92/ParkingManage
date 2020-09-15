@@ -34,7 +34,7 @@
    </c:if>
 <c:forEach begin="${param.beginPage}" end="${param.endPage}" step="1" var="index">
     <c:choose>
-        <c:when test="${param.page==index}"> <a class="active"> ${index}  </a> </c:when>
+        <c:when test="${param.page==index}"> <a class="active" > ${index}  </a> </c:when>
         <c:otherwise> 
        <a  href="${action}?dRs=${param.displayRow}&page=${index}">  ${index} </a>
         </c:otherwise>

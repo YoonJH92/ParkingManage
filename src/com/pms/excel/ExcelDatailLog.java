@@ -20,12 +20,11 @@ public class ExcelDatailLog implements ExcelCommand{
 		PmsLogDao dao=PmsLogDao.getInstance();
 	    String cnum=request.getParameter("cnum"); 
 		String fDate=request.getParameter("FDate"); 
-		String LDate=request.getParameter("LDate");		
-		
+		String LDate=request.getParameter("LDate");				
 		if(fDate==""&&LDate==""&&cnum=="") {
 			fDate="-1";
 		}
-			
+		
 		ArrayList<PmsLogDto> arr=dao.viewDetail(fDate, LDate, cnum);
 		HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet();
