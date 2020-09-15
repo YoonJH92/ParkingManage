@@ -17,4 +17,4 @@
 		<c:if test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
             <li class="page-item"><a class="page-link" href="#" onClick="fn_paging('${pagination.nextPage }')">다음</a></li>
         </c:if>
-	</ul>
+	</ul> 

@@ -91,12 +91,12 @@
 				<div class="container-fluid mb-3">
 					<div class="card border-left-primary shadow h-100 py-2" pborder>
 						<div class="card-body">
-								<h2 class="mb-3">쿠폰 발급</h2>
-								<span class="p_switchToggle">
+								<h2 class="mb-5">쿠폰 발급</h2>
+								<!-- <span class="p_switchToggle">
 									<input type="checkbox" id="p_switch" />
 									<label class="ml-auto" for="p_switch">Toggle</label>
 									<input type="hidden" name="p_c_d" value="p_coupon" />
-								</span>
+								</span> -->
 								<div id="toggle5">
 									<%@ include file="publish_single.jsp"%>
 								</div>

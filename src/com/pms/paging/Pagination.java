@@ -173,6 +173,5 @@ public class Pagination {
     public void setStartIndex(int curPage) {
         this.startIndex = (curPage-1) * pageSize;
     }
- 
     
 }

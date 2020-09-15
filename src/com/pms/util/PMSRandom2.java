@@ -324,9 +324,9 @@ public class PMSRandom2 {
 		PMSRandom2 random = new PMSRandom2();
 		random.COUPON_SETTING(randomCouponName());
 		random.DISCOUNT_SETTING(30);
-		ArrayList<String> ran = random.CNUM_RAND(500);
+		ArrayList<String> ran = random.CNUM_RAND(1000);
 		random.MONTH_SETTING(ran);
-		random.TIME_SETTING(ran, 150);
+		random.TIME_SETTING(ran, 5);
 
 		System.out.println("성공");
 	}

@@ -13,11 +13,18 @@ JSONArray jarr = new JSONArray();
 String l_condition = request.getParameter("l_condition");
 String l_value = request.getParameter("l_value");
 int l_align = Integer.parseInt(request.getParameter("l_align"));
+int startidx = Integer.parseInt(request.getParameter("startidx"));
 
-ArrayList<Pms_Coupon_Log_Dto> dto = dao.SearchCouponLog(l_condition, l_value, l_align);
+ArrayList<Pms_Coupon_Log_Dto> dto = dao.SearchCouponLog(l_condition, l_value, l_align, startidx);
+startidx = dto.get(0).getIDX();
+
+JSONObject obj = new JSONObject();
+obj.put("STARTIDX", startidx);
+obj.put("TOTAL",dao.SearchCouponLogSub().size());
+jarr.add(obj); 
 
 for (Pms_Coupon_Log_Dto l : dto) {
-	JSONObject obj = new JSONObject();
+	obj = new JSONObject();
 	obj.put("CPNUM", l.getCPNUM());
 	obj.put("CNUM", l.getCNUM());
 	obj.put("CPCODE", l.getCPCODE());
@@ -26,5 +33,6 @@ for (Pms_Coupon_Log_Dto l : dto) {
 	obj.put("VALIDITY", l.getVALIDITY());
 	jarr.add(obj);
 }
+System.out.println(startidx);
 out.println(jarr.toString());
 %>
