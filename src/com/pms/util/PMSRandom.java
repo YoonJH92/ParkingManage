@@ -20,6 +20,8 @@ import com.pms.dao.PmsC_D_Dao;
 import com.pms.dao.RandomInsert;
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
+import com.pms.dto.PmsLogDto;
+import com.pms.dto.Pms_Coupon_Log_Dto;
 
 /*데이터 자동생성 클래스*/
 public class PMSRandom {
@@ -131,7 +133,7 @@ public class PMSRandom {
 		String out = null;
 		long endTime = 0;
 		int num = 0;
-		int cpnum = 0;
+		Pms_Coupon_Log_Dto cpnum = null;
 		RandomInsert randomInsert = new RandomInsert();
 		for (String key : keys) { // map foreach문
 			for (int i = 0; i < map.get(key).size(); i++) { // map에 value 수만큼 반복

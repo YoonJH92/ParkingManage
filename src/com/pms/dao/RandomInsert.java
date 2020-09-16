@@ -16,6 +16,7 @@ import org.apache.poi.ss.formula.ptg.Ptg;
 
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
+import com.pms.dto.Pms_Coupon_Log_Dto;
 import com.pms.dto.SettingDTO;
 import com.pms.dto.memberManageDTO;
 import com.pms.util.DBConnectionMgr;
@@ -57,18 +58,46 @@ public class RandomInsert {
 		return arr;
 	}
 
-	public void randomLogAdd(String key, String in_time, String out_time, int num, int cnum) {
+	public int CpFare(int cptype) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int discount = 0;
+		
+		try {
+			con = pool.getConnection();
+			sql = "select discount from PMS_COUPON where cpnum = "+cptype;
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				discount = rs.getInt("discount");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		
+		return discount;
+	}
+	
+	public void randomLogAdd(String key, String in_time, String out_time, int num, Pms_Coupon_Log_Dto cnum) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		String month_id = null;
 		PmsLogDao dao = PmsLogDao.getInstance();
+		SettingDAO setting = SettingDAO.getInstance();
 		int percent = rd.nextInt(100);
-		
 		ArrayList<PmsDiscountDto> ddto = SearchDiscount();
-		PmsDiscountDto discount;
-			
+		PmsDiscountDto discount = ddto.get(rd.nextInt(ddto.size()));
+		int fare = setting.settItem().getFare();
+		int cptype = cnum.getCPNUM();
+		int cpdiscount = CpFare(cptype);
 		
 		try {
 			con = pool.getConnection();
@@ -78,33 +107,55 @@ public class RandomInsert {
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
 				pstmt.setString(3, out_time);
-				if(percent <= 50) {
-					discount = ddto.get(rd.nextInt(ddto.size()));
-					pstmt.setInt(4, cnum);
+				if(percent <= 20) {
+					pstmt.setInt(4, cnum.getIDX());
 					pstmt.setInt(5, discount.getCOM_NUM());
-				
+				}else if(20 < percent && percent <=40 ){
+					pstmt.setInt(4, cnum.getIDX());
+					pstmt.setNull(5, Types.INTEGER);
+				}else if(40<percent && percent<=60){
+					pstmt.setNull(4, Types.INTEGER);
+					pstmt.setInt(5, discount.getCOM_NUM());
 				}else {
 					pstmt.setNull(4, Types.INTEGER);
-					pstmt.setNull(5, Types.INTEGER);	
+					pstmt.setNull(5, Types.INTEGER);
 				}
 				pstmt.setInt(6, num);
 				if (num == 0) {
 					pstmt.setInt(7, dao.fare2(in_time, out_time));
-					pstmt.setInt(8, dao.fare2(in_time, out_time));
+					if(percent <= 20 ) {
+						pstmt.setInt(8, dao.fare2(in_time, out_time)-((discount.getUSE_TIME()*fare)+cpdiscount));
+					}else if(20 < percent && percent <=40 ){
+						pstmt.setInt(8, dao.fare2(in_time, out_time)-cpdiscount);
+					}else if(40<percent && percent<=60){
+						pstmt.setInt(8, dao.fare2(in_time, out_time)-(discount.getUSE_TIME()*fare));
+					}else {
+						pstmt.setInt(8, dao.fare2(in_time, out_time));
+					}
 				} else {
 					pstmt.setInt(7, 0);
 					pstmt.setInt(8, 0);
 				}
 
 			} else {
-				discount = ddto.get(rd.nextInt(ddto.size()));
 
 				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,CP_NUM,SALE_NUM,MONTH_NUM) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
-				pstmt.setNull(3, Types.INTEGER);
-				pstmt.setInt(4, discount.getCOM_NUM());
+				if(percent <= 20) {
+					pstmt.setInt(3, cnum.getIDX());
+					pstmt.setInt(4, discount.getCOM_NUM());
+				}else if(20 < percent && percent <=60 ){
+					pstmt.setNull(3, Types.INTEGER);
+					pstmt.setNull(4, Types.INTEGER);	
+				}else if(60<percent && percent<=80){
+					pstmt.setNull(3, Types.INTEGER);
+					pstmt.setInt(4, discount.getCOM_NUM());
+				}else {
+					pstmt.setInt(3, cnum.getIDX());
+					pstmt.setNull(4, Types.INTEGER);	
+				}
 				pstmt.setInt(5, num);
 
 			}
@@ -214,20 +265,20 @@ public class RandomInsert {
 		return dto;
 	}
 	
-	public int randomCoupon_Log(String key) {
+	public Pms_Coupon_Log_Dto randomCoupon_Log(String key) {
 		int percent = rd.nextInt(100);
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		PmsCouponDto dto = couponNum();
-		int num = 0;
-		
+		Pms_Coupon_Log_Dto ldto = new Pms_Coupon_Log_Dto();
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new java.util.Date());
 		cal.add(Calendar.DAY_OF_MONTH, dto.getUSE_DATE());
-
+		
 		
 		try {
 			con = pool.getConnection();
@@ -252,17 +303,23 @@ public class RandomInsert {
 		
 		try {
 			con = pool.getConnection();
-			sql = "select idx from PMS_COUPON_LOG where cnum ='"+key+"'";
+			sql = "select * from PMS_COUPON_LOG where cnum ='"+key+"'";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				num = rs.getInt("idx");
+			
+			if (rs.next()) {
+				ldto.setCNUM(rs.getString("cnum"));
+				ldto.setCPCODE(rs.getString("cpcode"));
+				ldto.setCPNUM(rs.getInt("cpnum"));
+				ldto.setIDX(rs.getInt("idx"));
+				ldto.setUSED(rs.getString("used"));
+				ldto.setVALIDITY(rs.getString("validity"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
-		return num;
+		return ldto;
 	}
 }

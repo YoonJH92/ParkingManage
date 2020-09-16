@@ -143,7 +143,7 @@
 	<c:set var="cFare" value="${farelist}"></c:set>
 	<c:forEach var="arr" items="${list}"  varStatus="status">
 <tr>
-     <th scope="row">${arr.idx}</th>
+    <th scope="row">${arr.idx}</th>
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
 	<c:if test="${arr.monthNum == 0}">

@@ -40,7 +40,7 @@ public  class LogListCommand implements Command {
 		 request.setAttribute("displayRow", dispalyRow);
 		 request.setAttribute("pagination", pagination);		 
 		 HashMap<String, Integer> result=dao.logTotalResult();		 
-		 ArrayList<String>fare=dao.Curentfare();		 		 
+		 ArrayList<String>fare=dao.Curentfare();	
 		 request.setAttribute("list", arr);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);
