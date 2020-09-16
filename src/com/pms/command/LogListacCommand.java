@@ -8,7 +8,7 @@ public class LogListacCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		return "index";
+		return "redirect:loglist.do";
 	}
 
 }

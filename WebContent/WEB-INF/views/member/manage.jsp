@@ -61,14 +61,18 @@
       	~
       	<input type="text" class="form-control1" id="endForm" name="endForm" value="${endForm}" autocomplete="off">
       	<a href="#" id="excelBtn" class="d-none d-sm-inline-block btn btn-primary shadow-sm fr">
-	      	<i class="fas fa-download fa-sm text-white-50"></i> 엑셀다운
+	      	<i class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운
       	</a>
+      	
       </div>
       <div>
         <span>조건 검색</span>
         <select name="search" id="search" class="form-control1">
-       		<option value="NAME">이름</option>
-       		<option value="CARN">차량 번호</option>
+       		<option value="NAME" <c:if test="${param.search eq 'NAME'}">selected</c:if>>이름</option>
+       		<option value="CARN" <c:if test="${param.search eq 'CARN'}">selected</c:if>>차량 번호</option>
+       		<option value="EMAIL" <c:if test="${param.search eq 'EMAIL'}">selected</c:if>>이메일</option>
+       		<option value="PHONE" <c:if test="${param.search eq 'PHONE'}">selected</c:if>>전화번호</option>
+       		<option value="TYPE" <c:if test="${param.search eq 'TYPE'}">selected</c:if>>구분</option>
        	</select>
       	<input type="text" class="form-control1" id="searchForm" name="searchForm" value="${searchForm}" autocomplete="off">
       	<a href="#" id="searchBtn" class="d-none d-sm-inline-block btn btn-warning shadow-sm mb4">
@@ -294,6 +298,7 @@
           
           $("#searchBtn").click(function(){
         	  var limit = $("#limit option:selected").val();
+        	  $("#p").val(1);
         	  $("#frm").submit();
           });
           

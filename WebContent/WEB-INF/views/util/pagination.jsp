@@ -3,6 +3,8 @@
 	<ul class="pagination justify-content-center">
 		<c:if test="${pagination.curPage ne 1}">
             <li class="page-item"><a class="page-link" href="#" onClick="fn_paging('${pagination.prevPage }')">이전</a></li>
+        </c:if>
+        <c:if test="${pagination.endPage ne 1}">
             <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
 				<c:choose>
 				    <c:when test="${pageNum eq  pagination.curPage}">

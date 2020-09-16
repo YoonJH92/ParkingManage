@@ -38,7 +38,7 @@ public class MemberManageDAO {
 			con = pool.getConnection();
 			sql = new StringBuffer();
 			sql.append("insert into PMS_MONTH_MEMBER values");
-			sql.append("(MONTH_MEMBER_SEQ.nextval,?,sysdate,TO_DATE(?,'YYYY-MM-DD HH24:MI'),TO_DATE(?,'YYYY-MM-DD HH24:MI'),?,?,?,?,?)");
+			sql.append("(MONTH_MEMBER_SEQ.nextval,?,sysdate,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?,?,?,?)");
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, mem.getName());
 			pstmt.setString(2, mem.getStartDate());
