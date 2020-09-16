@@ -4,10 +4,32 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <jsp:useBean id="now" class="java.util.Date" />
-
- 
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
         <!-- Begin Page Content -->      
-        <style>        
+        <style>      
+        
+ 		@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+   @font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    
+}
+
+
+          @font-face {
+    font-family: 'MapoDPPA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoDPPA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+            
+          h1 {
+          font-family: 'MapoDPPA';
+          
+          }
         #modalimg{
             max-width: 450px;
             max-height: 300px;
@@ -26,6 +48,9 @@
         	td,th{
         	text-align: center;
         	color: black;
+
+    font-family: 'NEXON Lv1 Gothic OTF';
+        	
         	}
         	
 	
@@ -37,15 +62,30 @@
 }
 	.page-link {
 	color: black;
-	}    	          	
+	}   
+	
+	.heading{
+	/* text-black-800 */
+	background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e3e6f0;
+    color: #212529;
+	}
+	
+	.card{
+	
+    font-family: 'NEXON Lv1 Gothic OTF';
+	
+	}
+	
         </style>        
         <div class="container-fluid">
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center  mb-4">        
-            <div class="p-2"> <h1 class="h3 mb-0 text-gray-800"> 실시간 현황 조회    </h1>
+          <div class="d-sm-flex align-items-center  mb-4 heading">        
+            <div class="p-2"> <h1 class="h2 mb-0   "> 실시간 주차 현황     </h1>
             </div>
  			 <div class="p-2">	<body onload="printClock()">		
-		<div style="border:1px solid #dedede; width:200px; height:50px; line-height:50px; background-color:white; color:#666;font-size:20px; text-align:center;" id="clock">
+		<div style=" width:200px; height:50px; line-height:50px; color:#212529;font-size:20px; text-align:left;" id="clock">
 		</div></div>
   			<div class="ml-auto p-2"> <a href="logexcel.ex" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
   			</div>
@@ -58,7 +98,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-s font-weight-bold text-primary text-center text-uppercase mb-1">총 주자수</div>
+                      <div class="text-s font-weight-bold text-primary text-center text-uppercase mb-1 carT"> 주자 수</div>
                       <div class="h4 mb-0 font-weight-bold text-gray-800 text-center">
                       <c:out value="${total['allCum']}"/>              
                       </div>
@@ -105,7 +145,7 @@
                 <div class="card-header py-3">
                           <div class="row">               
                   <div class="col-lg-6 mb-6 sm-3 text-left" >
-                  <h6 class="h5 m-0 font-weight-bold text-black">실시간 조회</h6>
+                  <h6 class="h5 m-0 font-weight-bold text-black"></h6>
                   </div>
                   <div class="col-lg-6 mb-6 sm-3 text-right" >
                 <form method="get" action="loglist.do" name="rowForm"> 목록 :
@@ -128,13 +168,13 @@
  				<thead>
     <tr>
       <th scope="col">No.</th>
-      <th scope="col">차량번호</th>
-      <th scope="col">입차시간</th>
-      <th scope="col">사용금액</th>
+      <th scope="col">차량 번호</th>
+      <th scope="col">입차 시간</th>
+      <th scope="col">사용 금액</th>
       <th scope="col">쿠폰 여부</th>
       <th scope="col">월 정액 여부</th>
       <th scope="col">할인 적용 여부 </th>      
-      <th scope="col">차량이미지</th>
+      <th scope="col">차량 이미지</th>
     </tr>
  	</thead>
   <tbody>
@@ -143,7 +183,7 @@
 	<c:set var="cFare" value="${farelist}"></c:set>
 	<c:forEach var="arr" items="${list}"  varStatus="status">
 <tr>
-     <th scope="row">${arr.idx}</th>
+    <th scope="row">${arr.idx}</th>
 	<td>${arr.cnum}</td>
 	<td>${arr.inTime}</td>  	
 	<c:if test="${arr.monthNum == 0}">
@@ -245,44 +285,7 @@
 		});
 			
 	});
-	
-  
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	function printClock() {
 	    var clock = document.getElementById("clock");            
 	    var currentDate = new Date();                                     // 현재시간
@@ -296,9 +299,8 @@
 	    	amPm = 'PM';
 	    	currentHours = addZeros(currentHours - 12,2);
 	    }
-
-	   
-	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:10px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+  
+	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:12px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
 	    
 	    setTimeout("printClock()",1000);         
 	}

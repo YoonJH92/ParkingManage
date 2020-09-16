@@ -20,7 +20,7 @@ public class MemberInsertCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Calendar cal = Calendar.getInstance(); 
 		String startDate = request.getParameter("startDate"); // startDate 사용
- 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+ 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date toDate = format.parse(startDate); // date 
 		cal.setTime(toDate); 
 		cal.add(Calendar.MONTH, 1);	 //한달 후 데이터 저장

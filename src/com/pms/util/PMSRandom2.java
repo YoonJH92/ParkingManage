@@ -17,14 +17,12 @@ import java.util.Random;
 import java.util.Set;
 
 import com.pms.dao.PmsC_D_Dao;
-import com.pms.dao.RandomInsert;
+import com.pms.dao.RandomInsert2;
 import com.pms.dto.PmsCouponDto;
 import com.pms.dto.PmsDiscountDto;
-import com.pms.dto.PmsLogDto;
-import com.pms.dto.Pms_Coupon_Log_Dto;
 
 /*데이터 자동생성 클래스*/
-public class PMSRandom {
+public class PMSRandom2 {
 	// 차번호 생성
 	public ArrayList<String> CNUM_RAND(int count) {
 
@@ -133,8 +131,8 @@ public class PMSRandom {
 		String out = null;
 		long endTime = 0;
 		int num = 0;
-		Pms_Coupon_Log_Dto cpnum = null;
-		RandomInsert randomInsert = new RandomInsert();
+		int cpnum = 0;
+		RandomInsert2 randomInsert = new RandomInsert2();
 		for (String key : keys) { // map foreach문
 			for (int i = 0; i < map.get(key).size(); i++) { // map에 value 수만큼 반복
 				num = 0;
@@ -194,7 +192,7 @@ public class PMSRandom {
 		Set<String> keys = map.keySet();
 		String toDate = null;
 		String stopDate = null;
-		RandomInsert randomInsert = new RandomInsert();
+		RandomInsert2 randomInsert = new RandomInsert2();
 		for (String key : keys) {
 			String name = randomHangulName(); // 한글이름 랜덤생성
 			String email = randomEmailName(); // 이메일 랜덤생성
@@ -323,7 +321,7 @@ public class PMSRandom {
 	}
 
 	public static void main(String[] args) {
-		PMSRandom random = new PMSRandom();
+		PMSRandom2 random = new PMSRandom2();
 		random.COUPON_SETTING(randomCouponName());
 		random.DISCOUNT_SETTING(30);
 		ArrayList<String> ran = random.CNUM_RAND(500);

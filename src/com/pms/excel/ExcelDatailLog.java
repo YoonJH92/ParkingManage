@@ -20,9 +20,10 @@ public class ExcelDatailLog implements ExcelCommand{
 		PmsLogDao dao=PmsLogDao.getInstance();
 	    String cnum=request.getParameter("cnum"); 
 		String fDate=request.getParameter("FDate"); 
-		String LDate=request.getParameter("LDate");				
+		String LDate=request.getParameter("LDate");		
+		String yesterday=dao.Yesterday();
 		if(fDate==""&&LDate==""&&cnum=="") {
-			fDate="-1";
+			fDate=yesterday;
 		}
 		
 		ArrayList<PmsLogDto> arr=dao.viewDetail(fDate, LDate, cnum);

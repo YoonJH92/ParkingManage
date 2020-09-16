@@ -3,11 +3,50 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha512-YUkaLm+KJ5lQXDBdqBqk7EVhJAdxRnVdT2vtCzwPHSweCzyMgYV/tgGF4/dCyqtCC2eCphz0lRQgatGVdfR0ww==" crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
 <!-- 있어야 함  -->
 <style>
+
+
+   @font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    
+	}
+
+    @font-face {
+    font-family: 'MapoDPPA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoDPPA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+ h1{font-family: 'MapoDPPA';
+    	color: #212529;
+    	background-color: #fff;
+   		border: 1px solid #e3e6f0;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding:0.5rem;
+ 	
+ }
+
+ 
 .fr{float:right!important;}
 .fl{float:left!important;}
-.py10{padding: 10px 0;}
+.py10{ padding: 10px 0;
+}
+
+.btn ,span, input ,form {
+
+    font-family: 'NEXON Lv1 Gothic OTF';
+
+}
    #modalimg{            
             max-width: 450px;
             max-height: 300px;
@@ -47,24 +86,28 @@
  }
 	tr,td{
 		color: black;
+		font-family: 'NEXON Lv1 Gothic OTF';
+		
 	}  
 	
-
+	
  </style>                  
  <!-- Begin Page Content -->
  		<div class="container-fluid">
   <!-- Page Heading -->
-  		<h1 class="h2 mb-4 text-gray-800">차량 조회 </h1>
+  			<div class="heading">
+  		<h1 class="h2 mb-4 text-black-800"> 차량  현황 조회 </h1>
+  		</div>
   <!-- DataTales Example -->
   			<div calss="row">
   		<div class="card shadow mb-4">
     		<div class="card-header py-3">   
-      	<form action="logdetail.do" method="post" id="frm" name="frm">                   
+      	<form action="logdetail.do" method="get" id="frm" name="frm">                   
       <div class="pt10">
       	<div>
-     	<span>날짜 검색</span>
+     	<span>날짜 검색 : </span>
      	<select name="Search" id="dateSearch" class="form-control1">
-       		<option value>입차 시간</option> 	
+       		<option value>입차 시간  </option> 	
            </select>           
            <input  autocomplete="off" type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
           ~
@@ -73,11 +116,12 @@
              <div class="btndiv">
    	<div class="row">
         <div class="col-lg-8 mb-8 sm-8">
-        <span>차량번호</span>
+        <span>차량번호 : </span>
         	<select  id="search" class="form-control1">
        		<option>차량 번호</option>
        			</select>
            <input autocomplete="off"  type="text" name="cnum" id="cnum" size=17 maxlength=8 value="${Scnum}" class="form-control1">
+                 <input type="hidden" name="p"  value="${pagination.curPage}">
       		<button id="searchbtn" class=" btn btn-warning shadow-sm mb4" ><i class="fas fa-search fa-sm text-white-50"></i> 검색하기</button>
       		<button class="btn btn-danger shadow-sm mb4" type="reset">  <i class="fas fa-undo"></i>  초기화      </button>
       
@@ -87,7 +131,9 @@
       	<form action="logDetailExcel.ex" method="post"  name="exfrm">
     	<input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       	<input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
-      	<input type="hidden" id="cnum" name="cnum" value="${Scnum}">         	
+      	<input type="hidden" id="cnum" name="cnum" value="${Scnum}">   
+      	
+      	      	
            <button class="btn  btn-primary shadow-sm mb4"  id="exbtn">
  			 <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
 			</button>	           
@@ -110,6 +156,9 @@
              <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
       <input type="hidden" name="cnum" value="${Scnum}">     
+      
+                 
+      
          </form>            
     </div>
     <div class="row">
@@ -168,14 +217,13 @@
 
           </tbody>
         </table>     
-    <jsp:include page="test1.jsp"> 
-    <jsp:param value="${paging.page}" name="page_"/>
-    <jsp:param value="${paging.beginPage}" name="beginPage"/>
-    <jsp:param value="${paging.endPage}" name="endPage"/>
-    <jsp:param value="${paging.prev}" name="prev"/>
-    <jsp:param value="${paging.next}" name="next"/> 
-    <jsp:param value="${paging.displayRow}" name="displayRow"/>   
-    </jsp:include>               
+  
+  
+  
+  
+  
+         <%@ include file="/WEB-INF/views/util/pagination.jsp" %>                    
+  
         </div>
         </div>    
         
@@ -240,19 +288,29 @@
 </div>    
      
    <script>
+   
+   
+   function fn_paging(curPage) {
+    var vidrw = $('#DR').val();
+   	var Fdate = $('#FDate').val();
+    var Ldate = $('#LDate').val();
+    var displayRow = $('#dRs').val();
+    var cnum = $('#cnum').val();   
+     location.href = window.location.pathname +"?Search=&FDate="+Fdate+"&LDate="+Ldate+"&cnum="+cnum+"&dRs="+vidrw+"&p="+curPage;
+    } 
+   
+      
+   
       var LOGIDX="";
       var CIMG="";
       var IMGSRC="";
-      $(document).ready(function() {
-    	  
-    	  
+      $(document).ready(function() {  
     	  	var Fdate = $('#FDate').val();
 	        var Ldate = $('#LDate').val();
 	        var displayRow = $('#dRs').val();
 	        var cnum = $('#cnum').val();
 	        var vidrw = $('#DR').val();
-	        var ipage = ${paging.page}
-
+	        var ipage = ${pagination.curPage}
     	  
           $('#carModal').on('show.bs.modal', function(event) {   
               LOGIDX=$(event.relatedTarget).data('idx');

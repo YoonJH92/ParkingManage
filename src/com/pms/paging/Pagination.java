@@ -150,8 +150,7 @@ public class Pagination {
     
     public void setRangeCnt(int pageCnt) {
         this.rangeCnt = (int) Math.ceil(pageCnt/(double)rangeSize);
-    }
-    
+    }   
     public void rangeSetting(int curPage){
         
         setCurRange(curPage);        

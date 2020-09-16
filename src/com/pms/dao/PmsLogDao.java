@@ -89,20 +89,18 @@ public class PmsLogDao {
 		pool = DBConnectionMgr.getInstance();
 	}
 	// 실시간 조회
-	public ArrayList<PmsLogDto> viewList(Pagination p) {
+	public ArrayList<PmsLogDto> viewList(Pagination2 p) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		StringBuffer sql=null;
-		
-		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();
-	
+		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();	
 		try {
 			con = pool.getConnection();
 			sql=new StringBuffer();
 			sql.append(" SELECT * FROM (" );
 			sql.append(" SELECT A.*, ROWNUM AS RNUM FROM  ");
-			sql.append(" (select * from PMS_log where out_time is null) A ");
+			sql.append(" (select * from PMS_log where out_time is null order by in_time) A ");
 			sql.append(" WHERE ROWNUM <= ? ");
 			sql.append(" ) WHERE RNUM > ? ");
 			ps = con.prepareStatement(sql.toString());
@@ -162,7 +160,7 @@ public class PmsLogDao {
 		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();
 		try {
 			con = pool.getConnection();
-			String sql = " SELECT * FROM pms_log where out_time is null ";
+			String sql = " SELECT * FROM pms_log where out_time is null order by in_time";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -269,8 +267,7 @@ public class PmsLogDao {
 				arr.add("FDate="+FDATE);
 				arr.add("&LDate="+LDATE+"&cnum=");
 				arr.add(cnum);
-				arr.add("&dRs="+idrw+"&page="+Ipage);
-				
+				arr.add("&dRs="+idrw+"&p="+Ipage);
 				
 				
 				fileName = multi.getFilesystemName(fileInput);
@@ -451,69 +448,69 @@ public class PmsLogDao {
 		return fareArr;
 	}
 	// 차량조회
-	public ArrayList<PmsLogDto> viewDetail(PmsPageDto page, String FDate, String LDate, String cnum) {
+	public ArrayList<PmsLogDto> viewDetail(Pagination2 p, String FDate, String LDate, String cnum) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();
 		String sql = "";
-		int startNum = page.getStartNum();
-		int endNum = page.getEndNum();
-		try {
+		String yesterday=Yesterday();
+		try {			
 			con = pool.getConnection();
-			if ((FDate.equals("-1"))) {
-				sql = "SELECT * FROM (" + "  SELECT * FROM ("
-						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') order by in_time ) WHERE row_num >= ? ) "
-						+ "WHERE row_num <= ? ";
+			if ((FDate.equals(yesterday))) {
+				sql = "SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+						+ "( select * from PMS_log where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time ) A WHERE ROWNUM <= ?  "
+						+ " ) WHERE RNUM > ? ";
 			} else if (FDate.equals("")) {
 				if (cnum.equals("")) {
-					sql = "SELECT * FROM (" + "  SELECT * FROM ("
-							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and ( in_time < TO_DATE('"
-							+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time ) WHERE row_num >= ? ) "
-							+ "WHERE row_num <= ? ";
+					sql = "SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+							+ " ( SELECT * FROM pms_log  where out_time is not null  and ( in_time < TO_DATE('"
+							+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time ) A WHERE ROWNUM <= ?  "
+							+ " ) WHERE RNUM > ? ";
 
 				} else if (LDate.equals("")) {
-					sql = "SELECT * FROM (" + "  SELECT * FROM ("
-							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and (cnum='"
-							+ cnum.trim() + "' )  order by in_time ) WHERE row_num >= ? ) " + "WHERE row_num <= ? ";
+					sql = "SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+							+ " (SELECT * from pms_log  where out_time is not null  and (cnum='"
+							+ cnum.trim() + "' )  order by in_time ) WHERE row_num >= ? )  A WHERE ROWNUM <= ?  ) WHERE RNUM > ? ";
 				}				
 				else {									
-					sql = "SELECT * FROM (" + "  SELECT * FROM ("
-							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and (cnum='" + cnum.trim() + "')"
-							+ " and ( in_time <= TO_DATE('"+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time ) WHERE row_num >= ? ) "
-							+ "WHERE row_num <= ? ";									
+					sql = " SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+							+ "  ( SELECT * FROM pms_log  where out_time is not null  and (cnum='" + cnum.trim() + "')"
+							+ " and ( in_time <= TO_DATE('"+ LDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time )  A WHERE ROWNUM <= ?  ) WHERE RNUM > ?  ";
 				}		
 			}
 			
 			else if (cnum.equals("")) {
 				if (LDate.equals("")) {
-					sql = "SELECT * FROM (" + "  SELECT * FROM ("
-							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and ( in_time >= TO_DATE('"
-							+ FDate.trim() + "','YYYY-MM-DD HH24:MI:SS')) order by in_time ) WHERE row_num >= ? ) "
-							+ "WHERE row_num <= ? ";
+					sql = " SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+							+ " ( SELECT * FROM pms_log  where out_time is not null  and ( in_time >= TO_DATE('"
+							+ FDate.trim() + "','YYYY-MM-DD HH24:MI:SS')) order by in_time )  A WHERE ROWNUM <= ?  ) WHERE RNUM > ?  ";							
+									
 				} else {
-					sql = "SELECT * FROM (" + "  SELECT * FROM ("
-							+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('"
+					sql = " SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+							+ " ( SELECT  * FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('"
 							+ FDate.trim() + "', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate.trim()
-							+ "','YYYY-MM-DD HH24:MI:SS') order by in_time ) WHERE row_num >= ? ) " + "WHERE row_num <= ? ";
+							+ "','YYYY-MM-DD HH24:MI:SS') order by in_time ) A WHERE ROWNUM <= ? ) WHERE RNUM > ?  ";
 				}
 			}			
 			else if(LDate.equals("")) {
-				sql = "SELECT * FROM (" + "  SELECT * FROM ("
-						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and (cnum='" + cnum.trim() + "')"
-						+ " and ( in_time <= TO_DATE('"+ FDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time ) WHERE row_num >= ? ) "
-						+ "WHERE row_num <= ? ";		
+				sql = " SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+						+ " ( SELECT  * FROM pms_log  where out_time is not null  and (cnum='" + cnum.trim() + "')"
+						+ " and ( in_time <= TO_DATE('"+ FDate.trim() + "','YYYY-MM-DD HH24:MI:SS' )) order by in_time ) " +
+						"A WHERE ROWNUM <= ? ) WHERE RNUM > ?"; 
 			}					
 		 else {
-				sql = "SELECT * FROM (" + "  SELECT * FROM ("
-						+ " SELECT ROWNUM row_num, pms_log.* FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('"
+				sql = " SELECT * FROM ( SELECT A.*, ROWNUM AS RNUM FROM "
+						+ " ( SELECT  * FROM pms_log  where out_time is not null  and in_time BETWEEN TO_DATE ('"
 						+ FDate.trim() + "', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate.trim()
-						+ "','YYYY-MM-DD HH24:MI:SS')  and (cnum='" + cnum.trim() + "' )  order by in_time ) WHERE row_num >= ? ) "
-						+ "WHERE row_num <= ? ";
+						+ "','YYYY-MM-DD HH24:MI:SS')  and (cnum='" + cnum.trim() + "' )  order by in_time ) "
+						+"A WHERE ROWNUM <= ? ) WHERE RNUM > ?"; 
 			}
+				
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, startNum);
-			ps.setInt(2, endNum);
+			ps.setInt(1, p.getCurPage() * p.getPageSize()); 
+			ps.setInt(2, (p.getCurPage()-1) * p.getPageSize());
+			
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				PmsLogDto dto = new PmsLogDto();
@@ -543,10 +540,11 @@ public class PmsLogDao {
 		ResultSet rs = null;
 		String sql = "";
 		int Dcount = 0;
+ 		String Yesterday =Yesterday();		
 		try {		
 			con = pool.getConnection();
-			if ((FDate.equals("-1"))) {
-				sql = "SELECT count(*) as count FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') order by in_time";
+			if ((FDate.equals(Yesterday))) {
+				sql = "SELECT count(*) as count FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time";
 			} else if (FDate.equals("")) {
 				if (cnum.equals("")) {
 					sql = " SELECT count(*) as count FROM pms_log  where out_time is not null  and ( in_time <= TO_DATE('"
@@ -606,8 +604,8 @@ public class PmsLogDao {
 		String sql = "";
 		try {
 			con = pool.getConnection();
-			if ((FDate.equals("-1"))) {
-				sql = "SELECT * FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-20,'YYYY-MM-DD') order by in_time";
+			if ((FDate.equals(""))) {
+				sql = "SELECT * FROM pms_log  where out_time is not null and to_date (in_time,'YYYY-MM-DD') = TO_DATE(SYSDATE-1,'YYYY-MM-DD') order by in_time";
 			} else if (FDate.equals("")) {
 				if (cnum.equals("")) {
 					sql = " SELECT * FROM pms_log  where out_time is not null  and ( in_time <= TO_DATE('"
@@ -741,18 +739,13 @@ public class PmsLogDao {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		public String Yesterday() {
+			SimpleDateFormat todaySdf = new SimpleDateFormat("YYYY-MM-dd", Locale.KOREA);
+	        Calendar cal = Calendar.getInstance();
+	        cal.add(Calendar.DATE, -1);
+	        String timedate = todaySdf.format(cal.getTime());
+	        return timedate;
+	    }
 	
 	
 	

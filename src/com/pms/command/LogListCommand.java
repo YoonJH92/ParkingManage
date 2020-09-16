@@ -14,6 +14,7 @@ import com.pms.dao.PmsLogDao;
 import com.pms.dto.PmsLogDto;
 import com.pms.dto.PmsPageDto;
 import com.pms.paging.Pagination;
+import com.pms.paging.Pagination2;
 
 public  class LogListCommand implements Command {
 	@Override
@@ -24,29 +25,39 @@ public  class LogListCommand implements Command {
 		 	int count=dao.getlistCount();
 		 	int dispalyRow=20;
 		 	int curPage = (request.getParameter("p") == null || request.getParameter("p") == "") ? 1 : Integer.parseInt(request.getParameter("p")); // 현재 페이지
-		 	Pagination pagination = new Pagination(count, curPage); 	
-		 	if(request.getParameter("dRs")==null) {	 	
-		 	pagination.setPageSize(20);
-		 	pagination.setListCnt(count);
-		 	}
-		 	else if(request.getParameter("dRs")!=null){
+		 	
+		 	if(request.getParameter("dRs")!=null){
 		 	dispalyRow=Integer.parseInt(request.getParameter("dRs"));
-		 	pagination.setPageSize(dispalyRow);
-	        pagination.setListCnt(count);
 		 	}
+<<<<<<< Updated upstream
 		 
 		 
 		 ArrayList<PmsLogDto> arr=dao.viewList(pagination);		 	
 		 request.setAttribute("displayRow", dispalyRow);
 		 request.setAttribute("pagination", pagination);		 
 		 HashMap<String, Integer> result=dao.logTotalResult();		 
-		 ArrayList<String>fare=dao.Curentfare();		 		 
+		 ArrayList<String>fare=dao.Curentfare();	
 		 request.setAttribute("list", arr);
 		 request.setAttribute("total", result);
 		 request.setAttribute("farelist", fare);
 		 request.setAttribute("pagination", pagination); 
 		 request.setAttribute("listCnt", count); 
 		 request.setAttribute("p", curPage); 
+=======
+		 	 
+		 	Pagination2 pagination = new Pagination2(count, curPage, dispalyRow);	
+		 	ArrayList<PmsLogDto> arr=dao.viewList(pagination);		 	
+		 	request.setAttribute("displayRow", dispalyRow);
+		 	request.setAttribute("pagination", pagination);		 
+		 	HashMap<String, Integer> result=dao.logTotalResult();		 
+		 	ArrayList<String>fare=dao.Curentfare();		 		 
+		 	request.setAttribute("list", arr);
+		 	request.setAttribute("total", result);
+		 	request.setAttribute("farelist", fare);
+		 	request.setAttribute("pagination", pagination); 
+		 	request.setAttribute("listCnt", count); 
+		 	request.setAttribute("p", curPage); 
+>>>>>>> Stashed changes
 		 
 		 
 		 
