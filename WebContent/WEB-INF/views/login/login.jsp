@@ -104,6 +104,7 @@ body {
 	</c:if>
 
 	<c:if test="${re == 0 }">
+	 
 		<script type="text/javascript">
 			alert("패스워드가 일치하지 않습니다");
 			history.go(-1);
@@ -112,7 +113,7 @@ body {
 
 	<c:if test="${re == 1 }">
 		<script type="text/javascript">
-			document.location.href = "loglistac.do";
+			document.location.href = "loglist.do";
 		</script>
 	</c:if>
 

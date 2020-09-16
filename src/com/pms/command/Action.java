@@ -15,7 +15,7 @@ public class Action {
 		/* 해시맵에 키값에 해당되는 객체 저장 */
 		map.put("/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
-      	map.put("/loglistac",new LogListacCommand());
+      	
       	map.put("/imgupdate",new LoglmgModifyAction());
       	map.put("/index",new IndexCommand());
       	map.put("/imgDtailupdate", new LogimgDtailupdate());
