@@ -98,7 +98,7 @@ body {
 
 	<c:if test="${re == -1 }">
 		<script type="text/javascript">
-			alert("아이디가 존제하지 않습니다");
+			alert("아이디가 존재하지 않습니다");
 			history.go(-1);
 		</script>
 	</c:if>

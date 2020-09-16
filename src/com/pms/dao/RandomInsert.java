@@ -98,6 +98,8 @@ public class RandomInsert {
 		int fare = setting.settItem().getFare();
 		int cptype = cnum.getCPNUM();
 		int cpdiscount = CpFare(cptype);
+		int temp = 0;
+		
 		if(percent <=50) {
 			num = 0;
 		}else {
@@ -129,13 +131,29 @@ public class RandomInsert {
 				if (num == 0) {
 					pstmt.setInt(7, dao.fare2(in_time, out_time));
 					if(percent <= 20 ) {
-						pstmt.setInt(8, dao.fare2(in_time, out_time)-((discount.getUSE_TIME()*fare)+cpdiscount));
+						temp = dao.fare2(in_time, out_time)-((discount.getUSE_TIME()*fare)+cpdiscount);
+						if(temp < 0) {
+							temp = 0;
+						}
+						pstmt.setInt(8, temp);
 					}else if(20 < percent && percent <=40 ){
 						pstmt.setInt(8, dao.fare2(in_time, out_time)-cpdiscount);
+						if(temp < 0) {
+							temp = 0;
+						}
+						pstmt.setInt(8, temp);
 					}else if(40<percent && percent<=60){
 						pstmt.setInt(8, dao.fare2(in_time, out_time)-(discount.getUSE_TIME()*fare));
+						if(temp < 0) {
+							temp = 0;
+						}
+						pstmt.setInt(8, temp);
 					}else {
 						pstmt.setInt(8, dao.fare2(in_time, out_time));
+						if(temp < 0) {
+							temp = 0;
+						}
+						pstmt.setInt(8, temp);
 					}
 				} else {
 					pstmt.setInt(7, 0);

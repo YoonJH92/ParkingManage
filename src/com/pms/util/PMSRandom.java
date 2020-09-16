@@ -328,7 +328,7 @@ public class PMSRandom {
 		random.DISCOUNT_SETTING(30);
 		ArrayList<String> ran = random.CNUM_RAND(500);
 		random.MONTH_SETTING(ran);
-		random.TIME_SETTING(ran, 150);
+		random.TIME_SETTING(ran, 500);
 
 		System.out.println("성공");
 	}
