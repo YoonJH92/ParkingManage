@@ -1,11 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
+<<<<<<< HEAD
 	pageEncoding="UTF-8"%>
 
+=======
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+>>>>>>> 21600da3435b2c4cfe42b36bf8fadb32544b6518
 <!DOCTYPE html>
 <html lang="en">
 
+
+<c:if test="${sessid==null || sessid == '' }">
+			<script type="text/javascript">
+			alert("로그인이 필요한 창입니다");
+			document.location.href = "loginac.do";
+		</script>
+</c:if>
 <head>
 
+<<<<<<< HEAD
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -71,6 +84,65 @@ body{
 	font-family: 'NEXON Lv1 Gothic OTF';
 }
 </style>
+=======
+
+<style>
+
+   @font-face {
+    font-family: 'MapoDPPA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoDPPA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+ @font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal; 
+	}
+
+   body{
+    	font-family: 'NEXON Lv1 Gothic OTF'!important;
+    	color: black!important;
+    
+	}
+	tr,td,input{
+		color: black!important;
+	}   
+	h1{
+	 font-family: 'MapoDPPA';	 
+	}
+	
+}
+
+</style>
+
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>PMS</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="resources/css/sb-admin-2.css" rel="stylesheet">
+  <script src="resources/jquery-3.5.1.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
+  <link href="resources/jquery.datetimepicker.css" rel="stylesheet">
+  <script src="resources/vendor/jquery/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="resources/js/sb-admin-2.min.js"></script>
+>>>>>>> 21600da3435b2c4cfe42b36bf8fadb32544b6518
 </head>
 
 <body id="page-top">

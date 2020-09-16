@@ -8,10 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.pms.dao.StatDailyDAO;
 import com.pms.dto.StatisticsDTO;
 
-
-
 public class StatDailyCommand implements Command{
-
+	/**일별 통계 커맨드 **/
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatDailyDAO dao = StatDailyDAO.getInstance();

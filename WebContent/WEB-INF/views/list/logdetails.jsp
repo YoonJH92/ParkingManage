@@ -116,7 +116,11 @@
              <div class="btndiv">
    	<div class="row">
         <div class="col-lg-8 mb-8 sm-8">
+
         <span>차량번호 : </span>
+
+        <span>차량 번호 : </span>
+
         	<select  id="search" class="form-control1">
        		<option>차량 번호</option>
        			</select>

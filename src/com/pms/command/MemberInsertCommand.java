@@ -15,9 +15,10 @@ import com.pms.dto.SettingDTO;
 import com.pms.dto.memberManageDTO;
 
 public class MemberInsertCommand implements Command {
-
+	/**월정액 회원 추가 커맨드 **/
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/**Calendar 객체 생성 후 한달 후 데이터 구함 **/
 		Calendar cal = Calendar.getInstance(); 
 		String startDate = request.getParameter("startDate"); // startDate 사용
  		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

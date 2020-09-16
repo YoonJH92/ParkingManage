@@ -18,6 +18,7 @@ public class ExcelMonthly implements ExcelCommand {
 
 	@Override
 	public HSSFWorkbook execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/**파라미터 값 받아옴 **/
 		String startForm = request.getParameter("HidStartForm") == "" ? "" : request.getParameter("HidStartForm");
 		String endForm = request.getParameter("HidEndForm") == "" ? "" : request.getParameter("HidEndForm"); 
 		
@@ -25,14 +26,17 @@ public class ExcelMonthly implements ExcelCommand {
 		StatDailyDAO dao = StatDailyDAO.getInstance();
 		
 		if((startForm !="" && startForm != null) || (endForm !="" && endForm !=null)) {
+			/**검색 결과가 있을시 **/
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("startForm",startForm);
 			map.put("endForm",endForm);
 			arr = dao.ListView(map);
 		}else {
+			/**검색 결과가 없을시 **/
 			arr = dao.ListView();
 		}
 		
+		/** 엑셀 시트 생성 **/
 		HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet();
         HSSFRow row = null;
@@ -40,6 +44,7 @@ public class ExcelMonthly implements ExcelCommand {
         HSSFCell cell = null;
         
         row = sheet.createRow(0);
+        /**엑셀 상단 제목 생성 **/
         String[] headerKey = {"시간", "입차일반", "입차월정액", "입차합계","출차일반","출차월정액","출차합계","출차 사용요금","월정액 등록수","월정액 사용요금","합계"};
         
         for(int i=0; i<headerKey.length; i++) {
@@ -47,6 +52,7 @@ public class ExcelMonthly implements ExcelCommand {
             cell.setCellValue(headerKey[i]);
         }
         
+        /**엑셀 데이터 입력 **/
         for(int i=0; i<arr.size(); i++) {
             row = sheet.createRow(i + 1);
             StatisticsDTO vo = arr.get(i);
