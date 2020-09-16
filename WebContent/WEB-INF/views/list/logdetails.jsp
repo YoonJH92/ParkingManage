@@ -125,7 +125,6 @@
        		<option>차량 번호</option>
        			</select>
            <input autocomplete="off"  type="text" name="cnum" id="cnum" size=17 maxlength=8 value="${Scnum}" class="form-control1">
-                 <input type="hidden" name="p"  value="${pagination.curPage}">
       		<button id="searchbtn" class=" btn btn-warning shadow-sm mb4" ><i class="fas fa-search fa-sm text-white-50"></i> 검색하기</button>
       		<button class="btn btn-danger shadow-sm mb4" type="reset">  <i class="fas fa-undo"></i>  초기화      </button>
       

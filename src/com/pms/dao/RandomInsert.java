@@ -30,7 +30,6 @@ public class RandomInsert {
 		pool = DBConnectionMgr.getInstance();
 	}
 
-
 	public ArrayList<PmsDiscountDto> SearchDiscount() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -99,7 +98,9 @@ public class RandomInsert {
 		int cptype = cnum.getCPNUM();
 		int cpdiscount = CpFare(cptype);
 		int temp = 0;
-		
+		PMSRandom random = new PMSRandom();
+		String cImg =random.ImgName();
+
 		if(percent <=50) {
 			num = 0;
 		}else {
@@ -109,7 +110,7 @@ public class RandomInsert {
 		try {
 			con = pool.getConnection();
 			if (out_time != null) {
-				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,CP_NUM,SALE_NUM,MONTH_NUM,pay,total_pay) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'), ? , ? , ? , ? , ? )";
+				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,CP_NUM,SALE_NUM,MONTH_NUM,pay,total_pay,c_img) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'), ? , ? , ? , ? , ?,? )";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
@@ -136,33 +137,40 @@ public class RandomInsert {
 							temp = 0;
 						}
 						pstmt.setInt(8, temp);
+						pstmt.setString(9, cImg);
+
 					}else if(20 < percent && percent <=40 ){
 						pstmt.setInt(8, dao.fare2(in_time, out_time)-cpdiscount);
 						if(temp < 0) {
 							temp = 0;
 						}
 						pstmt.setInt(8, temp);
+						pstmt.setString(9, cImg);
+
 					}else if(40<percent && percent<=60){
 						pstmt.setInt(8, dao.fare2(in_time, out_time)-(discount.getUSE_TIME()*fare));
 						if(temp < 0) {
 							temp = 0;
 						}
 						pstmt.setInt(8, temp);
+						pstmt.setString(9, cImg);
+
 					}else {
 						pstmt.setInt(8, dao.fare2(in_time, out_time));
 						if(temp < 0) {
 							temp = 0;
 						}
 						pstmt.setInt(8, temp);
+						pstmt.setString(9, cImg);
+
 					}
 				} else {
 					pstmt.setInt(7, 0);
 					pstmt.setInt(8, 0);
+					pstmt.setString(9, cImg);
 				}
-
 			} else {
-
-				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,CP_NUM,SALE_NUM,MONTH_NUM) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?,?)";
+				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,CP_NUM,SALE_NUM,MONTH_NUM,c_img) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?,?,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
@@ -180,16 +188,16 @@ public class RandomInsert {
 					pstmt.setNull(4, Types.INTEGER);	
 				}
 				pstmt.setInt(5, num);
-
+				pstmt.setString(6, cImg);
 			}
 			pstmt.executeUpdate();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt, rs);
 		}
 	}
+
 
 	public void randomMemberAdd(String key, String toDate, String stopDate, String name, String addr, String phone,
 			String type) {
