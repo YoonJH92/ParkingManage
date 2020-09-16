@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
+
+<c:if test="${sessid==null || sessid == '' }">
+			<script type="text/javascript">
+			alert("로그인이 필요한 창입니다");
+			document.location.href = "loginac.do";
+		</script>
+</c:if>
 <head>
 
   <meta charset="utf-8">

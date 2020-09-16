@@ -7,6 +7,12 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
+<c:if test="${sessid==null || sessid == '' }">
+			<script type="text/javascript">
+			alert("로그인이 필요한 창입니다");
+			document.location.href = "loginac.do";
+		</script>
+</c:if>
 <style>
 body{
 		background-color: #25274d;

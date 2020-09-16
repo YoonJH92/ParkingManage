@@ -7,6 +7,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
+
 <style>
 body{
 		background-color: #25274d;
