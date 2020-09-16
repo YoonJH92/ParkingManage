@@ -13,6 +13,42 @@
 </c:if>
 <head>
 
+
+<style>
+
+   @font-face {
+    font-family: 'MapoDPPA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoDPPA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+ @font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal; 
+	}
+
+   body{
+    	font-family: 'NEXON Lv1 Gothic OTF'!important;
+    	color: black!important;
+    
+	}
+	tr,td,input{
+		color: black!important;
+	}   
+	h1{
+	 font-family: 'MapoDPPA';	 
+	}
+	
+}
+
+</style>
+
+
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

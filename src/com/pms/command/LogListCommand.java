@@ -29,12 +29,17 @@ public  class LogListCommand implements Command {
 		 	if(request.getParameter("dRs")!=null){
 		 	dispalyRow=Integer.parseInt(request.getParameter("dRs"));
 		 	}
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+		 	Pagination2 pagination = new Pagination2(count, curPage, dispalyRow);	
+
+>>>>>>> min
 		 
 		 
-		 ArrayList<PmsLogDto> arr=dao.viewList(pagination);		 	
-		 request.setAttribute("displayRow", dispalyRow);
-		 request.setAttribute("pagination", pagination);		 
+		 		ArrayList<PmsLogDto> arr=dao.viewList(pagination);		 	
+		 	request.setAttribute("displayRow", dispalyRow);
+		 				request.setAttribute("pagination", pagination);		 
 		 HashMap<String, Integer> result=dao.logTotalResult();		 
 		 ArrayList<String>fare=dao.Curentfare();	
 		 request.setAttribute("list", arr);
@@ -43,6 +48,7 @@ public  class LogListCommand implements Command {
 		 request.setAttribute("pagination", pagination); 
 		 request.setAttribute("listCnt", count); 
 		 request.setAttribute("p", curPage); 
+<<<<<<< HEAD
 =======
 		 	 
 		 	Pagination2 pagination = new Pagination2(count, curPage, dispalyRow);	
@@ -58,6 +64,10 @@ public  class LogListCommand implements Command {
 		 	request.setAttribute("listCnt", count); 
 		 	request.setAttribute("p", curPage); 
 >>>>>>> Stashed changes
+=======
+
+	
+>>>>>>> min
 		 
 		 
 		 
