@@ -44,6 +44,11 @@
   <div class="card shadow mb-4">
     <div class="card-header py-3">
       <form action="memberSearch.do" method="post" id="frm" name="frm">
+    	   <input type="hidden" name="HidStartForm" id="HidStartForm" value="${startForm}"/>
+    	   <input type="hidden" name="HidEndForm" id="HidEndForm" value="${endForm}"/>
+    	   <input type="hidden" name="HidDateSearch" id="HidDateSearch" value="${dateSearch}"/>
+    	   <input type="hidden" name="HidSearch" id="HidSearch" value="${search}"/>
+    	   <input type="hidden" name="HidSearchForm" id="HidSearchForm" value="${searchForm}"/>
       <div class="py10">
      	<span>날짜 검색</span>
      	<select name="dateSearch" id="dateSearch" class="form-control1">
@@ -54,11 +59,11 @@
       	<input type="text" class="form-control1" id="startForm" name="startForm" value="${startForm}" autocomplete="off">
       	~
       	<input type="text" class="form-control1" id="endForm" name="endForm" value="${endForm}" autocomplete="off">
+      	<a href="#" id="excelBtn" class="d-none d-sm-inline-block btn btn-primary shadow-sm fr">
+	      	<i class="fas fa-download fa-sm text-white-50"></i> 엑셀다운
+      	</a>
       </div>
       <div>
-      	<div>
-      	
-      	</div>
         <span>조건 검색</span>
         <select name="search" id="search" class="form-control1">
        		<option value="NAME">이름</option>
@@ -113,6 +118,7 @@
           	</c:forEach>
           </tbody>
         </table>
+        <%@ include file="/WEB-INF/views/util/pagination.jsp" %>
       </div>
     </div>
   </div>
@@ -171,6 +177,7 @@
   <!-- Logout Modal-->
  <div class="modal" id="EditModal" tabindex="-1" role="dialog" aria-hidden="true">
  <form class="user" method="post" action="memberUpdate.do" id="editFrm" name="editFrm">
+
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
@@ -182,6 +189,8 @@
        <div class="modal-body">
 			<input type="hidden" id="idx" name="idx" value="">
 			<input type="hidden" id="selectType" name="selectType" value="">
+			<input type="hidden" id="p" name="p" value="${pagination.curPage}">
+			
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
 			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
@@ -224,9 +233,17 @@
    </div>
    </form>
  </div>
- 
- 
+
     <script type="text/javascript">
+	    function fn_paging(curPage) {
+      	  	var startForm = $("#HidStartForm").val();
+    	  	var endForm = $("#HidEndForm").val();
+    	  	var dateSearch = $("#HidDateSearch").val();
+    	  	var search = $("#HidSearch").val();
+    	  	var searchForm = $("#HidSearchForm").val();
+	    	location.href = window.location.pathname +"?p="+curPage+"&dateSearch="+dateSearch+"&startForm="+startForm+"&endForm="+endForm+"&search="+search+"&searchForm="+searchForm;
+	    }
+    
       $(function () {
           $("input[name=startDate]").datetimepicker({  
         	  format: 'Y-m-d H:i:s'
@@ -258,6 +275,14 @@
         	  $("#frm").submit();
           });
           
+          $("#excelBtn").click(function(){
+	       	  	var startForm = $("#HidStartForm").val();
+	       	  	var endForm = $("#HidEndForm").val();
+	       	  	var dateSearch = $("#HidDateSearch").val();
+	       	  	var search = $("#HidSearch").val();
+	       	  	var searchForm = $("#HidSearchForm").val();
+        	  location.href = "member.ex" +"?dateSearch="+dateSearch+"&startForm="+startForm+"&endForm="+endForm+"&search="+search+"&searchForm="+searchForm;
+          });
 
           $(".btn-edit").click(function(e){
         	  var name = $(this).parent().siblings().eq(0).text();

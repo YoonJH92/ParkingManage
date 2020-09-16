@@ -47,58 +47,61 @@
  }
 	tr,td{
 		color: black;
-	} 
- 
+	}  
+	
+
  </style>                  
  <!-- Begin Page Content -->
- 		<div class="container">
+ 		<div class="container-fluid">
   <!-- Page Heading -->
-  		<h1 class="h2 mb-5 text-gray-800">차량 조회 </h1>
+  		<h1 class="h2 mb-4 text-gray-800">차량 조회 </h1>
   <!-- DataTales Example -->
-  
   			<div calss="row">
   		<div class="card shadow mb-4">
     		<div class="card-header py-3">   
-      	<form action="logDetailTest.do" method="post" id="frm" name="frm">                   
-      <div class="py10">
+      	<form action="logdetail.do" method="post" id="frm" name="frm">                   
+      <div class="pt10">
       	<div>
      	<span>날짜 검색</span>
      	<select name="Search" id="dateSearch" class="form-control1">
        		<option value>입차 시간</option> 	
            </select>           
-           <input type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
+           <input  autocomplete="off" type="text" id="FDate" name="FDate" size=17 maxlength=17 value="${FDate}" class="form-control1">
           ~
-          <input type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1">         
-             </div>
-                     
+          <input autocomplete="off" type="text" id="LDate" value="${LDate}" name="LDate" size=17 maxlength=17 class="form-control1">         
+             </div>                    
              <div class="btndiv">
-   			 <div class="row">
-        <div class="col-lg-6 mb-6 sm-6">
+   	<div class="row">
+        <div class="col-lg-8 mb-8 sm-8">
         <span>차량번호</span>
         	<select  id="search" class="form-control1">
        		<option>차량 번호</option>
        			</select>
-           <input type="text" name="cnum" size=14 maxlength=8 value="${cnum}" class="form-control1">
-        
-        </div>
-        <div class="col-lg-6 mb-6 sm-6 text-right btn_se">
-          <input type="submit"  class=" btn btn-warning shadow-sm mb4" value="검색하기">
+           <input autocomplete="off"  type="text" name="cnum" id="cnum" size=17 maxlength=8 value="${Scnum}" class="form-control1">
+      		<button id="searchbtn" class=" btn btn-warning shadow-sm mb4" ><i class="fas fa-search fa-sm text-white-50"></i> 검색하기</button>
+      		<button class="btn btn-danger shadow-sm mb4" type="reset">  <i class="fas fa-undo"></i>  초기화      </button>
+      
       </form>  
-          <a href="logdetaildown.do" class="btn  btn-primary shadow-sm mb4">
-          <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
-        
+        </div>  
+               <div class="col-lg-4 mb-4 sm-4 text-right">
+      	<form action="logDetailExcel.ex" method="post"  name="exfrm">
+    	<input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
+      	<input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
+      	<input type="hidden" id="cnum" name="cnum" value="${Scnum}">         	
+           <button class="btn  btn-primary shadow-sm mb4"  id="exbtn">
+ 			 <i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
+			</button>	           
+        </form>
         </div>
-    </div>
-</div>
-           
-    </div>  	  	
-    </div>
-    
+		</div>
+        </div>         
+		</div>          
+      	  	
+    </div>      
     <div class="card-body">
     	<div class="list_s text-right">
-    <form method="post" action="logDetailTest.do" name="rowForm">   목록:   	                
+    <form method="post" action="logdetail.do" name="rowForm">   목록:   	                
             <select name="dRs" id="DR" onchange="read()" >
-                    	
        		<option value="20"  id="20" <c:if test="${displayRow==20}"> selected </c:if>>20</option> 	
        		<option value="30"  id="30"<c:if test="${displayRow==30}"> selected </c:if>>30</option> 	
        		<option value="50"  id="50"<c:if test="${displayRow==50}"> selected </c:if>>50</option> 	
@@ -106,12 +109,18 @@
            </select>           
              <input type="hidden" id="FDate" name="FDate" value="${FDate}">	  	
       <input type="hidden" id="LDate" value="${LDate}" name="LDate" > 
-      <input type="hidden" name="cnum" value="${cnum}">     
+      <input type="hidden" name="cnum" value="${Scnum}">     
          </form>            
     </div>
+    <div class="row">
+    <div class="col-sm-12">
       <div class="table-responsive text-center">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered" id="dataTable" width="100%" >
           <thead>
+                <c:if test="${empty detail}">
+					<tr><td>검색결과가 없습니다</td></tr>
+	                </c:if>
+				<c:if test="${ not empty detail}">
             <tr>
                 <th scope="col">No.</th>
                 <th scope="col">차량번호</th>
@@ -123,10 +132,11 @@
                 <th scope="col">할인여부</th>
                 <th scope="col">최종금액</th>      
                 <th scope="col">차량이미지</th>
+                
             </tr>
           </thead>
-          <tbody>
-            <c:forEach var="arr" items="${detail}">
+          <tbody>       	                
+            <c:forEach var="arr" items="${detail}">	            
                 <tr>
                   <th scope="row">${arr.idx}</th>
                     <td>${arr.cnum}</td>
@@ -144,13 +154,20 @@
     			</c:if>
     		<c:if test="${arr.monthNum != 0 }">
    			<td><i class="fas fa-check" style="color:green"></i></td></c:if>
-            	    <td>${arr.saleNum }</td>
-                  <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
-           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal" data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
-           </tr>
+            	    
+           <c:if test="${arr.saleNum == 0 }">
+ 	   		<td><i class="fas fa-times" style="color:red"></i></td>
+    			</c:if>
+    		<c:if test="${arr.saleNum != 0 }">
+   			<td><i class="fas fa-check" style="color:green"></i></td></c:if>       	          	    
+              <td> <fmt:formatNumber value="${arr.totalPay}" pattern="#,###" /></td>
+           <td><button type="button" class="btn btn-dark" id="imgbtn" data-toggle="modal"  data-cnum="${cnum}" data-idx="${arr.idx}" data-cimg="${arr.cImg}" data-target="#carModal"> <i class="fas fa-car"></i> 차량 사진 </button></td>
+           </tr>													
             </c:forEach>   
+    			</c:if>
+
           </tbody>
-        </table>         
+        </table>     
     <jsp:include page="test1.jsp"> 
     <jsp:param value="${paging.page}" name="page_"/>
     <jsp:param value="${paging.beginPage}" name="beginPage"/>
@@ -159,14 +176,16 @@
     <jsp:param value="${paging.next}" name="next"/> 
     <jsp:param value="${paging.displayRow}" name="displayRow"/>   
     </jsp:include>               
+        </div>
+        </div>    
+        
       </div>
     </div>
   </div>
 </div>
-
+</div>
+</div>
 <!-- /.container-fluid -->
-<!-- End of Main Content -->
- <!-- Logout Modal-->
  <div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -174,96 +193,114 @@
           <h4 class="modal-title" id="carModalLabel">차량이미지</h4>
         </div>
         <div class="modal-body">     
-       <table> 
-       <form id="mdFrm" method="post" enctype="multipart/form-data" >
-         <td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
-          <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td><tr> 	
-          <tr><td><img id="modalimg" src="" ></td></tr>
-          <tr><td><input type="file" id="fileup"name="fileName" accept="image/*"></td> </tr>           
+       <table>
+           <form action="imgDtailupdate.do"  method="post" enctype="multipart/form-data">    
+      <tr><td><input type="hidden" id="FDate" name="FDate" value=""></td></tr>	  	
+      <tr><td><input type="hidden" id="LDate" name="LDate" value=""></td></tr> 
+      <tr><td><input type="hidden" id="cnum" name="cnum" value=""></td></tr>            
+      <tr><td><input type="hidden" id="IDRW" name="idrw" value=""></td></tr>            
+      <tr><td><input type="hidden" id="Ipage" name="ipage" value=""></td></tr>            
+           <tr><td><input type="hidden" name="idx" id="idx" value="" /></td></tr>
+           <tr><td><input type="hidden" name="cimg" id="cimg" value="" ></td>	</tr> 			 
+          <tr>
+          <td>
+           <img id="modalimg" src="" >
+         </td></tr>
+          <tr> <td ><input type="file" name="fileName" ></td> </tr>  
+
+                   
        </table>
         <div class="modal-footer">
-	          <button type="button" class="btn btn-default" id="imgUpdateBtn"  onClick="imgEvents(event)"> 수정 </button></div>
-	          <button type="button" class="btn btn-default" data-dismiss="modal" >닫기</button></div>
+            <input type="submit" class="btn btn-primary" value="수정">
+          <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button></div>
           </form>
         </div>   
     </div></div>
-    </div>      
-        <!-- 모달창 -->          
-        <script>
-        
-   
-        
-        
-            
-                           
+    </div>
+    
+    
+    
+    
+    
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+<h4 class="modal-title" id="myModalLabel"></h4>
+</div>
+<div class="modal-body">
+	검색어를 입력해주세요				
+</div>
+<div class="modal-footer">
+ <button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
+</div>
+</div>
+</div>
+</div>    
+     
+   <script>
       var LOGIDX="";
       var CIMG="";
       var IMGSRC="";
-  //값을 가지고   
- function imgEvents(e){
-	e.stopPropagation();
-	  e.stopImmediatePropagation();
-  			var frm=document.getElementById('mdFrm');
-			var fileData  = new FormData(frm);
-  			fileData.append("idx", $('input[name="idx"]').val());		
-  			fileData.append("filename", $('input[name="fileName"]')[0].files[0]);			
-				$.ajax({
-					type:'post',
-					url : 'imgDtailupdate.do',
-					data:fileData,
-					entype:'multipart/form-data',
-			    	processData: false,
-					contentType: false,
-				    cache: false,
-			        async:false,
-					//dataType: 'json', 
-				  	success : function(data) {
-			       		alert("파일 업로드 성공.");
-			       		
-			       		 },
-			       		error : function(error) {
-			        			alert(error.status);
-			     		}		
-  					});					
- 				}	
-   			 function read() {   
-    	document.rowForm.submit();
-    	}
-				 	  
-    	  $('#carModal').on('show.bs.modal', function(event) {   		      		  
+      $(document).ready(function() {
+    	  
+    	  
+    	  	var Fdate = $('#FDate').val();
+	        var Ldate = $('#LDate').val();
+	        var displayRow = $('#dRs').val();
+	        var cnum = $('#cnum').val();
+	        var vidrw = $('#DR').val();
+	        var ipage = ${paging.page}
+
+    	  
+          $('#carModal').on('show.bs.modal', function(event) {   
               LOGIDX=$(event.relatedTarget).data('idx');
               CIMG=$(event.relatedTarget).data('cimg');
               var modal=$(this);
               $(".modal-body #idx ").val(LOGIDX);
               $(".modal-body #cimg ").val(CIMG);	
+              $(".modal-body #FDate ").val(Fdate);	
+              $(".modal-body #LDate ").val(Ldate);	
+              $(".modal-body #cnum ").val(cnum);	
+              $(".modal-body #IDRW ").val(vidrw);	
+              $(".modal-body #Ipage ").val(ipage);	
               $(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
               $(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
-         		              
-    	  	});	                  	       
+          });	                   
+      });  
+  		 	 $('#exbtn').click(function() {
+     		  var exfrm =document.exfrm;	   
+   	  	  	 exfrm.submit();  
+     	 });     	    
+      		$('#searchbtn').click(function() {      					
+      		 	var cnum=document.getElementById('cnum').value;
+      			var FDATE=document.getElementById('FDate').value;
+      			var LDATE=document.getElementById('LDate').value;		
+      			if((FDATE == "")&&(LDATE=="")&&(cnum=="")) {
+				$('#alertModal').modal('show');
+				return false;
+      			}     			
+				var searchfrm=document.frm;  
+	   	  	  	 frm.submit();       			
+      	});
+      		
+        function read() {		 
+    	   var rowForm =document.rowForm;	   
+    	    rowForm.submit();	  	  
+		} 
         
-    	
-    	  	  
-  	</script>
-  <script type="text/javascript">
-  $(function() {
-          $("#FDate").datetimepicker(
-          );
-          $("#LDate").datetimepicker();
-      });
-  
-  var id = document.getElementById("FDate");
-  var pw = document.getElementById("LDate");
-  var cnum = document.getElementById("cnum");
-  
-  
-  function validate() {
-	  
-   if(cnum.value=="") {
-      alert("검색 값을 입력해주세요");
-  }
-  
-  
-  
-      </script>
+    	$(function() {
+    	    $("#FDate").datetimepicker(
+    	    );
+    	    $("#LDate").datetimepicker();
+    		});
+
+        
+        
+        
+        
+  </script>
+
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %> 

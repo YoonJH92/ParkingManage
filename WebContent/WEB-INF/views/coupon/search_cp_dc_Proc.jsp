@@ -16,11 +16,16 @@ if(c_d.equals("coupon"))
 	String c_condition = request.getParameter("c_condition");
 	String c_value = request.getParameter("c_value");
 	int c_align = Integer.parseInt(request.getParameter("c_align"));
+	int c_startidx = Integer.parseInt(request.getParameter("c_startidx"));
 	
-	ArrayList<PmsCouponDto> dto = dao.SearchCoupon(c_condition, c_value, c_align);
+	ArrayList<PmsCouponDto> dto = dao.SearchCoupon(c_condition, c_value, c_align, c_startidx);
+	
+	JSONObject obj = new JSONObject();
+	obj.put("TOTAL",dao.SearchCouponSub(c_condition, c_value, c_align));
+	jarr.add(obj); 
 	
 	for (PmsCouponDto d : dto) {
-		JSONObject obj = new JSONObject();
+		obj = new JSONObject();
 		obj.put("CPNUM", d.getCPNUM());
 		obj.put("CPNAME", d.getCPNAME());
 		obj.put("USE_DATE", d.getUSE_DATE());
@@ -33,10 +38,16 @@ if(c_d.equals("coupon"))
 	String d_condition = request.getParameter("d_condition");
 	String d_value = request.getParameter("d_value");
 	int d_align = Integer.parseInt(request.getParameter("d_align"));
+	int d_startidx = Integer.parseInt(request.getParameter("d_startidx"));
 	
-	ArrayList<PmsDiscountDto> dto = dao.SearchDiscount(d_condition, d_value, d_align);
+	ArrayList<PmsDiscountDto> dto = dao.SearchDiscount(d_condition, d_value, d_align, d_startidx);
+	
+	JSONObject obj = new JSONObject();
+	obj.put("TOTAL",dao.SearchDiscountSub(d_condition, d_value, d_align));
+	jarr.add(obj); 
+	
 	for (PmsDiscountDto d : dto) {
-		JSONObject obj = new JSONObject();
+		obj = new JSONObject();
 		obj.put("COM_NUM", d.getCOM_NUM());
 		obj.put("COMPANY", d.getCOMPANY());
 		obj.put("USE_TIME", d.getUSE_TIME());

@@ -1,3 +1,30 @@
+	var c_page = 1; //실시간 페이지
+	var c_endpage; // 끝나는 페이지
+	var c_startidx = 1; // 가져온 자료 순번(=rnum)
+	var c_total = 0; // 자료의 총 개수
+	var c_pagesub = 0; // 페이지의 총 개수
+	var c_startpage = 1; // 시작 페이지;
+	var c_endpage; // 끝나는 페이지;
+	var c_plus = 0; 
+	
+	var d_page = 1; //실시간 페이지
+	var d_endpage; // 끝나는 페이지
+	var d_startidx = 1; // 가져온 자료 순번(=rnum)
+	var d_total = 0; // 자료의 총 개수
+	var d_pagesub = 0; // 페이지의 총 개수
+	var d_startpage = 1; // 시작 페이지;
+	var d_endpage; // 끝나는 페이지;
+	var d_plus = 0; 
+	
+	var p_page = 1; //실시간 페이지
+	var p_endpage; // 끝나는 페이지
+	var p_startidx = 1; // 가져온 자료 순번(=rnum)
+	var p_total = 0; // 자료의 총 개수
+	var p_pagesub = 0; // 페이지의 총 개수
+	var p_startpage = 1; // 시작 페이지;
+	var p_endpage; // 끝나는 페이지;
+	var p_plus = 0; 
+	
 /*화면이 구현되었을 때 동작*/
 $(function () {
 
@@ -20,8 +47,6 @@ $(function () {
 	var price;
 	var time;
 	var company;
-
-
 
 	/*단일 쿠폰 발급*/
 	$('button[name="sms_send"]').click(function () {
@@ -192,31 +217,65 @@ $(function () {
 
 	/*검색 이벤트 설정*/
 	$('button[name="c_search"]').click(function () {
+		c_page = 1;
+		c_startidx = 1;
+		c_startpage = 1;
+		c_plus = 0;
 		search();
+		c_paging();
 	});
 
 	$('button[name="d_search"]').click(function () {
+		d_page = 1;
+		d_startidx = 1;
+		d_startpage = 1;
+		d_plus = 0;
 		search();
+		d_paging();
 	});
 
 	$('select[name="c_align"]').change(function () {
+		c_page = 1;
+		c_startidx = 1;
+		c_startpage = 1;
+		c_plus = 0;
 		search();
-	});
+		c_paging();	});
 
 	$('select[name="d_align"]').change(function () {
+		d_page = 1;
+		d_startidx = 1;
+		d_startpage = 1;
+		d_plus = 0;
 		search();
+		d_paging();	
 	});
 
 	$('button[name="s_search"]').click(function () {
+		p_page = 1;
+		p_startidx = 1;
+		p_startpage = 1;
+		p_plus = 0;
 		p_search();
+		p_paging();		
 	});
 
 	$('select[name="s_align1"]').change(function () {
+		p_page = 1;
+		p_startidx = 1;
+		p_startpage = 1;
+		p_plus = 0;
 		p_search();
+		p_paging();			
 	});
 
 	$('select[name="s_align2"]').change(function () {
+		p_page = 1;
+		p_startidx = 1;
+		p_startpage = 1;
+		p_plus = 0;
 		p_search();
+		p_paging();			
 	});
 
 	/*페이지 접근 시 좌측 목록바 보이게 설정*/
@@ -549,10 +608,12 @@ function search() {
 				"c_condition": $('select[name="c_condition"]').val(),
 				"c_value": $('input:text[name="c_value"]').val(),
 				"c_align": $('select[name="c_align"]').val(),
-				"c_d": "coupon"
+				"c_d": "coupon",
+				"c_startidx": c_startidx
 			},
 			function (data) { //콜백함수
-				var htmlStr = "";
+				var htmlStr = "<input type=\"hidden\" name=\"coupon\" c_total="+data[0]["TOTAL"]+">";
+				data.shift();
 				$.each(data, function (key, val) {
 					htmlStr += "<tr>";
 					htmlStr += "<td><input type=\"checkbox\" name=\"c_chk\"></td>";
@@ -576,16 +637,20 @@ function search() {
 						$('input[name="c_chk"]').prop("checked", false);
 					}
 				});
+				c_total = Number($('input[name="coupon"]').attr('c_total'));
+				c_paging();
 			});
 	} else {
 		$.getJSON("search_C_D.do", {
 				"d_condition": $('select[name="d_condition"]').val(),
 				"d_value": $('input:text[name="d_value"]').val(),
 				"d_align": $('select[name="d_align"]').val(),
-				"c_d": "discount"
+				"c_d": "discount",
+				"d_startidx": d_startidx
 			},
 			function (data) { //콜백함수
-				var htmlStr = "";
+				var htmlStr = "<input type=\"hidden\" name=\"discount\" d_total="+data[0]["TOTAL"]+">";
+				data.shift();
 				$.each(data, function (key, val) {
 					htmlStr += "<tr>";
 					htmlStr += "<td><input type=\"checkbox\" name=\"d_chk\"></td>";
@@ -608,6 +673,9 @@ function search() {
 						$('input[name="d_chk"]').prop("checked", false);
 					}
 				});
+				d_total = Number($('input[name="discount"]').attr('d_total'));
+				console.log(d_total);
+				d_paging();
 			});
 	}
 }
@@ -622,12 +690,14 @@ function p_search() {
 				"s_date": $('select[name="dateSearch"]').val(),
 				"s_startForm": $('input:text[name="startForm"]').val(),
 				"s_endForm": $('input:text[name="endForm"]').val(),
-				"s_m": "single"
+				"s_m": "single",
+				"startidx": p_startidx
 			},
 			function (data) { //콜백함수
-				var htmlStr = "";
+				var htmlStr = "<input type=\"hidden\" name=\"publish\" p_total="+data[0]["TOTAL"]+">";
 
 				$.each(data, function (key, val) {
+					data.shift();
 					htmlStr += "<tr>";
 					htmlStr += "<td><input type=\"checkbox\" name=\"s_chk\"></td>";
 					htmlStr += "<td>" + val.name + "</td>";
@@ -647,6 +717,210 @@ function p_search() {
 						$('input[name="s_chk"]').prop("checked", false);
 					}
 				});
+				p_total = Number($('input[name="publish"]').attr('p_total'));
+				p_paging();
 			});
 	}
 }
+
+function c_paging(){
+		var htmlStr = "";
+		if(c_total<Number($('select[name="c_align"]').val())){
+			c_pagesub = 1
+		}else{
+			if(c_total%Number($('select[name="c_align"]').val()) == 0){
+				c_pagesub = parseInt(c_total/Number($('select[name="c_align"]').val()));
+			}else{
+				c_pagesub = parseInt(c_total/Number($('select[name="c_align"]').val())+1);
+			}	
+		}
+		
+		if(c_pagesub>10){
+			c_endpage = parseInt(((c_page + (10-1)))/10) * 10;
+			if(c_page >= 11){
+				htmlStr += "<button class=\"btn\" onclick=c_previous()>이전</button>";
+			}
+			if(c_endpage >= c_pagesub){
+				c_endpage = c_pagesub;
+				for(var i = c_startpage+c_plus; i<=c_endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=c_page_click("+i+"); >"+i+"</button>";
+				}
+			}else{
+				for(var i = c_startpage+c_plus; i<=c_endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=c_page_click("+i+"); >"+i+"</button>";
+				}
+				htmlStr += "<button class=\"btn\" onclick=c_next();>다음</button>";
+			}
+		}else
+			{
+			for(var i = 1; i<=c_pagesub; i++){
+				htmlStr += "<button class=\"btn\" onclick=c_page_click("+i+"); >"+i+"</button>";
+			}
+		}
+		$("#c_page").html(htmlStr);
+	}
+	
+	function c_page_click(e){
+		if(c_page < Number(e)){
+			c_sub = Number(e)-c_page;
+			c_startidx += Number($('select[name="c_align"]').val()*c_sub);
+			search();
+
+		}else if(c_page > Number(e)){
+			c_sub = c_page - Number(e);
+			c_startidx -= Number($('select[name="c_align"]').val())*c_sub;
+			search();
+		}
+		c_page = Number(e);
+	}
+	
+	function c_next(){
+		c_plus += 10;
+		c_page = c_endpage+1;
+		c_startidx = Number(c_endpage * $('select[name="c_align"]').val()+1);
+		search();	
+		c_paging();
+	}
+	
+	function c_previous(){
+		c_plus -= 10;
+		c_page = c_startpage+c_plus;
+		c_startidx = Number(c_startpage+c_plus * $('select[name="c_align"]').val());
+		search();
+		c_paging();
+	}
+	
+	
+function d_paging(){
+		var htmlStr = "";
+		if(d_total<Number($('select[name="d_align"]').val())){
+			d_pagesub = 1
+		}else{
+			if(d_total%Number($('select[name="d_align"]').val()) == 0){
+				d_pagesub = parseInt(d_total/Number($('select[name="d_align"]').val()));
+			}else{
+				d_pagesub = parseInt(d_total/Number($('select[name="d_align"]').val())+1);
+			}	
+		}
+		if(d_pagesub>10){
+			d_endpage = parseInt(((d_page + (10-1)))/10) * 10;
+			if(d_page >= 11){
+				htmlStr += "<button class=\"btn\" onclick=d_previous()>이전</button>";
+			}
+			if(d_endpage >= d_pagesub){
+				d_endpage = d_pagesub;
+				for(var i = d_startpage+d_plus; i<=d_endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=d_page_click("+i+"); >"+i+"</button>";
+				}
+			}else{
+				for(var i = d_startpage+d_plus; i<=d_endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=d_page_click("+i+"); >"+i+"</button>";
+				}
+				htmlStr += "<button class=\"btn\" onclick=d_next();>다음</button>";
+			}
+		}else
+			{
+			for(var i = 1; i<=d_pagesub; i++){
+				htmlStr += "<button class=\"btn\" onclick=d_page_click("+i+"); >"+i+"</button>";
+			}
+		}
+		$("#d_page").html(htmlStr);
+	}
+	
+	function d_page_click(e){
+		if(d_page < Number(e)){
+			d_sub = Number(e)-d_page;
+			d_startidx += Number($('select[name="d_align"]').val()*d_sub);
+			search();
+
+		}else if(d_page > Number(e)){
+			d_sub = d_page - Number(e);
+			d_startidx -= Number($('select[name="d_align"]').val())*d_sub;
+			search();
+		}
+		d_page = Number(e);
+	}
+	
+	function d_next(){
+		d_plus += 10;
+		d_page = d_endpage+1;
+		d_startidx = Number(d_endpage * $('select[name="d_align"]').val()+1);
+		search();	
+		d_paging();
+	}
+	
+	function d_previous(){
+		d_plus -= 10;
+		d_page = d_startpage+d_plus;
+		d_startidx = Number(d_startpage+d_plus * $('select[name="d_align"]').val());
+		search();
+		d_paging();
+	}
+	
+	
+function p_paging(){
+		var htmlStr = "";
+		if(p_total<Number($('select[name="p_align"]').val())){
+			p_pagesub = 1
+		}else{
+			if(p_total%Number($('select[name="p_align"]').val()) == 0){
+				p_pagesub = parseInt(p_total/Number($('select[name="p_align"]').val()));
+			}else{
+				p_pagesub = parseInt(p_total/Number($('select[name="p_align"]').val())+1);
+			}	
+		}
+		
+		if(p_pagesub>10){
+			p_endpage = parseInt(((p_page + (10-1)))/10) * 10;
+			if(p_page >= 11){
+				htmlStr += "<button class=\"btn\" onclick=p_previous()>이전</button>";
+			}
+			if(p_endpage >= p_pagesub){
+				p_endpage = p_pagesub;
+				for(var i = p_startpage+p_plus; i<=p_endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=p_page_click("+i+"); >"+i+"</button>";
+				}
+			}else{
+				for(var i = p_startpage+p_plus; i<=p_endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=p_page_click("+i+"); >"+i+"</button>";
+				}
+				htmlStr += "<button class=\"btn\" onclick=p_next();>다음</button>";
+			}
+		}else
+			{
+			for(var i = 1; i<=p_pagesub; i++){
+				htmlStr += "<button class=\"btn\" onclick=p_page_click("+i+"); >"+i+"</button>";
+			}
+		}
+		$("#p_page").html(htmlStr);
+	}
+	
+	function p_page_click(e){
+		if(p_page < Number(e)){
+			p_sub = Number(e)-p_page;
+			p_startidx += Number($('select[name="p_align"]').val()*p_sub);
+			p_search();
+
+		}else if(p_page > Number(e)){
+			p_sub = p_page - Number(e);
+			p_startidx -= Number($('select[name="p_align"]').val())*p_sub;
+			p_search();
+		}
+		p_page = Number(e);
+	}
+	
+	function p_next(){
+		p_plus += 10;
+		p_page = p_endpage+1;
+		p_startidx = Number(p_endpage * $('select[name="p_align"]').val()+1);
+		p_search();	
+		p_paging();
+	}
+	
+	function p_previous(){
+		p_plus -= 10;
+		p_page = p_startpage+p_plus;
+		p_startidx = Number(p_startpage+p_plus * $('select[name="p_align"]').val());
+		p_search();
+		p_paging();
+	}

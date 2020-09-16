@@ -12,7 +12,7 @@
             max-width: 450px;
             max-height: 300px;
         	display: block; 
-        	margin: 0px auto;       
+        	margin-bottom: 1.4rem;
         	}            
         #logcard1{
         border-right: .25rem solid #4e73df !important;        
@@ -22,25 +22,34 @@
         	}
          #logcard3{
         border-right: .25rem solid #f6c23e !important;       
-        }
-        
+        } 
         	td,th{
         	text-align: center;
         	color: black;
         	}
         	
-        	
-
-           	
+	
+	.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: black;
+    border-color: #4e73df;
+}
+	.page-link {
+	color: black;
+	}    	          	
         </style>        
         <div class="container-fluid">
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <fmt:formatDate value="${now}" pattern="yyyy.MM.dd HH:mm:ss" var="today" />
-            <h1 class="h3 mb-0 text-gray-800">실시간 현황 조회     [ <c:out value="${today}"/> ] </h1> 
-            <a href="logexcel.ex" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
+          <div class="d-sm-flex align-items-center  mb-4">        
+            <div class="p-2"> <h1 class="h3 mb-0 text-gray-800"> 실시간 현황 조회    </h1>
+            </div>
+ 			 <div class="p-2">	<body onload="printClock()">		
+		<div style="border:1px solid #dedede; width:200px; height:50px; line-height:50px; background-color:white; color:#666;font-size:20px; text-align:center;" id="clock">
+		</div></div>
+  			<div class="ml-auto p-2"> <a href="logexcel.ex" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> 엑셀 </a>
+  			</div>
           </div>
-
           <!-- Content Row -->
           <div class="row">
             <!-- Earnings (Monthly) Card Example -->
@@ -51,16 +60,13 @@
                     <div class="col mr-2">
                       <div class="text-s font-weight-bold text-primary text-center text-uppercase mb-1">총 주자수</div>
                       <div class="h4 mb-0 font-weight-bold text-gray-800 text-center">
-                      
-                      <c:out value="${total['allCum']}"/>
-                      
+                      <c:out value="${total['allCum']}"/>              
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-4 col-md-4 mb-4">
               <div class="card border-left-success shadow h-100 py-2" id="logcard2">
@@ -117,9 +123,9 @@
                 <div ="row">
                 <div class="ml-auto col-lg-12 mb-12 sm-6 ">
            </div>
-           
-            <table class="table table-responsive table-hover">
-  <thead>
+                 <div class="table-responsive text-center">     
+            <table class="table  table-hover  table-bordered" >
+ 				<thead>
     <tr>
       <th scope="col">No.</th>
       <th scope="col">차량번호</th>
@@ -130,7 +136,7 @@
       <th scope="col">할인 적용 여부 </th>      
       <th scope="col">차량이미지</th>
     </tr>
-  </thead>
+ 	</thead>
   <tbody>
  
  
@@ -147,34 +153,31 @@
      <td>0</td>	
      </c:if>
          <c:if test="${arr.cpNum == 0 }">
-             <td><i class="fas fa-times " style="color:red"></i></td>      
+        <td><i class="fas fa-times " style="color:red"></i></td>      
      </c:if>
-
  <c:if test="${arr.cpNum != 0 }">
             <td><i class="fas fa-ticket-alt"></i></td>      
      </c:if>
-
     <c:if test="${arr.monthNum == 0 }">
     <td><i class="fas fa-times" style="color:red"></i></td>
     </c:if>
     <c:if test="${arr.monthNum != 0 }">
-   <td></td><i class="far fa-calendar-check"></i></c:if>
-   <td>${arr.saleNum}</td>
-  <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> 차량 사진 </button></td>
+            <td><i class="fas fa-ticket-alt"></i></td>      
+</c:if>   
+       <c:if test="${arr.saleNum == 0 }">
+             <td><i class="fas fa-times " style="color:red"></i></td>      
+     </c:if>
+ <c:if test="${arr.saleNum != 0 }">
+            <td><i class="fas fa-ticket-alt"></i></td>      
+     </c:if> 
+    <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> <i class="fas fa-car"></i>  차량 사진 </button></td>
 </tr>	
 	</c:forEach> 
   </tbody>
 </table>
 </div>
-    <jsp:include page="test.jsp">
-    <jsp:param value="${paging.page}" name="page"/>
-    <jsp:param value="${paging.beginPage}" name="beginPage"/>
-    <jsp:param value="${paging.endPage}" name="endPage"/>
-    <jsp:param value="${paging.prev}" name="prev"/>
-    <jsp:param value="${paging.next}" name="next"/> 
-    <jsp:param value="${paging.displayRow}" name="displayRow"/> 
- </jsp:include>
-                     
+</div>
+       <%@ include file="/WEB-INF/views/util/pagination.jsp" %>                    
               </div>
               </div>
 
@@ -196,22 +199,20 @@
  		<form action="imgupdate.do" enctype="multipart/form-data" method="post">
  		<tr>
  		<td><input type="hidden" name="idx" id="idx" value="" readonly="readonly"/></td></tr>
+ 	 <tr><td><input type="hidden" id="IDRW" name="idrw" value=""></td></tr>            
+      <tr><td><input type="hidden" id="Ipage" name="ipage" value=""></td></tr>  
  		<tr><td><input type="hidden" name="cimg" id="cimg" value=""></td>	<tr>
- 			
         <tr>
         <td>
  		<img id="modalimg" src="" >
-
         </td></tr>
-       
         <tr>
         <td><input type="file" name="fileName"></td>
- 		</tr>
- 		
+ 		</tr>	
  	</table>
       <div class="modal-footer">
-      	<input type="submit" value="수정">
-        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      	<input type="submit" class="btn btn-primary" value="수정">
+        <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
         </form>
       </div>
     </div>
@@ -219,16 +220,26 @@
   </div>         
      <!-- 모달창 -->    
       <script>
+      
+      
+    function fn_paging(curPage) {
+       var vidrw = $('#DR').val();
+     location.href = window.location.pathname +"?p="+curPage+"&dRs="+vidrw;
+    }        
 	var LOGIDX="";
 	var CIMG="";
 	var IMGSRC="";
+	 var vidrw = $('#DR').val();
+     var ipage = ${pagination.curPage}
 	$(document).ready(function() {
 		$('#carModal').on('show.bs.modal', function(event) {   
 			LOGIDX=$(event.relatedTarget).data('idx');
 			CIMG=$(event.relatedTarget).data('cimg');
 			var modal=$(this);
 			$(".modal-body #idx ").val(LOGIDX);
-			$(".modal-body #cimg ").val(CIMG);	
+			$(".modal-body #cimg ").val(CIMG);
+	      	 $(".modal-body #IDRW ").val(vidrw);	
+         	  $(".modal-body #Ipage ").val(ipage);
 			$(".modal-body #modalimg ").attr("onerror","this.remove ? this.remove() : this.removeNode();");
 			$(".modal-body #modalimg ").attr("src","/ParkingManage/img/"+CIMG );
 		});
@@ -236,6 +247,108 @@
 	});
 	
   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function printClock() {
+	    var clock = document.getElementById("clock");            
+	    var currentDate = new Date();                                     // 현재시간
+	    var calendar = currentDate.getFullYear() + "-" + (currentDate.getMonth()+1) + "-" + currentDate.getDate() // 현재 날짜
+	    var amPm = 'AM'; // 초기값 AM
+	    var currentHours = addZeros(currentDate.getHours(),2); 
+	    var currentMinute = addZeros(currentDate.getMinutes() ,2);
+	    var currentSeconds =  addZeros(currentDate.getSeconds(),2);
+	    
+	    if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+	    	amPm = 'PM';
+	    	currentHours = addZeros(currentHours - 12,2);
+	    }
+
+	   
+	    clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:10px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+	    
+	    setTimeout("printClock()",1000);         
+	}
+
+	function addZeros(num, digit) { 
+		  var zero = '';
+		  num = num.toString();
+		  if (num.length < digit) {
+		    for (i = 0; i < digit - num.length; i++) {
+		      zero += '0';
+		    }
+		  }
+		  return zero + num;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
 </script>
       

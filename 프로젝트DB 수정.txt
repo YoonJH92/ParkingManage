@@ -62,7 +62,7 @@ COMMENT ON COLUMN pms_coupon.discount IS
 CREATE TABLE pms_coupon_log (
     idx        NUMBER(10) NOT NULL,
     cpnum      NUMBER(10) NOT NULL,
-    cpcode     VARCHAR2(15 char) UNIQUE NOT NULL,
+    cpcode     VARCHAR2(20 char) UNIQUE NOT NULL,
     validity   DATE NOT NULL,
     used       VARCHAR2(1) NOT NULL,
     cnum       VARCHAR2(20) NOT NULL,

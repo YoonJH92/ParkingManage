@@ -56,4 +56,6 @@
 		<tbody id="s_area">
 		</tbody>
 	</table>
+	<div id = "p_page">
+	</div>
 </div>

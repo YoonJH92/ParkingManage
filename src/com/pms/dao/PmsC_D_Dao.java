@@ -75,7 +75,7 @@ public class PmsC_D_Dao {
 		}
 	}
 
-	public ArrayList<PmsCouponDto> SearchCoupon(String condition, String value, int align) {
+	public ArrayList<PmsCouponDto> SearchCoupon(String condition, String value, int align, int idx) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -84,7 +84,7 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if (value.isEmpty()) {
-				sql = "select * from PMS_COUPON where rownum <=" + align + " ORDER BY CPNUM ASC";
+				sql = "select * from (select rownum rnum, cpnum, use_date, cpname, purpose, discount from PMS_COUPON ORDER BY cpnum ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
 			} else {
 				if (condition.equals("use_date")) {
 					value = value.replace("일", "");
@@ -93,8 +93,7 @@ public class PmsC_D_Dao {
 					value = value.replace("원", "");
 					value = value.replace(",", "");
 				}
-				sql = "select * from PMS_COUPON where " + condition + " = " + "'" + value + "' AND rownum <=" + align
-						+ "ORDER BY CPNUM ASC";
+				sql = "select * from (select rownum rnum, cpnum, use_date, cpname, purpose, discount from PMS_COUPON where " + condition + " LIKE " + "'" + value + "%' ORDER BY cpnum ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -116,7 +115,7 @@ public class PmsC_D_Dao {
 		return arr;
 	}
 
-	public ArrayList<PmsDiscountDto> SearchDiscount(String condition, String value, int align) {
+	public ArrayList<PmsDiscountDto> SearchDiscount(String condition, String value, int align, int idx) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -125,14 +124,12 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if (value.isEmpty()) {
-				sql = "select * from PMS_Discount_manage where rownum <=" + align + " ORDER BY COM_NUM ASC";
+				sql = "select * from (select rownum rnum, com_num, company, purpose, use_time from PMS_DISCOUNT_MANAGE ORDER BY com_num ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
 			} else {
 				if (condition.equals("use_time")) {
 					value = value.replace("시간", "");
 				}
-
-				sql = "select * from PMS_Discount_manage where " + condition + " = " + "'" + value + "' AND rownum <="
-						+ align + "ORDER BY COM_NUM ASC";
+				sql = "select * from (select rownum rnum, com_num, company, purpose, use_time from PMS_DISCOUNT_MANAGE where " + condition + " LIKE " + "'" + value + "%' ORDER BY com_num ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -210,20 +207,25 @@ public class PmsC_D_Dao {
 		}
 	}
 
-	public ArrayList<Pms_Coupon_Log_Dto> SearchCouponLog(String condition, String value, int align) {
+	public ArrayList<Pms_Coupon_Log_Dto> SearchCouponLog(String condition, String value, int align, int idx) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		ArrayList<Pms_Coupon_Log_Dto> arr = new ArrayList<Pms_Coupon_Log_Dto>();
+		
 		try {
 			con = pool.getConnection();
+			
 			if (value.isEmpty()) {
-				sql = "select * from PMS_COUPON_LOG where rownum <=" + align + " ORDER BY IDX ASC";
-			} else {
-				sql = "select * from PMS_COUPON_LOG where " + condition + " = " + "'" + value + "' AND rownum <="
-						+ align + " ORDER BY IDX ASC";
+				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG ORDER BY IDX ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
+			} else if(condition.equals("cnum")){
+				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' ORDER BY IDX ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
 			}
+			else if(condition.equals("cpnum")) {
+				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG where " + condition + " = " + "'" + value +"' ORDER BY IDX ASC) where rnum between " + idx + " AND " + (idx+align-1);
+			}
+			
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -233,8 +235,8 @@ public class PmsC_D_Dao {
 				dto.setCPCODE(rs.getString("cpcode"));
 				dto.setCPNUM(rs.getInt("cpnum"));
 				dto.setIDX(rs.getInt("idx"));
-				dto.setUSED(rs.getBoolean("used"));
-				dto.setVALIDITY(rs.getDate("validity"));
+				dto.setUSED(rs.getString("used"));
+				dto.setVALIDITY(rs.getString("validity"));
 				arr.add(dto);
 			}
 		} catch (Exception e) {
@@ -243,6 +245,109 @@ public class PmsC_D_Dao {
 			pool.freeConnection(con, pstmt);
 		}
 		return arr;
+	}
+	
+	public int SearchCouponLogSub(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int total = 0;
+		
+		try {
+			con = pool.getConnection();
+			
+			if (value.isEmpty()) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON_LOG ORDER BY rnum ASC )";
+			} else if(condition.equals("cnum")){
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' ORDER BY rnum ASC )";
+			}
+			else if(condition.equals("cpnum")) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON_LOG where " + condition + " = " + "'" + value +"' ORDER BY rnum ASC)";
+			}			
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("count(rnum)"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return total;
+	}
+	
+	public int SearchCouponSub(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int total = 0;
+		
+		try {
+			con = pool.getConnection();
+			
+			if (value.isEmpty()) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON ORDER BY rnum ASC )";
+			} else {
+				if (condition.equals("use_date")) {
+					value = value.replace("일", "");
+				}
+				if (condition.equals("discount")) {
+					value = value.replace("원", "");
+					value = value.replace(",", "");
+				}
+				sql = "select count(rnum) from (select rownum rnum from PMS_COUPON where " + condition + " LIKE " + "'" + value + "%' ORDER BY rnum ASC )";
+			}
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("count(rnum)"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return total;
+	}
+	
+	public int SearchDiscountSub(String condition, String value, int align) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int total = 0;
+		
+		try {
+			con = pool.getConnection();
+			
+			if (value.isEmpty()) {
+				sql = "select count(rnum) from (select rownum rnum from PMS_DISCOUNT_MANAGE ORDER BY rnum ASC )";
+			} else {
+				if (condition.equals("use_time")) {
+					value = value.replace("시간", "");
+				}
+				sql = "select count(rnum) from (select rownum rnum from PMS_DISCOUNT_MANAGE where " + condition + " LIKE " + "'" + value + "%' ORDER BY rnum ASC )";
+			}	
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("count(rnum)"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return total;
 	}
 
 	public ArrayList<memberManageDTO> SearchMember(String condition, String value, int align1, String align2,
@@ -311,7 +416,7 @@ public class PmsC_D_Dao {
 
 		try {
 			con = pool.getConnection();
-			sql = "insert into PMS_COUPON_LOG(IDX,CPNUM,CPCODE,VALIDITY,USED,CNUM) values(COUPON_LOG_SEQ.nextval,?,?,?,?,?)";
+			sql = "insert into PMS_COUPON_LOG(IDX,CPNUM,CPCODE,VALIDITY,USED,CNUM) values(COUPON_LOG_SEQ.nextval,?,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, Log.getCPNUM());
 			pstmt.setString(2, Log.getCPCODE());
@@ -326,13 +431,14 @@ public class PmsC_D_Dao {
 		}
 	}
 
-	public void SendSms(String name, String num, String cpname, String date, String discount, String purpose) {
+	public void SendSms(String name, String num, String cpname, String date, String discount, String purpose, String cpcode) {
 		System.out.println(name+"님 안녕하세요. 반갑습니다.\n"
 				+ "PMS 건물에서 쿠폰을 발급해드립니다.\n"
 				+ "쿠폰명: "+cpname+"\n"
 				+ "발급사유: "+purpose+"\n"
 				+ "할인 금액: "+discount+"\n"
-				+ "유효 기간: "+date+"\n"
+				+ "유효 기간: "+date+"까지\n"
+				+ "쿠폰 코드: "+cpcode+"\n"
 				+"감사합니다.");
 		
 		//		String api_key = "";
@@ -348,7 +454,8 @@ public class PmsC_D_Dao {
 //				+ "쿠폰명: "+cpname+"\n"
 //				+ "발급사유: "+purpose+"\n"
 //				+ "할인 금액: "+discount+"\n"
-//				+ "유효 기간: "+date+"\n"
+//				+ "유효 기간: "+date+"까지\n"
+//				+ "쿠폰 코드: "+cpcode+"\n"
 //				+"감사합니다.");
 //		params.put("app_version", "test app 1.2");
 //

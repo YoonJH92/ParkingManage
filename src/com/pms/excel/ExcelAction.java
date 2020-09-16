@@ -19,6 +19,8 @@ private static ExcelAction instance = new ExcelAction();
 		map.put("/monthly", new ExcelMonthly());
 		map.put("/logexcel", new ExcelLog());
 		map.put("/time", new ExcelTime());
+		map.put("/logDetailExcel", new ExcelDatailLog());
+		map.put("/member", new ExcelMember());
 	}
 	
 	public ExcelCommand getAction(String command) {

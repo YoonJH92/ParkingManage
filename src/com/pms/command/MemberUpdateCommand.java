@@ -1,5 +1,7 @@
 package com.pms.command;
 
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,7 +9,6 @@ import com.pms.dao.MemberManageDAO;
 import com.pms.dto.memberManageDTO;
 
 public class MemberUpdateCommand implements Command {
-
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MemberManageDAO dao = MemberManageDAO.getInstance();
@@ -27,8 +28,6 @@ public class MemberUpdateCommand implements Command {
 			mem.setType(request.getParameter("type"));
 			dao.updateMember(mem);
 		}
-		
 		return "redirect:member.do";
 	}
-
 }

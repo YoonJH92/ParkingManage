@@ -52,8 +52,11 @@
 						</thead>
 
 						<tbody id="l_area">
+						<input type="hidden" startidx="1">
 						</tbody>
 					</table>
+				</div>
+				<div id = "page">
 				</div>
 			</div>
 		</div>
@@ -62,28 +65,50 @@
 
 
 <script>
+var page = 1; //실시간 페이지
+var endpage; // 끝나는 페이지
+var startidx = 1; // 가져온 자료 순번(=rnum)
+var total = 0; // 자료의 총 개수
+var pagesub = 0; // 페이지의 총 개수
+var startpage = 1; // 시작 페이지;
+var endpage; // 끝나는 페이지;
+var plus = 0; 
+
 	$(function () {
 		$("#collapsePages").addClass("show");
 		$("#arrow").removeClass("collapsed");
 		log_search();
 		
 		$('button[name="l_search"]').click(function () {
+			page = 1;
+			startidx = 1;
+			startpage = 1;
+			plus = 0;
 			log_search();
+			paging();
 		});
 
 		$('select[name="l_align"]').change(function () {
+			page = 1;
+			startidx = 1;
+			startpage = 1;
+			plus = 0;
 			log_search();
+			paging();
 		});
+		
 	});
 
 	function log_search() {
 		$.getJSON("search_log_proc.do", {
 				"l_condition": $('select[name="l_condition"]').val(),
 				"l_value": $('input:text[name="l_value"]').val(),
-				"l_align": $('select[name="l_align"]').val()
+				"l_align": $('select[name="l_align"]').val(),
+				"startidx": startidx
 			},
 			function (data) { //콜백함수
-				var htmlStr = "";
+				var htmlStr = "<input type=\"hidden\" total="+data[0]["TOTAL"]+">";
+				data.shift();
 				$.each(data, function (key, val) {
 					htmlStr += "<tr>";
 					htmlStr += "<td><input type=\"checkbox\" name=\"l_chk\" value=" + val.CPNUM + "></td>";
@@ -91,7 +116,11 @@
 					htmlStr += "<td>" + val.CPNUM + "</td>";
 					htmlStr += "<td>" + val.CPCODE + "</td>";
 					htmlStr += "<td>" + val.VALIDITY+ "</td>";
-					htmlStr += "<td>" + val.USED+ "</td>";
+					if(val.USED == "0"){
+						htmlStr += "<td><i class=\"fas fa-times \" style=\"color:red\"></i></td>"
+					}else{
+						htmlStr += "<td><i class=\"far fa-circle \" style=\"color:red\"></i></td>"
+					}
 					htmlStr += "<td>" + val.CNUM + "</td>";
 					htmlStr += "</tr>";
 				});
@@ -104,7 +133,76 @@
 						$('input[name="l_chk"]').prop("checked", false);
 					}
 				});
+				total = Number($('input:hidden').attr('total'));
+				paging();
 			});
+	}
+	
+	function paging(){
+		var htmlStr = "";
+		if(total<Number($('select[name="l_align"]').val())){
+			pagesub = 1
+		}else{
+			if(total%Number($('select[name="l_align"]').val()) == 0){
+				pagesub = parseInt(total/Number($('select[name="l_align"]').val()));
+			}else{
+				pagesub = parseInt(total/Number($('select[name="l_align"]').val())+1);
+			}	
+		}
+		
+		if(pagesub>10){
+			endpage = parseInt(((page + (10-1)))/10) * 10;
+			if(page >= 11){
+				htmlStr += "<button class=\"btn\" onclick=previous()>이전</button>";
+			}
+			if(endpage >= pagesub){
+				endpage = pagesub;
+				for(var i = startpage+plus; i<=endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+				}
+			}else{
+				for(var i = startpage+plus; i<=endpage; i++){
+					htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+				}
+				htmlStr += "<button class=\"btn\" onclick=next();>다음</button>";
+			}
+		}else
+			{
+			for(var i = 1; i<=pagesub; i++){
+				htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+			}
+		}
+		$("#page").html(htmlStr);
+	}
+	
+	function page_click(e){
+		if(page < Number(e)){
+			sub = Number(e)-page;
+			startidx += Number($('select[name="l_align"]').val()*sub);
+			log_search();
+
+		}else if(page > Number(e)){
+			sub = page - Number(e);
+			startidx -= Number($('select[name="l_align"]').val())*sub;
+			log_search();
+		}
+		page = Number(e);
+	}
+	
+	function next(){
+		plus += 10;
+		page = endpage+1;
+		startidx = Number(endpage * $('select[name="l_align"]').val()+1);
+		log_search();	
+		paging();
+	}
+	
+	function previous(){
+		plus -= 10;
+		page = startpage+plus;
+		startidx = Number(startpage+plus * $('select[name="l_align"]').val());
+		log_search();
+		paging();
 	}
 </script>
 </div>

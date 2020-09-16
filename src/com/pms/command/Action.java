@@ -12,23 +12,20 @@ public class Action {
 	private HashMap<String, Command> map = new HashMap<String, Command>();
 	
 	private Action() {
+		/* 해시맵에 키값에 해당되는 객체 저장 */
 		map.put("/daily", new StatDailyCommand());
 		map.put("/empty", new EmptyCommand());
-      	map.put("/stat/test",new TestCommand());	
       	map.put("/loglistac",new LogListacCommand());
       	map.put("/imgupdate",new LoglmgModifyAction());
       	map.put("/index",new IndexCommand());
+      	map.put("/imgDtailupdate", new LogimgDtailupdate());
       	map.put("/logdetail",new LogDetailCommand());
-      	map.put("/imgDtailupdate", new imgDtailupdate());
-      	map.put("/logDetaillist",new LogDetailListCommand());
-      	map.put("/logDetailTest",new LogDetailTextCommand());
+      	
       	map.put("/member",new MemberManageCommand());
       	map.put("/memberInsert",new MemberInsertCommand());
       	map.put("/loglist",new LogListCommand());
      	map.put("/memberSearch",new memberSearchCommand());
-     	
-
-      	
+           	
       	map.put("/login",new LoginCommand());
       	map.put("/loginac",new LoginacCommand());
       	map.put("/join",new JoinCommand());
@@ -63,6 +60,7 @@ public class Action {
       	map.put("/monthSearch",new StatMonthSearchCommand());
 	}
 	
+	/*getAction 실행시 객체 가져옴*/
 	public Command getAction(String command) {
 		Command action = null;
 		action = map.get(command);

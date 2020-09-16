@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pms.dao.PmsC_D_Dao;
 import com.pms.dto.Pms_Coupon_Log_Dto;
+import com.pms.util.PMSRandom2;
 
 public class Send_Coupon_Command implements Command {
 
@@ -31,22 +32,22 @@ public class Send_Coupon_Command implements Command {
 		Pms_Coupon_Log_Dto dto = new Pms_Coupon_Log_Dto();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(new java.util.Date());
 		
 		for(int e = 0; e<cpname.length; e++) {
 			for(int i = 0; i < name.length; i++) {
+				cal.setTime(new java.util.Date());
 				num[i] = num[i].replaceAll("-", "");
 				date[e] = date[e].replaceAll("일","");
+				StringBuffer cpcode = PMSRandom2.randomCouponCode(15);
 				
 				dto.setCNUM(cnum[e]);
 				dto.setCPNUM(Integer.parseInt(cpnum[e]));
 				dto.setUSED("0");
 				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(date[e]));
 				dto.setVALIDITY(format.format(cal.getTime()));
-				dto.setCPCODE("aa");
+				dto.setCPCODE(cpcode.toString());
 				dao.NewCoupon_Log(dto);
-				dao.SendSms(name[i],num[i],cpname[e],date[e],discount[e],purpose[e]);
-				System.out.println(format.format(cal.getTime()));
+				dao.SendSms(name[i],num[i],cpname[e],format.format(cal.getTime()),discount[e],purpose[e], cpcode.toString());
 			}
 		}
 		return null;
