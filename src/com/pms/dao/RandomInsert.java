@@ -98,6 +98,11 @@ public class RandomInsert {
 		int fare = setting.settItem().getFare();
 		int cptype = cnum.getCPNUM();
 		int cpdiscount = CpFare(cptype);
+		if(percent <=50) {
+			num = 0;
+		}else {
+			num = rd.nextInt(5000);
+		}
 		
 		try {
 			con = pool.getConnection();
