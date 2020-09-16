@@ -98,11 +98,14 @@ public class RandomInsert {
 		int fare = setting.settItem().getFare();
 		int cptype = cnum.getCPNUM();
 		int cpdiscount = CpFare(cptype);
+		PMSRandom random= new PMSRandom();
+		String CImg=random.ImgName();
+	
 		
 		try {
 			con = pool.getConnection();
 			if (out_time != null) {
-				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,CP_NUM,SALE_NUM,MONTH_NUM,pay,total_pay) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'), ? , ? , ? , ? , ? )";
+				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,OUT_TIME,CP_NUM,SALE_NUM,MONTH_NUM,pay,total_pay,c_img) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'), ? , ? , ? , ? , ? ,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
@@ -125,21 +128,29 @@ public class RandomInsert {
 					pstmt.setInt(7, dao.fare2(in_time, out_time));
 					if(percent <= 20 ) {
 						pstmt.setInt(8, dao.fare2(in_time, out_time)-((discount.getUSE_TIME()*fare)+cpdiscount));
-					}else if(20 < percent && percent <=40 ){
+						pstmt.setString(9, CImg);}
+					else if(20 < percent && percent <=40 ){
 						pstmt.setInt(8, dao.fare2(in_time, out_time)-cpdiscount);
+						pstmt.setString(9, CImg);
+
 					}else if(40<percent && percent<=60){
 						pstmt.setInt(8, dao.fare2(in_time, out_time)-(discount.getUSE_TIME()*fare));
+						pstmt.setString(9, CImg);
+
 					}else {
 						pstmt.setInt(8, dao.fare2(in_time, out_time));
+						pstmt.setString(9, CImg);
+
 					}
 				} else {
 					pstmt.setInt(7, 0);
 					pstmt.setInt(8, 0);
+					pstmt.setString(9, CImg);
 				}
 
 			} else {
 
-				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,CP_NUM,SALE_NUM,MONTH_NUM) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?,?)";
+				sql = "insert into PMS_LOG(IDX,CNUM,IN_TIME,CP_NUM,SALE_NUM,MONTH_NUM,C_img) values(LOG_SEQ.nextval,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'),?,?,?,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, key);
 				pstmt.setString(2, in_time);
@@ -156,7 +167,8 @@ public class RandomInsert {
 					pstmt.setInt(3, cnum.getIDX());
 					pstmt.setNull(4, Types.INTEGER);	
 				}
-				pstmt.setInt(5, num);
+					pstmt.setInt(5, num);
+					pstmt.setString (6, CImg);
 
 			}
 			pstmt.executeUpdate();

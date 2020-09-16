@@ -196,20 +196,23 @@
         <td><i class="fas fa-times " style="color:red"></i></td>      
      </c:if>
  <c:if test="${arr.cpNum != 0 }">
-            <td><i class="fas fa-ticket-alt"></i></td>      
-     </c:if>
+   			<td><i class="fas fa-check" style="color:green"></i></td></c:if>
+
+
     <c:if test="${arr.monthNum == 0 }">
     <td><i class="fas fa-times" style="color:red"></i></td>
     </c:if>
     <c:if test="${arr.monthNum != 0 }">
-            <td><i class="fas fa-ticket-alt"></i></td>      
+   			<td><i class="fas fa-check" style="color:green"></i></td>
+
 </c:if>   
        <c:if test="${arr.saleNum == 0 }">
              <td><i class="fas fa-times " style="color:red"></i></td>      
      </c:if>
  <c:if test="${arr.saleNum != 0 }">
-            <td><i class="fas fa-ticket-alt"></i></td>      
-     </c:if> 
+   			<td><i class="fas fa-check" style="color:green"></i></td></c:if>
+
+ 
     <td><button type="button" class="btn btn-dark" data-toggle="modal"  data-idx="${arr.idx}"data-cimg="${arr.cImg}" data-target="#carModal"> <i class="fas fa-car"></i>  차량 사진 </button></td>
 </tr>	
 	</c:forEach> 
