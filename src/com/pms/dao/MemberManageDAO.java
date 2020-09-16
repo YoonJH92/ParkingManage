@@ -276,7 +276,7 @@ public class MemberManageDAO {
 
 	
 	//월정액 리스트 검색 조건 
-		public ArrayList<memberManageDTO> ListMember(Map<String, String> map, Pagination p) {
+		public ArrayList<memberManageDTO> ListMember(Map<String, String> map, Pagination2 p) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			StringBuffer sql = null;
