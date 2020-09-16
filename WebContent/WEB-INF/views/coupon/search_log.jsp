@@ -56,7 +56,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div id = "page">
+				<div style="text-align:center" id = "page">
 				</div>
 			</div>
 		</div>
@@ -153,23 +153,33 @@ var plus = 0;
 		if(pagesub>10){
 			endpage = parseInt(((page + (10-1)))/10) * 10;
 			if(page >= 11){
-				htmlStr += "<button class=\"btn\" onclick=previous()>이전</button>";
+				htmlStr += "<button class=\"btn btn-secondary mx-1\" onclick=previous()>이전</button>";
 			}
 			if(endpage >= pagesub){
 				endpage = pagesub;
 				for(var i = startpage+plus; i<=endpage; i++){
-					htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+					if(i == page){
+						htmlStr += "<button class=\"btn mx-1\" onclick=page_click("+i+"); disabled>"+i+"</button>";
+
+					}else{
+						htmlStr += "<button class=\"btn mx-1\" onclick=page_click("+i+"); >"+i+"</button>";
+					}
 				}
 			}else{
 				for(var i = startpage+plus; i<=endpage; i++){
-					htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+					if(i == page){
+						htmlStr += "<button class=\"btn mx-1\" onclick=page_click("+i+"); disabled>"+i+"</button>";
+
+					}else{
+						htmlStr += "<button class=\"btn mx-1\" onclick=page_click("+i+"); >"+i+"</button>";
+					}
 				}
-				htmlStr += "<button class=\"btn\" onclick=next();>다음</button>";
+				htmlStr += "<button class=\"btn btn-secondary mx-1\" onclick=next();>다음</button>";
 			}
 		}else
 			{
 			for(var i = 1; i<=pagesub; i++){
-				htmlStr += "<button class=\"btn\" onclick=page_click("+i+"); >"+i+"</button>";
+				htmlStr += "<button class=\"btn mx-1\" onclick=page_click("+i+"); >"+i+"</button>";
 			}
 		}
 		$("#page").html(htmlStr);

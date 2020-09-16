@@ -55,7 +55,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div id = "d_page">
+					<div style="text-align:center" id = "d_page">
 					</div>
 				</div>
 

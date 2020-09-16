@@ -17,12 +17,17 @@ String s_align2 = request.getParameter("s_align2");
 String s_date = request.getParameter("s_date");
 String s_startForm = request.getParameter("s_startForm");
 String s_endForm = request.getParameter("s_endForm");
+int p_startidx = Integer.parseInt(request.getParameter("p_startidx"));
 
 
-ArrayList<memberManageDTO> dto = dao.SearchMember(s_condition, s_value, s_align1, s_align2, s_date, s_startForm, s_endForm);
+ArrayList<memberManageDTO> dto = dao.SearchMember(s_condition, s_value, s_align1, s_align2, s_date, s_startForm, s_endForm, p_startidx);
+
+JSONObject obj = new JSONObject();
+obj.put("TOTAL",dao.SearchMemberSub(s_condition, s_value, s_align1, s_align2, s_date, s_startForm, s_endForm)); 
+jarr.add(obj);  
 
 for (memberManageDTO m : dto) {
-	JSONObject obj = new JSONObject();
+	obj = new JSONObject();
 	obj.put("idx", m.getIdx());
 	obj.put("name", m.getName());
 	obj.put("regdate", m.getRegDate().toString());

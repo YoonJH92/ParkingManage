@@ -56,6 +56,6 @@
 		<tbody id="s_area">
 		</tbody>
 	</table>
-	<div id = "p_page">
+	<div class="my-1" style="text-align:center " id = "p_page">
 	</div>
 </div>
