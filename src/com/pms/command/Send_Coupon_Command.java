@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pms.dao.PmsC_D_Dao;
 import com.pms.dto.Pms_Coupon_Log_Dto;
-import com.pms.util.PMSRandom2;
+import com.pms.util.PMSRandom;
 
 public class Send_Coupon_Command implements Command {
 
@@ -38,9 +38,9 @@ public class Send_Coupon_Command implements Command {
 				cal.setTime(new java.util.Date());
 				num[i] = num[i].replaceAll("-", "");
 				date[e] = date[e].replaceAll("일","");
-				StringBuffer cpcode = PMSRandom2.randomCouponCode(15);
+				StringBuffer cpcode = PMSRandom.randomCouponCode(15);
 				
-				dto.setCNUM(cnum[e]);
+				dto.setCNUM(cnum[i]);
 				dto.setCPNUM(Integer.parseInt(cpnum[e]));
 				dto.setUSED("0");
 				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(date[e]));
