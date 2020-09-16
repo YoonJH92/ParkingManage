@@ -16,7 +16,8 @@ public class MemberManageCommand implements Command {
 		MemberManageDAO dao = MemberManageDAO.getInstance();
 		int listCnt = dao.ListMemberCount();
 		int curPage = (request.getParameter("p") == null || request.getParameter("p") == "") ? 1 : Integer.parseInt(request.getParameter("p"));
-		Pagination2 pagination = new Pagination2(listCnt, curPage);
+		int limit = (request.getParameter("limit") == null || request.getParameter("limit") == "") ? 10 : Integer.parseInt(request.getParameter("limit"));
+		Pagination2 pagination = new Pagination2(listCnt, curPage, limit);
 		ArrayList<memberManageDTO> arr = dao.ListMember(pagination);
 		request.setAttribute("arr", arr);
 		request.setAttribute("pagination", pagination);

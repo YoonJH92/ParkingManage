@@ -115,7 +115,22 @@ public class Pagination2 {
         /** DB 질의를 위한 startIndex 설정 **/
         setStartIndex(curPage);
     }
- 
+	
+	public Pagination2(int listCnt, int curPage, int pageSize){
+		/** 페이지 개수 설정**/
+		setPageSize(pageSize);
+        /** 현재페이지 **/
+        setCurPage(curPage);
+        /** 총 게시물 수 **/
+        setListCnt(listCnt);
+        /** 1. 총 페이지 수 **/
+        setPageCnt(listCnt);
+        /** 3. 블럭(range) setting **/
+        rangeSetting(curPage);
+        /** DB 질의를 위한 startIndex 설정 **/
+        setStartIndex(curPage);
+    }
+	
     public void setPageCnt(int listCnt) {
         this.pageCnt = (int) Math.ceil(listCnt/(double)pageSize);
     }

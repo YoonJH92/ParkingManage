@@ -49,6 +49,7 @@
     	   <input type="hidden" name="HidDateSearch" id="HidDateSearch" value="${dateSearch}"/>
     	   <input type="hidden" name="HidSearch" id="HidSearch" value="${search}"/>
     	   <input type="hidden" name="HidSearchForm" id="HidSearchForm" value="${searchForm}"/>
+    	   <input type="hidden" id="p" name="p" value="${pagination.curPage}">
       <div class="py10">
      	<span>날짜 검색</span>
      	<select name="dateSearch" id="dateSearch" class="form-control1">
@@ -84,6 +85,16 @@
     </div>
     <div class="card-body">
       <div class="table-responsive text-center">
+         <div class="fr py10">
+         	<span>리스트 개수 설정</span>
+			<select name="limit" id="limit" class="form-control1" onchange="LimitChange();">
+	       		<option value="10" <c:if test="${param.limit eq 10}">selected</c:if>>10</option>
+	       		<option value="20" <c:if test="${param.limit eq 20}">selected</c:if>>20</option>
+	       		<option value="30" <c:if test="${param.limit eq 30}">selected</c:if>>30</option>
+	       		<option value="50" <c:if test="${param.limit eq 50}">selected</c:if>>50</option>
+	       		<option value="100" <c:if test="${param.limit eq 100}">selected</c:if>>100</option>
+       		</select>
+      	</div>
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
@@ -189,8 +200,7 @@
        <div class="modal-body">
 			<input type="hidden" id="idx" name="idx" value="">
 			<input type="hidden" id="selectType" name="selectType" value="">
-			<input type="hidden" id="p" name="p" value="${pagination.curPage}">
-			
+
 			<div class="row py10 al-center">
 			  <div class="col-md-4" style="text-align: center;">회원 이름</div>
 			  <div class="col-md-8"><input type="text" class="form-control" id="name" name="name"></div>
@@ -241,9 +251,20 @@
     	  	var dateSearch = $("#HidDateSearch").val();
     	  	var search = $("#HidSearch").val();
     	  	var searchForm = $("#HidSearchForm").val();
-	    	location.href = window.location.pathname +"?p="+curPage+"&dateSearch="+dateSearch+"&startForm="+startForm+"&endForm="+endForm+"&search="+search+"&searchForm="+searchForm;
+    	  	var limit = $("#limit option:selected").val();
+	    	location.href = window.location.pathname +"?p="+curPage+"&dateSearch="+dateSearch+"&startForm="+startForm+"&endForm="+endForm+"&search="+search+"&searchForm="+searchForm+"&limit="+limit;
 	    }
     
+	    function LimitChange() {
+      	  	var startForm = $("#HidStartForm").val();
+    	  	var endForm = $("#HidEndForm").val();
+    	  	var dateSearch = $("#HidDateSearch").val();
+    	  	var search = $("#HidSearch").val();
+    	  	var searchForm = $("#HidSearchForm").val();
+    	  	var limit = $("#limit option:selected").val();
+	    	location.href = window.location.pathname +"?p=1&dateSearch="+dateSearch+"&startForm="+startForm+"&endForm="+endForm+"&search="+search+"&searchForm="+searchForm+"&limit="+limit;
+	    }
+	    
       $(function () {
           $("input[name=startDate]").datetimepicker({  
         	  format: 'Y-m-d H:i:s'
@@ -272,6 +293,7 @@
           });
           
           $("#searchBtn").click(function(){
+        	  var limit = $("#limit option:selected").val();
         	  $("#frm").submit();
           });
           

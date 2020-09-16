@@ -84,7 +84,7 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if (value.isEmpty()) {
-				sql = "select * from (select rownum rnum, cpnum, use_date, cpname, purpose, discount from PMS_COUPON ORDER BY cpnum ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
+				sql = "select rnum, t.* from (select s.*, row_number() over(order by cpnum) as rnum from PMS_COUPON s) t where rnum between "+idx+" AND "+ (idx+align-1);
 			} else {
 				if (condition.equals("use_date")) {
 					value = value.replace("일", "");
@@ -93,7 +93,7 @@ public class PmsC_D_Dao {
 					value = value.replace("원", "");
 					value = value.replace(",", "");
 				}
-				sql = "select * from (select rownum rnum, cpnum, use_date, cpname, purpose, discount from PMS_COUPON where " + condition + " LIKE " + "'" + value + "%' ORDER BY cpnum ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
+				sql = "select rnum, t.* from (select s.*, row_number() over(order by cpnum) as rnum from PMS_COUPON s where " + condition + " LIKE " + "'" + value + "%') t where rnum between " + idx + " AND "+ (idx+align-1);
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -124,12 +124,12 @@ public class PmsC_D_Dao {
 		try {
 			con = pool.getConnection();
 			if (value.isEmpty()) {
-				sql = "select * from (select rownum rnum, com_num, company, purpose, use_time from PMS_DISCOUNT_MANAGE ORDER BY com_num ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
+				sql = "select rnum, t.* from (select s.*, row_number() over(order by com_num) as rnum from PMS_DISCOUNT_MANAGE s) t where rnum between "+idx+" AND "+ (idx+align-1);
 			} else {
 				if (condition.equals("use_time")) {
 					value = value.replace("시간", "");
 				}
-				sql = "select * from (select rownum rnum, com_num, company, purpose, use_time from PMS_DISCOUNT_MANAGE where " + condition + " LIKE " + "'" + value + "%' ORDER BY com_num ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
+				sql = "select rnum, t.* from (select s.*, row_number() over(order by com_num) as rnum from PMS_DISCOUNT_MANAGE s where " + condition + " LIKE " + "'" + value + "%') t where rnum between " + idx + " AND "+ (idx+align-1);
 			}
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
@@ -218,12 +218,12 @@ public class PmsC_D_Dao {
 			con = pool.getConnection();
 			
 			if (value.isEmpty()) {
-				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG ORDER BY IDX ASC ) where rnum between "+idx+" AND "+ (idx+align-1);
+				sql = "select rnum, t.* from (select s.*, row_number() over(order by idx) as rnum from PMS_COUPON_LOG s) t where rnum between "+idx+" AND "+ (idx+align-1);
 			} else if(condition.equals("cnum")){
-				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG where " + condition + " LIKE " + "'" + value + "%' ORDER BY IDX ASC ) where rnum between " + idx + " AND "+ (idx+align-1);
+				sql = "select rnum, t.* from (select s.*, row_number() over(order by idx) as rnum from PMS_COUPON_LOG s where " + condition + " LIKE " + "'" + value + "%') t where rnum between " + idx + " AND "+ (idx+align-1);
 			}
 			else if(condition.equals("cpnum")) {
-				sql = "select * from (select rownum rnum, idx, cpnum, cpcode, validity, used, cnum from PMS_COUPON_LOG where " + condition + " = " + "'" + value +"' ORDER BY IDX ASC) where rnum between " + idx + " AND " + (idx+align-1);
+				sql = "select rnum, t.* from (select s.*, row_number() over(order by idx) as rnum from PMS_COUPON_LOG s where " + condition + " = " + "'" + value +"') t where rnum between " + idx + " AND " + (idx+align-1);
 			}
 			
 			System.out.println(sql);
@@ -349,9 +349,57 @@ public class PmsC_D_Dao {
 		}
 		return total;
 	}
+	
+	public int SearchMemberSub(String condition, String value, int align1, String align2,
+			String date, String startForm, String endForm) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int total = 0;
+		StringBuffer where = new StringBuffer();
+		
+		try {
+			con = pool.getConnection();
+			
+			if (value.isEmpty() == false || startForm.isEmpty() == false || endForm.isEmpty() == false) {
+				where.append("where ");
+				if (value.isEmpty() == false) {
+					where.append(condition + " LIKE '" + value + "%'");
+				}
+				if (startForm.isEmpty() == false || endForm.isEmpty() == false) {
+					if(value.isEmpty() == false) {
+						where.append("AND ");
+					}
+					where.append(date + " between ");
+					if (startForm.isEmpty() == false && endForm.isEmpty() == false) {
+						where.append("'" + startForm + "' AND '" + endForm + "' ");
+					} else if (startForm.isEmpty() == false) {
+						where.append("'" + startForm + "' AND SYSDATE ");
+					} else if (endForm.isEmpty() == false) {
+						where.append("'1900/01/01' AND '" + endForm + "' ");
+					}
+				}
+			}
+
+			sql = "select count(rnum) from (select row_number() over(order by "+ align2+ ") as rnum from PMS_MONTH_MEMBER s "+ where +") t";
+			
+			System.out.println(sql);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("count(rnum)"); 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return total;
+	}
 
 	public ArrayList<memberManageDTO> SearchMember(String condition, String value, int align1, String align2,
-			String date, String startForm, String endForm) {
+			String date, String startForm, String endForm, int idx) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -381,8 +429,7 @@ public class PmsC_D_Dao {
 				}
 			}
 
-			sql = "select * from (select * from PMS_MONTH_MEMBER " + where + "ORDER BY " + align2
-					+ " ASC) where rownum <=" + align1;
+			sql = "select rnum, t.* from (select s.*, row_number() over(order by "+ align2+ ") as rnum from PMS_MONTH_MEMBER s "+ where +") t where rnum between "+idx+" AND "+ (idx+align1-1);
 			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
