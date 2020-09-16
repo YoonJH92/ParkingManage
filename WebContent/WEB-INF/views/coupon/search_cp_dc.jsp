@@ -5,6 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 
 <style>
+
+
   .switchToggle input[type=checkbox] {
     height: 0;
     width: 0;
