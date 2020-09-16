@@ -12,25 +12,9 @@ public class PmsPageDto {
 	    boolean next;	    
 	    private int startNum;
 	    private int endNum;
-	    private int NEXT;
-	    
-	    public int getNEXT() {
-			return NEXT;
-		}
-		public void setNEXT(int nEXT) {
-			NEXT = nEXT;
-		}
-		public int getPREV() {
-			return PREV;
-		}
-		public void setPREV(int pREV) {
-			PREV = pREV;
-		}
 		public int getDisplayPage() {
 			return displayPage;
 		}
-
-		private int PREV;
 	
 	    public void setStartNum(int startNum) {
 	    	this.startNum = startNum;
@@ -104,10 +88,7 @@ public class PmsPageDto {
 	      
 	        
 	        int totalPage = (int)Math.ceil(totalCount/(double)displayRow);
-	        
-	        this.NEXT=page+1;
-	        
-	        this.PREV=page-1;
+	
 	        
 	        if(totalPage<endPage){
 	           endPage = totalPage;

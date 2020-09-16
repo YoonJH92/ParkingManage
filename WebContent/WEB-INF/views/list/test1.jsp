@@ -22,15 +22,10 @@
 	<ul class="pagination justify-content-center">
 	<c:url var="action" value="/logdetail.do"/>
 	<c:if test="${param.prev}">
-	
-	
    <li class="page-item">  <a class="page-link" href="${action}?Search=&FDate=${param.FDate }&LDate=${param.LDate}&cnum=${param.cnum}&dRs=${param.displayRow}&page=${param.beginPage-1}">&laquo</a></li>
     </c:if>
-      <c:if test="${param.page ne 1}">
-      
+      <c:if test="${param.page ne 1 && param.page != null}">   
          <li class="page-item">  <a class="page-link" href="${action}?Search=&FDate=${param.FDate }&LDate=${param.LDate}&cnum=${param.cnum}&dRs=${param.displayRow}&page=${param.page-1}">perv</a></li>
-      
-      
                     </c:if>
 		<c:forEach begin="${param.beginPage}" end="${param.endPage}" step="1" var="index">
     <c:choose>
