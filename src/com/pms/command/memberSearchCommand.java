@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pms.dao.MemberManageDAO;
 import com.pms.dto.memberManageDTO;
-import com.pms.paging.Pagination;
+import com.pms.paging.Pagination2;
 
 public class memberSearchCommand implements Command {
 
@@ -24,6 +24,7 @@ public class memberSearchCommand implements Command {
 		String endForm = request.getParameter("endForm") == "" ? "" : request.getParameter("endForm")+" 23:59:59"; 
 		String search = request.getParameter("search");
 		String searchForm = request.getParameter("searchForm");
+		int limit = (request.getParameter("limit") == null || request.getParameter("limit") == "") ? 10 : Integer.parseInt(request.getParameter("limit"));
 		
 		map.put("dateSearch",dateSearch);
 		map.put("startForm",startForm);
@@ -33,7 +34,7 @@ public class memberSearchCommand implements Command {
 		
 		int listCnt = dao.ListMemberCount(map); //전체 리스트 수
 		int curPage = (request.getParameter("p") == null || request.getParameter("p") == "") ? 1 : Integer.parseInt(request.getParameter("p")); // 현재 페이지
-		Pagination pagination = new Pagination(listCnt, curPage); //페이징 객체 생성
+		Pagination2 pagination = new Pagination2(listCnt, curPage, limit); //페이징 객체 생성
 		ArrayList<memberManageDTO> arr = dao.ListMember(map,pagination); // 리스트 데이터 가져옴		
 
 		request.setAttribute("arr", arr);
