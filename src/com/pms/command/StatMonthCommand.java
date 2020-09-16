@@ -9,7 +9,7 @@ import com.pms.dao.StatMonthDAO;
 import com.pms.dto.StatisticsDTO;
 
 public class StatMonthCommand implements Command {
-
+	/**월별 통계 커맨드 **/
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatMonthDAO dao = StatMonthDAO.getInstance();

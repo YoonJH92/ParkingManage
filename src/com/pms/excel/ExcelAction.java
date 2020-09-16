@@ -14,6 +14,7 @@ private static ExcelAction instance = new ExcelAction();
 
 	private HashMap<String, ExcelCommand> map = new HashMap<String, ExcelCommand>();
 	
+	/**엑셀 ACTION 위치설정**/
 	private ExcelAction() {
 		map.put("/daily", new ExcelDaily());
 		map.put("/monthly", new ExcelMonthly());
@@ -23,6 +24,7 @@ private static ExcelAction instance = new ExcelAction();
 		map.put("/member", new ExcelMember());
 	}
 	
+	/** 객체 반환 **/
 	public ExcelCommand getAction(String command) {
 		ExcelCommand action = null;
 		action = map.get(command);

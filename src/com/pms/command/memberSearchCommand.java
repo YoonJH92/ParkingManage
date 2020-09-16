@@ -11,7 +11,7 @@ import com.pms.dto.memberManageDTO;
 import com.pms.paging.Pagination2;
 
 public class memberSearchCommand implements Command {
-
+	/**월정액 회원 검색 페이지 커맨드**/
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -19,6 +19,7 @@ public class memberSearchCommand implements Command {
 		HashMap<String, String> map = new HashMap<String, String>();
 		MemberManageDAO dao = MemberManageDAO.getInstance();
 		
+		/**파라미터 설정**/
 		String dateSearch = request.getParameter("dateSearch");
 		String startForm = request.getParameter("startForm") == "" ? "" : request.getParameter("startForm")+" 00:00:00";
 		String endForm = request.getParameter("endForm") == "" ? "" : request.getParameter("endForm")+" 23:59:59"; 
@@ -26,6 +27,7 @@ public class memberSearchCommand implements Command {
 		String searchForm = request.getParameter("searchForm");
 		int limit = (request.getParameter("limit") == null || request.getParameter("limit") == "") ? 10 : Integer.parseInt(request.getParameter("limit"));
 		
+		/**해시맵에 저장**/
 		map.put("dateSearch",dateSearch);
 		map.put("startForm",startForm);
 		map.put("endForm",endForm);

@@ -11,12 +11,13 @@ import com.pms.dao.StatMonthDAO;
 import com.pms.dto.StatisticsDTO;
 
 public class StatMonthSearchCommand implements Command {
-
+	/**월별 통계 검색 커맨드 **/
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ArrayList<String> date = new ArrayList<String>();
 		HashMap<String, String> map = new HashMap<String, String>();
 		
+		/**파라미터값 체크 **/
 		String startForm = request.getParameter("startForm") == "" ? "" : request.getParameter("startForm");
 		String endForm = request.getParameter("endForm") == "" ? "" : request.getParameter("endForm"); 
 		
