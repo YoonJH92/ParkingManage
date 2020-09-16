@@ -114,7 +114,7 @@ table#stat tbody td {
 		<div class="display-inline fl">
 			<form method="post" action="time.ex" name="frmEx" id="frmEx">
 		   	   <input type="hidden" name="HidStartForm" id="HidStartForm" value="${startForm}"/>
-		   	  
+	
 			</form>
 			<form method="post" action="statTime.do" name="frm" id="frm">
 				<span style="font-weight: 800;">날짜 검색 : </span> <input type="text"
@@ -169,21 +169,20 @@ table#stat tbody td {
 		<tbody>
 
 			<c:forEach var="list" items="${arr}">
-				<tr>
-					<td>${list.time}시</td>
-					<td>${list.inMonth}</td>
-					<td>${list.inNomal}</td>
-					<td>${list.inMonth+list.inNomal}</td>
-					<td>${list.outMonth}</td>
-					<td>${list.outNomal}</td>
-					<td>${list.outMonth+list.outNomal}</td>
-					<td>${list.totalPay}</td>
-					<td>${list.monthCount}</td>
-					<td>${list.monthPay}</td>
-					<td>${list.monthPay+list.totalPay}</td>
 
-
-				</tr>
+				 <tr>
+	              <td>${list.time}</td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.inNomal}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.inMonth}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.inMonth + list.inNomal}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.outNomal}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.outMonth}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.outNomal + list.outMonth}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.totalPay}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.monthCount}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.monthPay}" /></td>
+	              <td><f:formatNumber type="number" maxFractionDigits="3" value="${list.totalPay + list.monthPay}" /></td>
+	            </tr>
 			</c:forEach>
 
 		</tbody>
@@ -204,6 +203,7 @@ table#stat tbody td {
 	}
 
 	$(document).ready(function() {
+		
 		$('#example').DataTable({
 			// 표시 건수기능 숨기기
 			lengthChange : false,
@@ -228,9 +228,7 @@ table#stat tbody td {
 		$("#startForm").datepicker({
 			dateFormat : 'yy-mm-dd'
 		});
-		$("#endForm").datepicker({
-			dateFormat : 'yy-mm-dd'
-		});
+
 		$('#stat')
 				.DataTable(
 						{

@@ -6,7 +6,7 @@
 
 	<script type="text/javascript">
 		alert("수정이 완료되었습니다");
-		document.location.href="loglistac.do";
+		document.location.href="loglist.do";
 	</script>
 
 </body>

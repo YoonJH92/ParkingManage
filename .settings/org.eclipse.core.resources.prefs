@@ -4,5 +4,3 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/views/empty.jsp=UTF-8
 encoding//src/com/pms/dao/PmsLogDao.java=UTF-8
-encoding//src/com/pms/util/PMSRandom.java=UTF-8
-encoding//src/com/pms/util/PMSRandom2.java=UTF-8

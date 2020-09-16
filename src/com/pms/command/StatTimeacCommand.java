@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pms.dao.StatTime2DAO;
+import com.pms.dao.StatTimeDAO;
 import com.pms.dto.StatisticsDTO;
 
 public class StatTimeacCommand implements Command {
@@ -18,17 +19,17 @@ public class StatTimeacCommand implements Command {
 		
 		request.setCharacterEncoding("UTF-8");
 		StatisticsDTO stdto = new StatisticsDTO();
-		StatTime2DAO stdao2 = new StatTime2DAO();
+		StatTimeDAO stdao = new StatTimeDAO();
 		
 		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy-MM-dd", Locale.KOREA );
 		Date currentTime = new Date ();
-		String today = mSimpleDateFormat.format ( currentTime );
-		System.out.println ( today );
+		String startForm = mSimpleDateFormat.format ( currentTime );
+		System.out.println ( startForm );
 		
 		
-		ArrayList<StatisticsDTO> arr = stdao2.timeList2(today);
+		ArrayList<StatisticsDTO> arr = stdao.timeList(startForm);
 		request.setAttribute("arr", arr);
-		request.setAttribute("today", today);
+		request.setAttribute("startForm", startForm);
 		
 		
 		return "stat/time";

@@ -25,7 +25,7 @@ public class StatTime2DAO {
 	}
 	
 
-	public ArrayList<StatisticsDTO> timeList2(String today) {
+	public ArrayList<StatisticsDTO> timeList2(String startForm) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		StringBuffer sql = null;
@@ -51,7 +51,7 @@ public class StatTime2DAO {
 			sql.append("	FROM PMS_MONTH_MEMBER GROUP BY TO_CHAR(SDATE,'yyyy-mm-dd hh24')") ;
 			sql.append(" ) C ON A.TIME = C.TIME") ;
 
-			sql.append("     WHERE SUBSTR(A.TIME,0,10)='"+today+"' ORDER BY A.TIME") ;
+			sql.append("     WHERE SUBSTR(A.TIME,0,10)='"+startForm+"' ORDER BY A.TIME") ;
 			
 			pstmt = con.prepareStatement(sql.toString());
 			rs = pstmt.executeQuery();
