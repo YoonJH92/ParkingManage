@@ -100,7 +100,7 @@ public class PmsLogDao {
 			sql=new StringBuffer();
 			sql.append(" SELECT * FROM (" );
 			sql.append(" SELECT A.*, ROWNUM AS RNUM FROM  ");
-			sql.append(" (select * from PMS_log where out_time is null order by in_time) A ");
+			sql.append(" (select * from PMS_log where out_time is null order by in_time desc ) A ");
 			sql.append(" WHERE ROWNUM <= ? ");
 			sql.append(" ) WHERE RNUM > ? ");
 			ps = con.prepareStatement(sql.toString());
@@ -342,9 +342,11 @@ public class PmsLogDao {
 			long inTimestamp = todaySdf.parse(intime).getTime();
 			long OutTimestamp = todaySdf.parse(Outtime).getTime();
 			long difference = (OutTimestamp - inTimestamp);
-			long minuteDiff = difference / (60 * 1000);
-			long x = minuteDiff / dtime;
+			long minuteDiff = difference / (60 * 1000); //분차이 구하기 
+			long x = minuteDiff / dtime; 
 			long y = minuteDiff % dtime;
+			
+			
 			if (minuteDiff < 0) {
 				fare = 0;
 			}
@@ -355,7 +357,8 @@ public class PmsLogDao {
 						fare = settingfare;
 					}
 				}
-				if (x >= 1) {
+				if (x >= dtime) {
+				
 					fare = settingfare * x;
 					if (y > 0) {
 						fare += ofare;
@@ -411,42 +414,100 @@ public class PmsLogDao {
 			pool.freeConnection(con, ps, rs);
 		}
 	}
-	// 실시간 요금
-	public ArrayList<String> Curentfare() throws ParseException {
+	//실시간 요금
+	public ArrayList<String> Curentfare() throws ParseException{
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		// 현재시간
-		String sql = "";
+		SettingDAO settingDao=SettingDAO.getInstance();			
+		SettingDTO setingDto=settingDao.settItem();
+		//실시간 요금
+		long fare=0;
+		//기본 시간
+		final int dtime=setingDto!=null?setingDto.getDtime():1;
+		//기본 요금 
+		final int settingfare=setingDto!=null?setingDto.getFare():0;
+		//오버시 시간
+		final int otime=setingDto!=null?setingDto.getOtime():1;
+		//오버시 요금 
+		final int ofare=setingDto!=null?setingDto.getOfare():0;
+		//현재시간
+		String sql="";
 		ArrayList<String> arr = new ArrayList<String>();
 		ArrayList<String> fareArr = new ArrayList<String>();
 		DecimalFormat Commas = new DecimalFormat("#,###"); // 단위 콤마
+		
 		try {
-			con = pool.getConnection();
-			sql = "select to_char( in_time, 'YYYY-MM-DD HH24:MI:SS' ) as in_time from pms_log where out_time is null order by in_time ";
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery(sql);
-			while (rs.next()) {
-				String difftimes = rs.getString("in_time");
+			con=pool.getConnection();
+			
+			sql="select to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time from pms_log where out_time is null order by in_time desc ";			
+			ps=con.prepareStatement(sql);			
+			rs=ps.executeQuery(sql);
+			while (rs.next()) {		
+				String difftimes=rs.getString("in_time");
 				arr.add(difftimes);
-			}
-			SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-			// 한국기준 날짜
-			Calendar calendar = Calendar.getInstance();// 시스템 현재 날짜 가져오기
+			}		
+			SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA);
+			//한국기준 날짜
+			Calendar calendar = Calendar.getInstance();//시스템 현재 날짜 가져오기 
 			Date date = new Date(calendar.getTimeInMillis());
 			todaySdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 			String todayDate = todaySdf.format(date);
-			for (int i = 0; i < arr.size(); i++) {
-				int Cfare = fare2(arr.get(i), todayDate);
-				fareArr.add((String) Commas.format(Cfare));
-			}
+			long todayTimestamp = todaySdf.parse(todayDate).getTime();
+			Date date2 = new Date(todayTimestamp);
+			String todayDate2 = todaySdf.format(date2);
+				
+			for(int i=0;i<arr.size();i++) {
+				String diffTime=arr.get(i);
+				
+				long diffTimestamp=todaySdf.parse(diffTime).getTime();	
+				
+				long difference=(todayTimestamp-diffTimestamp);
+				//현재시간-입차시간
+			
+		        
+		        long result=difference/ (60*60*1000);//시간차이
+		        long daysDiff=difference/ (24*60*60*1000);//시간차이
+		        
+		        long minuteDiff=difference/(60*1000);
+
+		        long x=minuteDiff/dtime; //
+		        long y=minuteDiff%dtime;//
+		 
+		        if (minuteDiff < 0) {
+					fare = 0;
+				}       			      		        			        
+		        if(x<1) {
+		        	fare=ofare;
+		        	if(minuteDiff>otime) {
+		        		fare=settingfare;
+		        	}     	
+		        }			        
+		        if(x>=1) {	        	
+		        	fare=settingfare*x;
+		        	
+		        	if(y>0) {
+		        		fare+=ofare;
+		        	}
+		        	
+		        	if(y>otime) {
+		        		fare+=settingfare;
+		        	}
+		     
+		        }	        
+		        	if(daysDiff>=40) {
+		        		fare=(long)(fare*0.5);
+		        	}
+		        
+		        fareArr.add((String) Commas.format(fare));
+		        			        			}							
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, ps, rs);
 		}
-		return fareArr;
-	}
+		return fareArr ;
+	}	
 	// 차량조회
 	public ArrayList<PmsLogDto> viewDetail(Pagination2 p, String FDate, String LDate, String cnum) {
 		Connection con = null;

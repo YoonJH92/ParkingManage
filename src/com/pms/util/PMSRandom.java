@@ -321,6 +321,17 @@ public class PMSRandom {
 		
 		return code;
 	}
+	
+	
+	public static String ImgName() {
+		
+		List<String> imgExtends=Arrays.asList(".png",".jpg");
+		List<String> name=Arrays.asList("1","2","3","4","5","6","7","8","9","10");
+		Collections.shuffle(imgExtends);
+		Collections.shuffle(name);
+		return "pms_"+name.get(0)+imgExtends.get(0);		
+	}
+	
 
 	public static void main(String[] args) {
 		PMSRandom random = new PMSRandom();
@@ -328,8 +339,8 @@ public class PMSRandom {
 		random.DISCOUNT_SETTING(30);
 		ArrayList<String> ran = random.CNUM_RAND(300);
 		random.MONTH_SETTING(ran);
-		random.TIME_SETTING(ran, 400);
-
+		random.TIME_SETTING(ran, 500);
+		random.ImgName();
 		System.out.println("성공");
 	}
 
