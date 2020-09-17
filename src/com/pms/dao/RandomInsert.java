@@ -140,7 +140,7 @@ public class RandomInsert {
 						pstmt.setString(9, cImg);
 
 					}else if(20 < percent && percent <=40 ){
-						pstmt.setInt(8, dao.fare2(in_time, out_time)-cpdiscount);
+						temp = dao.fare2(in_time, out_time)-cpdiscount;
 						if(temp < 0) {
 							temp = 0;
 						}
@@ -148,7 +148,7 @@ public class RandomInsert {
 						pstmt.setString(9, cImg);
 
 					}else if(40<percent && percent<=60){
-						pstmt.setInt(8, dao.fare2(in_time, out_time)-(discount.getUSE_TIME()*fare));
+						temp = dao.fare2(in_time, out_time)-(discount.getUSE_TIME()*fare);
 						if(temp < 0) {
 							temp = 0;
 						}
@@ -156,7 +156,7 @@ public class RandomInsert {
 						pstmt.setString(9, cImg);
 
 					}else {
-						pstmt.setInt(8, dao.fare2(in_time, out_time));
+						temp = dao.fare2(in_time, out_time);
 						if(temp < 0) {
 							temp = 0;
 						}

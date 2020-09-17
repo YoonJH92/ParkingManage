@@ -337,7 +337,7 @@ public class PMSRandom {
 		PMSRandom random = new PMSRandom();
 		random.COUPON_SETTING(randomCouponName());
 		random.DISCOUNT_SETTING(30);
-		ArrayList<String> ran = random.CNUM_RAND(300);
+		ArrayList<String> ran = random.CNUM_RAND(3000);
 		random.MONTH_SETTING(ran);
 		random.TIME_SETTING(ran, 500);
 		random.ImgName();
