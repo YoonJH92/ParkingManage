@@ -105,8 +105,7 @@ public class PmsLogDao {
 			sql.append(" ) WHERE RNUM > ? ");
 			ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, p.getCurPage() * p.getPageSize()); 
-			ps.setInt(2, (p.getCurPage()-1) * p.getPageSize());
-			
+			ps.setInt(2, (p.getCurPage()-1) * p.getPageSize());		
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				PmsLogDto dto = new PmsLogDto();
@@ -122,6 +121,11 @@ public class PmsLogDao {
 				dto.setcImg(rs.getString("c_img"));
 				arr.add(dto);
 			}
+				
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -160,7 +164,7 @@ public class PmsLogDao {
 		ArrayList<PmsLogDto> arr = new ArrayList<PmsLogDto>();
 		try {
 			con = pool.getConnection();
-			String sql = " SELECT * FROM pms_log where out_time is null order by in_time";
+			String sql = " SELECT * FROM pms_log where out_time is null order by in_time desc";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -342,10 +346,10 @@ public class PmsLogDao {
 			long inTimestamp = todaySdf.parse(intime).getTime();
 			long OutTimestamp = todaySdf.parse(Outtime).getTime();
 			long difference = (OutTimestamp - inTimestamp);
-			long minuteDiff = difference / (60 * 1000); //분차이 구하기 
-			long x = minuteDiff / dtime; 
+			long minuteDiff = difference / (60 * 1000);
+			long x = minuteDiff / dtime;
 			long y = minuteDiff % dtime;
-			
+
 			if (minuteDiff < 0) {
 				fare = 0;
 			}
@@ -356,8 +360,7 @@ public class PmsLogDao {
 						fare = settingfare;
 					}
 				}
-				if (x >= dtime) {
-				
+				if (x >= 1) {
 					fare = settingfare * x;
 					if (y > 0) {
 						fare += ofare;
@@ -414,7 +417,7 @@ public class PmsLogDao {
 		}
 	}
 	//실시간 요금
-	public ArrayList<String> Curentfare() throws ParseException{
+	public ArrayList<Integer> Curentfare() throws ParseException{
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -433,18 +436,18 @@ public class PmsLogDao {
 		//현재시간
 		String sql="";
 		ArrayList<String> arr = new ArrayList<String>();
-		ArrayList<String> fareArr = new ArrayList<String>();
-		DecimalFormat Commas = new DecimalFormat("#,###"); // 단위 콤마
-		
+		ArrayList<Integer> fareArr = new ArrayList<Integer>();
+		ArrayList<Integer> idxArr = new ArrayList<Integer>();
 		try {
 			con=pool.getConnection();
-			
-			sql="select to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time from pms_log where out_time is null order by in_time desc ";			
+			sql="select idx,to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time from pms_log where out_time is null order by in_time desc ";			
 			ps=con.prepareStatement(sql);			
 			rs=ps.executeQuery(sql);
 			while (rs.next()) {		
 				String difftimes=rs.getString("in_time");
+				int idx=rs.getInt("idx");
 				arr.add(difftimes);
+				idxArr.add(idx);
 			}		
 			SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA);
 			//한국기준 날짜
@@ -454,25 +457,18 @@ public class PmsLogDao {
 			String todayDate = todaySdf.format(date);
 			long todayTimestamp = todaySdf.parse(todayDate).getTime();
 			Date date2 = new Date(todayTimestamp);
-			String todayDate2 = todaySdf.format(date2);
-				
-			for(int i=0;i<arr.size();i++) {
-				String diffTime=arr.get(i);
-				
-				long diffTimestamp=todaySdf.parse(diffTime).getTime();	
-				
+			String todayDate2 = todaySdf.format(date2);				
+				for(int i=0;i<arr.size();i++) {
+				String diffTime=arr.get(i);				
+				long diffTimestamp=todaySdf.parse(diffTime).getTime();					
 				long difference=(todayTimestamp-diffTimestamp);
-				//현재시간-입차시간
-			
-		        
+				//현재시간-입차시간		        
 		        long result=difference/ (60*60*1000);//시간차이
 		        long daysDiff=difference/ (24*60*60*1000);//시간차이
 		        
 		        long minuteDiff=difference/(60*1000);
-
-		        long x=minuteDiff/dtime; //
-		        long y=minuteDiff%dtime;//
-		 
+		        long x=minuteDiff/dtime; 
+		        long y=minuteDiff%dtime;
 		        if (minuteDiff < 0) {
 					fare = 0;
 				}       			      		        			        
@@ -487,19 +483,24 @@ public class PmsLogDao {
 		        	
 		        	if(y>0) {
 		        		fare+=ofare;
-		        	}
-		        	
+		        	}	
 		        	if(y>otime) {
 		        		fare+=settingfare;
-		        	}
-		     
-		        }	        
-		        	if(daysDiff>=40) {
-		        		fare=(long)(fare*0.5);
-		        	}
-		        
-		        fareArr.add((String) Commas.format(fare));
-		        			        			}							
+		        	}		     
+		        }	
+		        fareArr.add((int) fare);
+		        }
+				if(idxArr.size()!=0) {
+				sql= " update pms_log set pay = ? where idx = ? ";
+				ps = con.prepareStatement(sql);
+				for(int i=0;i<fareArr.size();i++) {
+					ps.setInt(1, fareArr.get(i));
+					ps.setInt(2, idxArr.get(i));
+					ps.executeUpdate();
+					ps.clearParameters();		
+				}
+			}
+											
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -635,9 +636,6 @@ public class PmsLogDao {
 						+ "', 'YYYY-MM-DD HH24:MI:SS') AND " + "TO_DATE('" + LDate.trim()
 						+ "','YYYY-MM-DD HH24:MI:SS')  and (cnum='" + cnum.trim() + "' ) order by in_time ";
 				}
-			
-			
-	
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
