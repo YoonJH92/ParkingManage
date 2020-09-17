@@ -105,8 +105,7 @@ public class PmsLogDao {
 			sql.append(" ) WHERE RNUM > ? ");
 			ps = con.prepareStatement(sql.toString());
 			ps.setInt(1, p.getCurPage() * p.getPageSize()); 
-			ps.setInt(2, (p.getCurPage()-1) * p.getPageSize());
-			
+			ps.setInt(2, (p.getCurPage()-1) * p.getPageSize());		
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				PmsLogDto dto = new PmsLogDto();
@@ -122,6 +121,11 @@ public class PmsLogDao {
 				dto.setcImg(rs.getString("c_img"));
 				arr.add(dto);
 			}
+				
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -412,7 +416,7 @@ public class PmsLogDao {
 		}
 	}
 	//실시간 요금
-	public ArrayList<String> Curentfare() throws ParseException{
+	public ArrayList<Integer> Curentfare() throws ParseException{
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -431,18 +435,18 @@ public class PmsLogDao {
 		//현재시간
 		String sql="";
 		ArrayList<String> arr = new ArrayList<String>();
-		ArrayList<String> fareArr = new ArrayList<String>();
-		DecimalFormat Commas = new DecimalFormat("#,###"); // 단위 콤마
-		
+		ArrayList<Integer> fareArr = new ArrayList<Integer>();
+		ArrayList<Integer> idxArr = new ArrayList<Integer>();
 		try {
 			con=pool.getConnection();
-			
-			sql="select to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time from pms_log where out_time is null order by in_time desc ";			
+			sql="select idx,to_char( in_time, 'YYYY/MM/DD HH24:MI:SS' ) as in_time from pms_log where out_time is null order by in_time desc ";			
 			ps=con.prepareStatement(sql);			
 			rs=ps.executeQuery(sql);
 			while (rs.next()) {		
 				String difftimes=rs.getString("in_time");
+				int idx=rs.getInt("idx");
 				arr.add(difftimes);
+				idxArr.add(idx);
 			}		
 			SimpleDateFormat todaySdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.KOREA);
 			//한국기준 날짜
@@ -462,10 +466,8 @@ public class PmsLogDao {
 		        long daysDiff=difference/ (24*60*60*1000);//시간차이
 		        
 		        long minuteDiff=difference/(60*1000);
-
-		        long x=minuteDiff/dtime; //
-		        long y=minuteDiff%dtime;//
-		 
+		        long x=minuteDiff/dtime; 
+		        long y=minuteDiff%dtime;
 		        if (minuteDiff < 0) {
 					fare = 0;
 				}       			      		        			        
@@ -485,8 +487,19 @@ public class PmsLogDao {
 		        		fare+=settingfare;
 		        	}		     
 		        }	
-		        fareArr.add((String) Commas.format(fare));
-		        }							
+		        fareArr.add((int) fare);
+		        }
+				if(idxArr.size()!=0) {
+				sql= " update pms_log set pay = ? where idx = ? ";
+				ps = con.prepareStatement(sql);
+				for(int i=0;i<fareArr.size();i++) {
+					ps.setInt(1, fareArr.get(i));
+					ps.setInt(2, idxArr.get(i));
+					ps.executeUpdate();
+					ps.clearParameters();		
+				}
+			}
+											
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
