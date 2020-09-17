@@ -103,7 +103,7 @@ public class PMSRandom {
 
 	// 로그 생성
 	public void TIME_SETTING(ArrayList<String> CNUM, int count) {
-		String startDate = "2019-1-1 00:00:00";
+		String startDate = "2020-5-1 00:00:00";
 		Timestamp stime = Timestamp.valueOf(startDate);
 		Timestamp etime = Timestamp.valueOf(LocalDateTime.now());
 
@@ -166,7 +166,7 @@ public class PMSRandom {
 
 	// 월정액 회원 생성
 	private void MONTH_SETTING(ArrayList<String> CNUM) {
-		String startDate = "2019-1-1 00:00:00";
+		String startDate = "2020-5-1 00:00:00";
 		String endDate = "2020-11-1 00:00:00";
 		Timestamp stime = Timestamp.valueOf(startDate);
 		Timestamp etime = Timestamp.valueOf(endDate);
@@ -337,7 +337,7 @@ public class PMSRandom {
 		PMSRandom random = new PMSRandom();
 		random.COUPON_SETTING(randomCouponName());
 		random.DISCOUNT_SETTING(30);
-		ArrayList<String> ran = random.CNUM_RAND(300);
+		ArrayList<String> ran = random.CNUM_RAND(100);
 		random.MONTH_SETTING(ran);
 		random.TIME_SETTING(ran, 500);
 		random.ImgName();

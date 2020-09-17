@@ -38,8 +38,9 @@
 <div class="container-fluid">
 
   <!-- Page Heading -->
-  <h1 class="h3 mb-5 text-gray-800">월정액 회원관리</h1>
-
+<div class="heading">
+	<h1 class="h2 mb-4 text-black-800">월정액 회원관리</h1>
+</div>
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">

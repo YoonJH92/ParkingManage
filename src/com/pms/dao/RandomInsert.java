@@ -68,7 +68,6 @@ public class RandomInsert {
 			con = pool.getConnection();
 			sql = "select discount from PMS_COUPON where cpnum = "+cptype;
 			
-			System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
