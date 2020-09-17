@@ -89,7 +89,7 @@
 <div class="container-fluid mb-3">
   <div class="card border-left-primary shadow h-100 py-2" border>
     <div class="card-body">
-      <h1 class="mb-3">쿠폰 할인권 조회</h1>
+      <h1 class="mb-3" id="title">쿠폰 조회</h1>
       <c:choose>
         <c:when test="${c_d=='a_discount'}">
           <span class="switchToggle">

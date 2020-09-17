@@ -289,12 +289,14 @@
 			if ($("#s_switch").is(':checked') == false) {
 				$("#toggle1").show();
 				$("#toggle2").hide();
+				$("#title").text("쿠폰 조회");
 				$('div[border]').removeClass("border-left-info");
 				$('div[border]').addClass("border-left-primary");
 				search();
 			} else {
 				$("#toggle1").hide();
 				$("#toggle2").show();
+				$("#title").text("할인권 조회");
 				$('div[border]').removeClass("border-left-primary");
 				$('div[border]').addClass("border-left-info");
 				search();
