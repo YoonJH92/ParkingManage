@@ -119,7 +119,7 @@ var plus = 0;
 					if(val.USED == "0"){
 						htmlStr += "<td><i class=\"fas fa-times \" style=\"color:red\"></i></td>"
 					}else{
-						htmlStr += "<td><i class=\"far fa-circle \" style=\"color:red\"></i></td>"
+						htmlStr += "<td><i class=\"fas fa-check \" style=\"color:green\"></i></td>"
 					}
 					htmlStr += "<td>" + val.CNUM + "</td>";
 					htmlStr += "</tr>";
