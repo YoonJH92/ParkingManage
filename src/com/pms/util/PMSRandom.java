@@ -248,7 +248,7 @@ public class PMSRandom {
 	// 쿠폰 유효기간 자동생성
 	public static String randomCouponPrice() {
 
-		List<String> price = Arrays.asList("1000", "3000", "5000", "10000", "30000", "50000");
+		List<String> price = Arrays.asList("1000", "3000", "5000");
 		Collections.shuffle(price);
 
 		return price.get(0);
@@ -285,7 +285,7 @@ public class PMSRandom {
 
 	// 할인권 할인 시간 생성
 	public static String randomDiscountTime() {
-		List<String> time = Arrays.asList("1", "3", "6", "12", "24", "48", "72");
+		List<String> time = Arrays.asList("1", "3");
 		Collections.shuffle(time);
 
 		return time.get(0);
