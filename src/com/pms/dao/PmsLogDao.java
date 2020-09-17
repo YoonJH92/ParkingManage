@@ -346,7 +346,6 @@ public class PmsLogDao {
 			long x = minuteDiff / dtime; 
 			long y = minuteDiff % dtime;
 			
-			
 			if (minuteDiff < 0) {
 				fare = 0;
 			}
